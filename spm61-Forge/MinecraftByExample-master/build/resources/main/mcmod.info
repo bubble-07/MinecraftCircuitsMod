@@ -1,0 +1,16 @@
+[
+{
+  "modid": "minecraftbyexample",
+  "name": "Minecraft By Example",
+  "description": "Minecraft By Example",
+  "version": "1.10.2d",
+  "mcversion": "1.10.2",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["TGG and others"],
+  "credits": "The Forge, MCP, and FML guys, for making it possible",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

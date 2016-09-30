@@ -1,0 +1,24 @@
+1474833476940	Rename package 'com.example.examplemod'
+1474834366212	Rename package 'spm61.circuits.block'
+1474834384608	Rename package 'spm61.example.examplemod'
+1474834611583	Delete elements
+1474834623284	Rename package 'com.spm61.circuits.block'
+1474933159312	Delete element
+1475027704884	Rename resource 'BlockSimple.java'
+1475027889250	Rename resource 'MinecraftByExample.java'
+1475028955873	Rename type 'BlockSimple'
+1475029286272	Rename type 'MinecraftByExample'
+1475030908976	Rename resource 'mbe01_block_simple_registry_name.json'
+1475030938322	Rename resource 'mbe01_block_simple_model.json'
+1475030957315	Rename resource 'mbe01_block_simple.json'
+1475104918273	Copy package
+1475104941525	Delete elements
+1475106106128	Rename package 'minecraftbyexample.mbe20_tileentity_data'
+1475106201631	Delete element
+1475106407754	Delete element
+1475106682528	Rename type 'BlockInventoryBasic'
+1475106760410	Rename type 'GuiHandlerMBE30'
+1475107100828	Delete element
+1475107614508	Delete element
+1475107843013	Delete element
+1475108624900	Rename field 'itemframeBlock'
