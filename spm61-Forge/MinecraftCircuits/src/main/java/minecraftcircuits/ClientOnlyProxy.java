@@ -20,7 +20,7 @@ public class ClientOnlyProxy extends CommonProxy
   {
     super.preInit();
     minecraftcircuits.frameblock.StartupClientOnly.preInitClientOnly();
-    //minecraftcircuits.frameblock.StartupClientOnly.preInitClientOnly();
+    minecraftcircuits.frameblock.StartupClientOnly.preInitClientOnly();
   }
 
   /**
@@ -31,7 +31,7 @@ public class ClientOnlyProxy extends CommonProxy
   {
     super.init();
    minecraftcircuits.frameblock.StartupClientOnly.initClientOnly();
-   //minecraftcircuits.controlblock.StartupClientOnly.initClientOnly();
+   minecraftcircuits.controlblock.StartupClientOnly.initClientOnly();
   }
 
   /**
@@ -41,7 +41,7 @@ public class ClientOnlyProxy extends CommonProxy
   {
     super.postInit();
     minecraftcircuits.frameblock.StartupClientOnly.postInitClientOnly();
-    //minecraftcircuits.controlblock.StartupClientOnly.postInitClientOnly();
+    minecraftcircuits.controlblock.StartupClientOnly.postInitClientOnly();
   }
 
   @Override

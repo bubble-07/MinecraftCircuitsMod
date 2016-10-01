@@ -1,0 +1,6 @@
+9/30: This week my goal was to learn Minecraft Forge and start working on designing basic blocks, the FrameBlock and the ControlBlock.  As I was working, I found an
+example repository that had examples to aid in learning the utility.
+Even with the use of these examples, I was able to place blocks in the game world, but not load the textures properly.  I have not yet learned how the texture loading
+is handled, but when I ran the sample by itself it seemed to work just fine.  I feel that I did not make as much progress as I should, especially since I was suppoed
+to have made a portal using the FrameBlocks, even though it has nowhere to go yet.  
+

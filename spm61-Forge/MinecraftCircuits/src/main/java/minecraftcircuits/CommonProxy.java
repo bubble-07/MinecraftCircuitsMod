@@ -15,7 +15,7 @@ public abstract class CommonProxy {
   public void preInit()
   {
 	  minecraftcircuits.frameblock.StartupCommon.preInitCommon();
-	 // minecraftcircuits.controlblock.StartupCommon.preInitCommon();
+	  minecraftcircuits.controlblock.StartupCommon.preInitCommon();
   }
   /**
    * Do your mod setup. Build whatever data structures you care about. Register recipes,
@@ -24,7 +24,7 @@ public abstract class CommonProxy {
   public void init()
   {
 	  minecraftcircuits.frameblock.StartupCommon.initCommon();
-	  //minecraftcircuits.controlblock.StartupCommon.initCommon();
+	  minecraftcircuits.controlblock.StartupCommon.initCommon();
   }
 
   /**
@@ -33,7 +33,7 @@ public abstract class CommonProxy {
   public void postInit()
   {
 	  minecraftcircuits.frameblock.StartupCommon.postInitCommon();
-	  //minecraftcircuits.controlblock.StartupCommon.postInitCommon();
+	  minecraftcircuits.controlblock.StartupCommon.postInitCommon();
   }
 
   // helper to determine whether the given player is in creative mode
