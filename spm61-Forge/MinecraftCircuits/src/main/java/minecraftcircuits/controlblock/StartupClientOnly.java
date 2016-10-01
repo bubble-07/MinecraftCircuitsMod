@@ -30,7 +30,7 @@ public class StartupClientOnly
 		//  the model for each item is normally done by RenderItem.registerItems(), and this is not currently aware
 		//   of any extra items you have created.  Hence you have to do it manually.
 		// It must be done on client only, and must be done after the block has been created in Common.preinit().
-		ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation("minecraftbyexample:mbe30_inventory_basic", "inventory");
+		ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation("minecraftcircuits:controlblock", "inventory");
 		final int DEFAULT_ITEM_SUBTYPE = 0;
 		ModelLoader.setCustomModelResourceLocation(StartupCommon.itemControlBlock, DEFAULT_ITEM_SUBTYPE, itemModelResourceLocation);
 	}
