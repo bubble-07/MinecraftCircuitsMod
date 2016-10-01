@@ -1,0 +1,10 @@
+Alex Grabanski - ajg137@case.edu
+
+Progress for the week ending in 9/30/16:
+-Finalized the Circuit API (now as a long comment in ChipInvoker.java)
+-Wrote an initial version of the reflective calling code for circuits
+(also ChipInvoker.java)
+
+Up next:
+-Write unit tests for the reflective calling code for circuits
+-Write reflective calling code for circuit test case generators
