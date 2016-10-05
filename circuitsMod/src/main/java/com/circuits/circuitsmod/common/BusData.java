@@ -23,6 +23,10 @@ public class BusData {
 		return data;
 	}
 	
+	public BusData truncate(int w) {
+		return new BusData(Math.min(w, this.width), data);
+	}
+	
 	public BusData or(BusData other) {
 		assert(this.width == other.width);
 		return new BusData(this.width, this.data | other.data);
@@ -41,6 +45,10 @@ public class BusData {
 		assert(this.width == other.width);
 		assert(this.width != 64);
 		return new BusData(width * 2, (this.data << this.width) + other.data);
+	}
+	
+	public String toString() {
+		return getData() + " [" + getWidth() + "-bit]";
 	}
 	
 }

@@ -56,12 +56,13 @@ import com.google.common.collect.Lists;
  * @author bubble-07
  *
  */
+@SuppressWarnings("unused")
 public class ChipInvoker {
 	
 	/**
 	 * Stores the class of the implementation (loaded reflectively)
 	 */
-	protected final Class implClass;
+	protected final Class<?> implClass;
 	
 	/**
 	 * Stores the "tick" method
@@ -79,7 +80,7 @@ public class ChipInvoker {
 	
 	
 	
-	private ChipInvoker(Class implClass, Method tickMethod,
+	private ChipInvoker(Class<?> implClass, Method tickMethod,
 			List<Method> outputMethods, boolean isSequential,
 			int[] outputWidths, int[] inputWidths) {
 		super();
@@ -91,7 +92,7 @@ public class ChipInvoker {
 		this.inputWidths = inputWidths;
 	}
 
-	public static Optional<ChipInvoker> getInvoker(Class implClass) {
+	public static Optional<ChipInvoker> getInvoker(Class<?> implClass) {
 		Consumer<String> error = (s) -> Log.userError("Class: " + implClass + " " + s);
 		
 		//Create an instance of the implementation class to be able to
@@ -106,7 +107,7 @@ public class ChipInvoker {
 		}
 		
 		
-		Optional<Method> tickMethod = getMethodFromName(implClass, "tick");
+		Optional<Method> tickMethod = ReflectiveUtils.getMethodFromName(implClass, "tick");
 		if (!tickMethod.isPresent()) {
 			error.accept("has no tick method");
 			return Optional.empty();
@@ -115,7 +116,7 @@ public class ChipInvoker {
 		//Now, get a list of output methods.
 		List<Method> outputMethods = Lists.newArrayList();
 		for (int i = 0; i < 3; i++) {
-			Optional<Method> method = getMethodFromName(implClass, "value" + i);
+			Optional<Method> method = ReflectiveUtils.getMethodFromName(implClass, "value" + i);
 			method.ifPresent((m) -> outputMethods.add(m));
 		}
 		if (outputMethods.size() == 0) {
@@ -128,7 +129,7 @@ public class ChipInvoker {
 		int[] inputWidths = new int[tickMethod.get().getParameterCount()];
 		int[] outputWidths = new int[outputMethods.size()];
 		
-		Class[] parameterTypes = tickMethod.get().getParameterTypes();
+		Class<?>[] parameterTypes = tickMethod.get().getParameterTypes();
 		
 		//TODO: make this less verbose. Stream functions?
 		for (int i = 0; i < parameterTypes.length; i++) {
@@ -151,12 +152,11 @@ public class ChipInvoker {
 		//to reflect those instead.
 		
 		//TODO: abstract these two out with a lambda
-		Optional<Method> outputWidthsMethod = getMethodFromName(implClass, "outputWidths");
-		Optional<Method> inputWidthsMethod = getMethodFromName(implClass, "inputWidths");
+		Optional<Method> outputWidthsMethod = ReflectiveUtils.getMethodFromName(implClass, "outputWidths");
+		Optional<Method> inputWidthsMethod = ReflectiveUtils.getMethodFromName(implClass, "inputWidths");
 		if (outputWidthsMethod.isPresent()) {
 			try {
-				Integer[] out = (Integer[]) outputWidthsMethod.get().invoke(instance);
-				outputWidths = ArrayUtils.unbox(out);
+				outputWidths = (int[]) outputWidthsMethod.get().invoke(instance);
 			}
 			catch (Exception e) {
 				error.accept("has an output width override, but the method is not formatted correctly");
@@ -165,8 +165,7 @@ public class ChipInvoker {
 		}
 		if (inputWidthsMethod.isPresent()) {
 			try {
-				Integer[] out = (Integer[]) inputWidthsMethod.get().invoke(instance);
-				inputWidths = ArrayUtils.unbox(out);
+				inputWidths = (int[]) inputWidthsMethod.get().invoke(instance);
 			}
 			catch (Exception e) {
 				error.accept("has an input width override, but the method is not formatted correctly");
@@ -176,7 +175,7 @@ public class ChipInvoker {
 		
 		//Cool, now just determine whether or not it's a sequential circuit
 		boolean isSequential = false;
-		Optional<Method> isSequentialMethod = getMethodFromName(implClass, "isSequential");
+		Optional<Method> isSequentialMethod = ReflectiveUtils.getMethodFromName(implClass, "isSequential");
 		if (isSequentialMethod.isPresent()) {
 			try {
 				isSequential = (Boolean) isSequentialMethod.get().invoke(instance);
@@ -193,27 +192,6 @@ public class ChipInvoker {
 				                          outputWidths, inputWidths));
 		
 	}
-	
-	/**
-	 * Given a class and a method's name, return the first method corresponding
-	 * to that name (if any), otherwise, return Optional.empty. 
-	 * Exists because Class.getMethod() requires specifying the argument types
-	 * but we don't always want that.
-	 * 
-	 * @param implClass
-	 * @param methodName
-	 * @return
-	 */
-	private static Optional<Method> getMethodFromName(Class implClass, String methodName) {
-		for (Method m : implClass.getMethods()) {
-			if (m.getName().equals(methodName)) {
-				return Optional.of(m);
-			}
-		}
-		return Optional.empty();
-	}
-	
-	
 	
 	public class ChipState {
 		/**
@@ -238,6 +216,14 @@ public class ChipInvoker {
 		public Object getWrapped() {
 			return this.instance;
 		}
+	}
+	
+	/**
+	 * Convenience method to get a new chip state from this ChipInvoker.
+	 * @return
+	 */
+	public ChipState initState() {
+		return new ChipState(this);
 	}
 	
 	
@@ -307,6 +293,18 @@ public class ChipInvoker {
 		return null;
 	}
 	
+	public int[] outputWidths() {
+		return this.outputWidths;
+	}
+	
+	public int[] inputWidths() {
+		return this.inputWidths;
+	}
+	
+	public boolean isSequential() {
+		return this.isSequential;
+	}
+	
 	
 	/**
 	 * Actually invoke the circuit's dynamically-loaded code. 
@@ -326,8 +324,10 @@ public class ChipInvoker {
 			Object instance = state.getWrapped();
 			this.tickMethod.invoke(instance, tickArgs);
 			List<BusData> result = Lists.newArrayListWithCapacity(this.outputWidths.length);
-			for (Method valMethod : this.outputMethods) {
-				result.add(bus(valMethod.invoke(instance)));
+			for (int i = 0; i < this.outputMethods.size(); i++) {
+				Method valMethod = this.outputMethods.get(i);
+				result.add(bus(valMethod.invoke(instance))
+						   .truncate(this.outputWidths[i]));
 			}
 			return result;
 		}
@@ -337,35 +337,5 @@ public class ChipInvoker {
 					      .collect(Collectors.toList());
 		}
 
-	}
-	
-	
-	
-	private static Object invoke(Method m, Object target, Object... args) {
-		try {
-			return m.invoke(target, args);
-		}
-		catch (Exception e) {
-			System.err.println(e);
-		}
-		return null;
-	}
-	
-	private static Optional<Class> loadClassFile(File classFile, File libDir, String classname) {
-		try {	
-			
-			URL[] urls = new URL[]{classFile.getParentFile().toURI().toURL(), libDir.toURI().toURL()};
-			
-			ClassLoader cl = new URLClassLoader(urls);
-			
-			return Optional.of(cl.loadClass(classname));
-		}
-		catch (MalformedURLException e) {
-			Log.internalError("Malformed Directory Path in ChipInvoker " + classFile);
-		}
-		catch (ClassNotFoundException e) {
-			Log.userError("Cannot find the class " + classname + " in " + classFile.toString());
-		}
-		return null;
 	}
 }
