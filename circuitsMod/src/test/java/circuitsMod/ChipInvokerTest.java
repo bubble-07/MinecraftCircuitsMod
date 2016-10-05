@@ -266,22 +266,5 @@ public class ChipInvokerTest {
 	public void nonSequentialWiresTest() {
 		absenceTest(NonSequentialOutputs.class);
 	}
-	
-	/**
-	 * A test to ensure that circuits with bit-width restrictions are rejected
-	 * if the input bit-width restriction array size is not the same as the number of
-	 * input slots
-	 */
-	public static class BitWidthWrongArraySize {
-		public void tick(int x) { }
-		public int value0() { return 1;}
-		public int[] inputWidths() {
-			return new int[]{32, 32, 32};
-		}
-	}
-	@Test
-	public void bitWidthWrongArraySizeTest() {
-		absenceTest(BitWidthWrongArraySize.class);
-	}
 
 }

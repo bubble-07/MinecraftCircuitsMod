@@ -115,12 +115,45 @@ public class ChipInvoker {
 		
 		//Now, get a list of output methods.
 		List<Method> outputMethods = Lists.newArrayList();
+		boolean hasMissing = false; //Becomes true when an output is missing
+		boolean nonSequential = false; //Becomes true when outputs are non-sequential
 		for (int i = 0; i < 3; i++) {
 			Optional<Method> method = ReflectiveUtils.getMethodFromName(implClass, "value" + i);
 			method.ifPresent((m) -> outputMethods.add(m));
+			if (hasMissing && method.isPresent()) {
+				nonSequential = true;
+			}
+			if (!method.isPresent()) {
+				hasMissing = true;
+			}
 		}
+		
+		if (nonSequential) {
+			error.accept("has a non-sequential output indices!");
+			return Optional.empty();
+		}
+		
+		
+		if (ReflectiveUtils.getMethodFromName(implClass, "value" + 3).isPresent()) {
+			error.accept("has more than three output faces");
+			return Optional.empty();
+		}
+		
 		if (outputMethods.size() == 0) {
 			error.accept("has no value methods");
+			return Optional.empty();
+		}
+		
+		if (tickMethod.get().getParameterCount() < 0) {
+			error.accept("has no inputs");
+			return Optional.empty();
+		}
+		if (tickMethod.get().getParameterCount() > 3) {
+			error.accept("has too many inputs");
+			return Optional.empty();
+		}
+		if (tickMethod.get().getParameterCount() + outputMethods.size() > 4) {
+			error.accept("has too many wires");
 			return Optional.empty();
 		}
 		
@@ -130,7 +163,7 @@ public class ChipInvoker {
 		int[] outputWidths = new int[outputMethods.size()];
 		
 		Class<?>[] parameterTypes = tickMethod.get().getParameterTypes();
-		
+		 
 		//TODO: make this less verbose. Stream functions?
 		for (int i = 0; i < parameterTypes.length; i++) {
 			inputWidths[i] = getTypeWidth(parameterTypes[i]);
