@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "normal": { "model": "minecraftcircuits:block/frameblock" }
+    }
+}

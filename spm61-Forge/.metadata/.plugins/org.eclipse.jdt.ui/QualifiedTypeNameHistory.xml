@@ -18,7 +18,7 @@
 <fullyQualifiedTypeName name="com.spm61.circuits.blocks.ModBlocks"/>
 <fullyQualifiedTypeName name="com.spm61.circuits.client.render.blocks.BlockRenderRegister"/>
 <fullyQualifiedTypeName name="minecraftcircuits.frameblock.StartupClientOnly"/>
-<fullyQualifiedTypeName name="minecraftcircuits.MinecraftCircuits"/>
 <fullyQualifiedTypeName name="minecraftcircuits.controlblock.StartupClientOnly"/>
 <fullyQualifiedTypeName name="minecraftcircuits.frameblock.StartupCommon"/>
+<fullyQualifiedTypeName name="minecraftcircuits.MinecraftCircuits"/>
 </qualifiedTypeNameHistroy>

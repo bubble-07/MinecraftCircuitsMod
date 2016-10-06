@@ -8,23 +8,24 @@
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="frameblock_model"/>
-			<item value="GuiHandlerMBE30"/>
-			<item value="BlockInventoryBasic"/>
-			<item value="ControlBlock"/>
-			<item value="BlockTileEntityData"/>
-			<item value="itemModelResourceLocation"/>
-			<item value="face0"/>
-			<item value="blockSimple"/>
+			<item value="texture"/>
+			<item value="bg"/>
+			<item value="control"/>
+			<item value="frameblock"/>
+			<item value="controlblock"/>
+			<item value="mbe30_inventory_basic"/>
+			<item value="mbe31_block_inventory_furnace"/>
+			<item value="minecraftbyexample"/>
 		</list>
 		<list key="replacehistory">
+			<item value="controlblock"/>
+			<item value=""/>
+			<item value="minecraftcircuits"/>
+			<item value="controlBlock"/>
+			<item value="frameblock"/>
+			<item value="circuits"/>
 			<item value="GuiHandlerControl"/>
 			<item value="ControlBlock"/>
-			<item value="Co"/>
-			<item value="BlockTileEntityData"/>
-			<item value="frameBlock"/>
-			<item value="FrameBlock"/>
-			<item value="MinecraftCircuits"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">

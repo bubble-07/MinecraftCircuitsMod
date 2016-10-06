@@ -1,0 +1,47 @@
+Symbol range map extraction starting
+Processing 15 files
+startProcessing "minecraftcircuits\ClientOnlyProxy.java" md5: e5a8726456d0758c2d1c3aa8e1fa8fa4
+endProcessing "minecraftcircuits\ClientOnlyProxy.java"
+
+startProcessing "minecraftcircuits\CommonProxy.java" md5: b96bd853bc41c1761d9aef8dadbda157
+endProcessing "minecraftcircuits\CommonProxy.java"
+
+startProcessing "minecraftcircuits\DedicatedServerProxy.java" md5: 68c31879d9f13776ce55f7afeb434509
+endProcessing "minecraftcircuits\DedicatedServerProxy.java"
+
+startProcessing "minecraftcircuits\GuiHandlerRegistry.java" md5: 18f7a6bf8893028548fa3b414188e0c5
+endProcessing "minecraftcircuits\GuiHandlerRegistry.java"
+
+startProcessing "minecraftcircuits\MinecraftCircuits.java" md5: 5f0d7a4e9c47f3ababca6c3b29de2fd5
+endProcessing "minecraftcircuits\MinecraftCircuits.java"
+
+startProcessing "minecraftcircuits\controlblock\BlockInventoryBasic.java" md5: 2c2d6d8f384f8d072f6fd4bd235bc95f
+endProcessing "minecraftcircuits\controlblock\BlockInventoryBasic.java"
+
+startProcessing "minecraftcircuits\controlblock\ContainerBasic.java" md5: 23d3b38151ab301fb4f1ad7101c2c4cf
+endProcessing "minecraftcircuits\controlblock\ContainerBasic.java"
+
+startProcessing "minecraftcircuits\controlblock\GuiHandlerMBE30.java" md5: 88c9b86bf0e357d124803d688b366aac
+endProcessing "minecraftcircuits\controlblock\GuiHandlerMBE30.java"
+
+startProcessing "minecraftcircuits\controlblock\GuiInventoryBasic.java" md5: ae7aa63fec8b8f96cf528e97942103df
+endProcessing "minecraftcircuits\controlblock\GuiInventoryBasic.java"
+
+startProcessing "minecraftcircuits\controlblock\StartupClientOnly.java" md5: cb67d497f1b7e8e31b9916c4c2c52362
+endProcessing "minecraftcircuits\controlblock\StartupClientOnly.java"
+
+startProcessing "minecraftcircuits\controlblock\StartupCommon.java" md5: 4a5e78bbbac7ac246071d7349713fd73
+endProcessing "minecraftcircuits\controlblock\StartupCommon.java"
+
+startProcessing "minecraftcircuits\controlblock\TileEntityInventoryBasic.java" md5: f88da0530634cb2893696d468c0499be
+endProcessing "minecraftcircuits\controlblock\TileEntityInventoryBasic.java"
+
+startProcessing "minecraftcircuits\frameblock\FrameBlock.java" md5: c0b6915028050a762ba0c08d54e95c08
+endProcessing "minecraftcircuits\frameblock\FrameBlock.java"
+
+startProcessing "minecraftcircuits\frameblock\StartupClientOnly.java" md5: 3a334d98b3dfdc1baf7016a44b663c5b
+endProcessing "minecraftcircuits\frameblock\StartupClientOnly.java"
+
+startProcessing "minecraftcircuits\frameblock\StartupCommon.java" md5: 7f5314669c1b08d95cb282817e3c92d1
+endProcessing "minecraftcircuits\frameblock\StartupCommon.java"
+

@@ -1,0 +1,25 @@
+
+{
+	"parent": "block/cube",
+    "ambientocclusion": false,
+    "textures": {
+        "particle": "minecraftcircuits:block/controlblock_bottom_top",
+        "updown": "minecraftcircuits:block/controlblock_bottom_top",
+        "side": "minecraftcircuits:block/controlblock_side",
+        "front": "minecraftcircuits:block/controlblock_front"
+    },
+
+    "elements": [
+        {  "from": [1, 0, 1],
+           "to": [15, 8, 15],
+           "faces": {
+               "down": {"uv": [ 1, 1, 15, 15], "texture": "#updown"},
+               "up": {"uv": [ 1, 1, 15, 15], "texture": "#updown"},
+               "north": {"uv": [ 1, 8, 15, 16], "texture": "#front"},
+               "south": {"uv": [ 1, 8, 15, 16], "texture": "#side"},
+               "west": {"uv": [ 1, 8, 15, 16], "texture": "#side"},
+               "east": {"uv": [ 1, 8, 15, 16], "texture": "#side"}
+           }
+        }
+    ]
+}

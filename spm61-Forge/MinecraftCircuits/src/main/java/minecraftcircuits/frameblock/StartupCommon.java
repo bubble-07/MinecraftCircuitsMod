@@ -35,8 +35,8 @@ public class StartupCommon
     //  |  stationary_water  +       water          |
     //  +--------------------+----------------------+
     //
-    frameBlock = (FrameBlock)(new FrameBlock().setUnlocalizedName("frameblock_unlocalised_name"));
-    frameBlock.setRegistryName("frameblock_registry_name");
+    frameBlock = (FrameBlock)(new FrameBlock().setUnlocalizedName("frameblock"));
+    frameBlock.setRegistryName("frameblock");
     GameRegistry.register(frameBlock);
 
     // We also need to create and register an ItemBlock for this block otherwise it won't appear in the inventory
