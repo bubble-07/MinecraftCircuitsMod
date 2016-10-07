@@ -1,4 +1,6 @@
 tile.mbe01_block_simple_unlocalised_name.name=MBE01 Block Simple
+tile.frameblock.name=FrameBlock
+tile.controlblock.name=ControlBlock
 tile.mbe02_block_partial_unlocalised_name.name=MBE02 Block Partial
 tile.mbe03_block_variants_unlocalised_name.red.name=MBE03 Block Variants Red
 tile.mbe03_block_variants_unlocalised_name.blue.name=MBE03 Block Variants Blue

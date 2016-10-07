@@ -15,6 +15,7 @@
 		<item value="false" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
 		<item value="false" key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="C:\Users\Sean\Desktop\circuits_minecraft\spm61-Forge\MinecraftByExample-master"/>
 			<item value="C:\Users\Sean\Desktop\Forge\MinecraftCircuits"/>
 		</list>
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">

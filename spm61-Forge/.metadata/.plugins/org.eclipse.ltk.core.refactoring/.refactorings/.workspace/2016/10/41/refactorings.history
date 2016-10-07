@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete resource &apos;MinecraftByExample-master&apos;" deleteContents="false" description="Delete resource &apos;MinecraftByExample-master&apos;" element1="/MinecraftByExample-master" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1475532764137"/>
+</session>

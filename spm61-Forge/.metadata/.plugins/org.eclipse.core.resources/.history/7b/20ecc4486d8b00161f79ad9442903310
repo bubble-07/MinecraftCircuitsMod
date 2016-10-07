@@ -1,0 +1,12 @@
+{
+  "parent": "minecraftcircuits:block/controlblock",
+   "textures": {
+        "down": "minecraftcircuits:blocks/controlblock",
+        "up": "minecraftcircuits:blocks/controlblock",
+        "north": "minecraftcircuits:blocks/controlblock",
+        "east": "minecraftcircuits:blocks/controlblock",
+        "south": "minecraftcircuits:blocks/controlblock",
+        "west": "minecraftcircuits:blocks/controlblock",
+        "particle": "blocks/lapis_block"
+    }
+}

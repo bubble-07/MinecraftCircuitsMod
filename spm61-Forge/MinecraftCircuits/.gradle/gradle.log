@@ -13,29 +13,39 @@ Version string '1.10.2d' does not match SemVer specification
 You should try SemVer : http://semver.org/
 :deobfCompileDummyTask
 :deobfProvidedDummyTask
-:getVersionJson
-:extractUserdev UP-TO-DATE
-:extractDependencyATs SKIPPED
+:sourceApiJava
+:compileApiJava UP-TO-DATE
+:processApiResources UP-TO-DATE
+:apiClasses UP-TO-DATE
+:sourceMainJava
+:compileJavawarning: [options] bootstrap class path not set in conjunction with -source 1.6
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+1 warning
+
+:processResources
+:classes
+:jar
+:sourceTestJava
+:compileTestJava UP-TO-DATE
+:processTestResources UP-TO-DATE
+:testClasses UP-TO-DATE
+:test UP-TO-DATE
 :extractMcpData SKIPPED
 :extractMcpMappings SKIPPED
+:getVersionJson
+:extractUserdev UP-TO-DATE
 :genSrgs SKIPPED
-:downloadClient SKIPPED
-:downloadServer SKIPPED
-:splitServerJar SKIPPED
-:mergeJars SKIPPED
-:deobfMcSRG SKIPPED
-:decompileMc SKIPPED
-:fixMcSources
-:applySourcePatches SKIPPED
-:remapMcSources SKIPPED
-:recompileMc SKIPPED
-:extractNatives SKIPPED
-:getAssetIndex UP-TO-DATE
-:getAssets
-Current status: 511/1112   45%
-:makeStart
-:setupDecompWorkspace
+:reobfJar
+:extractRangemapReplacedMain
+C:\Users\Sean\Desktop\circuits_minecraft\spm61-Forge\MinecraftCircuits\build\sources\main\java
+:retromapReplacedMain
+remapping source...
+:sourceJar
+:assemble
+:check UP-TO-DATE
+:build
 
 BUILD SUCCESSFUL
 
-Total time: 40.699 secs
+Total time: 23.163 secs
