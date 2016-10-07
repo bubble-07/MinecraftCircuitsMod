@@ -5,6 +5,12 @@ Progress for the week ending in 9/30/16:
 -Wrote an initial version of the reflective calling code for circuits
 (also ChipInvoker.java)
 
+Progress for the week ending in 10/7/16:
+-Finalized reflective calling code for circuits (ChipInvoker.java)
+-Finalized reflective calling code for circuit testers (TestGeneratorInvoker.java)
+-Put both under a common abstract superclass (Invoker)
+-Added tests for both classes
+-Fixed functionality so all tests pass
+
 Up next:
--Write unit tests for the reflective calling code for circuits
--Write reflective calling code for circuit test case generators
+-Begin work on the Circuit Tile Entity code
