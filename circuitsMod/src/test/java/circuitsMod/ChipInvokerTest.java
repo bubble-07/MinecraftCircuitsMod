@@ -18,8 +18,9 @@ import org.junit.Test;
 
 
 
+
 import com.circuits.circuitsmod.reflective.ChipInvoker;
-import com.circuits.circuitsmod.reflective.ChipInvoker.ChipState;
+import com.circuits.circuitsmod.reflective.Invoker;
 import com.circuits.circuitsmod.common.BusData;
 import com.circuits.circuitsmod.common.OptionalUtils;
 import com.google.common.collect.Lists;
@@ -97,7 +98,7 @@ public class ChipInvokerTest {
 		return checkArray(in.outputWidths(), widths, "output widths");
 	}
 	
-	public Optional<String> checkIO(ChipInvoker in, ChipState state, long[] inputs, long[] outputs) {
+	public Optional<String> checkIO(ChipInvoker in, Invoker.State state, long[] inputs, long[] outputs) {
 		List<BusData> busInputs = Lists.newArrayList();
 		for (int i = 0; i < inputs.length; i++) {
 			busInputs.add(new BusData(in.inputWidths()[i], inputs[i]));
@@ -148,7 +149,7 @@ public class ChipInvokerTest {
 	@Test
 	public void simpleSequentialTest() {
 		presenceTest(SimpleSequentialTest.class, (invoker) -> {
-			ChipState state = invoker.initState();
+			Invoker.State state = invoker.initState();
 			return OptionalUtils.firstOf(checkInputWidths(invoker, 16),
 					                     checkOutputWidths(invoker, 32),
 					                     checkIO(invoker, state,

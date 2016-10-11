@@ -57,12 +57,7 @@ import com.google.common.collect.Lists;
  *
  */
 @SuppressWarnings("unused")
-public class ChipInvoker {
-	
-	/**
-	 * Stores the class of the implementation (loaded reflectively)
-	 */
-	protected final Class<?> implClass;
+public class ChipInvoker extends Invoker {
 	
 	/**
 	 * Stores the "tick" method
@@ -83,8 +78,7 @@ public class ChipInvoker {
 	private ChipInvoker(Class<?> implClass, Method tickMethod,
 			List<Method> outputMethods, boolean isSequential,
 			int[] outputWidths, int[] inputWidths) {
-		super();
-		this.implClass = implClass;
+		super(implClass);
 		this.tickMethod = tickMethod;
 		this.outputMethods = outputMethods;
 		this.isSequential = isSequential;
@@ -97,15 +91,10 @@ public class ChipInvoker {
 		
 		//Create an instance of the implementation class to be able to
 		//determine the results of calling the idempotent functions in the API
-		Object instance = null;
-		try {
-			instance = implClass.getConstructors()[0].newInstance();
-		}
-		catch (Exception e) {
-			error.accept("has no zero-argument public constructor");
+		Optional<Object> instance = getInstance(implClass);
+		if (!instance.isPresent()) {
 			return Optional.empty();
 		}
-		
 		
 		Optional<Method> tickMethod = ReflectiveUtils.getMethodFromName(implClass, "tick");
 		if (!tickMethod.isPresent()) {
@@ -114,32 +103,17 @@ public class ChipInvoker {
 		}
 		
 		//Now, get a list of output methods.
-		List<Method> outputMethods = Lists.newArrayList();
-		boolean hasMissing = false; //Becomes true when an output is missing
-		boolean nonSequential = false; //Becomes true when outputs are non-sequential
-		for (int i = 0; i < 3; i++) {
-			Optional<Method> method = ReflectiveUtils.getMethodFromName(implClass, "value" + i);
-			method.ifPresent((m) -> outputMethods.add(m));
-			if (hasMissing && method.isPresent()) {
-				nonSequential = true;
-			}
-			if (!method.isPresent()) {
-				hasMissing = true;
-			}
-		}
-		
-		if (nonSequential) {
-			error.accept("has a non-sequential output indices!");
+		Optional<List<Method>> outputMethods = getSequentialMethods(implClass, "value");
+		if (!outputMethods.isPresent()) {
 			return Optional.empty();
 		}
 		
-		
-		if (ReflectiveUtils.getMethodFromName(implClass, "value" + 3).isPresent()) {
+		if (ReflectiveUtils.getMethodFromName(implClass, "value3").isPresent()) {
 			error.accept("has more than three output faces");
 			return Optional.empty();
 		}
 		
-		if (outputMethods.size() == 0) {
+		if (outputMethods.get().size() == 0) {
 			error.accept("has no value methods");
 			return Optional.empty();
 		}
@@ -152,7 +126,7 @@ public class ChipInvoker {
 			error.accept("has too many inputs");
 			return Optional.empty();
 		}
-		if (tickMethod.get().getParameterCount() + outputMethods.size() > 4) {
+		if (tickMethod.get().getParameterCount() + outputMethods.get().size() > 4) {
 			error.accept("has too many wires");
 			return Optional.empty();
 		}
@@ -160,7 +134,7 @@ public class ChipInvoker {
 		//By default, set the input and output widths to the widths of the input/
 		//output types
 		int[] inputWidths = new int[tickMethod.get().getParameterCount()];
-		int[] outputWidths = new int[outputMethods.size()];
+		int[] outputWidths = new int[outputMethods.get().size()];
 		
 		Class<?>[] parameterTypes = tickMethod.get().getParameterTypes();
 		 
@@ -173,8 +147,8 @@ public class ChipInvoker {
 			}
 		}
 		
-		for (int i = 0; i < outputMethods.size(); i++) {
-			outputWidths[i] = getTypeWidth(outputMethods.get(i).getReturnType());
+		for (int i = 0; i < outputMethods.get().size(); i++) {
+			outputWidths[i] = getTypeWidth(outputMethods.get().get(i).getReturnType());
 			if (outputWidths[i] == 0) {
 				error.accept("has an undefined return type in value" + i);
 				return Optional.empty();
@@ -189,7 +163,7 @@ public class ChipInvoker {
 		Optional<Method> inputWidthsMethod = ReflectiveUtils.getMethodFromName(implClass, "inputWidths");
 		if (outputWidthsMethod.isPresent()) {
 			try {
-				outputWidths = (int[]) outputWidthsMethod.get().invoke(instance);
+				outputWidths = (int[]) outputWidthsMethod.get().invoke(instance.get());
 			}
 			catch (Exception e) {
 				error.accept("has an output width override, but the method is not formatted correctly");
@@ -198,7 +172,7 @@ public class ChipInvoker {
 		}
 		if (inputWidthsMethod.isPresent()) {
 			try {
-				inputWidths = (int[]) inputWidthsMethod.get().invoke(instance);
+				inputWidths = (int[]) inputWidthsMethod.get().invoke(instance.get());
 			}
 			catch (Exception e) {
 				error.accept("has an input width override, but the method is not formatted correctly");
@@ -221,109 +195,9 @@ public class ChipInvoker {
 		//Okay, so in theory, if we made it this far, we can just spit out a ChipInvoker.
 		//So we do so.
 		return Optional.of(new ChipInvoker(implClass, tickMethod.get(),
-				                          outputMethods, isSequential,
+				                          outputMethods.get(), isSequential,
 				                          outputWidths, inputWidths));
 		
-	}
-	
-	public class ChipState {
-		/**
-		 * Stores an instantiated chip object.
-		 */
-		private Object instance;
-		
-		/**
-		 * Given a ChipInvoker, initialize a chip state object.
-		 * Used for all circuits, but only really useful for sequential ones.
-		 * @param parent
-		 */
-		public ChipState(ChipInvoker parent) {
-				try {
-					instance = parent.implClass.getConstructors()[0].newInstance();
-				} catch (InstantiationException | IllegalAccessException
-						| IllegalArgumentException | InvocationTargetException
-						| SecurityException e) {
-					assert(true == false);
-				}
-		}
-		public Object getWrapped() {
-			return this.instance;
-		}
-	}
-	
-	/**
-	 * Convenience method to get a new chip state from this ChipInvoker.
-	 * @return
-	 */
-	public ChipState initState() {
-		return new ChipState(this);
-	}
-	
-	
-	/**
-	 * Gets the bus width of a given class
-	 * @param clazz
-	 * @return
-	 */
-	private static int getTypeWidth(Class<?> clazz) {
-		if (int.class.isAssignableFrom(clazz) || Integer.class.isAssignableFrom(clazz)) {
-			return 32;
-		}
-		else if (long.class.isAssignableFrom(clazz) || Long.class.isAssignableFrom(clazz)) {
-			return 64;
-		}
-		else if (short.class.isAssignableFrom(clazz) || Short.class.isAssignableFrom(clazz)) {
-			return 16;
-		}
-		else if (byte.class.isAssignableFrom(clazz) || Byte.class.isAssignableFrom(clazz)) {
-			return 8;
-		}
-		else if (boolean.class.isAssignableFrom(clazz) || Boolean.class.isAssignableFrom(clazz)) {
-			return 1;
-		}
-		Log.internalError("Cannot determine the width of type: " + clazz);
-		return 0;
-	}
-	
-	/**
-	 * Given BusData, return the (boxed) Java object representation.
-	 * @return
-	 */
-	private static Object unBus(BusData data) {
-		switch (data.getWidth()) {
-			case 64:
-				return ((long) data.getData());
-			case 32:
-				return ((int) data.getData());
-			case 16:
-				return ((short) data.getData());
-			case 1:
-				return ((boolean) (data.getData() > 0));
-			default:
-				return ((byte) data.getData());
-		}
-	}
-	
-	/**
-	 * Given a (boxed) Java object, return BusData
-	 */
-	private static BusData bus(Object obj) {
-		if (obj instanceof Long) {
-			return new BusData(64, (Long) obj);
-		}
-		else if (obj instanceof Integer) {
-			return new BusData(32, (Integer) obj);
-		}
-		else if (obj instanceof Short) {
-			return new BusData(16, (Short) obj);
-		}
-		else if (obj instanceof Byte) {
-			return new BusData(8, (Byte) obj);
-		}
-		else if (obj instanceof Boolean) {
-			return new BusData(1, ((Boolean) obj) ? 1 : 0);
-		}
-		return null;
 	}
 	
 	public int[] outputWidths() {
@@ -347,7 +221,7 @@ public class ChipInvoker {
 	 * @param inputValues
 	 * @return
 	 */
-	public List<BusData> invoke(ChipState state, List<BusData> inputValues) {
+	public List<BusData> invoke(Invoker.State state, List<BusData> inputValues) {
 		Object[] tickArgs = new Object[inputValues.size()];
 		for (int i = 0; i < tickArgs.length; i++) {
 			tickArgs[i] = unBus(inputValues.get(i));
