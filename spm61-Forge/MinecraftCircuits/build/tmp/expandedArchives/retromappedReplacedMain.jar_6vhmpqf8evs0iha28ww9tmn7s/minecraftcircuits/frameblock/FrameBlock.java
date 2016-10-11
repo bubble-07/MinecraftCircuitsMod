@@ -1,6 +1,8 @@
 package minecraftcircuits.frameblock;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockObsidian;
+import net.minecraft.block.BlockPortal;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -21,11 +23,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  *   don't call block.isOpaqueCube(), call iBlockState.isOpaqueCube() instead".
  * If that doesn't make sense to you yet, don't worry.  Just ignore the "deprecated method" warning.
  */
-public class FrameBlock extends Block
+public class FrameBlock extends BlockObsidian
 {
   public FrameBlock()
   {
-    super(Material.field_151576_e);
+    super();
     this.func_149647_a(CreativeTabs.field_78030_b);   // the block will appear on the Blocks tab in creative
   }
 

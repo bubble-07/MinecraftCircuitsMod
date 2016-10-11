@@ -990,48 +990,46 @@ Class Start: minecraftcircuits.controlblock.TileEntityInventoryBasic
 Class End  : minecraftcircuits.controlblock.TileEntityInventoryBasic
 endProcessing "minecraftcircuits\controlblock\TileEntityInventoryBasic.java"
 
-startProcessing "minecraftcircuits\frameblock\FrameBlock.java" md5: c0b6915028050a762ba0c08d54e95c08
+startProcessing "minecraftcircuits\frameblock\FrameBlock.java" md5: f02f6ef58457a1e344d277ac2fd7a2a0
 @|minecraftcircuits\frameblock\FrameBlock.java|8|36|minecraftcircuits.frameblock|package|minecraftcircuits.frameblock|(file)
 Class Start: minecraftcircuits.frameblock.FrameBlock
-   @|minecraftcircuits\frameblock\FrameBlock.java|1082|1092|FrameBlock|class|minecraftcircuits.frameblock.FrameBlock
-   @|minecraftcircuits\frameblock\FrameBlock.java|1101|1106|Block|class|net.minecraft.block.Block
+   @|minecraftcircuits\frameblock\FrameBlock.java|1164|1174|FrameBlock|class|minecraftcircuits.frameblock.FrameBlock
+   @|minecraftcircuits\frameblock\FrameBlock.java|1183|1196|BlockObsidian|class|net.minecraft.block.BlockObsidian
    Method Start: FrameBlock()V
-      @|minecraftcircuits\frameblock\FrameBlock.java|1118|1128|FrameBlock|method|minecraftcircuits.frameblock.FrameBlock|FrameBlock|()V
-      @|minecraftcircuits\frameblock\FrameBlock.java|1145|1153|Material|class|net.minecraft.block.material.Material
-      @|minecraftcircuits\frameblock\FrameBlock.java|1154|1158|ROCK|field|net.minecraft.block.material.Material|ROCK
-      @|minecraftcircuits\frameblock\FrameBlock.java|1170|1184|setCreativeTab|method|net.minecraft.block.Block|setCreativeTab|(Lnet/minecraft/creativetab/CreativeTabs;)Lnet/minecraft/block/Block;
-      @|minecraftcircuits\frameblock\FrameBlock.java|1185|1197|CreativeTabs|class|net.minecraft.creativetab.CreativeTabs
-      @|minecraftcircuits\frameblock\FrameBlock.java|1198|1213|BUILDING_BLOCKS|field|net.minecraft.creativetab.CreativeTabs|BUILDING_BLOCKS
+      @|minecraftcircuits\frameblock\FrameBlock.java|1208|1218|FrameBlock|method|minecraftcircuits.frameblock.FrameBlock|FrameBlock|()V
+      @|minecraftcircuits\frameblock\FrameBlock.java|1247|1261|setCreativeTab|method|net.minecraft.block.Block|setCreativeTab|(Lnet/minecraft/creativetab/CreativeTabs;)Lnet/minecraft/block/Block;
+      @|minecraftcircuits\frameblock\FrameBlock.java|1262|1274|CreativeTabs|class|net.minecraft.creativetab.CreativeTabs
+      @|minecraftcircuits\frameblock\FrameBlock.java|1275|1290|BUILDING_BLOCKS|field|net.minecraft.creativetab.CreativeTabs|BUILDING_BLOCKS
    Method End: FrameBlock()V
    Method Start: getBlockLayer()Lnet/minecraft/util/BlockRenderLayer;
-      @|minecraftcircuits\frameblock\FrameBlock.java|1428|1436|SideOnly|class|net.minecraftforge.fml.relauncher.SideOnly
-      @|minecraftcircuits\frameblock\FrameBlock.java|1437|1441|Side|class|net.minecraftforge.fml.relauncher.Side
-      @|minecraftcircuits\frameblock\FrameBlock.java|1442|1448|CLIENT|field|net.minecraftforge.fml.relauncher.Side|CLIENT
-      @|minecraftcircuits\frameblock\FrameBlock.java|1459|1475|BlockRenderLayer|class|net.minecraft.util.BlockRenderLayer
-      @|minecraftcircuits\frameblock\FrameBlock.java|1476|1489|getBlockLayer|method|net.minecraft.block.Block|getBlockLayer|()Lnet/minecraft/util/BlockRenderLayer;
-      @|minecraftcircuits\frameblock\FrameBlock.java|1507|1523|BlockRenderLayer|class|net.minecraft.util.BlockRenderLayer
-      @|minecraftcircuits\frameblock\FrameBlock.java|1524|1529|SOLID|field|net.minecraft.util.BlockRenderLayer|SOLID
+      @|minecraftcircuits\frameblock\FrameBlock.java|1505|1513|SideOnly|class|net.minecraftforge.fml.relauncher.SideOnly
+      @|minecraftcircuits\frameblock\FrameBlock.java|1514|1518|Side|class|net.minecraftforge.fml.relauncher.Side
+      @|minecraftcircuits\frameblock\FrameBlock.java|1519|1525|CLIENT|field|net.minecraftforge.fml.relauncher.Side|CLIENT
+      @|minecraftcircuits\frameblock\FrameBlock.java|1536|1552|BlockRenderLayer|class|net.minecraft.util.BlockRenderLayer
+      @|minecraftcircuits\frameblock\FrameBlock.java|1553|1566|getBlockLayer|method|net.minecraft.block.Block|getBlockLayer|()Lnet/minecraft/util/BlockRenderLayer;
+      @|minecraftcircuits\frameblock\FrameBlock.java|1584|1600|BlockRenderLayer|class|net.minecraft.util.BlockRenderLayer
+      @|minecraftcircuits\frameblock\FrameBlock.java|1601|1606|SOLID|field|net.minecraft.util.BlockRenderLayer|SOLID
    Method End: getBlockLayer()Lnet/minecraft/util/BlockRenderLayer;
    Method Start: isOpaqueCube(Lnet/minecraft/block/state/IBlockState;)Z
-      @|minecraftcircuits\frameblock\FrameBlock.java|1820|1831|iBlockState|param|minecraftcircuits.frameblock.FrameBlock|isOpaqueCube|(Lnet/minecraft/block/state/IBlockState;)Z|iBlockState|0
-      @|minecraftcircuits\frameblock\FrameBlock.java|1769|1777|Override|class|java.lang.Override
-      @|minecraftcircuits\frameblock\FrameBlock.java|1795|1807|isOpaqueCube|method|net.minecraft.block.Block|isOpaqueCube|(Lnet/minecraft/block/state/IBlockState;)Z
-      @|minecraftcircuits\frameblock\FrameBlock.java|1808|1819|IBlockState|class|net.minecraft.block.state.IBlockState
+      @|minecraftcircuits\frameblock\FrameBlock.java|1897|1908|iBlockState|param|minecraftcircuits.frameblock.FrameBlock|isOpaqueCube|(Lnet/minecraft/block/state/IBlockState;)Z|iBlockState|0
+      @|minecraftcircuits\frameblock\FrameBlock.java|1846|1854|Override|class|java.lang.Override
+      @|minecraftcircuits\frameblock\FrameBlock.java|1872|1884|isOpaqueCube|method|net.minecraft.block.Block|isOpaqueCube|(Lnet/minecraft/block/state/IBlockState;)Z
+      @|minecraftcircuits\frameblock\FrameBlock.java|1885|1896|IBlockState|class|net.minecraft.block.state.IBlockState
    Method End: isOpaqueCube(Lnet/minecraft/block/state/IBlockState;)Z
    Method Start: isFullCube(Lnet/minecraft/block/state/IBlockState;)Z
-      @|minecraftcircuits\frameblock\FrameBlock.java|2213|2224|iBlockState|param|minecraftcircuits.frameblock.FrameBlock|isFullCube|(Lnet/minecraft/block/state/IBlockState;)Z|iBlockState|0
-      @|minecraftcircuits\frameblock\FrameBlock.java|2164|2172|Override|class|java.lang.Override
-      @|minecraftcircuits\frameblock\FrameBlock.java|2190|2200|isFullCube|method|net.minecraft.block.Block|isFullCube|(Lnet/minecraft/block/state/IBlockState;)Z
-      @|minecraftcircuits\frameblock\FrameBlock.java|2201|2212|IBlockState|class|net.minecraft.block.state.IBlockState
+      @|minecraftcircuits\frameblock\FrameBlock.java|2290|2301|iBlockState|param|minecraftcircuits.frameblock.FrameBlock|isFullCube|(Lnet/minecraft/block/state/IBlockState;)Z|iBlockState|0
+      @|minecraftcircuits\frameblock\FrameBlock.java|2241|2249|Override|class|java.lang.Override
+      @|minecraftcircuits\frameblock\FrameBlock.java|2267|2277|isFullCube|method|net.minecraft.block.Block|isFullCube|(Lnet/minecraft/block/state/IBlockState;)Z
+      @|minecraftcircuits\frameblock\FrameBlock.java|2278|2289|IBlockState|class|net.minecraft.block.state.IBlockState
    Method End: isFullCube(Lnet/minecraft/block/state/IBlockState;)Z
    Method Start: getRenderType(Lnet/minecraft/block/state/IBlockState;)Lnet/minecraft/util/EnumBlockRenderType;
-      @|minecraftcircuits\frameblock\FrameBlock.java|2480|2491|iBlockState|param|minecraftcircuits.frameblock.FrameBlock|getRenderType|(Lnet/minecraft/block/state/IBlockState;)Lnet/minecraft/util/EnumBlockRenderType;|iBlockState|0
-      @|minecraftcircuits\frameblock\FrameBlock.java|2416|2424|Override|class|java.lang.Override
-      @|minecraftcircuits\frameblock\FrameBlock.java|2434|2453|EnumBlockRenderType|class|net.minecraft.util.EnumBlockRenderType
-      @|minecraftcircuits\frameblock\FrameBlock.java|2454|2467|getRenderType|method|net.minecraft.block.Block|getRenderType|(Lnet/minecraft/block/state/IBlockState;)Lnet/minecraft/util/EnumBlockRenderType;
-      @|minecraftcircuits\frameblock\FrameBlock.java|2468|2479|IBlockState|class|net.minecraft.block.state.IBlockState
-      @|minecraftcircuits\frameblock\FrameBlock.java|2506|2525|EnumBlockRenderType|class|net.minecraft.util.EnumBlockRenderType
-      @|minecraftcircuits\frameblock\FrameBlock.java|2526|2531|MODEL|field|net.minecraft.util.EnumBlockRenderType|MODEL
+      @|minecraftcircuits\frameblock\FrameBlock.java|2557|2568|iBlockState|param|minecraftcircuits.frameblock.FrameBlock|getRenderType|(Lnet/minecraft/block/state/IBlockState;)Lnet/minecraft/util/EnumBlockRenderType;|iBlockState|0
+      @|minecraftcircuits\frameblock\FrameBlock.java|2493|2501|Override|class|java.lang.Override
+      @|minecraftcircuits\frameblock\FrameBlock.java|2511|2530|EnumBlockRenderType|class|net.minecraft.util.EnumBlockRenderType
+      @|minecraftcircuits\frameblock\FrameBlock.java|2531|2544|getRenderType|method|net.minecraft.block.Block|getRenderType|(Lnet/minecraft/block/state/IBlockState;)Lnet/minecraft/util/EnumBlockRenderType;
+      @|minecraftcircuits\frameblock\FrameBlock.java|2545|2556|IBlockState|class|net.minecraft.block.state.IBlockState
+      @|minecraftcircuits\frameblock\FrameBlock.java|2583|2602|EnumBlockRenderType|class|net.minecraft.util.EnumBlockRenderType
+      @|minecraftcircuits\frameblock\FrameBlock.java|2603|2608|MODEL|field|net.minecraft.util.EnumBlockRenderType|MODEL
    Method End: getRenderType(Lnet/minecraft/block/state/IBlockState;)Lnet/minecraft/util/EnumBlockRenderType;
 Class End  : minecraftcircuits.frameblock.FrameBlock
 endProcessing "minecraftcircuits\frameblock\FrameBlock.java"

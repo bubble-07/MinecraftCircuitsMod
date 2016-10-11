@@ -36,7 +36,7 @@ endProcessing "minecraftcircuits\controlblock\StartupCommon.java"
 startProcessing "minecraftcircuits\controlblock\TileEntityInventoryBasic.java" md5: f88da0530634cb2893696d468c0499be
 endProcessing "minecraftcircuits\controlblock\TileEntityInventoryBasic.java"
 
-startProcessing "minecraftcircuits\frameblock\FrameBlock.java" md5: c0b6915028050a762ba0c08d54e95c08
+startProcessing "minecraftcircuits\frameblock\FrameBlock.java" md5: f02f6ef58457a1e344d277ac2fd7a2a0
 endProcessing "minecraftcircuits\frameblock\FrameBlock.java"
 
 startProcessing "minecraftcircuits\frameblock\StartupClientOnly.java" md5: 3a334d98b3dfdc1baf7016a44b663c5b
