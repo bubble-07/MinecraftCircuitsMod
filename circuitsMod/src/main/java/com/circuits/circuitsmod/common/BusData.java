@@ -11,9 +11,8 @@ public class BusData {
 	private final int width;
 	public BusData(int width, long data) {
 		this.data = data;
-		
-		assert(ArrayUtils.inArray(this.width, allowed));
 		this.width = width;
+		assert(ArrayUtils.inArray(this.width, allowed));
 	}
 	
 	public int getWidth() {
