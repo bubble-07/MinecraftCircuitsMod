@@ -12,5 +12,20 @@ Progress for the week ending in 10/7/16:
 -Added tests for both classes
 -Fixed functionality so all tests pass
 
+Progress for the week ending in 10/14/16:
+-Helped Sean try to track down the cause of the control block's
+missing texture in the inventory
+-Helped with logistics (build, repository consistency, etc.)
+of moving things over into circuitsMod
+-Created an initial version of a bus block
+
+Note:
+-The order of things as in the Gantt chart will likely change -- I will
+spend this next week working on developing the protocol for bus networks,
+and then will begin work on the Circuit Tile Entity. This is desirable
+because the operation of the tile entity will likely be closely
+tied to the operation of buses.
+
 Up next:
+-Flesh out bus network code
 -Begin work on the Circuit Tile Entity code
