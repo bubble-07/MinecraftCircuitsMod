@@ -1,7 +1,0 @@
-package com.circuits.circuitsmod.blockportalpuzzle;
-
-import net.minecraft.block.BlockPortal;
-
-public class BlockPortalPuzzle extends BlockPortal {
-
-}
