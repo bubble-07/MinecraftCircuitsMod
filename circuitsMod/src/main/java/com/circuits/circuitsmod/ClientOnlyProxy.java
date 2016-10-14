@@ -19,8 +19,8 @@ public class ClientOnlyProxy extends CommonProxy
   public void preInit()
   {
     super.preInit();
-    com.circuits.circuitsmod.frameblock.StartupClientOnly.preInitClientOnly();
-    com.circuits.circuitsmod.controlblock.StartupClientOnly.preInitClientOnly();
+    com.circuits.circuitsmod.frameblock.StartupClientFrame.preInitClientOnly();
+    com.circuits.circuitsmod.controlblock.StartupClientControl.preInitClientOnly();
   }
 
   /**
@@ -30,8 +30,8 @@ public class ClientOnlyProxy extends CommonProxy
   public void init()
   {
     super.init();
-    com.circuits.circuitsmod.frameblock.StartupClientOnly.initClientOnly();
-    com.circuits.circuitsmod.controlblock.StartupClientOnly.initClientOnly();
+    com.circuits.circuitsmod.frameblock.StartupClientFrame.initClientOnly();
+    com.circuits.circuitsmod.controlblock.StartupClientControl.initClientOnly();
   }
 
   /**
@@ -40,8 +40,8 @@ public class ClientOnlyProxy extends CommonProxy
   public void postInit()
   {
     super.postInit();
-    com.circuits.circuitsmod.frameblock.StartupClientOnly.postInitClientOnly();
-    com.circuits.circuitsmod.controlblock.StartupClientOnly.postInitClientOnly();
+    com.circuits.circuitsmod.frameblock.StartupClientFrame.postInitClientOnly();
+    com.circuits.circuitsmod.controlblock.StartupClientControl.postInitClientOnly();
   }
 
   @Override

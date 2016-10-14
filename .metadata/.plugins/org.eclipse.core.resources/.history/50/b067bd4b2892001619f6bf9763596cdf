@@ -1,0 +1,29 @@
+package com.circuits.circuitsmod.circuitImplementation;
+
+import com.circuits.circuitsmod.reflective.*;
+public class AndCircuit {
+	
+	boolean input1;
+	boolean input2;
+	boolean output;
+	
+	public AndCircuit() {
+		
+	}
+	
+	 void tick(boolean i1, boolean i2) {
+		 
+	 }
+	 
+	 boolean value0() {
+		 return true;
+	 }
+	 boolean value1() {
+		 return true;
+	 }
+	 
+	 boolean value2() {
+		 return true;
+	 }
+	
+}

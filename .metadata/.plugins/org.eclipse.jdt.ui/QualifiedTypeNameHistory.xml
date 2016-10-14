@@ -1,2 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="com.circuits.circuitsmod.controlblock.StartupCommon"/>
+<fullyQualifiedTypeName name="net.minecraft.block.material.Material"/>
+<fullyQualifiedTypeName name="net.minecraft.entity.player.EntityPlayerMP"/>
+<fullyQualifiedTypeName name="net.minecraft.server.MinecraftServer"/>
+<fullyQualifiedTypeName name="net.minecraft.world.World"/>
+<fullyQualifiedTypeName name="net.minecraft.entity.Entity"/>
+<fullyQualifiedTypeName name="net.minecraftforge.event.AttachCapabilitiesEvent.Entity"/>
+<fullyQualifiedTypeName name="net.minecraft.creativetab.CreativeTabs"/>
+<fullyQualifiedTypeName name="com.circuits.circuitsmod.CircuitsMod"/>
+<fullyQualifiedTypeName name="com.circuits.circuitsmod.world.PuzzleTeleporter"/>
+<fullyQualifiedTypeName name="com.circuits.circuitsmod.frameblock.StartupCommonFrame"/>
+<fullyQualifiedTypeName name="com.circuits.circuitsmod.blockportalpuzzle.StartupCommonPortal"/>
+</qualifiedTypeNameHistroy>

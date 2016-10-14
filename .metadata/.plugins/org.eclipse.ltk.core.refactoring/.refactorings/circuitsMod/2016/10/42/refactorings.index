@@ -24,3 +24,12 @@
 1476323825046	Rename package 'assets.circuitmod.textures.gui'
 1476323832986	Rename package 'assets.circuitmod.textures.items'
 1476325836207	Rename field 'ControlBlock'
+1476399471619	Delete element
+1476400463659	Rename package 'com.circuits.circuitsmod.blockpuzzleportal'
+1476400752430	Delete element
+1476403122475	Rename type 'StartupCommon'
+1476403512716	Rename type 'StartupClientOnly'
+1476403531830	Rename type 'StartupClientOnly'
+1476403542558	Rename type 'StartupCommon'
+1476407577482	Rename compilation unit 'AndInvoker.java'
+1476461503026	Rename type 'ImpliesCircuit'

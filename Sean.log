@@ -1,6 +1,16 @@
-9/30: This week my goal was to learn Minecraft Forge and start working on designing basic blocks, the FrameBlock and the ControlBlock.  As I was working, I found an
+9/30: 
+This week my goal was to learn Minecraft Forge and start working on designing basic blocks, the FrameBlock and the ControlBlock.  As I was working, I found an
 example repository that had examples to aid in learning the utility.
 Even with the use of these examples, I was able to place blocks in the game world, but not load the textures properly.  I have not yet learned how the texture loading
 is handled, but when I ran the sample by itself it seemed to work just fine.  I feel that I did not make as much progress as I should, especially since I was suppoed
 to have made a portal using the FrameBlocks, even though it has nowhere to go yet.  
 
+10/13/16:
+Progress had been delayed, largely because I was still learning the programs associated with modding minecraft.  In particular, I was chasing around a texture
+rendering issue that I just found out yesterday was a simple, easily fixed typo. But now I have a system for rendering blocks in the world, which is an
+essential part of the project.  
+It also didn't help anything that the partition of my hard drive containing the program decided to stop booting properly.  While I was able to fix it, I was
+unable to commit as much as I would have liked to a week ago.  I was able to fix the problem and then continue committing as planned.  
+I also learned that the most recent version of minecraft, 1.10, is only about 4 months old.  Because of that, documentation pertaining to this version in particular
+has been rather scarce.  Continued research has paid off, however, and I have found tutorials that allowed me to create a foundational structure for a portal.  Now, 
+since the portal has nowhere to go yet, I cannot fully complete it, but the structure is there now, and this will help down the road.

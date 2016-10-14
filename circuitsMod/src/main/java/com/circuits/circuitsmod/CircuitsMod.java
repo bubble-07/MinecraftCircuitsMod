@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.common.DimensionManager;
 
 @Mod(modid = CircuitsMod.MODID, version = CircuitsMod.VERSION)
 public class CircuitsMod
@@ -17,12 +18,14 @@ public class CircuitsMod
     public static final String MODID = "circuitsmod";
     public static final String VERSION = "1.0";
     
+    public static int dimensionId = -9; //placeholder
+    
     @Mod.Instance(CircuitsMod.MODID)
     public static CircuitsMod instance;
     
     @SidedProxy(clientSide="com.circuits.circuitsmod.ClientOnlyProxy", serverSide="com.circuits.circuitsmod.DedicatedServerProxy")
     public static CommonProxy proxy;
-    
+
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
