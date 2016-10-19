@@ -15,6 +15,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.BlockRenderLayer;
@@ -47,6 +48,8 @@ public abstract class BusBlock extends Block
   {
     super(Material.ROCK);
     this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);   // the block will appear on the Blocks tab in creative
+    this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, BusFacing.CAP)
+    		             .withProperty(widthProperty(), widthProperty().getAllowedValues().iterator().next()));
   }
   
   protected BitWidth[] smallBusWidths = {BitWidth.TWOBIT, BitWidth.FOURBIT, BitWidth.EIGHTBIT, BitWidth.SIXTEENBIT};
@@ -135,47 +138,24 @@ public abstract class BusBlock extends Block
 	  
   }  
   
-  /**
-   * Possible property values for bus widths. An abstract class, since
-   * the allowed bus widths are different for the different buses!
-   * @author bubble-07
-   *
-   */
-  public abstract class BusWidthProperty implements IProperty<BitWidth> {
-
-	@Override
-	public String getName() {
-		return "buswidth";
-	}
-
-	@Override
-	public Class<BitWidth> getValueClass() {
-		return BitWidth.class;
-	}
-
-	@Override
-	public Optional<BitWidth> parseValue(String value) {
-		return OptionalUtils.toGoogle(getAllowedValues().stream()
-				                      .filter((v) -> v.getName().equals(value))
-				                      .findFirst());
-	}
-
-	@Override
-	public String getName(BitWidth value) {
-		return value.getName();
-	}
-	  
+  @Override
+  protected BlockStateContainer createBlockState() {
+	  return new BlockStateContainer(this, new IProperty[]{FACING, widthProperty()});
   }
   
-  public abstract IProperty<BitWidth> widthProperty();
+  protected abstract IProperty<BitWidth> widthProperty();
   
   public abstract BitWidth lookupWidth(int meta);
   
+  private static final String widthTag = "bitwidth";
+  
   public static class NarrowBusBlock extends BusBlock {
-
+	  protected static IProperty<BitWidth> WIDTH = 
+			  PropertyEnum.create(widthTag, BitWidth.class, new BitWidth[]{BitWidth.TWOBIT, BitWidth.FOURBIT, BitWidth.EIGHTBIT, BitWidth.SIXTEENBIT});
+	
 	@Override
-	public IProperty<BitWidth> widthProperty() {
-		return PropertyEnum.create("bitwidth", BitWidth.class, new BitWidth[]{BitWidth.TWOBIT, BitWidth.FOURBIT, BitWidth.EIGHTBIT, BitWidth.SIXTEENBIT});
+	protected IProperty<BitWidth> widthProperty() {
+		return WIDTH;
 	}
 
 	@Override
@@ -185,16 +165,22 @@ public abstract class BusBlock extends Block
   }
   
   public static class WideBusBlock extends BusBlock {
+	  protected static IProperty<BitWidth> WIDTH = 
+			  PropertyEnum.create(widthTag, BitWidth.class, new BitWidth[]{BitWidth.THIRTYTWOBIT, BitWidth.SIXTYFOURBIT});
 
-	@Override
-	public IProperty<BitWidth> widthProperty() {
-		return PropertyEnum.create("bitwidth", BitWidth.class, new BitWidth[]{BitWidth.THIRTYTWOBIT, BitWidth.SIXTYFOURBIT});
-	}
+	  @Override
+	  protected IProperty<BitWidth> widthProperty() {
+		  return WIDTH;
+	  }
+	  public WideBusBlock() {
+		  super();
 
-	@Override
-	public BitWidth lookupWidth(int meta) {
-		return this.largeBusWidths[meta >> 2]; 
-	} 
+	  }
+
+	  @Override
+	  public BitWidth lookupWidth(int meta) {
+		  return this.largeBusWidths[meta >> 2]; 
+	  } 
   }
   
   /**
@@ -213,7 +199,7 @@ public abstract class BusBlock extends Block
       int i = 0;
       i = i | ((BusFacing)state.getValue(FACING)).getMeta();
       
-      int width = ((BitWidth)state.getValue(widthProperty())).getWidth();
+      int width = ((BitWidth)state.getValue(widthProperty())).getTag();
       i = i + (width << 2);
       return i;
   }

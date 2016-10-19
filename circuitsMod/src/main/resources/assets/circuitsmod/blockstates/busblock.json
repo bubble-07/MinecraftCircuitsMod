@@ -1,5 +1,27 @@
 {
+    "defaults": {
+        "model": "circuitsmod:busblock"
+    },
     "variants": {
-        "normal": { "model": "circuitsmod:busblock" }
+        "facing": {
+            "northsouth" : {
+            },
+            "eastwest" : {
+            },
+            "updown" : {
+            },
+            "cap" : {
+            }
+        },
+        "bitwidth" : {
+            "twobit" : {
+            },
+            "fourbit" : {
+            },
+            "eightbit" : {
+            },
+            "sixteenbit" : {
+            }
+        }
     }
 }
