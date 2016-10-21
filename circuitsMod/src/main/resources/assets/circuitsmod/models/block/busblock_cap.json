@@ -1,11 +1,11 @@
 {
     "parent": "block/cube",
     "textures": {
-        "down": "#sidetex",
-        "up": "#sidetex",
-        "north": "#sidetex",
+        "down": "#endtex",
+        "up": "#endtex",
+        "north": "#endtex",
         "east": "#endtex",
-        "south": "#sidetex",
+        "south": "#endtex",
         "west": "#endtex",
         "particle": "blocks/lapis_block"
     }
