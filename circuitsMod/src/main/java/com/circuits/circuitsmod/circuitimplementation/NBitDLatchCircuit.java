@@ -25,4 +25,8 @@ public class NBitDLatchCircuit {
 			return input1;
 		}
 	}
+	
+	public boolean isSequential() {
+		return true;
+	}
 }

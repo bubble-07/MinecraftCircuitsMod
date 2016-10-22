@@ -14,3 +14,9 @@ unable to commit as much as I would have liked to a week ago.  I was able to fix
 I also learned that the most recent version of minecraft, 1.10, is only about 4 months old.  Because of that, documentation pertaining to this version in particular
 has been rather scarce.  Continued research has paid off, however, and I have found tutorials that allowed me to create a foundational structure for a portal.  Now, 
 since the portal has nowhere to go yet, I cannot fully complete it, but the structure is there now, and this will help down the road.
+
+10/21/16
+Circuit implementation has continued, and I noticed that there is a flaw in the documentation for this project.  In particular, 
+when writing the ABBA circuit, I did not make note of what m and n meant in the mathematical expressions for time.  In addition,
+I have yet to acquire full understanding of the interface, which I should do in order to ensure correct manipulation of the numbers/booleans
+that come into the circuit.  

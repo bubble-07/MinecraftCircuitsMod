@@ -26,4 +26,8 @@ public class ClockCircuit {
 		 else
 			return 0;
 	}
+	
+	public boolean isSequential() {
+		return true;
+	}
 }
