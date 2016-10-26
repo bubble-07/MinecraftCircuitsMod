@@ -1,5 +1,7 @@
 package com.circuits.circuitsmod;
 
+import com.circuits.circuitsmod.world.PuzzleDimensions;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.config.Configuration;
 
@@ -29,6 +31,7 @@ public abstract class CommonProxy {
 	  com.circuits.circuitsmod.frameblock.StartupCommonFrame.initCommon();
 	  com.circuits.circuitsmod.controlblock.StartupCommonControl.initCommon();
 	  com.circuits.circuitsmod.busblock.StartupCommonBus.initCommon();
+	  PuzzleDimensions.init();
   }
 
   /**
@@ -50,4 +53,5 @@ public abstract class CommonProxy {
    * @return true if this is a dedicated server, false otherwise
    */
   abstract public boolean isDedicatedServer();
+  
 }

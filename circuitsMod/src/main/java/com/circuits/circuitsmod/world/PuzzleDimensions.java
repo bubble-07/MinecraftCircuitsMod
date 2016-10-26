@@ -6,7 +6,7 @@ import com.circuits.circuitsmod.Config;
 import net.minecraft.world.DimensionType;
 import net.minecraftforge.common.DimensionManager;
 
-public class ModDimensions {
+public class PuzzleDimensions {
 
     public static DimensionType testDimensionType;
 

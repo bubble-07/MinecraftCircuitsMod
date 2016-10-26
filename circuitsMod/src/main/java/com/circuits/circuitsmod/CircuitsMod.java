@@ -1,6 +1,7 @@
 package com.circuits.circuitsmod;
 
 import com.circuits.circuitsmod.CommonProxy;
+import com.circuits.circuitsmod.world.TeleportCommand;
 
 import java.util.logging.Logger;
 
@@ -12,6 +13,7 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.common.DimensionManager;
 
 @Mod(modid = CircuitsMod.MODID, version = CircuitsMod.VERSION)
@@ -49,4 +51,9 @@ public class CircuitsMod
     
     public static String prependModID(String name) {return MODID + ":" + name;}
     
+    @Mod.EventHandler
+    public void serverLoad(FMLServerStartingEvent event) {
+        event.registerServerCommand(new TeleportCommand());
+    }
 }
+

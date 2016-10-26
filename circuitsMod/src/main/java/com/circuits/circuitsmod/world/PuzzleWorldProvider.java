@@ -8,7 +8,7 @@ public class PuzzleWorldProvider extends WorldProvider {
 
     @Override
     public DimensionType getDimensionType() {
-        return ModDimensions.testDimensionType;
+        return PuzzleDimensions.testDimensionType;
     }
 
     @Override
