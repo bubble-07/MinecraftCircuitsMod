@@ -1,6 +1,7 @@
 package com.circuits.circuitsmod;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.common.config.Configuration;
 
 /**
  * CommonProxy is used to set up the mod and start it running.  It contains all the code that should run on both the
@@ -8,7 +9,9 @@ import net.minecraft.entity.player.EntityPlayer;
  */
 public abstract class CommonProxy {
 
-  /**
+  public static Configuration config;
+
+/**
    * Run before anything else. Read your config, create blocks, items, etc, and register them with the GameRegistry
    */
   public void preInit()
