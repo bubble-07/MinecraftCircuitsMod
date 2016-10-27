@@ -1,3 +1,4 @@
+
 package com.circuits.circuitsmod.blockportalpuzzle;
 
 import java.util.Random;
@@ -32,11 +33,10 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import com.circuits.circuitsmod.Config;
 import com.circuits.circuitsmod.frameblock.StartupCommonFrame;
-import com.circuits.circuitsmod.world.PuzzleTeleporter;
-//import com.championash5357.tutorial.world.TutorialTeleporter;
-//import com.championash5357.tutorial.world.dimension.TutorialDimensionRegistry;
-import com.circuits.circuitsmod.CircuitsMod;
+import com.circuits.circuitsmod.world.PuzzleDimensions;
 import com.google.common.cache.LoadingCache;
 
 public class BlockPortalPuzzle extends BlockBreakable {
@@ -49,7 +49,7 @@ public class BlockPortalPuzzle extends BlockBreakable {
 	
 	public BlockPortalPuzzle() {
 		super(Material.PORTAL, false);
-		this.setUnlocalizedName("tutorial_portal_block");
+		this.setUnlocalizedName("portal_puzzle_block");
 		this.setDefaultState(this.blockState.getBaseState().withProperty(AXIS, EnumFacing.Axis.Z));
 		this.setTickRandomly(true);
 	}
@@ -89,27 +89,6 @@ public class BlockPortalPuzzle extends BlockBreakable {
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
         super.updateTick(worldIn, pos, state, rand);
-
-        if (worldIn.provider.isSurfaceWorld() && worldIn.getGameRules().getBoolean("doMobSpawning") && rand.nextInt(2000) < worldIn.getDifficulty().getDifficultyId())
-        {
-            int i = pos.getY();
-            BlockPos blockpos;
-
-            for (blockpos = pos; !worldIn.getBlockState(blockpos).isFullyOpaque() && blockpos.getY() > 0; blockpos = blockpos.down())
-            {
-                ;
-            }
-
-//            if (i > 0 && !worldIn.getBlockState(blockpos.up()).isNormalCube())
-//            {
-//                Entity entity = ItemMonsterPlacer.spawnCreature(worldIn, EntityList.getEntityStringFromClass(EntityFourArms.class), (double)blockpos.getX() + 0.5D, (double)blockpos.getY() + 1.1D, (double)blockpos.getZ() + 0.5D);
-//
-//                if (entity != null)
-//                {
-//                    entity.timeUntilPortal = entity.getPortalCooldown();
-//                }
-//            }
-        }
     }
 
 	
@@ -232,9 +211,9 @@ public class BlockPortalPuzzle extends BlockBreakable {
             EntityPlayerMP thePlayer = (EntityPlayerMP) entityIn;
             if(thePlayer.timeUntilPortal > 0) {
             	thePlayer.timeUntilPortal = 10;
-            } else if (thePlayer.dimension != CircuitsMod.dimensionId) {
+            } else if (thePlayer.dimension != Config.dimensionId) {
             	thePlayer.timeUntilPortal = 10;
-            	thePlayer.mcServer.getPlayerList().transferPlayerToDimension(thePlayer, CircuitsMod.dimensionId, new PuzzleTeleporter(thePlayer.mcServer.worldServerForDimension(CircuitsMod.dimensionId)));
+            	thePlayer.mcServer.getPlayerList().transferPlayerToDimension(thePlayer, Config.dimensionId, new PuzzleTeleporter(thePlayer.mcServer.worldServerForDimension(Config.dimensionId)));
             } else {
             	thePlayer.timeUntilPortal = 10;
 				thePlayer.mcServer.getPlayerList().transferPlayerToDimension(thePlayer, 0, new PuzzleTeleporter(thePlayer.mcServer.worldServerForDimension(0)));
@@ -372,7 +351,7 @@ public class BlockPortalPuzzle extends BlockBreakable {
             {
                 BlockPos blockpos = p_180120_1_.offset(p_180120_2_, i);
 
-                if (!this.isEmptyBlock(this.world.getBlockState(blockpos).getBlock()) || this.world.getBlockState(blockpos.down()).getBlock() != StartupCommonFrame.frameBlock) //refactor
+                if (!this.isEmptyBlock(this.world.getBlockState(blockpos).getBlock()) || this.world.getBlockState(blockpos.down()).getBlock() != StartupCommonFrame.frameBlock)
                 {
                     break;
                 }
@@ -408,7 +387,7 @@ public class BlockPortalPuzzle extends BlockBreakable {
                         break label24;
                     }
 
-                    if (block == StartupCommonPortal.blockPortalPuzzle) //create startupcommon in this package
+                    if (block == StartupCommonPortal.blockPortalPuzzle)
                     {
                         ++this.portalBlockCount;
                     }

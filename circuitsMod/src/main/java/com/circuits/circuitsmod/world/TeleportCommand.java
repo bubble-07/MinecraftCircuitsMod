@@ -56,7 +56,7 @@ public class TeleportCommand extends CommandBase {
         }
 
         if (sender instanceof EntityPlayer) {
-            PuzzleTeleporter.teleportToDimension((EntityPlayer) sender, dim, 0, 100, 0);
+            PuzzleTeleportCommand.teleportToDimension((EntityPlayer) sender, dim, 0, 100, 0);
         }
     }
 
