@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class StartupCommonPortal
 {
   public static BlockPortalPuzzle blockPortalPuzzle;  // this holds the unique instance of your block
-//  public static ItemBlock itemblockPortalPuzzle;  // this holds the unique instance of the ItemBlock corresponding to your block
+  public static ItemBlock itemblockPortalPuzzle;  // this holds the unique instance of the ItemBlock corresponding to your block
 
   public static void preInitCommon()
   {

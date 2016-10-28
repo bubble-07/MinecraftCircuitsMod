@@ -10,7 +10,7 @@ import net.minecraftforge.client.model.ModelLoader;
  *  preInitCommon
  *  preInitClientOnly
  *  initCommon
- *  initClientOnly
+ *  initClientOnly 
  *  postInitCommon
  *  postInitClientOnly
  */
