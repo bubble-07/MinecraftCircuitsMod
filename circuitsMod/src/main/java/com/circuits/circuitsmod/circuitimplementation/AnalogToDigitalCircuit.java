@@ -2,7 +2,7 @@ package com.circuits.circuitsmod.circuitimplementation;
 
 public class AnalogToDigitalCircuit {
 	
-	byte input1;
+	int input1;
 	int output;
 	
 	public AnalogToDigitalCircuit() {

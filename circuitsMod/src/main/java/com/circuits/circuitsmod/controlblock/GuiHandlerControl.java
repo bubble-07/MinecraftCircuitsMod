@@ -6,14 +6,15 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
+import net.minecraft.client.gui.*;
 
 /**
  * This class is used to get the client and server gui elements when a player opens a gui. There can only be one registered
  *   IGuiHandler instance handler per mod.
  */
 public class GuiHandlerControl implements IGuiHandler {
-	private static final int GUIID_MBE_30 = 30;
-	public static int getGuiID() {return GUIID_MBE_30;}
+	private static final int GUIID_CONTROL = 30;
+	public static int getGuiID() {return GUIID_CONTROL;}
 
 	// Gets the server side element for the given gui id- this should return a container
 	@Override

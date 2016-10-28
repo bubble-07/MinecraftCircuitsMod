@@ -20,3 +20,9 @@ Circuit implementation has continued, and I noticed that there is a flaw in the 
 when writing the ABBA circuit, I did not make note of what m and n meant in the mathematical expressions for time.  In addition,
 I have yet to acquire full understanding of the interface, which I should do in order to ensure correct manipulation of the numbers/booleans
 that come into the circuit.  
+
+10/28/16
+I've continued to investigate portals and I actually found a lead I can use.  While still untested, I can confirm that as of today I have a buildable implementation,
+AND a backdoor in the form of a custom command that can be used to enter the dimension at will.  
+I don't know why, but I seem to be struggling on the circuits implementation.  I've read the interface over, but I'm still not sure how I should be approaching this.
+At this stage, I think it would help if the two of us both sat down to look at it.
