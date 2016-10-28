@@ -1,30 +1,26 @@
 package com.circuits.circuitsmod.busblock;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
+import com.circuits.circuitsmod.circuitblock.CircuitBlock;
+import com.circuits.circuitsmod.common.BlockFace;
 import com.circuits.circuitsmod.common.IMetaBlockName;
-import com.circuits.circuitsmod.common.OptionalUtils;
-import com.google.common.base.Optional;
-import com.google.common.collect.Lists;
-
+import com.circuits.circuitsmod.common.PosUtils;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockDirectional;
-import net.minecraft.block.BlockObsidian;
-import net.minecraft.block.BlockPistonBase;
-import net.minecraft.block.BlockPortal;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
@@ -215,6 +211,31 @@ public class BusBlock extends Block implements IBusConnectable, IMetaBlockName {
 		}
 		return state.withProperty(FACING, facing);
 	}
+	
+    /**
+     * Upon placing a bus, we need to determine whether or not this bus bridges two bus segments,
+     * and update existing bus segments accordingly
+     * IBlockstate
+     */
+	@Override
+    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+    {
+		Predicate<BlockPos> connectable = (p) -> (p.equals(pos) || worldIn.getBlockState(p).getBlock() instanceof IBusConnectable);
+		Predicate<BlockFace> circuit = (p) -> CircuitBlock.getBusSegmentAt(worldIn, p).isPresent();
+		
+
+		if (PosUtils.neighbors(pos).filter(connectable).count() > 1) {
+			//We may be a connecting block here...
+			Set<BlockFace> facesToUnify = IncrementalConnectedComponents.unifyOnAdd(pos, connectable, circuit);
+			Set<BusSegment> toUnify = facesToUnify.stream()
+					                              .map((p) -> CircuitBlock.getBusSegmentAt(worldIn, p).get())
+					                              .collect(Collectors.toSet());
+			
+			
+		}
+		
+        return this.getStateFromMeta(meta);
+    }
 
 	@SideOnly(Side.CLIENT)
 	public BlockRenderLayer getBlockLayer()

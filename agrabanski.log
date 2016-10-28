@@ -19,6 +19,11 @@ missing texture in the inventory
 of moving things over into circuitsMod
 -Created an initial version of a bus block
 
+Progress for the week ending in 10/28/16:
+-Finished up initial bus network code, began work on Circuit Tile Entity code.
+This is something that requires some level of bootstrapping for real testing,
+so putting it on a separate branch for now.
+
 Note:
 -The order of things as in the Gantt chart will likely change -- I will
 spend this next week working on developing the protocol for bus networks,

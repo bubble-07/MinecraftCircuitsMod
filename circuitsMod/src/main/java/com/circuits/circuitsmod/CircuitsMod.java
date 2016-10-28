@@ -46,4 +46,33 @@ public class CircuitsMod
     
     public static String prependModID(String name) {return MODID + ":" + name;}
     
+    /**
+     *     @EventHandler
+    public void init(FMLInitializationEvent event)
+    {
+       // ItemStack dirtStack = new ItemStack(Blocks.dirt);
+        //GameRegistry.addRecipe(new ItemStack(Blocks.diamond_block), " x ", "x x", " x ", 'x', dirtStack);
+        
+        GameRegistry.registerTileEntity(ControlTileEntity.class, "controltileentity");
+        GameRegistry.registerTileEntity(CircuitTileEntity.class, "circuittileentity");
+		GameRegistry.registerBlock(circuitBlock, CircuitItem.class, circuitBlock.getName());
+        //GameRegistry.registerItem(circuitItem, circuitItem.getName());
+		
+		CircuitRendererManager manager = new CircuitRendererManager();
+		ModelResourceLocation fake = new ModelResourceLocation(Microchips.MODID, "fakecircuit");
+		CircuitSmartModel renderer = new CircuitSmartModel(fake);
+		manager.registerItemRenderer((CircuitItem) Item.getItemFromBlock(circuitBlock), renderer);
+        
+        NetworkRegistry.INSTANCE.registerGuiHandler(this, new ControlGuiHandler());
+        
+        if (event.getSide() == Side.CLIENT) {
+        	loadBlockModel(frameBlock, frameBlock.getName());
+        	loadBlockModel(controlBlock, controlBlock.getName());
+        	//loadBlockModel(circuitBlock, circuitBlock.getName());
+        	ClientRegistry.bindTileEntitySpecialRenderer(CircuitTileEntity.class, new CircuitEntitySpecialRenderer());
+        }
+    }
+     */
+    
+    
 }
