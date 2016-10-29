@@ -1,61 +1,68 @@
 package com.circuits.circuitsmod.world;
 
+import java.util.List;
+
 import javax.annotation.Nonnull;
 
-import net.minecraft.entity.Entity;
+import com.circuits.circuitsmod.CircuitsMod;
+import com.google.common.collect.Lists;
+
+import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
+import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Teleporter;
-import net.minecraft.world.WorldServer;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 
-public class PuzzleTeleportCommand extends Teleporter {
+public class PuzzleTeleportCommand extends CommandBase {
 
-    public PuzzleTeleportCommand(WorldServer world, double x, double y, double z) {
-        super(world);
-        this.worldServer = world;
-        this.x = x;
-        this.y = y;
-        this.z = z;
+    public PuzzleTeleportCommand(){
+        aliases = Lists.newArrayList(CircuitsMod.MODID, "TP", "tp");
     }
 
-    private final WorldServer worldServer;
-    private double x;
-    private double y;
-    private double z;
+    private final List<String> aliases;
 
     @Override
-    public void placeInPortal(@Nonnull Entity entity, float rotationYaw) {
-        // The main purpose of this function is to *not* create a nether portal
-        this.worldServer.getBlockState(new BlockPos((int) this.x, (int) this.y, (int) this.z));
-
-        entity.setPosition(this.x, this.y, this.z);
-        entity.motionX = 0.0f;
-        entity.motionY = 0.0f;
-        entity.motionZ = 0.0f;
+    @Nonnull
+    public String getCommandName() {
+        return "tp";
     }
 
+    @Override
+    @Nonnull
+    public String getCommandUsage(@Nonnull ICommandSender sender) {
+        return "tp <id>";
+    }
 
-    public static void teleportToDimension(EntityPlayer player, int dimension, double x, double y, double z) {
-        int oldDimension = player.worldObj.provider.getDimension();
-        EntityPlayerMP entityPlayerMP = (EntityPlayerMP) player;
-        MinecraftServer server = ((EntityPlayerMP) player).worldObj.getMinecraftServer();
-        WorldServer worldServer = server.worldServerForDimension(dimension);
-        player.addExperienceLevel(0);
+    @Override
+    @Nonnull
+    public List<String> getCommandAliases() {
+        return aliases;
+    }
 
-        if (worldServer == null || worldServer.getMinecraftServer() == null){ //Dimension doesn't exist
-            throw new IllegalArgumentException("Dimension: "+dimension+" doesn't exist!");
+    @Override
+    public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args) throws CommandException {
+        if (args.length < 1) {
+            return;
+        }
+        String s = args[0];
+        int dim;
+        try {
+            dim = Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            sender.addChatMessage(new TextComponentString(TextFormatting.RED + "Error parsing dimension!"));
+            return;
         }
 
-        worldServer.getMinecraftServer().getPlayerList().transferPlayerToDimension(entityPlayerMP, dimension, new PuzzleTeleportCommand(worldServer, x, y, z));
-        player.setPositionAndUpdate(x, y, z);
-        if (oldDimension == 1) {
-            // For some reason teleporting out of the end does weird things. Compensate for that
-            player.setPositionAndUpdate(x, y, z);
-            worldServer.spawnEntityInWorld(player);
-            worldServer.updateEntityWithOptionalForce(player, false);
+        if (sender instanceof EntityPlayer) {
+            PuzzleTeleporter.teleportToDimension((EntityPlayer) sender, dim, 0, 100, 0);
         }
+    }
+
+    @Override
+    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
+        return true;
     }
 
 }

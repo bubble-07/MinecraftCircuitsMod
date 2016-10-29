@@ -1,7 +1,7 @@
 package com.circuits.circuitsmod;
 
 import com.circuits.circuitsmod.CommonProxy;
-import com.circuits.circuitsmod.world.TeleportCommand;
+import com.circuits.circuitsmod.world.PuzzleTeleportCommand;
 
 import java.util.logging.Logger;
 
@@ -53,7 +53,7 @@ public class CircuitsMod
     
     @Mod.EventHandler
     public void serverLoad(FMLServerStartingEvent event) {
-        event.registerServerCommand(new TeleportCommand());
+        event.registerServerCommand(new PuzzleTeleportCommand());
     }
 }
 

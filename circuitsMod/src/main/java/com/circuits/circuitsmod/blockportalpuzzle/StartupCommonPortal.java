@@ -34,6 +34,10 @@ public class StartupCommonPortal
     blockPortalPuzzle = (BlockPortalPuzzle)(new BlockPortalPuzzle().setUnlocalizedName("blockPortalPuzzle"));
     blockPortalPuzzle.setRegistryName("blockPortalPuzzle");
     GameRegistry.register(blockPortalPuzzle);
+    
+    itemblockPortalPuzzle = new ItemBlock(blockPortalPuzzle);
+    itemblockPortalPuzzle.setRegistryName(blockPortalPuzzle.getRegistryName());
+    GameRegistry.register(itemblockPortalPuzzle);
 
     // We also need to create and register an ItemBlock for this block otherwise it won't appear in the inventory
     //itemblockPortalPuzzle = new ItemBlock(blockPortalPuzzle);
