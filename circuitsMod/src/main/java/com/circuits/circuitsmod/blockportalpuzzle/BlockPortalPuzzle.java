@@ -15,6 +15,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.BlockWorldState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockPattern;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -52,6 +53,7 @@ public class BlockPortalPuzzle extends BlockBreakable {
 		this.setUnlocalizedName("portal_puzzle_block");
 		this.setDefaultState(this.blockState.getBaseState().withProperty(AXIS, EnumFacing.Axis.Z));
 		this.setTickRandomly(true);
+		this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 	}
 	
 	@Nullable
