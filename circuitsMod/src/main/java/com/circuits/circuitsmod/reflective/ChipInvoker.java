@@ -208,8 +208,46 @@ public class ChipInvoker extends Invoker {
 		return this.inputWidths;
 	}
 	
+	public int numInputs() {
+		return this.inputWidths.length;
+	}
+	
+	public int numOutputs() {
+		return this.outputWidths.length;
+	}
+	
 	public boolean isSequential() {
 		return this.isSequential;
+	}
+	
+	private static int[] indicesOfOnes(int[] orig) {
+		int count = 0;
+		for (int i = 0; i < orig.length; i++) {
+			if (orig[i] == 1) {
+				count++;
+			}
+		}
+		int[] result = new int[count];
+		int j = 0;
+		for (int i = 0; i < orig.length; i++) {
+			if (orig[i] == 1) {
+				result[j] = i;
+				j++;
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * Returns an array of indices to those inputs
+	 * which have a declared input width of 1
+	 */
+	public int[] getRedstoneInputs() {
+		return indicesOfOnes(this.inputWidths);
+	}
+	
+	public int[] getRedstoneOutputs() {
+		return indicesOfOnes(this.outputWidths);
 	}
 	
 	

@@ -229,8 +229,14 @@ public class BusBlock extends Block implements IBusConnectable, IMetaBlockName {
 			Set<BlockFace> facesToUnify = IncrementalConnectedComponents.unifyOnAdd(pos, connectable, circuit);
 			Set<BusSegment> toUnify = facesToUnify.stream()
 					                              .map((p) -> CircuitBlock.getBusSegmentAt(worldIn, p).get())
-					                              .collect(Collectors.toSet());
-			
+					                              .collect(Collectors.toSet())
+					                              ;
+			BusSegment overlord = toUnify.stream().findAny().get();
+			for (BusSegment seg : toUnify) {
+				if (overlord != seg) {
+					overlord.unifyWith(worldIn, seg);
+				}
+			}
 			
 		}
 		

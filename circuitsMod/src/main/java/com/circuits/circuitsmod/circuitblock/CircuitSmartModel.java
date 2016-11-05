@@ -170,6 +170,7 @@ public class CircuitSmartModel implements IBakedModel {
 			@Override
 			public
 			IBakedModel handleItemState(IBakedModel originalModel, ItemStack stack, World world, EntityLivingBase entity) {
+				stack.getTagCompound()
 				circuitUID = stack.getDisplayName();
 				return CircuitSmartModel.this;
 			}	

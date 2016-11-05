@@ -47,10 +47,13 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 		return OptionalUtils.tryCast(worldIn.getTileEntity(pos), CircuitTileEntity.class);
 	}
 	public static Optional<BusSegment> getBusSegmentAt(World worldIn, BlockFace face) {
-		return getCircuitTileEntityAt(worldIn, face.getPos()).flatMap(te -> te.getFaceSegment(face.getFacing()));
+		return getCircuitTileEntityAt(worldIn, face.getPos()).flatMap(te -> te.getBusSegment(face.getFacing()));
 	}
 	public static void setBusSegmentAt(World worldIn, BlockFace face, BusSegment segment) {
-		//TODO: Implement me!
+		Optional<CircuitTileEntity> circuitTE = getCircuitTileEntityAt(worldIn, face.getPos());
+		if (circuitTE.isPresent()) {
+			circuitTE.get().setBusSegment(face.getFacing(), segment);
+		}
 	}
 
 	public static String getName() {
@@ -66,7 +69,6 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 	
 	@Override
     public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
-		//TODO: Only allow redstone connections on non-bused sides
 		return true;
 	}
 

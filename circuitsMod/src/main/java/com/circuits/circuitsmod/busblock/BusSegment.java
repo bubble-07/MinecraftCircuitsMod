@@ -1,11 +1,13 @@
 package com.circuits.circuitsmod.busblock;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import net.minecraft.world.World;
 
 import com.circuits.circuitsmod.circuitblock.CircuitBlock;
+import com.circuits.circuitsmod.circuitblock.CircuitTileEntity;
 import com.circuits.circuitsmod.common.BlockFace;
 import com.circuits.circuitsmod.common.BusData;
 import com.circuits.circuitsmod.common.Log;
@@ -31,6 +33,8 @@ public class BusSegment {
 	 * @param other
 	 */
 	public void unifyWith(World worldIn, BusSegment other) {
+		
+		//TODO: What happens if we unify as signal is flowing?
 		inputs.addAll(other.inputs);
 		outputs.addAll(other.outputs);
 		for (BlockFace inFace : other.inputs) {
@@ -54,6 +58,7 @@ public class BusSegment {
 	public void removeOutput(BlockFace outputFace) {
 		outputs.remove(outputFace);
 	}
+	
 	/**
 	 * The main responsibility of a BusSegment: connected
 	 * inputs will accumulate BusData into this segment's internal register,
@@ -61,7 +66,7 @@ public class BusSegment {
 	 * this BusSegment must deliver signals to all circuit tile entities on the output faces.
 	 * @param other
 	 */
-	public void accumulate(BusData other) {
+	public void accumulate(World worldIn, BusData other) {
 		if (other.getWidth() != busWidth) {
 			Log.internalError("ERROR: Attempting to accumulate a value of width: " + other.getWidth() + 
 					          " in BusSegment " + this.toString());
@@ -72,6 +77,14 @@ public class BusSegment {
 		if (numWaiting == 0) {
 			//Oh boy! Time to actually do stuff!
 			numWaiting = inputs.size();
+			
+			for (BlockFace face : this.outputs) {
+				Optional<CircuitTileEntity> circuitEntity = CircuitBlock.getCircuitTileEntityAt(worldIn, face.getPos());
+				if (!circuitEntity.isPresent()) {
+					continue;
+				}
+				circuitEntity.get().receiveInput(face.getFacing(), this.currentVal);
+			}
 		}
 	}
 	
