@@ -13,7 +13,7 @@ public class PuzzleWorldProvider extends WorldProvider {
 
     @Override
     public String getSaveFolder() {
-        return "TEST";
+        return "PuzzleDIM";
     }
 
     @Override

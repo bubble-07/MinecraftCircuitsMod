@@ -16,6 +16,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.chunk.IChunkGenerator;
+import net.minecraft.world.chunk.storage.AnvilChunkLoader;
 import net.minecraft.world.gen.MapGenBase;
 import net.minecraft.world.gen.MapGenCaves;
 import net.minecraftforge.event.terraingen.InitMapGenEvent.EventType;
@@ -42,7 +43,10 @@ public class PuzzleChunkGenerator implements IChunkGenerator {
 
     @Override
     public Chunk provideChunk(int x, int z) {
-        ChunkPrimer chunkprimer = new ChunkPrimer();
+        ChunkPrimer chunkprimer = new ChunkPrimer(); //instead of the ChunkPrimer, use an existing map.  
+        //I would load the world file from the mod directory, not the world directory.
+        //If it works, it would save into the saves.  
+        //The version identifier could probably just be 0
 
         // Setup biomes for terraingen
         this.biomesForGeneration = this.worldObj.getBiomeProvider().getBiomesForGeneration(this.biomesForGeneration, x * 4 - 2, z * 4 - 2, 10, 10);

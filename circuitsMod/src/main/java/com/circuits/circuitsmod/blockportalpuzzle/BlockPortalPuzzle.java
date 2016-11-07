@@ -141,6 +141,7 @@ public class BlockPortalPuzzle extends BlockBreakable {
 	@Override
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn)
 	{
+		//TODO: Don't replace this with error? Cosmetic
 	    EnumFacing.Axis enumfacing$axis = (EnumFacing.Axis)state.getValue(AXIS);
 
 	    if (enumfacing$axis == EnumFacing.Axis.X)

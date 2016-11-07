@@ -1,0 +1,4 @@
+For the ABBA circuits:
+Specified time interval for B being active, which will always happen while A is active.
+Specified time interval for A being active but not B,
+This could be a static final variable, but ideally would be configurable.
