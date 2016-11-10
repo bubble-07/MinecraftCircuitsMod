@@ -1,0 +1,15 @@
+Coordinates that I spawned on: 
+XYZ: -255.500 70.00000 -16.500
+
+I entered the dimension on the same square by looking down and placing the block
+at my feet.  
+
+Coordinates at which I entered the dimension: -255.500 73.00000 -17.000. 
+
+I placed blocks straight, directly in front of me in order to mark whether
+chunk generation succeeds.  
+
+Something I noticed is that the r.x.y.mca files are generated differently each 
+time.  I'm not sure why that is.  By this I mean x and y become different values.
+
+I copied and pasted them into the source directory.  

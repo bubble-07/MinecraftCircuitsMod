@@ -1,5 +1,7 @@
 package com.circuits.circuitsmod.world;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
@@ -8,7 +10,10 @@ import javax.annotation.Nullable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldEntitySpawner;
@@ -32,14 +37,53 @@ public class PuzzleChunkGenerator implements IChunkGenerator {
     private List<Biome.SpawnListEntry> mobs = Lists.newArrayList();
     private MapGenBase caveGenerator = new MapGenCaves();
     private PuzzleTerrainGenerator terraingen = new PuzzleTerrainGenerator();
-
+    //private File chunkLocation;
+    
     public PuzzleChunkGenerator(World worldObj) {
         this.worldObj = worldObj;
         long seed = worldObj.getSeed();
         this.random = new Random((seed + 516) * 314);
         terraingen.setup(worldObj, random);
         caveGenerator = TerrainGen.getModdedMapGen(caveGenerator, EventType.CAVE);
+        //chunkLocation = new File(PuzzleChunkGenerator.getMcDir(worldObj).toString() + "\\config\\world");
     }
+    
+    public static File getMcDir(World worldObj) {
+    	if (!worldObj.isRemote) {
+    		return new File(".");
+    	}
+    	return Minecraft.getMinecraft().mcDataDir;
+    }
+    
+    /*@Override
+    public Chunk provideChunk(int x, int z) {
+    	try {
+    		DataFixer dataFixIn = new DataFixer(0);
+    		AnvilChunkLoader loader0 = new AnvilChunkLoader(chunkFile0, dataFixIn);
+    		AnvilChunkLoader loaderM1 = new AnvilChunkLoader(chunkFileMinus1, dataFixIn);
+    		
+    		Chunk chunk0 = loader0.loadChunk(worldObj, x, z);
+    		Chunk chunkM1 = loaderM1.loadChunk(worldObj, x, z);
+    		if (chunk0 != null) {
+    			return chunk0;
+    		}
+    		else if(chunkM1 != null) {
+    			return chunkM1;
+    		} else
+    			throw new NullPointerException();
+    	} catch(IOException e) {
+    		e.printStackTrace();
+    		ChunkPrimer chunkprimer = new ChunkPrimer();
+    		Chunk chunk = new Chunk(this.worldObj, chunkprimer, x, z);
+            byte[] biomeArray = chunk.getBiomeArray();
+            for (int i = 0; i < biomeArray.length; ++i) {
+                biomeArray[i] = (byte)Biome.getIdForBiome(this.biomesForGeneration[i]);
+            }
+
+            chunk.generateSkylightMap();
+            return chunk;
+    	}
+    }*/
 
     @Override
     public Chunk provideChunk(int x, int z) {
@@ -47,7 +91,22 @@ public class PuzzleChunkGenerator implements IChunkGenerator {
         //I would load the world file from the mod directory, not the world directory.
         //If it works, it would save into the saves.  
         //The version identifier could probably just be 0
-
+        File chunkLocation = new File(PuzzleChunkGenerator.getMcDir(worldObj).toString() + "\\config\\world");
+        if (!chunkLocation.exists()) {
+        	System.out.println("I DONT EXIST" );
+        }
+        DataFixer dataFixIn = new DataFixer(0);
+		AnvilChunkLoader loader = new AnvilChunkLoader(chunkLocation, dataFixIn);
+		
+		try {
+		Chunk chunk = loader.loadChunk(worldObj, x, z);
+			if (chunk != null) 
+				return chunk;
+		} catch (IOException e) {
+			System.out.println("The premade chunks were not loaded properly.");
+		}
+		
+		
         // Setup biomes for terraingen
         this.biomesForGeneration = this.worldObj.getBiomeProvider().getBiomesForGeneration(this.biomesForGeneration, x * 4 - 2, z * 4 - 2, 10, 10);
         terraingen.setBiomesForGeneration(biomesForGeneration);

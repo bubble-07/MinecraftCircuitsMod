@@ -18,7 +18,7 @@ import net.minecraft.util.text.TextFormatting;
 public class PuzzleTeleportCommand extends CommandBase {
 
     public PuzzleTeleportCommand(){
-        aliases = Lists.newArrayList(CircuitsMod.MODID, "TP", "tp");
+        aliases = Lists.newArrayList(CircuitsMod.MODID, "DP", "dp");
     }
 
     private final List<String> aliases;
@@ -26,13 +26,13 @@ public class PuzzleTeleportCommand extends CommandBase {
     @Override
     @Nonnull
     public String getCommandName() {
-        return "tp";
+        return "dp";
     }
 
     @Override
     @Nonnull
     public String getCommandUsage(@Nonnull ICommandSender sender) {
-        return "tp <id>";
+        return "dp <id>";
     }
 
     @Override
