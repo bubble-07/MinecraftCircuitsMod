@@ -4,10 +4,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.Stack;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -62,17 +60,21 @@ public class IncrementalConnectedComponents {
 					}
 				}
 				else {
-					foundIds.put(current.getPos(), probeId);
 					if (success.test(current)) {
+						//Terminal, successful node, which in our context
+						//may have multiple successful faces that we're still in the process
+						//of searching for. In this case, we should __not__ add to "foundIds",
+						//as we may find multiple different successful faces of the same block
 						foundResult.add(current);
 						if (!exhaustive) {
 							searchStack.clear();
 						}
 					}
-					else {
+					else if (safe.test(current.getPos())) {
 						PosUtils.adjacentFaces(current.getPos()).forEachOrdered((f) -> {
 							searchStack.push(f);
 						});
+						foundIds.put(current.getPos(), probeId);
 					}
 				}
 			}

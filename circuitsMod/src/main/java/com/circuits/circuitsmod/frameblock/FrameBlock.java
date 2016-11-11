@@ -1,8 +1,6 @@
 package com.circuits.circuitsmod.frameblock;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockObsidian;
-import net.minecraft.block.BlockPortal;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;

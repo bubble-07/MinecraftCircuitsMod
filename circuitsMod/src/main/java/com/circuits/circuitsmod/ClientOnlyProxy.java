@@ -22,6 +22,7 @@ public class ClientOnlyProxy extends CommonProxy
     com.circuits.circuitsmod.frameblock.StartupClientFrame.preInitClientOnly();
     com.circuits.circuitsmod.controlblock.StartupClientControl.preInitClientOnly();
     com.circuits.circuitsmod.busblock.StartupClientBus.preInitClientOnly();
+    com.circuits.circuitsmod.circuitblock.StartupClientCircuitBlock.preInitClientOnly();
   }
 
   /**
@@ -34,6 +35,7 @@ public class ClientOnlyProxy extends CommonProxy
     com.circuits.circuitsmod.frameblock.StartupClientFrame.initClientOnly();
     com.circuits.circuitsmod.controlblock.StartupClientControl.initClientOnly();
     com.circuits.circuitsmod.busblock.StartupClientBus.initClientOnly();
+    com.circuits.circuitsmod.circuitblock.StartupClientCircuitBlock.initClientOnly();
   }
 
   /**
@@ -45,6 +47,7 @@ public class ClientOnlyProxy extends CommonProxy
     com.circuits.circuitsmod.frameblock.StartupClientFrame.postInitClientOnly();
     com.circuits.circuitsmod.controlblock.StartupClientControl.postInitClientOnly();
     com.circuits.circuitsmod.busblock.StartupClientBus.postInitClientOnly();
+    com.circuits.circuitsmod.circuitblock.StartupClientCircuitBlock.postInitClientOnly();
   }
 
   @Override

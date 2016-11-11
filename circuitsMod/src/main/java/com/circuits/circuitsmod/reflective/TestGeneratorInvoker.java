@@ -1,15 +1,11 @@
 package com.circuits.circuitsmod.reflective;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
-
 import com.circuits.circuitsmod.common.BusData;
 import com.circuits.circuitsmod.common.Log;
-import com.circuits.circuitsmod.common.Pair;
 import com.google.common.collect.Lists;
 
 /**

@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import com.circuits.circuitsmod.circuitblock.CircuitBlock;
@@ -22,6 +23,10 @@ public class BusSegment {
 	public BusSegment(int busWidth) {
 		this.busWidth = busWidth;
 		this.currentVal = new BusData(busWidth, 0L);
+	}
+	
+	public int getWidth() {
+		return this.busWidth;
 	}
 	
 	/**
@@ -45,12 +50,16 @@ public class BusSegment {
 		}
 	}
 	
+	public void removeAllAt(BlockPos pos) {
+		this.inputs.removeIf((f) -> f.getPos().equals(pos));
+		this.outputs.removeIf((f) -> f.getPos().equals(pos));
+	}
+	
 	public void addInput(BlockFace inputFace) {
 		inputs.add(inputFace);
 	}
 	public void removeInput(BlockFace inputFace) {
 		inputs.remove(inputFace);
-		
 	}
 	public void addOutput(BlockFace outputFace) {
 		outputs.add(outputFace);

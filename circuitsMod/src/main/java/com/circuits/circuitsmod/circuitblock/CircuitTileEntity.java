@@ -1,22 +1,27 @@
 package com.circuits.circuitsmod.circuitblock;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.function.Function;
 
+import scala.actors.threadpool.Arrays;
+
+import com.circuits.circuitsmod.busblock.BusBlock;
 import com.circuits.circuitsmod.busblock.BusSegment;
+import com.circuits.circuitsmod.busblock.StartupCommonBus;
 import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
 import com.circuits.circuitsmod.circuit.CircuitUID;
+import com.circuits.circuitsmod.common.ArrayUtils;
+import com.circuits.circuitsmod.common.BlockFace;
 import com.circuits.circuitsmod.common.BusData;
 import com.circuits.circuitsmod.reflective.ChipInvoker;
 import com.circuits.circuitsmod.reflective.Invoker;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.BlockRedstoneWire;
 import net.minecraft.block.state.IBlockState;
@@ -27,6 +32,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class CircuitTileEntity extends TileEntity {
+	
+	public Collection<BusSegment> getBusSegments() {
+		return connectedBuses.values();
+	}
 
 	public Optional<BusSegment> getBusSegment(EnumFacing face) {
 		return connectedBuses.containsKey(face) ? Optional.of(connectedBuses.get(face)) : Optional.empty();
@@ -138,6 +147,65 @@ public class CircuitTileEntity extends TileEntity {
 		this.redstoneOuptuts = new boolean[EnumFacing.values().length];
 	}
 	
+	/**
+	 * Initializes the bus segment map for this circuit tile entity to
+	 * be a collection of unique bus segments, one for each valid input/output
+	 * as defined in the reflectively-called implementation
+	 */
+	private void initBusSegments() {	
+		for (int i = 0; i < this.impl.numInputs(); i++) {
+			EnumFacing inputFace = this.wireMapper.getInputFace(i);
+			BusSegment inputSeg = new BusSegment(this.impl.inputWidths()[i]);
+			//Input to a circuit tile entity is output from a bus segment
+			inputSeg.addOutput(new BlockFace(this.getPos(), inputFace));
+			this.connectedBuses.put(inputFace, inputSeg);
+		}
+		
+		for (int i = 0; i < this.impl.numOutputs(); i++) {
+			EnumFacing outputFace = this.wireMapper.getOutputFace(i);
+			BusSegment outputSeg = new BusSegment(this.impl.outputWidths()[i]);
+			//Output from a circuit tile entity is input to a bus segment
+			outputSeg.addInput(new BlockFace(this.getPos(), outputFace));
+			this.connectedBuses.put(outputFace, outputSeg);
+		}
+	}
+	
+	/**
+	 * Unifies all existing bus segments on this circuit tile entity with bus segments
+	 * of surrounding blocks according to incidence logic
+	 */
+	private void connectBuses() {
+		//NOTE: For now, this is deliberately hilariously bad and inefficient, too
+		//But for now, I don't care, because correctness matters more.
+		
+		Function<EnumFacing, Optional<BusSegment>> getSeg = (f) -> {
+			return CircuitBlock.getBusSegmentAt(getWorld(), new BlockFace(getPos(), f).otherSide());
+		};
+		
+		//We fundamentally need to handle two cases here:
+		//direct connections to other circuit blocks, and connections to buses
+		
+		//Direct connections
+		for (EnumFacing face : ArrayUtils.cat(this.wireMapper.getInputfaces(), this.wireMapper.getOutputFaces())) {
+			Optional<BusSegment> seg = getSeg.apply(face);
+			if (seg.isPresent()) {
+				//Must be a direct connection
+				this.getBusSegment(face).get().unifyWith(getWorld(), seg.get());
+			}
+			else {
+				//Might be a bus, in which case we'll treat all surrounding buses as if they were just placed.
+				BlockPos pos = this.getPos().offset(face);
+				IBlockState blockState = getWorld().getBlockState(pos);
+				if (blockState.getBlock() instanceof BusBlock) {
+					BusBlock.connectOnPlace(getWorld(), pos, StartupCommonBus.busBlock.getMetaFromState(blockState));
+				}
+			}
+		}
+		
+		
+		
+	}
+	
 	public void update(IBlockState state) {
 		if (impl == null) {
 			//If we're on the client, don't care about updating, we're just here
@@ -148,6 +216,8 @@ public class CircuitTileEntity extends TileEntity {
 					this.impl = CircuitInfoProvider.getInvoker(circuitUID);
 					this.state = this.impl.initState();
 					this.clearInputs();
+					this.initBusSegments();
+					this.connectBuses();
 				}
 				else {
 					CircuitInfoProvider.ensureServerModelInit();

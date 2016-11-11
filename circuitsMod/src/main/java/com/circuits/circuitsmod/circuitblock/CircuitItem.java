@@ -1,14 +1,15 @@
 package com.circuits.circuitsmod.circuitblock;
 
 
+import java.util.Optional;
+
 import com.circuits.circuitsmod.CircuitsMod;
+import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
+import com.circuits.circuitsmod.circuit.CircuitUID;
+import com.circuits.circuitsmod.common.Log;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
@@ -16,12 +17,14 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.client.config.GuiConfigEntries.ChatColorEntry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class CircuitItem extends ItemBlock {
 	private final String name = "circuititem";
+	
+	private static final String circuitUIDTag = "circuitUID";
 	
 	@SideOnly(Side.CLIENT)
 	public CircuitSmartModel renderer;
@@ -39,13 +42,66 @@ public class CircuitItem extends ItemBlock {
 		this.renderer = itemRenderer;
 	}
 	
+	private static String getSecretString(int val) {
+		String result = "";
+		String[] chars = Integer.toString(val).split(".");
+		for (String c : chars) {
+			result += "§" + c;
+		}
+		return result;
+	}
+	
+	private static int fromSecretString(String str) {
+		String toParse = "";
+		String[] chars = str.split(".");
+		for (int i = 1; i < chars.length; i += 2) {
+			toParse += chars[i];
+		}
+		return Integer.parseInt(toParse);
+	}
+	
+	/**
+	 * Part of a hilariously terrible hack. We need 
+	 * @param uid
+	 * @return
+	 */
+	private static String getStackNameFromUID(CircuitUID uid) {
+		String name = CircuitInfoProvider.getDisplayName(uid);
+		String secretString = getSecretString(uid.toInteger());
+		return name + secretString;
+	}
+	
+	public static ItemStack getStackFromUID(CircuitUID uid) {
+		ItemStack result = new ItemStack(StartupCommonCircuitBlock.circuitBlock);
+		result.setStackDisplayName(getStackNameFromUID(uid));
+		return result;
+	}
+	
+	public static Optional<CircuitUID> getUIDFromStack(ItemStack stack) {
+		String displayName = stack.getDisplayName();
+		int secretIndex = displayName.indexOf("§", 0);
+		if (secretIndex == -1) {
+			Log.internalError("Circuit TE Item Stack has bad metadata");
+			return Optional.empty();
+		}
+		String secretString = displayName.substring(secretIndex, displayName.length());
+		int uidIntValue = fromSecretString(secretString);
+		return CircuitUID.fromInteger(uidIntValue);
+	}
+	
 	@Override
     public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (super.onItemUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ).equals(EnumActionResult.SUCCESS)) {
 			//Block placed
 			CircuitTileEntity tileEntity = (CircuitTileEntity)worldIn.getTileEntity(pos);
 			if (tileEntity != null) {
-				tileEntity.init(worldIn, stack.getDisplayName());
+				Optional<CircuitUID> uid = getUIDFromStack(stack);
+				if (uid.isPresent()) {
+					tileEntity.init(worldIn, uid.get());
+				}
+				else {
+					Log.internalError("Circuit UID does not exist for item stack " + stack);
+				}
 			}
 			return EnumActionResult.SUCCESS;
 		}

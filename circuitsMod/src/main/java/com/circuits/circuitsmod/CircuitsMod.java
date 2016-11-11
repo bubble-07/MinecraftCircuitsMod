@@ -3,14 +3,12 @@ package com.circuits.circuitsmod;
 import com.circuits.circuitsmod.CommonProxy;
 
 import com.circuits.circuitsmod.CircuitsMod;
-import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.common.DimensionManager;
 
 @Mod(modid = CircuitsMod.MODID, version = CircuitsMod.VERSION)
 public class CircuitsMod

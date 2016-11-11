@@ -1,11 +1,8 @@
 package com.circuits.circuitsmod.busblock;
 
-import com.circuits.circuitsmod.busblock.BusBlock.BitWidth;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 

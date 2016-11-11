@@ -1,6 +1,5 @@
 package com.circuits.circuitsmod.blockportalpuzzle;
 
-import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**

@@ -24,4 +24,8 @@ public class CircuitInfoProvider {
 	public static WireDirectionMapper getWireMapper(CircuitUID uid) {
 		return null;
 	}
+	
+	public static String getDisplayName(CircuitUID uid) {
+		return null;
+	}
 }

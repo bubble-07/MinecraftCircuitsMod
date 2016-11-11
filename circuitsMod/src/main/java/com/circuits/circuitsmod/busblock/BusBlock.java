@@ -1,14 +1,19 @@
 package com.circuits.circuitsmod.busblock;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import com.circuits.circuitsmod.circuitblock.CircuitBlock;
+import com.circuits.circuitsmod.circuitblock.CircuitTileEntity;
 import com.circuits.circuitsmod.common.BlockFace;
 import com.circuits.circuitsmod.common.IMetaBlockName;
 import com.circuits.circuitsmod.common.PosUtils;
+import com.google.common.base.Predicates;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -186,8 +191,18 @@ public class BusBlock extends Block implements IBusConnectable, IMetaBlockName {
 		return getMetaFromState(state);
 	}
 
-	private boolean canConnect(IBlockAccess worldIn, BlockPos pos) {
-		return (worldIn.getBlockState(pos).getBlock() instanceof IBusConnectable);
+	private boolean canConnect(IBlockAccess worldIn, IBlockState state, BlockFace face) {
+		int meta = this.getMetaFromState(state);
+		BlockPos otherPos = face.adjacent();
+		IBlockState neighborState = worldIn.getBlockState(otherPos);
+		if (neighborState.getBlock() instanceof BusBlock) {
+			return this.getMetaFromState(neighborState) == meta;
+		}
+		if (neighborState.getBlock() instanceof CircuitBlock) {
+			Optional<BusSegment> seg = CircuitBlock.getBusSegmentAt(worldIn, face.otherSide());
+			return seg.isPresent() && seg.get().getWidth() == busWidths[meta].getWidth();
+		}
+		return (neighborState.getBlock() instanceof IBusConnectable);
 	}
 
 	/**
@@ -195,9 +210,10 @@ public class BusBlock extends Block implements IBusConnectable, IMetaBlockName {
 	 */
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
 	{
-		boolean updown = canConnect(worldIn, pos.up()) || canConnect(worldIn, pos.down());
-		boolean northsouth = canConnect(worldIn, pos.south()) || canConnect(worldIn, pos.north());
-		boolean eastwest = canConnect(worldIn, pos.east()) || canConnect(worldIn, pos.west());
+		BiPredicate<BlockFace, BlockFace> connectable = (f1, f2) -> canConnect(worldIn, state, f1) || canConnect(worldIn, state, f1);
+		boolean updown = connectable.test(BlockFace.up(pos), BlockFace.down(pos));
+		boolean northsouth = connectable.test(BlockFace.north(pos), BlockFace.south(pos));
+		boolean eastwest = connectable.test(BlockFace.east(pos), BlockFace.west(pos));
 
 		BusFacing facing = BusFacing.CAP;
 		if (updown && !northsouth && !eastwest) {
@@ -212,6 +228,65 @@ public class BusBlock extends Block implements IBusConnectable, IMetaBlockName {
 		return state.withProperty(FACING, facing);
 	}
 	
+	private static Predicate<BlockPos> connectablePredicate(World worldIn, BlockPos pos, int meta) {
+		return (p) -> {
+			IBlockState bState = worldIn.getBlockState(p);
+			if (bState.getBlock() instanceof BusBlock) {
+				int otherMeta = StartupCommonBus.busBlock.getMetaFromState(bState);
+				if (meta == otherMeta) {
+					return true;
+				}
+			}
+			//Only other "safe" case is if it's the block we're currently in the process of placing.
+			//We stop whenever we hit a circuit tile entity and then rely on the success condition testing,
+			//and so we don't include circuit tile entities at all
+			return p.equals(pos);
+		};
+	}
+	
+	private static Predicate<BlockFace> circuitPredicate(World worldIn, BlockPos pos, int meta) {
+		//Use the metadata within this bus block to determine what the width of any and all connecting
+		//circuit inputs should be
+		int connectingWidth = busWidths[meta].getWidth();
+		return (p) -> {
+			//We only stop if we find a circuit with a present bus segment whose defined width matches the width of this bus
+			Optional<BusSegment> seg = CircuitBlock.getBusSegmentAt(worldIn, p);
+			if (seg.isPresent()) {
+				return seg.get().getWidth() == connectingWidth;
+			}
+			return false;
+		};
+	}
+	
+	public static void connectOnPlace(World worldIn, BlockPos pos, int meta) {
+		
+		//Note: The "connectable" predicate should depend on the width of the bus, as should the "success" predicate
+		
+		Predicate<BlockPos> connectable = connectablePredicate(worldIn, pos, meta);
+		
+		//Note: we need to make the incremental components thing able to go into places with unsafe block positions
+		//if the success condition holds.
+		Predicate<BlockFace> circuit = circuitPredicate(worldIn, pos, meta);
+
+		if (PosUtils.neighbors(pos).filter(connectable).count() > 1) {
+			//We may be a connecting block here...
+			Set<BlockFace> facesToUnify = IncrementalConnectedComponents.unifyOnAdd(pos, connectable, circuit);
+			Set<BusSegment> toUnify = facesToUnify.stream()
+					                              .map((p) -> CircuitBlock.getBusSegmentAt(worldIn, p).get())
+					                              .collect(Collectors.toSet());
+			if (!toUnify.isEmpty()) {                              ;
+				BusSegment overlord = toUnify.stream().findAny().get();
+				for (BusSegment seg : toUnify) {
+					if (overlord != seg) {
+						overlord.unifyWith(worldIn, seg);
+					}
+				}
+			}
+			
+		}
+		
+	}
+	
     /**
      * Upon placing a bus, we need to determine whether or not this bus bridges two bus segments,
      * and update existing bus segments accordingly
@@ -220,28 +295,27 @@ public class BusBlock extends Block implements IBusConnectable, IMetaBlockName {
 	@Override
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
     {
-		Predicate<BlockPos> connectable = (p) -> (p.equals(pos) || worldIn.getBlockState(p).getBlock() instanceof IBusConnectable);
-		Predicate<BlockFace> circuit = (p) -> CircuitBlock.getBusSegmentAt(worldIn, p).isPresent();
+		connectOnPlace(worldIn, pos, meta);
+        return this.getStateFromMeta(meta);
+    }
+	
+	
+	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+	{
+		//Here, we'll need to separate BusSegments that have been split up by this change. 
 		
+		int meta = getMetaFromState(state);
+		Predicate<BlockPos> connectable = connectablePredicate(worldIn, pos, meta);
+		Predicate<BlockFace> circuit = circuitPredicate(worldIn, pos, meta);
 
 		if (PosUtils.neighbors(pos).filter(connectable).count() > 1) {
 			//We may be a connecting block here...
-			Set<BlockFace> facesToUnify = IncrementalConnectedComponents.unifyOnAdd(pos, connectable, circuit);
-			Set<BusSegment> toUnify = facesToUnify.stream()
-					                              .map((p) -> CircuitBlock.getBusSegmentAt(worldIn, p).get())
-					                              .collect(Collectors.toSet())
-					                              ;
-			BusSegment overlord = toUnify.stream().findAny().get();
-			for (BusSegment seg : toUnify) {
-				if (overlord != seg) {
-					overlord.unifyWith(worldIn, seg);
-				}
-			}
+			Set<Set<BlockFace>> partition = IncrementalConnectedComponents.separateOnDelete(pos, connectable, circuit);
 			
 		}
 		
-        return this.getStateFromMeta(meta);
-    }
+		super.breakBlock(worldIn, pos, state);
+	}
 
 	@SideOnly(Side.CLIENT)
 	public BlockRenderLayer getBlockLayer()

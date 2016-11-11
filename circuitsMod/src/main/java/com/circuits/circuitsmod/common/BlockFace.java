@@ -15,6 +15,34 @@ public class BlockFace {
 		this.pos = pos;
 		this.face = face;
 	}
+	
+	public static BlockFace of(BlockPos pos, EnumFacing face) {
+		return new BlockFace(pos, face);
+	}
+	
+	public static BlockFace up(BlockPos pos) {
+		return of(pos, EnumFacing.UP);
+	}
+	public static BlockFace down(BlockPos pos) {
+		return of(pos, EnumFacing.DOWN);
+	}
+	public static BlockFace east(BlockPos pos) {
+		return of(pos, EnumFacing.EAST);
+	}
+	public static BlockFace west(BlockPos pos) {
+		return of(pos, EnumFacing.WEST);
+	}
+	public static BlockFace north(BlockPos pos) {
+		return of(pos, EnumFacing.NORTH);
+	}
+	public static BlockFace south(BlockPos pos) {
+		return of(pos, EnumFacing.SOUTH);
+	}
+	
+	public BlockFace otherSide() {
+		return of(pos.offset(getFacing()), getFacing().getOpposite());
+	}
+	
 	public EnumFacing getFacing() {
 		return face;
 	}

@@ -16,6 +16,7 @@ public abstract class CommonProxy {
 	  com.circuits.circuitsmod.frameblock.StartupCommonFrame.preInitCommon();
 	  com.circuits.circuitsmod.controlblock.StartupCommonControl.preInitCommon();
 	  com.circuits.circuitsmod.busblock.StartupCommonBus.preInitCommon();
+	  com.circuits.circuitsmod.circuitblock.StartupCommonCircuitBlock.preInitCommon();
   }
   /**
    * Do your mod setup. Build whatever data structures you care about. Register recipes,
@@ -26,6 +27,8 @@ public abstract class CommonProxy {
 	  com.circuits.circuitsmod.frameblock.StartupCommonFrame.initCommon();
 	  com.circuits.circuitsmod.controlblock.StartupCommonControl.initCommon();
 	  com.circuits.circuitsmod.busblock.StartupCommonBus.initCommon();
+	  com.circuits.circuitsmod.circuitblock.StartupCommonCircuitBlock.initCommon();
+
   }
 
   /**
@@ -36,6 +39,7 @@ public abstract class CommonProxy {
 	  com.circuits.circuitsmod.frameblock.StartupCommonFrame.postInitCommon();
 	  com.circuits.circuitsmod.controlblock.StartupCommonControl.postInitCommon();
 	  com.circuits.circuitsmod.busblock.StartupCommonBus.postInitCommon();
+	  com.circuits.circuitsmod.circuitblock.StartupCommonCircuitBlock.postInitCommon();
   }
 
   // helper to determine whether the given player is in creative mode
