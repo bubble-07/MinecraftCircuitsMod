@@ -50,7 +50,7 @@ public class PuzzleChunkGenerator implements IChunkGenerator {
     
     public static File getMcDir(World worldObj) {
     	if (!worldObj.isRemote) {
-    		return new File(".");
+    		//return new File(".");
     	}
     	return Minecraft.getMinecraft().mcDataDir;
     }
@@ -91,7 +91,8 @@ public class PuzzleChunkGenerator implements IChunkGenerator {
         //I would load the world file from the mod directory, not the world directory.
         //If it works, it would save into the saves.  
         //The version identifier could probably just be 0
-        File chunkLocation = new File(PuzzleChunkGenerator.getMcDir(worldObj).toString() + "\\config\\world");
+        File chunkLocation = new File(PuzzleChunkGenerator.getMcDir(worldObj).toString() + "/config/world/");
+        //System.out.println(chunkLocation);
         if (!chunkLocation.exists()) {
         	System.out.println("I DONT EXIST" );
         }
@@ -99,9 +100,10 @@ public class PuzzleChunkGenerator implements IChunkGenerator {
 		AnvilChunkLoader loader = new AnvilChunkLoader(chunkLocation, dataFixIn);
 		
 		try {
-		Chunk chunk = loader.loadChunk(worldObj, x, z);
-			if (chunk != null) 
+			Chunk chunk = loader.loadChunk(worldObj, x, z);
+			if (chunk != null) {
 				return chunk;
+			}
 		} catch (IOException e) {
 			System.out.println("The premade chunks were not loaded properly.");
 		}
