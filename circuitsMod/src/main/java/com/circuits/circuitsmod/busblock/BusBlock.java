@@ -11,6 +11,7 @@ import com.circuits.circuitsmod.circuitblock.CircuitBlock;
 import com.circuits.circuitsmod.circuitblock.CircuitTileEntity;
 import com.circuits.circuitsmod.common.BlockFace;
 import com.circuits.circuitsmod.common.IMetaBlockName;
+import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.PosUtils;
 import com.google.common.base.Predicates;
 
@@ -210,20 +211,32 @@ public class BusBlock extends Block implements IBusConnectable, IMetaBlockName {
 	 */
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
 	{
-		BiPredicate<BlockFace, BlockFace> connectable = (f1, f2) -> canConnect(worldIn, state, f1) || canConnect(worldIn, state, f1);
+		BiPredicate<BlockFace, BlockFace> connectable = (f1, f2) -> canConnect(worldIn, state, f1) || canConnect(worldIn, state, f2);
+		
+		//First, determine if any neighbors are buses of different widths, in which case this thing should be a cap
+		boolean capoverride = PosUtils.neighbors(pos).anyMatch((nbPos) -> {
+			IBlockState neighborState = worldIn.getBlockState(nbPos);
+			if (neighborState.getBlock() instanceof BusBlock) {
+				return this.getMetaFromState(neighborState) != this.getMetaFromState(state);
+			}
+			return false;
+		});
+		
 		boolean updown = connectable.test(BlockFace.up(pos), BlockFace.down(pos));
 		boolean northsouth = connectable.test(BlockFace.north(pos), BlockFace.south(pos));
 		boolean eastwest = connectable.test(BlockFace.east(pos), BlockFace.west(pos));
 
 		BusFacing facing = BusFacing.CAP;
-		if (updown && !northsouth && !eastwest) {
-			facing = BusFacing.UPDOWN;
-		}
-		else if (!updown && northsouth && !eastwest) {
-			facing = BusFacing.NORTHSOUTH;
-		}
-		else if (!updown && !northsouth && eastwest) {
-			facing = BusFacing.EASTWEST;
+		if (!capoverride) {
+			if (updown && !northsouth && !eastwest) {
+				facing = BusFacing.UPDOWN;
+			}
+			else if (!updown && northsouth && !eastwest) {
+				facing = BusFacing.NORTHSOUTH;
+			}
+			else if (!updown && !northsouth && eastwest) {
+				facing = BusFacing.EASTWEST;
+			}
 		}
 		return state.withProperty(FACING, facing);
 	}
@@ -307,14 +320,34 @@ public class BusBlock extends Block implements IBusConnectable, IMetaBlockName {
 		int meta = getMetaFromState(state);
 		Predicate<BlockPos> connectable = connectablePredicate(worldIn, pos, meta);
 		Predicate<BlockFace> circuit = circuitPredicate(worldIn, pos, meta);
+		
+		super.breakBlock(worldIn, pos, state);
 
 		if (PosUtils.neighbors(pos).filter(connectable).count() > 1) {
 			//We may be a connecting block here...
 			Set<Set<BlockFace>> partition = IncrementalConnectedComponents.separateOnDelete(pos, connectable, circuit);
+			//Okay, now that we got a new partition of the block faces that are circuit blocks,
+			//what we need to do is to create a copy of the bus segment they used to share in common
+			//and then use that to inform new bus segment assignments
+			if (partition.isEmpty()) {
+				return;
+			}
+			BlockFace sampleFace = partition.iterator().next().iterator().next();
+			Optional<BusSegment> maybeSeg = CircuitBlock.getBusSegmentAt(worldIn, sampleFace);
+			if (!maybeSeg.isPresent()) {
+				Log.internalError("BusBlock#breakBlock -- separateOnDelete returned a circuit TE face that doesn't exist!");
+				return;
+			}
+			BusSegment parentSeg = maybeSeg.get();
+			for (Set<BlockFace> equivClass : partition) {
+				//For each equivalence class, split off a new bus segment filtered on the inputs/outputs of the segment
+				BusSegment classSeg = parentSeg.splitOff(equivClass);
+				for (BlockFace bf : equivClass) {
+					CircuitBlock.setBusSegmentAt(worldIn, bf, classSeg);
+				}
+			}
 			
 		}
-		
-		super.breakBlock(worldIn, pos, state);
 	}
 
 	@SideOnly(Side.CLIENT)

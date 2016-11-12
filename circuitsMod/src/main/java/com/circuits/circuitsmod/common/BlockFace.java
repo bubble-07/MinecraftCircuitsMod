@@ -9,6 +9,35 @@ import net.minecraft.util.math.BlockPos;
  *
  */
 public class BlockFace {
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((face == null) ? 0 : face.hashCode());
+		result = prime * result + ((pos == null) ? 0 : pos.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BlockFace other = (BlockFace) obj;
+		if (face != other.face)
+			return false;
+		if (pos == null) {
+			if (other.pos != null)
+				return false;
+		} else if (!pos.equals(other.pos))
+			return false;
+		return true;
+	}
+
+
 	private final EnumFacing face;
 	private final BlockPos pos;
 	public BlockFace(BlockPos pos, EnumFacing face) {
@@ -52,6 +81,8 @@ public class BlockFace {
 	public BlockPos adjacent() {
 		return pos.offset(face);
 	}
+	
+	
 	public String toString() {
 		return getPos().toString() + ":" + getFacing().toString();
 	}

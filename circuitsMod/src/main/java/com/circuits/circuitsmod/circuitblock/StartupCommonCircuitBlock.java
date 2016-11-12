@@ -14,6 +14,8 @@ public class StartupCommonCircuitBlock
     circuitBlock.setRegistryName("circuitblock");
     GameRegistry.register(circuitBlock);
     
+    GameRegistry.registerTileEntity(CircuitTileEntity.class, "circuittileentity");
+    
     itemcircuitBlock = new CircuitItem(circuitBlock);
     itemcircuitBlock.setRegistryName(circuitBlock.getRegistryName());
     GameRegistry.register(itemcircuitBlock);

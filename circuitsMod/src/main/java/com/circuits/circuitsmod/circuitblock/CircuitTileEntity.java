@@ -13,6 +13,7 @@ import com.circuits.circuitsmod.busblock.BusSegment;
 import com.circuits.circuitsmod.busblock.StartupCommonBus;
 import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
 import com.circuits.circuitsmod.circuit.CircuitUID;
+import com.circuits.circuitsmod.circuitblock.WireDirectionMapper.WireDirectionGenerator;
 import com.circuits.circuitsmod.common.ArrayUtils;
 import com.circuits.circuitsmod.common.BlockFace;
 import com.circuits.circuitsmod.common.BusData;
@@ -212,8 +213,9 @@ public class CircuitTileEntity extends TileEntity {
 			//to look pretty
 			if (getWorld() != null || !getWorld().isRemote) {
 				if (CircuitInfoProvider.isServerModelInit()) {
-					this.wireMapper = CircuitInfoProvider.getWireMapper(circuitUID);
 					this.impl = CircuitInfoProvider.getInvoker(circuitUID);
+					WireDirectionGenerator dirGen = CircuitInfoProvider.getWireDirectionGenerator(circuitUID);
+					this.wireMapper = dirGen.getMapper(getParentFacing(), impl.numInputs(), impl.numOutputs());
 					this.state = this.impl.initState();
 					this.clearInputs();
 					this.initBusSegments();
@@ -264,7 +266,7 @@ public class CircuitTileEntity extends TileEntity {
 				Optional<BusSegment> busSeg = this.getBusSegment(side);
 				BusData data = outputs.get(i);
 				if (busSeg.isPresent()) {
-					busSeg.get().accumulate(getWorld(), data);
+					busSeg.get().accumulate(getWorld(), new BlockFace(getPos(), side), data);
 				}
 				
 				//If instead, we sent a redstone signal, just make sure to notify the next block over to update

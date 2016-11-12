@@ -3,6 +3,7 @@ package com.circuits.circuitsmod.busblock;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -18,7 +19,7 @@ public class BusSegment {
 	private Set<BlockFace> outputs = new HashSet<BlockFace>();
 	private BusData currentVal;
 	private int busWidth;
-	private int numWaiting = 0;
+	private Set<BlockFace> waitingOn;
 	
 	public BusSegment(int busWidth) {
 		this.busWidth = busWidth;
@@ -27,6 +28,28 @@ public class BusSegment {
 	
 	public int getWidth() {
 		return this.busWidth;
+	}
+	
+	/**
+	 * Split off a bus segment from this one with the same
+	 * bus width, but with the
+	 * inputs and outputs restricted to the set passed in to this method.
+	 * @param face
+	 * @return
+	 */
+	public BusSegment splitOff(Set<BlockFace> faces) {
+		BusSegment result = new BusSegment(busWidth);
+		for (BlockFace face : faces) {
+			if (inputs.contains(face)) {
+				result.addInput(face);
+			}
+			if (outputs.contains(face)) {
+				result.addOutput(face);
+			}
+		}
+		result.currentVal = this.currentVal.copy();
+		result.waitingOn = this.waitingOn.stream().filter((f) -> result.inputs.contains(f)).collect(Collectors.toSet());
+		return result;
 	}
 	
 	/**
@@ -53,6 +76,7 @@ public class BusSegment {
 	public void removeAllAt(BlockPos pos) {
 		this.inputs.removeIf((f) -> f.getPos().equals(pos));
 		this.outputs.removeIf((f) -> f.getPos().equals(pos));
+		this.waitingOn.removeIf((f) -> f.getPos().equals(pos));
 	}
 	
 	public void addInput(BlockFace inputFace) {
@@ -75,17 +99,17 @@ public class BusSegment {
 	 * this BusSegment must deliver signals to all circuit tile entities on the output faces.
 	 * @param other
 	 */
-	public void accumulate(World worldIn, BusData other) {
+	public void accumulate(World worldIn, BlockFace inputFace, BusData other) {
 		if (other.getWidth() != busWidth) {
 			Log.internalError("ERROR: Attempting to accumulate a value of width: " + other.getWidth() + 
 					          " in BusSegment " + this.toString());
 			return;
 		}
 		this.currentVal = this.currentVal.combine(other);
-		numWaiting--;
-		if (numWaiting == 0) {
+		waitingOn.remove(inputFace);
+		if (waitingOn.isEmpty()) {
 			//Oh boy! Time to actually do stuff!
-			numWaiting = inputs.size();
+			waitingOn = inputs.stream().collect(Collectors.toSet());
 			
 			for (BlockFace face : this.outputs) {
 				Optional<CircuitTileEntity> circuitEntity = CircuitBlock.getCircuitTileEntityAt(worldIn, face.getPos());

@@ -153,7 +153,10 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
+		if (meta < 4 && meta >= 0) {
+			return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
+		}
+		return this.getDefaultState();
 	}
 
 	/**
@@ -162,7 +165,11 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
-		return ((EnumFacing)state.getValue(FACING)).getHorizontalIndex();
+		int result = ((EnumFacing)state.getValue(FACING)).getHorizontalIndex();
+		if (result > 0) {
+			return result;
+		}
+		return 4;
 	}
 	
 	@Override

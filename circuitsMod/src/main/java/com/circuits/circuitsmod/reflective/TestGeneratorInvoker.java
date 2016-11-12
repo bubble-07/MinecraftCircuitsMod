@@ -1,10 +1,13 @@
 package com.circuits.circuitsmod.reflective;
 
+import java.io.File;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+
 import com.circuits.circuitsmod.common.BusData;
+import com.circuits.circuitsmod.common.FileUtils;
 import com.circuits.circuitsmod.common.Log;
 import com.google.common.collect.Lists;
 
@@ -61,6 +64,14 @@ public class TestGeneratorInvoker extends Invoker {
 		this.tickMethod = tickMethod;
 		this.inputMethods = inputMethods;
 		this.slowable = slowable;
+	}
+	
+	public static Optional<TestGeneratorInvoker> getInvoker(File implFile) {
+		Optional<Class<?>> clazz = ReflectiveUtils.loadClassFile(implFile, FileUtils.getCircuitLibDir(), "Tests");
+		if (clazz.isPresent()) {
+			return getInvoker(clazz.get());
+		}
+		return Optional.empty();
 	}
 	
 	public static Optional<TestGeneratorInvoker> getInvoker(Class<?> implClass) {

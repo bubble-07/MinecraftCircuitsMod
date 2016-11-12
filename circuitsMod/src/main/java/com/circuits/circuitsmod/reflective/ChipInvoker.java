@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 
 import com.circuits.circuitsmod.common.ArrayUtils;
 import com.circuits.circuitsmod.common.BusData;
+import com.circuits.circuitsmod.common.FileUtils;
 import com.circuits.circuitsmod.common.Log;
 import com.google.common.collect.Lists;
 
@@ -84,6 +85,14 @@ public class ChipInvoker extends Invoker {
 		this.isSequential = isSequential;
 		this.outputWidths = outputWidths;
 		this.inputWidths = inputWidths;
+	}
+	
+	public static Optional<ChipInvoker> getInvoker(File implFile) {
+		Optional<Class<?>> clazz = ReflectiveUtils.loadClassFile(implFile, FileUtils.getCircuitLibDir(), "Implementation");
+		if (clazz.isPresent()) {
+			return getInvoker(clazz.get());
+		}
+		return Optional.empty();
 	}
 
 	public static Optional<ChipInvoker> getInvoker(Class<?> implClass) {

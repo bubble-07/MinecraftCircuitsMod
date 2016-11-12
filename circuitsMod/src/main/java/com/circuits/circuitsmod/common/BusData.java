@@ -15,6 +15,10 @@ public class BusData {
 		assert(ArrayUtils.inArray(this.width, allowed));
 	}
 	
+	public BusData copy() {
+		return new BusData(width, data);
+	}
+	
 	public int getWidth() {
 		return width;
 	}

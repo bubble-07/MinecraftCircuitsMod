@@ -1,5 +1,6 @@
 package com.circuits.circuitsmod.circuitblock;
 
+import java.io.Serializable;
 import java.util.Optional;
 
 import net.minecraft.util.EnumFacing;
@@ -11,7 +12,15 @@ import net.minecraft.util.EnumFacing;
  * @author bubble-07
  *
  */
-public class WireDirectionMapper {
+public class WireDirectionMapper implements Serializable {
+	
+	public static abstract class WireDirectionGenerator implements Serializable {
+		private static final long serialVersionUID = 1L;
+
+		public abstract WireDirectionMapper getMapper(EnumFacing parentFacing, int numInputs, int numOutputs);
+	}
+
+	private static final long serialVersionUID = 1L;
 
 	private WireDirectionMapper(EnumFacing[] inputFaces, EnumFacing[] outputFaces) {
 		this.inputFaces = inputFaces;
@@ -21,50 +30,53 @@ public class WireDirectionMapper {
 	private final EnumFacing[] outputFaces;
 	
 	/**
-	 * Returns a default, hard-coded wire direction mapper for when
+	 * A default, hard-coded wire direction generator for when
 	 * the creator of a circuit fails to specify one.
-	 * 
-	 * The passed "parentFacing" is the facing of the parent Circuit Block
-	 * @return
 	 */
-	public static WireDirectionMapper getDefaultMapper(EnumFacing parentFacing, int numInputs, int numOutputs) {
-		EnumFacing[] inputFaces = new EnumFacing[numInputs];
-		EnumFacing[] outputFaces = new EnumFacing[numOutputs];
-		
-		//If there's one input, have it be in the opposite direction
-		switch (numInputs) {
-		case 1:
-			inputFaces[0] = parentFacing.getOpposite();
-			switch (numOutputs) {
+	public static class DefaultGenerator extends WireDirectionGenerator {
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public WireDirectionMapper getMapper(EnumFacing parentFacing, int numInputs, int numOutputs) {
+			EnumFacing[] inputFaces = new EnumFacing[numInputs];
+			EnumFacing[] outputFaces = new EnumFacing[numOutputs];
+			
+			//If there's one input, have it be in the opposite direction
+			switch (numInputs) {
 			case 1:
-				outputFaces[0] = parentFacing;
+				inputFaces[0] = parentFacing.getOpposite();
+				switch (numOutputs) {
+				case 1:
+					outputFaces[0] = parentFacing;
+					break;
+				case 2:
+					outputFaces[0] = parentFacing.rotateYCCW();
+					outputFaces[1] = parentFacing.rotateY();
+				case 3:
+					outputFaces[0] = parentFacing.rotateYCCW();
+					outputFaces[1] = parentFacing;
+					outputFaces[2] = parentFacing.rotateY();
+				}
 				break;
 			case 2:
-				outputFaces[0] = parentFacing.rotateYCCW();
-				outputFaces[1] = parentFacing.rotateY();
-			case 3:
-				outputFaces[0] = parentFacing.rotateYCCW();
-				outputFaces[1] = parentFacing;
-				outputFaces[2] = parentFacing.rotateY();
-			}
-			break;
-		case 2:
-			switch (numOutputs) {
-			case 1:
-				inputFaces[0] = parentFacing.rotateYCCW();
-				inputFaces[1] = parentFacing.rotateY();
-				outputFaces[0] = parentFacing;
+				switch (numOutputs) {
+				case 1:
+					inputFaces[0] = parentFacing.rotateYCCW();
+					inputFaces[1] = parentFacing.rotateY();
+					outputFaces[0] = parentFacing;
+					break;
+				case 2:
+					inputFaces[0] = parentFacing.rotateYCCW();
+					inputFaces[1] = parentFacing.getOpposite();
+					outputFaces[0] = parentFacing;
+					outputFaces[1] = parentFacing.rotateY();
+				}
 				break;
-			case 2:
-				inputFaces[0] = parentFacing.rotateYCCW();
-				inputFaces[1] = parentFacing.getOpposite();
-				outputFaces[0] = parentFacing;
-				outputFaces[1] = parentFacing.rotateY();
 			}
-			break;
+			return new WireDirectionMapper(inputFaces, outputFaces);
 		}
-		return new WireDirectionMapper(inputFaces, outputFaces);
 	}
+	
 	
 	private Optional<Integer> search(EnumFacing facing, EnumFacing[] array) {
 		for (int i = 0; i < array.length; i++) {

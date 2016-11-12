@@ -78,7 +78,9 @@ public class IncrementalConnectedComponents {
 					}
 				}
 			}
-			foundResults.add(foundResult);
+			if (!foundResult.isEmpty()) {
+				foundResults.add(foundResult);
+			}
 		}
 		return foundResults;
 	}
