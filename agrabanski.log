@@ -24,3 +24,15 @@ of moving things over into circuitsMod
 Progress for the week ending in 11/4/16:
 -Performed work to integrate Circuit Tile Entity logic with the
 Bus Network logic. Works in theory, but still's gotta be tested.
+
+Progress for the week ending in 11/11/16:
+-Helped track down issues with AnvilChunkLoader
+ [used to load the puzzle dimension]
+-Defined/implemented loading of circuit implementations and metadata
+from folders
+
+Up next:
+-Collaborate with Sean on puzzle dimension handling logic
+-Finalize the CircuitTileEntity branch (final code polish, comprehensive
+tests of functionality)
+-Merge CircuitTileEntity branch back into master
