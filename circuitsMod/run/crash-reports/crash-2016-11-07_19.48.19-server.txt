@@ -1,0 +1,135 @@
+---- Minecraft Crash Report ----
+// Daisy, daisy...
+
+Time: 11/7/16 7:48 PM
+Description: Exception generating new chunk
+
+java.lang.NullPointerException: Exception generating new chunk
+	at com.circuits.circuitsmod.world.PuzzleChunkGenerator.provideChunk(PuzzleChunkGenerator.java:67)
+	at net.minecraft.world.gen.ChunkProviderServer.provideChunk(ChunkProviderServer.java:146)
+	at net.minecraft.world.World.getChunkFromChunkCoords(World.java:351)
+	at net.minecraft.world.World.getChunkFromBlockCoords(World.java:343)
+	at net.minecraft.world.World.getBlockState(World.java:913)
+	at com.circuits.circuitsmod.blockportalpuzzle.PuzzleTeleporter.placeInExistingPortal(PuzzleTeleporter.java:101)
+	at com.circuits.circuitsmod.blockportalpuzzle.PuzzleTeleporter.placeInPortal(PuzzleTeleporter.java:38)
+	at net.minecraft.server.management.PlayerList.transferEntityToWorld(PlayerList.java:734)
+	at net.minecraft.server.management.PlayerList.transferPlayerToDimension(PlayerList.java:641)
+	at com.circuits.circuitsmod.blockportalpuzzle.BlockPortalPuzzle.onEntityCollidedWithBlock(BlockPortalPuzzle.java:219)
+	at net.minecraft.entity.Entity.doBlockCollisions(Entity.java:1043)
+	at net.minecraft.entity.Entity.moveEntity(Entity.java:961)
+	at net.minecraft.entity.EntityLivingBase.moveEntityWithHeading(EntityLivingBase.java:1987)
+	at net.minecraft.entity.player.EntityPlayer.moveEntityWithHeading(EntityPlayer.java:1937)
+	at net.minecraft.entity.EntityLivingBase.onLivingUpdate(EntityLivingBase.java:2425)
+	at net.minecraft.entity.player.EntityPlayer.onLivingUpdate(EntityPlayer.java:561)
+	at net.minecraft.entity.EntityLivingBase.onUpdate(EntityLivingBase.java:2217)
+	at net.minecraft.entity.player.EntityPlayer.onUpdate(EntityPlayer.java:259)
+	at net.minecraft.entity.player.EntityPlayerMP.onUpdateEntity(EntityPlayerMP.java:341)
+	at net.minecraft.network.NetHandlerPlayServer.update(NetHandlerPlayServer.java:174)
+	at net.minecraftforge.fml.common.network.handshake.NetworkDispatcher$1.update(NetworkDispatcher.java:216)
+	at net.minecraft.network.NetworkManager.processReceivedPackets(NetworkManager.java:308)
+	at net.minecraft.network.NetworkSystem.networkTick(NetworkSystem.java:195)
+	at net.minecraft.server.MinecraftServer.updateTimeLightAndEntities(MinecraftServer.java:806)
+	at net.minecraft.server.MinecraftServer.tick(MinecraftServer.java:687)
+	at net.minecraft.server.integrated.IntegratedServer.tick(IntegratedServer.java:156)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:536)
+	at java.lang.Thread.run(Unknown Source)
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Thread: Server thread
+Stacktrace:
+	at com.circuits.circuitsmod.world.PuzzleChunkGenerator.provideChunk(PuzzleChunkGenerator.java:67)
+
+-- Chunk to be generated --
+Details:
+	Location: -24,-19
+	Position hash: -77309411352
+	Generator: com.circuits.circuitsmod.world.PuzzleChunkGenerator@160c4a94
+Stacktrace:
+	at net.minecraft.world.gen.ChunkProviderServer.provideChunk(ChunkProviderServer.java:146)
+	at net.minecraft.world.World.getChunkFromChunkCoords(World.java:351)
+	at net.minecraft.world.World.getChunkFromBlockCoords(World.java:343)
+	at net.minecraft.world.World.getBlockState(World.java:913)
+	at com.circuits.circuitsmod.blockportalpuzzle.PuzzleTeleporter.placeInExistingPortal(PuzzleTeleporter.java:101)
+	at com.circuits.circuitsmod.blockportalpuzzle.PuzzleTeleporter.placeInPortal(PuzzleTeleporter.java:38)
+	at net.minecraft.server.management.PlayerList.transferEntityToWorld(PlayerList.java:734)
+	at net.minecraft.server.management.PlayerList.transferPlayerToDimension(PlayerList.java:641)
+	at com.circuits.circuitsmod.blockportalpuzzle.BlockPortalPuzzle.onEntityCollidedWithBlock(BlockPortalPuzzle.java:219)
+
+-- Block being collided with --
+Details:
+	Block: circuitsmod:blockPortalPuzzle[axis=x]
+	Block location: World: (-255,77,-178), Chunk: (at 1,4,14 in -16,-12; contains blocks -256,0,-192 to -241,255,-177), Region: (-1,-1; contains chunks -32,-32 to -1,-1, blocks -512,0,-512 to -1,255,-1)
+Stacktrace:
+	at net.minecraft.entity.Entity.doBlockCollisions(Entity.java:1043)
+
+-- Entity being checked for collision --
+Details:
+	Entity Type: null (net.minecraft.entity.player.EntityPlayerMP)
+	Entity ID: 1939
+	Entity Name: Player177
+	Entity's Exact location: -254.00, 77.72, -176.00
+	Entity's Block location: World: (-254,77,-176), Chunk: (at 2,4,0 in -16,-11; contains blocks -256,0,-176 to -241,255,-161), Region: (-1,-1; contains chunks -32,-32 to -1,-1, blocks -512,0,-512 to -1,255,-1)
+	Entity's Momentum: 0.00, 0.00, 0.00
+	Entity's Passengers: []
+	Entity's Vehicle: ~~ERROR~~ NullPointerException: null
+Stacktrace:
+	at net.minecraft.entity.Entity.moveEntity(Entity.java:961)
+	at net.minecraft.entity.EntityLivingBase.moveEntityWithHeading(EntityLivingBase.java:1987)
+	at net.minecraft.entity.player.EntityPlayer.moveEntityWithHeading(EntityPlayer.java:1937)
+	at net.minecraft.entity.EntityLivingBase.onLivingUpdate(EntityLivingBase.java:2425)
+	at net.minecraft.entity.player.EntityPlayer.onLivingUpdate(EntityPlayer.java:561)
+	at net.minecraft.entity.EntityLivingBase.onUpdate(EntityLivingBase.java:2217)
+	at net.minecraft.entity.player.EntityPlayer.onUpdate(EntityPlayer.java:259)
+
+-- Player being ticked --
+Details:
+	Entity Type: null (net.minecraft.entity.player.EntityPlayerMP)
+	Entity ID: 1939
+	Entity Name: Player177
+	Entity's Exact location: -254.00, 77.72, -176.00
+	Entity's Block location: World: (-254,77,-176), Chunk: (at 2,4,0 in -16,-11; contains blocks -256,0,-176 to -241,255,-161), Region: (-1,-1; contains chunks -32,-32 to -1,-1, blocks -512,0,-512 to -1,255,-1)
+	Entity's Momentum: 0.00, 0.00, 0.00
+	Entity's Passengers: []
+	Entity's Vehicle: ~~ERROR~~ NullPointerException: null
+Stacktrace:
+	at net.minecraft.entity.player.EntityPlayerMP.onUpdateEntity(EntityPlayerMP.java:341)
+	at net.minecraft.network.NetHandlerPlayServer.update(NetHandlerPlayServer.java:174)
+	at net.minecraftforge.fml.common.network.handshake.NetworkDispatcher$1.update(NetworkDispatcher.java:216)
+	at net.minecraft.network.NetworkManager.processReceivedPackets(NetworkManager.java:308)
+
+-- Ticking connection --
+Details:
+	Connection: net.minecraft.network.NetworkManager@7e2b93c4
+Stacktrace:
+	at net.minecraft.network.NetworkSystem.networkTick(NetworkSystem.java:195)
+	at net.minecraft.server.MinecraftServer.updateTimeLightAndEntities(MinecraftServer.java:806)
+	at net.minecraft.server.MinecraftServer.tick(MinecraftServer.java:687)
+	at net.minecraft.server.integrated.IntegratedServer.tick(IntegratedServer.java:156)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:536)
+	at java.lang.Thread.run(Unknown Source)
+
+-- System Details --
+Details:
+	Minecraft Version: 1.10.2
+	Operating System: Windows 7 (amd64) version 6.1
+	Java Version: 1.8.0_101, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
+	Memory: 406041624 bytes (387 MB) / 729808896 bytes (696 MB) up to 928514048 bytes (885 MB)
+	JVM Flags: 0 total; 
+	IntCache: cache: 0, tcache: 0, allocated: 13, tallocated: 95
+	FML: MCP 9.32 Powered by Forge 12.18.1.2094 4 mods loaded, 4 mods active
+	States: 'U' = Unloaded 'L' = Loaded 'C' = Constructed 'H' = Pre-initialized 'I' = Initialized 'J' = Post-initialized 'A' = Available 'D' = Disabled 'E' = Errored
+	UCHIJAAAA	mcp{9.19} [Minecraft Coder Pack] (minecraft.jar) 
+	UCHIJAAAA	FML{8.0.99.99} [Forge Mod Loader] (forgeSrc-1.10.2-12.18.1.2094.jar) 
+	UCHIJAAAA	Forge{12.18.1.2094} [Minecraft Forge] (forgeSrc-1.10.2-12.18.1.2094.jar) 
+	UCHIJAAAA	circuitsmod{1.0} [circuitsmod] (bin) 
+	Loaded coremods (and transformers): 
+	GL info: ~~ERROR~~ RuntimeException: No OpenGL context found in the current thread.
+	Profiler Position: N/A (disabled)
+	Player Count: 1 / 8; [EntityPlayerMP['Player177'/1939, l='New World', x=-254.00, y=77.72, z=-176.00]]
+	Type: Integrated Server (map_client.txt)
+	Is Modded: Definitely; Client brand changed to 'fml,forge'

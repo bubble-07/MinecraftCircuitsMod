@@ -26,3 +26,10 @@ I've continued to investigate portals and I actually found a lead I can use.  Wh
 AND a backdoor in the form of a custom command that can be used to enter the dimension at will.  
 I don't know why, but I seem to be struggling on the circuits implementation.  I've read the interface over, but I'm still not sure how I should be approaching this.
 At this stage, I think it would help if the two of us both sat down to look at it.
+
+11/11/2016
+This week the goal was to rig the dimension generator so we could load the same surroundings each time, an important step in getting our puzzle dimension to work. 
+I played with it for a while and made an attempt at a solution through manipulation of the AnvilChunkLoader, a Minecraft class that loads data from files generated
+by the game.  It took a couple of meetings to actually fully understand it, and even then, while it was my task to solve the problem, Alex ultimately solved it.  
+It feels good that this got done, but at the same time I wish I had a thorough enough understanding of the Minecraft technology that I could have solved the problem.
+Next, I believe the goal is to actually get the framework for the dimension working.  
