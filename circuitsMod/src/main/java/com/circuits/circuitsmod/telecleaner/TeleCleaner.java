@@ -5,9 +5,13 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -23,13 +27,16 @@ public class TeleCleaner extends Block
   }
 
   @Override
-  public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-	  if (!entityIn.isRiding() && !entityIn.isBeingRidden() && entityIn.isNonBoss() && entityIn instanceof EntityPlayerMP) {
-		  EntityPlayerMP thePlayer = (EntityPlayerMP) entityIn;
+  public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	  if (!playerIn.isRiding() && !playerIn.isBeingRidden() && playerIn.isNonBoss() && playerIn instanceof EntityPlayerMP) {
+		  EntityPlayerMP thePlayer = (EntityPlayerMP) playerIn;
 		  thePlayer.inventory.clear();
-		  thePlayer.posX = thePlayer.posX + 128;
+		  thePlayer.setPositionAndUpdate(thePlayer.posX + 128, thePlayer.posY, thePlayer.posZ);
+		  return true;
 	  }
+	  return false;
   }
+  
   
   // the block will render in the SOLID layer.  See http://greyminecraftcoder.blogspot.co.at/2014/12/block-rendering-18.html for more information.
   @SideOnly(Side.CLIENT)
