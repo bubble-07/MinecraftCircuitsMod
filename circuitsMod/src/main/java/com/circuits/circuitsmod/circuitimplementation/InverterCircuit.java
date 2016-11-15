@@ -19,4 +19,14 @@ public class InverterCircuit {
 		return ~input;
 	}
 	
+	public int[] inputWidths() {
+		int[] returnArray = {64};
+		return returnArray;
+	}
+	
+	public int[] outputWidths() {
+		int[] returnArray = {64};
+		return returnArray;
+	}
+	
 }

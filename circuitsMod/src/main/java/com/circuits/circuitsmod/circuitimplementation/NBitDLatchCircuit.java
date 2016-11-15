@@ -29,4 +29,14 @@ public class NBitDLatchCircuit {
 	public boolean isSequential() {
 		return true;
 	}
+	
+	public int[] inputWidths() {
+		int[] returnArray = {64};
+		return returnArray;
+	}
+	
+	public int[] outputWidths() {
+		int[] returnArray = {64};
+		return returnArray;
+	}
 }

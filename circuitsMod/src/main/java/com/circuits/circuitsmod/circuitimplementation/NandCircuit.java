@@ -21,5 +21,15 @@ public class NandCircuit {
 	 long value0() {
 		 return input1 & input2;
 	 }
+	 
+	 public int[] inputWidths() {
+			int[] returnArray = {64, 64};
+			return returnArray;
+		}
+		
+	 public int[] outputWidths() {
+		int[] returnArray = {64};
+		return returnArray;
+	}
 	
 }

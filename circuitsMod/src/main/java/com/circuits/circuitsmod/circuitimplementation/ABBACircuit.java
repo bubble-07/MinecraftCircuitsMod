@@ -5,10 +5,12 @@ public class ABBACircuit {
 	boolean input1;
 	boolean output1;
 	boolean output2;
-	double time1;
-	double time2;
-	double time3;
 	
+	int countA = 0;
+	int countB = 0;
+	
+	public static final int timeA = 30;
+	public static final int timeB = 15;
 	//NEED TO UNDERSTAND DEFINITION OF TIME!
 	public ABBACircuit() {
 		input1 = false;
@@ -23,16 +25,38 @@ public class ABBACircuit {
 	}
 	
 	public boolean value0() {
-		return input1;
+		if (countA <= timeA) {
+			countA++;
+			return true;
+		}
+		else {
+			countA = 0;
+			return false;
+		}
 	}
 	
 	public boolean value1() {
-		return input1;
+		if (output1 && countB <= timeB) {
+			countB++;
+			return true;
+		} else {
+			countB = 0;
+			return false;
+		}
 	}
 	
 	public boolean isSequential() {
 		return true;
 	}
 	
+	public int[] outputWidths() {
+		int[] returnArray = {64, 64};
+		return returnArray;
+	}
+	
+	public int[] inputWidths() {
+		int[] returnArray = {64};
+		return returnArray;
+	}
 
 }
