@@ -18,6 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldEntitySpawner;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeVoid;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.chunk.IChunkGenerator;
@@ -54,36 +55,6 @@ public class PuzzleChunkGenerator implements IChunkGenerator {
     	}
     	return Minecraft.getMinecraft().mcDataDir;
     }
-    
-    /*@Override
-    public Chunk provideChunk(int x, int z) {
-    	try {
-    		DataFixer dataFixIn = new DataFixer(0);
-    		AnvilChunkLoader loader0 = new AnvilChunkLoader(chunkFile0, dataFixIn);
-    		AnvilChunkLoader loaderM1 = new AnvilChunkLoader(chunkFileMinus1, dataFixIn);
-    		
-    		Chunk chunk0 = loader0.loadChunk(worldObj, x, z);
-    		Chunk chunkM1 = loaderM1.loadChunk(worldObj, x, z);
-    		if (chunk0 != null) {
-    			return chunk0;
-    		}
-    		else if(chunkM1 != null) {
-    			return chunkM1;
-    		} else
-    			throw new NullPointerException();
-    	} catch(IOException e) {
-    		e.printStackTrace();
-    		ChunkPrimer chunkprimer = new ChunkPrimer();
-    		Chunk chunk = new Chunk(this.worldObj, chunkprimer, x, z);
-            byte[] biomeArray = chunk.getBiomeArray();
-            for (int i = 0; i < biomeArray.length; ++i) {
-                biomeArray[i] = (byte)Biome.getIdForBiome(this.biomesForGeneration[i]);
-            }
-
-            chunk.generateSkylightMap();
-            return chunk;
-    	}
-    }*/
 
     @Override
     public Chunk provideChunk(int x, int z) {
@@ -93,9 +64,9 @@ public class PuzzleChunkGenerator implements IChunkGenerator {
         //The version identifier could probably just be 0
         File chunkLocation = new File(PuzzleChunkGenerator.getMcDir(worldObj).toString() + "/config/world/");
         //System.out.println(chunkLocation);
-        if (!chunkLocation.exists()) {
+        /*if (!chunkLocation.exists()) {
         	System.out.println("I DONT EXIST" );
-        }
+        }*/
         DataFixer dataFixIn = new DataFixer(0);
 		AnvilChunkLoader loader = new AnvilChunkLoader(chunkLocation, dataFixIn);
 		
@@ -107,10 +78,13 @@ public class PuzzleChunkGenerator implements IChunkGenerator {
 		} catch (IOException e) {
 			System.out.println("The premade chunks were not loaded properly.");
 		}
+		Chunk chunk = new Chunk(this.worldObj, new ChunkPrimer(), x, z);
+		return chunk;
 		
-		
-        // Setup biomes for terraingen
+        /*// Setup biomes for terraingen
+		//logic for generating empty space would go here.
         this.biomesForGeneration = this.worldObj.getBiomeProvider().getBiomesForGeneration(this.biomesForGeneration, x * 4 - 2, z * 4 - 2, 10, 10);
+        //Biome[] voidBiome = {new BiomeVoid(new Biome.BiomeProperties("void"))};;
         terraingen.setBiomesForGeneration(biomesForGeneration);
         terraingen.generate(x, z, chunkprimer);
 
@@ -130,7 +104,7 @@ public class PuzzleChunkGenerator implements IChunkGenerator {
         }
 
         chunk.generateSkylightMap();
-        return chunk;
+        return chunk;*/
     }
 
     @Override
@@ -139,7 +113,7 @@ public class PuzzleChunkGenerator implements IChunkGenerator {
         int j = z * 16;
         BlockPos blockpos = new BlockPos(i, 0, j);
         Biome biome = this.worldObj.getBiomeGenForCoords(blockpos.add(16, 0, 16));
-
+      
         // Add biome decorations (like flowers, grass, trees, ...)
         biome.decorate(this.worldObj, this.random, blockpos);
 

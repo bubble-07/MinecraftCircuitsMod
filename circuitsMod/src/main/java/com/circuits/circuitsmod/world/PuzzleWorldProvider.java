@@ -5,7 +5,7 @@ import net.minecraft.world.WorldProvider;
 import net.minecraft.world.chunk.IChunkGenerator;
 
 public class PuzzleWorldProvider extends WorldProvider {
-
+	
     @Override
     public DimensionType getDimensionType() {
         return PuzzleDimensions.testDimensionType;
