@@ -81,30 +81,7 @@ public class PuzzleChunkGenerator implements IChunkGenerator {
 		Chunk chunk = new Chunk(this.worldObj, new ChunkPrimer(), x, z);
 		return chunk;
 		
-        /*// Setup biomes for terraingen
-		//logic for generating empty space would go here.
-        this.biomesForGeneration = this.worldObj.getBiomeProvider().getBiomesForGeneration(this.biomesForGeneration, x * 4 - 2, z * 4 - 2, 10, 10);
-        //Biome[] voidBiome = {new BiomeVoid(new Biome.BiomeProperties("void"))};;
-        terraingen.setBiomesForGeneration(biomesForGeneration);
-        terraingen.generate(x, z, chunkprimer);
-
-        // Setup biomes again for actual biome decoration
-        this.biomesForGeneration = this.worldObj.getBiomeProvider().getBiomesForGeneration(this.biomesForGeneration, x * 16, z * 16, 16, 16);
-        // This will replace stone with the biome specific stones
-        terraingen.replaceBiomeBlocks(x, z, chunkprimer, this, biomesForGeneration);
         
-        // Generate caves
-        this.caveGenerator.generate(this.worldObj, x, z, chunkprimer);
-
-        Chunk chunk = new Chunk(this.worldObj, chunkprimer, x, z);
-
-        byte[] biomeArray = chunk.getBiomeArray();
-        for (int i = 0; i < biomeArray.length; ++i) {
-            biomeArray[i] = (byte)Biome.getIdForBiome(this.biomesForGeneration[i]);
-        }
-
-        chunk.generateSkylightMap();
-        return chunk;*/
     }
 
     @Override
