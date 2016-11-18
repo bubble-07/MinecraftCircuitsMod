@@ -2,8 +2,6 @@ TODO List:
 
 Merge CircuitTileEntity
 
-Make the puzzle dimension generate a void
-
 Build the AND Puzzle
 
 Test the circuit implementations

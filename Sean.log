@@ -33,3 +33,11 @@ I played with it for a while and made an attempt at a solution through manipulat
 by the game.  It took a couple of meetings to actually fully understand it, and even then, while it was my task to solve the problem, Alex ultimately solved it.  
 It feels good that this got done, but at the same time I wish I had a thorough enough understanding of the Minecraft technology that I could have solved the problem.
 Next, I believe the goal is to actually get the framework for the dimension working.  
+
+11/18/2016
+I began construction on a puzzle that we would use to demonstrate the And circuit.  However, I'm not sure how exactly I need to proceed because I am not sure about 
+what block specifically will channel the AND circuit yet. I'm pretty sure that at the time of my writing this, that was still in development.  But now that I'm
+thinking about it a little more, I can still endeavor to lay the framework for the puzzle, and then go even further once the necessary pieces are set.  This sounds
+like a thing I should do today.  Other things I learned how to do include getting a dimension to generate an empty chunk, and how to make a block clean your inventory
+and warp you to a fixed position.  What surprises me is that when th project begain, it took me two weeks to properly render a block, and now I can do it in less than
+an hour.  I suppose that means that I'm learning the technology finally.  
