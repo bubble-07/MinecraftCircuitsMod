@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import scala.actors.threadpool.Arrays;
@@ -27,6 +28,7 @@ import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.BlockRedstoneWire;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -96,6 +98,7 @@ public class CircuitTileEntity extends TileEntity {
 	
 
 	public void init(World worldIn, CircuitUID circuitUID) {
+		
 		this.circuitUID = circuitUID;
 		
 		if (!worldIn.isRemote && impl == null) {
@@ -134,9 +137,9 @@ public class CircuitTileEntity extends TileEntity {
 	 * Clears any impending inputs from this circuit tile entity.
 	 */
 	private void clearInputs() {
-		List<BusData> inputs = Lists.newArrayList();
+		this.inputData = Lists.newArrayList();
 		for (int width : this.impl.inputWidths()) {
-			inputs.add(new BusData(width, 0));
+			this.inputData.add(new BusData(width, 0));
 		}
 	}
 	
@@ -186,8 +189,7 @@ public class CircuitTileEntity extends TileEntity {
 		//We fundamentally need to handle two cases here:
 		//direct connections to other circuit blocks, and connections to buses
 		
-		//Direct connections
-		for (EnumFacing face : ArrayUtils.cat(this.wireMapper.getInputfaces(), this.wireMapper.getOutputFaces())) {
+		Consumer<EnumFacing> processDirect = (face) -> {
 			Optional<BusSegment> seg = getSeg.apply(face);
 			if (seg.isPresent()) {
 				//Must be a direct connection
@@ -195,23 +197,27 @@ public class CircuitTileEntity extends TileEntity {
 			}
 			else {
 				//Might be a bus, in which case we'll treat all surrounding buses as if they were just placed.
-				BlockPos pos = this.getPos().offset(face);
+				BlockPos pos = getPos().offset(face);
 				IBlockState blockState = getWorld().getBlockState(pos);
 				if (blockState.getBlock() instanceof BusBlock) {
 					BusBlock.connectOnPlace(getWorld(), pos, StartupCommonBus.busBlock.getMetaFromState(blockState));
 				}
 			}
+		};
+		//Direct connections
+		for (EnumFacing face : this.wireMapper.getInputfaces()) {
+			processDirect.accept(face);
 		}
-		
-		
-		
+		for (EnumFacing face : this.wireMapper.getOutputFaces()) {
+			processDirect.accept(face);
+		}
 	}
 	
 	public void update(IBlockState state) {
 		if (impl == null) {
 			//If we're on the client, don't care about updating, we're just here
 			//to look pretty
-			if (getWorld() != null || !getWorld().isRemote) {
+			if (getWorld() != null && !getWorld().isRemote) {
 				if (CircuitInfoProvider.isServerModelInit()) {
 					this.impl = CircuitInfoProvider.getInvoker(circuitUID);
 					WireDirectionGenerator dirGen = CircuitInfoProvider.getWireDirectionGenerator(circuitUID);
@@ -275,9 +281,36 @@ public class CircuitTileEntity extends TileEntity {
 				}
 			}
 			
+			getWorld().scheduleBlockUpdate(getPos(), StartupCommonCircuitBlock.circuitBlock, 2, 0);
+			
 			getWorld().notifyNeighborsOfStateChange(getPos(), blockType);
 		}
 	}
+	@Override
+    public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate)
+    {
+        return oldState.getBlock() != newSate.getBlock();
+    }
+	
+    public void readFromNBT(NBTTagCompound compound)
+    {
+    	super.readFromNBT(compound);
+    	NBTTagCompound TEData = compound.getCompoundTag("CircuitTileEntity");
+    	int uidNum = TEData.getInteger("CircuitUID");
+    	Optional<CircuitUID> circuit = CircuitUID.fromInteger(uidNum);
+    	if (circuit.isPresent()) {
+    		this.circuitUID = circuit.get();
+    	}
+    }
+
+    public NBTTagCompound writeToNBT(NBTTagCompound compound)
+    {
+        NBTTagCompound result = super.writeToNBT(compound);
+        NBTTagCompound TEData = new NBTTagCompound();
+        TEData.setInteger("CircuitUID", this.circuitUID.toInteger());
+        result.setTag("CircuitTileEntity", TEData);
+        return result;
+    }
 
 	public int isProvidingWeakPower(IBlockState state, EnumFacing side) {
 		if (impl != null) {

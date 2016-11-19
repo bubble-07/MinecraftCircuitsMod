@@ -44,7 +44,7 @@ public class CircuitItem extends ItemBlock {
 	
 	private static String getSecretString(int val) {
 		String result = "";
-		String[] chars = Integer.toString(val).split(".");
+		String[] chars = Integer.toString(val).split("");
 		for (String c : chars) {
 			result += "§" + c;
 		}
@@ -53,7 +53,7 @@ public class CircuitItem extends ItemBlock {
 	
 	private static int fromSecretString(String str) {
 		String toParse = "";
-		String[] chars = str.split(".");
+		String[] chars = str.split("");
 		for (int i = 1; i < chars.length; i += 2) {
 			toParse += chars[i];
 		}
@@ -81,30 +81,14 @@ public class CircuitItem extends ItemBlock {
 		String displayName = stack.getDisplayName();
 		int secretIndex = displayName.indexOf("§", 0);
 		if (secretIndex == -1) {
-			Log.internalError("Circuit TE Item Stack has bad metadata");
-			return Optional.empty();
+			secretIndex = displayName.indexOf("ø", 0);
+			if (secretIndex == -1) {
+				Log.internalError("Circuit TE Item Stack has bad metadata.");
+				return Optional.empty();
+			}
 		}
 		String secretString = displayName.substring(secretIndex, displayName.length());
 		int uidIntValue = fromSecretString(secretString);
 		return CircuitUID.fromInteger(uidIntValue);
-	}
-	
-	@Override
-    public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (super.onItemUse(stack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ).equals(EnumActionResult.SUCCESS)) {
-			//Block placed
-			CircuitTileEntity tileEntity = (CircuitTileEntity)worldIn.getTileEntity(pos);
-			if (tileEntity != null) {
-				Optional<CircuitUID> uid = getUIDFromStack(stack);
-				if (uid.isPresent()) {
-					tileEntity.init(worldIn, uid.get());
-				}
-				else {
-					Log.internalError("Circuit UID does not exist for item stack " + stack);
-				}
-			}
-			return EnumActionResult.SUCCESS;
-		}
-		return EnumActionResult.FAIL;
 	}
 }

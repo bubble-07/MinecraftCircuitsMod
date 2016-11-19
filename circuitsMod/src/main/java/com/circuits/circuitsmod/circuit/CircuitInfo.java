@@ -46,7 +46,10 @@ public class CircuitInfo implements Serializable {
 		File nameFile = new File(containingFolder.toString() + "/name.txt");
 		
 		try {
-			result.name = FileUtils.stringFromFile(nameFile);
+			if (nameFile.exists()) {
+				result.name = FileUtils.stringFromFile(nameFile);
+			}
+			throw new Exception();
 		}
 		catch (Exception e) {
 			result.name = containingFolder.getName();		

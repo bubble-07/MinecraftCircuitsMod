@@ -33,6 +33,11 @@ public class CircuitInfoProvider {
 	//This will only be populated on the client
     private static HashMap<CircuitUID, ResourceLocation> texMap = new HashMap<>();
     
+    //Information about what circuit is in what directory is stored in the following map,
+    //which is also maintained in a file in the configs directory for the whole mod,
+    //which will keep track of the folder name/circuitUID associations
+    private static HashMap<String, CircuitUID> folderToUIDMap = new HashMap<>();
+    
     public static class ModelRequestFromClient implements Serializable {
 		private static final long serialVersionUID = 1L; 
 		public static void handle(ModelRequestFromClient req, World worldIn) {
@@ -51,6 +56,23 @@ public class CircuitInfoProvider {
 			CircuitInfoProvider.infoMap = response.infoMap;
 		}
     }
+    
+    private static File getUIDMapFile() {
+    	return new File(FileUtils.getConfigRootDir().toString() + "/uidmap");
+    }
+    
+    public static void loadUIDMapFromFile() {
+    	Optional<Object> uidMap = FileUtils.objectFromFile(getUIDMapFile());
+    	if (uidMap.isPresent()) {
+    		folderToUIDMap = (HashMap<String, CircuitUID>) uidMap.get();
+    	}
+    	//Otherwise, the file must not yet exist or something, so we just keep things the way they are,
+    	//since this must be the first run (in a non-error state) or something sketchy (in an error state)
+    }
+    
+    public static void saveUIDMapToFile() {
+    	FileUtils.objectToFile(getUIDMapFile(), folderToUIDMap);
+    }
 
 	public static void ensureClientModelInit() {
     	CircuitsMod.network.sendToServer(new TypedMessage(new ModelRequestFromClient()));
@@ -61,7 +83,13 @@ public class CircuitInfoProvider {
 	}
 	
 	private static CircuitUID getUIDForDir(File dir) {
-		return null;
+		CircuitUID result = folderToUIDMap.get(dir.getName());
+		if (result == null) {
+			//In this case, we need to generate a new UID for the given folder name!
+			result = CircuitUID.getNextUID();
+			folderToUIDMap.put(dir.getName(), result);
+		}
+		return result;
 	}
     
 	public static void ensureServerModelInit() { 
@@ -69,6 +97,13 @@ public class CircuitInfoProvider {
 			return;
 		}
 		File circuitsDir = FileUtils.getCircuitDefinitionsDir();
+		
+		if (!circuitsDir.exists()) {
+			circuitsDir.mkdirs();
+		}
+		
+		implMap = new HashMap<>();
+		infoMap = new HashMap<>();
 		
 		for (File subDir : circuitsDir.listFiles()) {
 			if (!subDir.getName().startsWith(".")) {

@@ -7,7 +7,9 @@ import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.busblock.BusSegment;
 import com.circuits.circuitsmod.busblock.IBusConnectable;
 import com.circuits.circuitsmod.busblock.IncrementalConnectedComponents;
+import com.circuits.circuitsmod.circuit.CircuitUID;
 import com.circuits.circuitsmod.common.BlockFace;
+import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.OptionalUtils;
 
 import net.minecraft.block.Block;
@@ -48,6 +50,10 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 	}
 	
 	public static Optional<CircuitTileEntity> getCircuitTileEntityAt(IBlockAccess worldIn, BlockPos pos) {
+		TileEntity te = worldIn.getTileEntity(pos);
+		if (te == null) {
+			return Optional.empty();
+		}
 		return OptionalUtils.tryCast(worldIn.getTileEntity(pos), CircuitTileEntity.class);
 	}
 	public static Optional<BusSegment> getBusSegmentAt(IBlockAccess worldIn, BlockFace face) {
@@ -71,6 +77,22 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 		//then we will perform the appropriate logic for initializing bus segments on all valid input/output faces.
 		return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
 	}
+	
+	@Override
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
+    {
+		//Block placed
+		CircuitTileEntity tileEntity = (CircuitTileEntity)worldIn.getTileEntity(pos);
+		if (tileEntity != null) {
+			Optional<CircuitUID> uid = CircuitItem.getUIDFromStack(stack);
+			if (uid.isPresent()) {
+				tileEntity.init(worldIn, uid.get());
+			}
+			else {
+				Log.internalError("Circuit UID does not exist for item stack " + stack);
+			}
+		}
+    }
 	
 	@Override
     public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
@@ -98,6 +120,12 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 		}
 		return 0;
 	}
+	
+    @Override
+    public int getStrongPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
+    {
+        return getWeakPower(blockState, blockAccess, pos, side);
+    }
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int ignored) {

@@ -26,7 +26,7 @@ public class ReflectiveUtils {
 		catch (ClassNotFoundException e) {
 			Log.userError("Cannot find the class " + classname + " in " + classFile.toString());
 		}
-		return null;
+		return Optional.empty();
 	}
 
 	/**

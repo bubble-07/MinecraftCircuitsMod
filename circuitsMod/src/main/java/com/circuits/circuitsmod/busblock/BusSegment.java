@@ -19,7 +19,7 @@ public class BusSegment {
 	private Set<BlockFace> outputs = new HashSet<BlockFace>();
 	private BusData currentVal;
 	private int busWidth;
-	private Set<BlockFace> waitingOn;
+	private Set<BlockFace> waitingOn = new HashSet<BlockFace>();
 	
 	public BusSegment(int busWidth) {
 		this.busWidth = busWidth;
@@ -81,9 +81,11 @@ public class BusSegment {
 	
 	public void addInput(BlockFace inputFace) {
 		inputs.add(inputFace);
+		waitingOn.add(inputFace);
 	}
 	public void removeInput(BlockFace inputFace) {
 		inputs.remove(inputFace);
+		waitingOn.remove(inputFace);
 	}
 	public void addOutput(BlockFace outputFace) {
 		outputs.add(outputFace);

@@ -6,10 +6,17 @@ import java.util.Optional;
 public class CircuitUID implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	private static int lastUIDNum = -1;
+	
 	private final int idNum;
 	
 	private CircuitUID(int id) {
 		this.idNum = id;
+	}
+	
+	public static CircuitUID getNextUID() {
+		lastUIDNum++;
+		return new CircuitUID(lastUIDNum);
 	}
 	
 	
@@ -19,7 +26,6 @@ public class CircuitUID implements Serializable {
 	 * @return
 	 */
 	public static Optional<CircuitUID> fromInteger(int idNum) {
-		//TODO: Check the existing ID database in the save folder to see if this is valid!
 		return Optional.of(new CircuitUID(idNum));
 	}
 	
