@@ -24,6 +24,7 @@ public class ClientOnlyProxy extends CommonProxy
     com.circuits.circuitsmod.busblock.StartupClientBus.preInitClientOnly();
     com.circuits.circuitsmod.blockportalpuzzle.StartupClientPortal.preInitClientOnly();
     com.circuits.circuitsmod.telecleaner.StartupClientCleaner.preInitClientOnly();
+    com.circuits.circuitsmod.testblock.StartupClientTesting.preInitClientOnly();
     //com.circuits.circuitsmod.portalitem.StartupClientActivator.preInitClientOnly();
   }
 
@@ -39,6 +40,7 @@ public class ClientOnlyProxy extends CommonProxy
     com.circuits.circuitsmod.busblock.StartupClientBus.initClientOnly();
     com.circuits.circuitsmod.blockportalpuzzle.StartupClientPortal.initClientOnly();
     com.circuits.circuitsmod.telecleaner.StartupClientCleaner.initClientOnly();
+    com.circuits.circuitsmod.testblock.StartupClientTesting.initClientOnly();
     //com.circuits.circuitsmod.portalitem.StartupClientActivator.initClientOnly();
   }
 
@@ -54,6 +56,7 @@ public class ClientOnlyProxy extends CommonProxy
     com.circuits.circuitsmod.blockportalpuzzle.StartupClientPortal.postInitClientOnly();
     com.circuits.circuitsmod.telecleaner.StartupClientCleaner.preInitClientOnly();
     com.circuits.circuitsmod.telecleaner.StartupClientCleaner.postInitClientOnly();
+    com.circuits.circuitsmod.testblock.StartupClientTesting.postInitClientOnly();
     //com.circuits.circuitsmod.portalitem.StartupClientActivator.postInitClientOnly();
   }
 
