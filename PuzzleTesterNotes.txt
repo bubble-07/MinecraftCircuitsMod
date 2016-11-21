@@ -1,0 +1,9 @@
+Generate a sequence of inputs to the ciruit, and if the results match the expexted sequence,
+the player has passed the puzzle. 
+
+Create a reflective tile entity for a tester block that would store what circuit its expecting to
+test and the current position the output block belongs to.
+This tile entity would use the reflective calling code to determine which circuit it is testing.
+
+An editor can set the block tag, and then the code will use the tag to find 
+where the folder is that contains the testing implementation.  
