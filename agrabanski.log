@@ -31,8 +31,12 @@ Progress for the week ending in 11/11/16:
 -Defined/implemented loading of circuit implementations and metadata
 from folders
 
+Progress for the week ending in 11/18/16:
+-Fixed some bugs with client/server communication and initialization
+of circuit tile entities
+-Collaborated with Sean to come up with a road map for puzzle dimension levels
+
 Up next:
--Collaborate with Sean on puzzle dimension handling logic
--Finalize the CircuitTileEntity branch (final code polish, comprehensive
-tests of functionality)
+-Fix issue with 1-bit (redstone) inputs/outputs to circuit TES
+-Perform extensive functionality tests of circuits
 -Merge CircuitTileEntity branch back into master
