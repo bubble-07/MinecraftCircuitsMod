@@ -18,6 +18,7 @@ import com.circuits.circuitsmod.circuitblock.WireDirectionMapper.WireDirectionGe
 import com.circuits.circuitsmod.common.FileUtils;
 import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.SerializableItemStack;
+import com.circuits.circuitsmod.reflective.ChipImpl;
 
 /**
  * Information about a circuit that may be communicated over the network.
@@ -33,10 +34,17 @@ public class CircuitInfo implements Serializable {
 	String name;
 	String description;
 	WireDirectionGenerator wireDirGen;
+	int[] inputWidths;
+	int[] outputWidths;
 	
 	transient BufferedImage image = null;
 	
 	private CircuitInfo() { }
+	
+	public void augmentWithImplInfo(ChipImpl impl) {
+		this.inputWidths = impl.getInvoker().inputWidths();
+		this.outputWidths = impl.getInvoker().outputWidths();
+	}
 	
 	public static Optional<CircuitInfo> fromFolder(File containingFolder) {
 		CircuitInfo result = new CircuitInfo();

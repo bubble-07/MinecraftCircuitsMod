@@ -81,7 +81,7 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 	{
 		//Whenever a circuit tile entity comes online (operational, with a loaded implementation),
 		//then we will perform the appropriate logic for initializing bus segments on all valid input/output faces.
-		return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
+		return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing());
 	}
 	
 	@Override
@@ -122,7 +122,8 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
     public int getWeakPower(IBlockState state, IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
 		CircuitTileEntity tileEntity = (CircuitTileEntity) worldIn.getTileEntity(pos);
 		if (tileEntity != null) {
-			return tileEntity.isProvidingWeakPower(state, side);
+			//TODO: I really don't get why redstone inputs in particular are backwards. 
+			return tileEntity.isProvidingWeakPower(state, side.getOpposite());
 		}
 		return 0;
 	}
@@ -160,6 +161,7 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 		if (te.isPresent()) {
 			for (BusSegment seg : te.get().getBusSegments()) {
 				seg.removeAllAt(pos);
+				seg.forceUpdate(worldIn);
 			}
 		}
 		
@@ -210,7 +212,7 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 	
 	@Override
 	public boolean isOpaqueCube(IBlockState state) {
-		return true;
+		return false;
 	}
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {

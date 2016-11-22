@@ -39,10 +39,21 @@ public class IncrementalConnectedComponents {
 	}
 	
 	public static Set<Set<BlockFace>> separateOnDelete(BlockPos newlyRemoved, Predicate<BlockPos> safe, Predicate<BlockFace> success) {
+		Set<BlockFace> directlyAdjacent = PosUtils.adjacentFaces(newlyRemoved).filter(success).collect(Collectors.toSet());
 		Predicate<BlockPos> safeMinusRemoved = (p) -> (!p.equals(newlyRemoved) && safe.test(p));
-		return PosUtils.neighbors(newlyRemoved).filter(safeMinusRemoved)
+		Set<Set<BlockFace>> indirect = PosUtils.neighbors(newlyRemoved).filter(safeMinusRemoved)
 		        .map((neighborPos) -> unifyOnAdd(neighborPos, safeMinusRemoved, success))
 		        .distinct().collect(Collectors.toSet());
+		Set<Set<BlockFace>> result = new HashSet<>();
+		for (Set<BlockFace> indir : indirect) {
+			result.add(indir);
+		}
+		for (BlockFace direct : directlyAdjacent) {
+			HashSet<BlockFace> singletonSet = new HashSet<>();
+			singletonSet.add(direct);
+			result.add(singletonSet);
+		}
+		return result;
 	}
 	
 	/*

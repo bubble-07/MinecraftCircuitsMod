@@ -142,6 +142,7 @@ public class CircuitInfoProvider {
 					Log.userError("Circuit in directory " + subDir + " is either formatted incorrectly, or is underspecified!");
 					continue;
 				}
+				entry.get().augmentWithImplInfo(impl.get());
 				infoMap.put(uid, entry.get());
 				implMap.put(uid, impl.get());
 			}
@@ -167,6 +168,20 @@ public class CircuitInfoProvider {
 		ResourceLocation loc = texMan.getDynamicTextureLocation(uid.toString(), new DynamicTexture(info.getImage()));
 		texMap.put(uid, loc);
 		return loc;
+	}
+	
+	public static int getNumInputs(CircuitUID uid) {
+		return getInputWidths(uid).length;
+	}
+	public static int getNumOutputs(CircuitUID uid) {
+		return getOutputWidths(uid).length;
+	}
+	
+	public static int[] getInputWidths(CircuitUID uid) {
+		return infoMap.get(uid).inputWidths;
+	}
+	public static int[] getOutputWidths(CircuitUID uid) {
+		return infoMap.get(uid).outputWidths;
 	}
 	
 	public static ChipInvoker getInvoker(CircuitUID uid) {

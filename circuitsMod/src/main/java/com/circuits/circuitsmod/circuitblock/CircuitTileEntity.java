@@ -107,6 +107,9 @@ public class CircuitTileEntity extends TileEntity {
 			IBlockState state = worldIn.getBlockState(getPos());
 			update(state);
 		}
+		else if (worldIn.isRemote && !this.isClientInit()) {
+			this.tryInitClient();
+		}
 	}
 	
 	public EnumFacing getParentFacing() {
@@ -138,7 +141,7 @@ public class CircuitTileEntity extends TileEntity {
 	 */
 	private void clearInputs() {
 		this.inputData = Lists.newArrayList();
-		for (int width : this.impl.inputWidths()) {
+		for (int width : CircuitInfoProvider.getInputWidths(circuitUID)) {
 			this.inputData.add(new BusData(width, 0));
 		}
 	}
@@ -157,17 +160,17 @@ public class CircuitTileEntity extends TileEntity {
 	 * as defined in the reflectively-called implementation
 	 */
 	private void initBusSegments() {	
-		for (int i = 0; i < this.impl.numInputs(); i++) {
+		for (int i = 0; i < CircuitInfoProvider.getNumInputs(circuitUID); i++) {
 			EnumFacing inputFace = this.wireMapper.getInputFace(i);
-			BusSegment inputSeg = new BusSegment(this.impl.inputWidths()[i]);
+			BusSegment inputSeg = new BusSegment(CircuitInfoProvider.getInputWidths(circuitUID)[i]);
 			//Input to a circuit tile entity is output from a bus segment
 			inputSeg.addOutput(new BlockFace(this.getPos(), inputFace));
 			this.connectedBuses.put(inputFace, inputSeg);
 		}
 		
-		for (int i = 0; i < this.impl.numOutputs(); i++) {
+		for (int i = 0; i < CircuitInfoProvider.getNumOutputs(circuitUID); i++) {
 			EnumFacing outputFace = this.wireMapper.getOutputFace(i);
-			BusSegment outputSeg = new BusSegment(this.impl.outputWidths()[i]);
+			BusSegment outputSeg = new BusSegment(CircuitInfoProvider.getOutputWidths(circuitUID)[i]);
 			//Output from a circuit tile entity is input to a bus segment
 			outputSeg.addInput(new BlockFace(this.getPos(), outputFace));
 			this.connectedBuses.put(outputFace, outputSeg);
@@ -194,6 +197,7 @@ public class CircuitTileEntity extends TileEntity {
 			if (seg.isPresent()) {
 				//Must be a direct connection
 				this.getBusSegment(face).get().unifyWith(getWorld(), seg.get());
+				this.getBusSegment(face).get().forceUpdate(getWorld());
 			}
 			else {
 				//Might be a bus, in which case we'll treat all surrounding buses as if they were just placed.
@@ -213,18 +217,39 @@ public class CircuitTileEntity extends TileEntity {
 		}
 	}
 	
+	private void initWireDirAndBuses() {
+		WireDirectionGenerator dirGen = CircuitInfoProvider.getWireDirectionGenerator(circuitUID);
+		this.wireMapper = dirGen.getMapper(getParentFacing(), CircuitInfoProvider.getNumInputs(circuitUID), 
+				                                              CircuitInfoProvider.getNumOutputs(circuitUID));
+		this.clearInputs();
+		this.initBusSegments();
+	}
+	
+	public boolean isClientInit() {
+		return this.wireMapper != null;
+	}
+	public void tryInitClient() {
+		if (CircuitInfoProvider.isClientModelInit()) {
+			initWireDirAndBuses();
+		}
+		else {
+			CircuitInfoProvider.ensureClientModelInit();
+		}
+	}
+	
 	public void update(IBlockState state) {
 		if (impl == null) {
 			//If we're on the client, don't care about updating, we're just here
 			//to look pretty
-			if (getWorld() != null && !getWorld().isRemote) {
+			if (getWorld() != null && getWorld().isRemote && !isClientInit()) {
+				tryInitClient();
+			}
+			else if (getWorld() != null && !getWorld().isRemote) {
 				if (CircuitInfoProvider.isServerModelInit()) {
 					this.impl = CircuitInfoProvider.getInvoker(circuitUID);
-					WireDirectionGenerator dirGen = CircuitInfoProvider.getWireDirectionGenerator(circuitUID);
-					this.wireMapper = dirGen.getMapper(getParentFacing(), impl.numInputs(), impl.numOutputs());
 					this.state = this.impl.initState();
-					this.clearInputs();
-					this.initBusSegments();
+					
+					initWireDirAndBuses();
 					this.connectBuses();
 				}
 				else {
@@ -232,7 +257,8 @@ public class CircuitTileEntity extends TileEntity {
 				}
 			}
 		}
-		else {
+		//Do not change this to an "else" -- this ensures the circuit updates immediately after initialization!
+		if (impl != null) {
 			
 			//By this point, we should already have received any incoming inputs from incident
 			//bus segments, so we only need (for now) to deal explicitly with redstone inputs
@@ -259,9 +285,8 @@ public class CircuitTileEntity extends TileEntity {
 						
 			//Okay, now we need to deliver any and all redstone output signals
 			for (int redstoneIndex : this.impl.getRedstoneOutputs()) {
-				if (outputs.get(redstoneIndex).getData() > 0) {
-					this.redstoneOuptuts[this.wireMapper.getOutputFace(redstoneIndex).getIndex()] = true;
-				}
+				EnumFacing face = this.wireMapper.getOutputFace(redstoneIndex);
+				this.redstoneOuptuts[face.getIndex()] = outputs.get(redstoneIndex).getData() > 0;
 			}
 			
 			//Okay, great. We've set the redstone outputs to be delivered, so now
@@ -289,26 +314,42 @@ public class CircuitTileEntity extends TileEntity {
 		}
 	}
 	@Override
-    public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate)
+    public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
     {
-        return oldState.getBlock() != newSate.getBlock();
+        return oldState.getBlock() != newState.getBlock();
     }
+	
+	private NBTTagCompound getUIDTagCompound() {
+        NBTTagCompound TEData = new NBTTagCompound();
+        TEData.setInteger("CircuitUID", this.circuitUID.toInteger());
+        return TEData;
+	}
+	private void setUIDFromCompound(NBTTagCompound compound) {
+    	int uidNum = compound.getInteger("CircuitUID");
+    	this.circuitUID = CircuitUID.fromInteger(uidNum);
+	}
 	
     public void readFromNBT(NBTTagCompound compound)
     {
     	super.readFromNBT(compound);
     	NBTTagCompound TEData = compound.getCompoundTag("CircuitTileEntity");
-    	int uidNum = TEData.getInteger("CircuitUID");
-    	this.circuitUID = CircuitUID.fromInteger(uidNum);
+    	setUIDFromCompound(TEData);
     }
 
     public NBTTagCompound writeToNBT(NBTTagCompound compound)
     {
         NBTTagCompound result = super.writeToNBT(compound);
-        NBTTagCompound TEData = new NBTTagCompound();
-        TEData.setInteger("CircuitUID", this.circuitUID.toInteger());
-        result.setTag("CircuitTileEntity", TEData);
+        result.setTag("CircuitTileEntity", getUIDTagCompound());
         return result;
+    }
+    
+    @Override
+    public NBTTagCompound getUpdateTag() {
+    	return this.writeToNBT(new NBTTagCompound());
+    }
+    @Override
+    public void handleUpdateTag(NBTTagCompound compound) {
+    	readFromNBT(compound);
     }
 
 	public int isProvidingWeakPower(IBlockState state, EnumFacing side) {

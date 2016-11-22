@@ -200,6 +200,10 @@ public class BusBlock extends Block implements IBusConnectable, IMetaBlockName {
 			return this.getMetaFromState(neighborState) == meta;
 		}
 		if (neighborState.getBlock() instanceof CircuitBlock) {
+			Optional<CircuitTileEntity> te = CircuitBlock.getCircuitTileEntityAt(worldIn, face.adjacent());
+			if (te.isPresent() && !te.get().isClientInit()) {
+				te.get().tryInitClient();
+			}
 			Optional<BusSegment> seg = CircuitBlock.getBusSegmentAt(worldIn, face.otherSide());
 			return seg.isPresent() && seg.get().getWidth() == busWidths[meta].getWidth();
 		}
@@ -274,30 +278,29 @@ public class BusBlock extends Block implements IBusConnectable, IMetaBlockName {
 	public static void connectOnPlace(World worldIn, BlockPos pos, int meta) {
 		
 		//Note: The "connectable" predicate should depend on the width of the bus, as should the "success" predicate
-		
+
 		Predicate<BlockPos> connectable = connectablePredicate(worldIn, pos, meta);
-		
+
 		//Note: we need to make the incremental components thing able to go into places with unsafe block positions
 		//if the success condition holds.
 		Predicate<BlockFace> circuit = circuitPredicate(worldIn, pos, meta);
 
-		if (PosUtils.neighbors(pos).filter(connectable).count() > 0) {
-			//We may be a connecting block here...
-			Set<BlockFace> facesToUnify = IncrementalConnectedComponents.unifyOnAdd(pos, connectable, circuit);
-			Set<BusSegment> toUnify = facesToUnify.stream()
-					                              .map((p) -> CircuitBlock.getBusSegmentAt(worldIn, p).get())
-					                              .collect(Collectors.toSet());
-			if (!toUnify.isEmpty()) {                              ;
-				BusSegment overlord = toUnify.stream().findAny().get();
-				for (BusSegment seg : toUnify) {
-					if (overlord != seg) {
-						overlord.unifyWith(worldIn, seg);
-					}
+		//We may be a connecting block here...
+		Set<BlockFace> facesToUnify = IncrementalConnectedComponents.unifyOnAdd(pos, connectable, circuit);
+		Set<BusSegment> toUnify = facesToUnify.stream()
+				.map((p) -> CircuitBlock.getBusSegmentAt(worldIn, p).get())
+				.collect(Collectors.toSet());
+		if (!toUnify.isEmpty()) {                              ;
+			BusSegment overlord = toUnify.stream().findAny().get();
+			for (BusSegment seg : toUnify) {
+				if (overlord != seg) {
+					overlord.unifyWith(worldIn, seg);
 				}
 			}
-			
+			//Okay, now that we've unified all of the bus segments, force an update
+			overlord.forceUpdate(worldIn);
 		}
-		
+
 	}
 	
     /**
@@ -323,31 +326,30 @@ public class BusBlock extends Block implements IBusConnectable, IMetaBlockName {
 		
 		super.breakBlock(worldIn, pos, state);
 
-		if (PosUtils.neighbors(pos).filter(connectable).count() > 0) {
-			//We may be a connecting block here...
-			Set<Set<BlockFace>> partition = IncrementalConnectedComponents.separateOnDelete(pos, connectable, circuit);
-			//Okay, now that we got a new partition of the block faces that are circuit blocks,
-			//what we need to do is to create a copy of the bus segment they used to share in common
-			//and then use that to inform new bus segment assignments
-			if (partition.isEmpty() || partition.iterator().next().isEmpty()) {
-				return;
-			}
-			BlockFace sampleFace = partition.iterator().next().iterator().next();
-			Optional<BusSegment> maybeSeg = CircuitBlock.getBusSegmentAt(worldIn, sampleFace);
-			if (!maybeSeg.isPresent()) {
-				Log.internalError("BusBlock#breakBlock -- separateOnDelete returned a circuit TE face that doesn't exist!");
-				return;
-			}
-			BusSegment parentSeg = maybeSeg.get();
-			for (Set<BlockFace> equivClass : partition) {
-				//For each equivalence class, split off a new bus segment filtered on the inputs/outputs of the segment
-				BusSegment classSeg = parentSeg.splitOff(equivClass);
-				for (BlockFace bf : equivClass) {
-					CircuitBlock.setBusSegmentAt(worldIn, bf, classSeg);
-				}
-			}
-			
+		Set<Set<BlockFace>> partition = IncrementalConnectedComponents.separateOnDelete(pos, connectable, circuit);
+		//Okay, now that we got a new partition of the block faces that are circuit blocks,
+		//what we need to do is to create a copy of the bus segment they used to share in common
+		//and then use that to inform new bus segment assignments
+		if (partition.isEmpty() || partition.iterator().next().isEmpty()) {
+			return;
 		}
+		BlockFace sampleFace = partition.iterator().next().iterator().next();
+		Optional<BusSegment> maybeSeg = CircuitBlock.getBusSegmentAt(worldIn, sampleFace);
+		if (!maybeSeg.isPresent()) {
+			Log.internalError("BusBlock#breakBlock -- separateOnDelete returned a circuit TE face that doesn't exist!");
+			return;
+		}
+		BusSegment parentSeg = maybeSeg.get();
+		for (Set<BlockFace> equivClass : partition) {
+			//For each equivalence class, split off a new bus segment filtered on the inputs/outputs of the segment
+			BusSegment classSeg = parentSeg.splitOff(equivClass);
+			for (BlockFace bf : equivClass) {
+				CircuitBlock.setBusSegmentAt(worldIn, bf, classSeg);
+			}
+			//Okay, cool. Now force an update on the newly-split bus segments
+			classSeg.forceUpdate(worldIn);
+		}
+			
 	}
 
 	@SideOnly(Side.CLIENT)
