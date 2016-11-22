@@ -89,6 +89,6 @@ public class CircuitItem extends ItemBlock {
 		}
 		String secretString = displayName.substring(secretIndex, displayName.length());
 		int uidIntValue = fromSecretString(secretString);
-		return CircuitUID.fromInteger(uidIntValue);
+		return Optional.of(CircuitUID.fromInteger(uidIntValue));
 	}
 }

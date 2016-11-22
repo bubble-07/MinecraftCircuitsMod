@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.circuitblock.WireDirectionMapper;
@@ -36,7 +37,7 @@ public class CircuitInfoProvider {
     //Information about what circuit is in what directory is stored in the following map,
     //which is also maintained in a file in the configs directory for the whole mod,
     //which will keep track of the folder name/circuitUID associations
-    private static HashMap<String, CircuitUID> folderToUIDMap = new HashMap<>();
+    private static HashMap<String, CircuitUID> folderToUIDMap;
     
     public static class ModelRequestFromClient implements Serializable {
 		private static final long serialVersionUID = 1L; 
@@ -61,13 +62,31 @@ public class CircuitInfoProvider {
     	return new File(FileUtils.getConfigRootDir().toString() + "/uidmap");
     }
     
+    private static void loadUIDMapDefaults() {
+    	/*
+    	 * And: 0
+    	 * Splitter2 : 2
+    	 * Combiner1 : 8
+    	 */
+    	String[] toRegister = {"And", "Xor", "Splitter2", "Splitter4", "Splitter8", "Splitter16", "Splitter32", "Splitter64",
+    			               "Combiner1", "Combiner2", "Combiner4", "Combiner8", "Combiner16", "Combiner32",
+    			               "HalfAdder"};
+    	for (int i = 0; i < toRegister.length; i++) {
+    		folderToUIDMap.put(toRegister[i], CircuitUID.fromInteger(i));
+    	}
+    }
+    
     public static void loadUIDMapFromFile() {
+    	folderToUIDMap = new HashMap<>();
     	Optional<Object> uidMap = FileUtils.objectFromFile(getUIDMapFile());
     	if (uidMap.isPresent()) {
     		folderToUIDMap = (HashMap<String, CircuitUID>) uidMap.get();
     	}
-    	//Otherwise, the file must not yet exist or something, so we just keep things the way they are,
-    	//since this must be the first run (in a non-error state) or something sketchy (in an error state)
+    	//No matter what, make sure that the defaults are always in the right place
+    	loadUIDMapDefaults();
+    	//After loading it into the map, make sure that lastID of circuitUID is set right
+    	OptionalInt maxId = folderToUIDMap.values().stream().mapToInt((uid) -> uid.toInteger()).max();
+    	CircuitUID.bumpLastUID(maxId.getAsInt());
     }
     
     public static void saveUIDMapToFile() {
@@ -83,11 +102,16 @@ public class CircuitInfoProvider {
 	}
 	
 	private static CircuitUID getUIDForDir(File dir) {
+		if (folderToUIDMap == null) {
+			loadUIDMapFromFile();
+		}
+		
 		CircuitUID result = folderToUIDMap.get(dir.getName());
 		if (result == null) {
 			//In this case, we need to generate a new UID for the given folder name!
 			result = CircuitUID.getNextUID();
 			folderToUIDMap.put(dir.getName(), result);
+			saveUIDMapToFile();
 		}
 		return result;
 	}
@@ -106,6 +130,9 @@ public class CircuitInfoProvider {
 		infoMap = new HashMap<>();
 		
 		for (File subDir : circuitsDir.listFiles()) {
+			if (!subDir.isDirectory()) {
+				continue;
+			}
 			if (!subDir.getName().startsWith(".")) {
 				
 				CircuitUID uid = getUIDForDir(subDir);

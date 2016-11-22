@@ -246,6 +246,9 @@ public class CircuitTileEntity extends TileEntity {
 					//Active, so replace the bus data with a high signal
 					this.inputData.set(redstoneIndex, new BusData(1,1));
 				}
+				else {
+					this.inputData.set(redstoneIndex, new BusData(1, 0));
+				}
 			}
 			
 			clearOutputs();
@@ -253,9 +256,7 @@ public class CircuitTileEntity extends TileEntity {
 			//Okay, now that in theory, we have a complete input list, generate the output list
 			//using the wrapped circuit implementation
 			List<BusData> outputs = this.impl.invoke(this.state, this.inputData);
-			
-			clearInputs();
-			
+						
 			//Okay, now we need to deliver any and all redstone output signals
 			for (int redstoneIndex : this.impl.getRedstoneOutputs()) {
 				if (outputs.get(redstoneIndex).getData() > 0) {
@@ -282,6 +283,7 @@ public class CircuitTileEntity extends TileEntity {
 			}
 			
 			getWorld().scheduleBlockUpdate(getPos(), StartupCommonCircuitBlock.circuitBlock, 2, 0);
+			getWorld().notifyBlockOfStateChange(getPos(), StartupCommonCircuitBlock.circuitBlock);
 			
 			getWorld().notifyNeighborsOfStateChange(getPos(), blockType);
 		}
@@ -297,10 +299,7 @@ public class CircuitTileEntity extends TileEntity {
     	super.readFromNBT(compound);
     	NBTTagCompound TEData = compound.getCompoundTag("CircuitTileEntity");
     	int uidNum = TEData.getInteger("CircuitUID");
-    	Optional<CircuitUID> circuit = CircuitUID.fromInteger(uidNum);
-    	if (circuit.isPresent()) {
-    		this.circuitUID = circuit.get();
-    	}
+    	this.circuitUID = CircuitUID.fromInteger(uidNum);
     }
 
     public NBTTagCompound writeToNBT(NBTTagCompound compound)

@@ -281,7 +281,7 @@ public class BusBlock extends Block implements IBusConnectable, IMetaBlockName {
 		//if the success condition holds.
 		Predicate<BlockFace> circuit = circuitPredicate(worldIn, pos, meta);
 
-		if (PosUtils.neighbors(pos).filter(connectable).count() > 1) {
+		if (PosUtils.neighbors(pos).filter(connectable).count() > 0) {
 			//We may be a connecting block here...
 			Set<BlockFace> facesToUnify = IncrementalConnectedComponents.unifyOnAdd(pos, connectable, circuit);
 			Set<BusSegment> toUnify = facesToUnify.stream()
@@ -323,13 +323,13 @@ public class BusBlock extends Block implements IBusConnectable, IMetaBlockName {
 		
 		super.breakBlock(worldIn, pos, state);
 
-		if (PosUtils.neighbors(pos).filter(connectable).count() > 1) {
+		if (PosUtils.neighbors(pos).filter(connectable).count() > 0) {
 			//We may be a connecting block here...
 			Set<Set<BlockFace>> partition = IncrementalConnectedComponents.separateOnDelete(pos, connectable, circuit);
 			//Okay, now that we got a new partition of the block faces that are circuit blocks,
 			//what we need to do is to create a copy of the bus segment they used to share in common
 			//and then use that to inform new bus segment assignments
-			if (partition.isEmpty()) {
+			if (partition.isEmpty() || partition.iterator().next().isEmpty()) {
 				return;
 			}
 			BlockFace sampleFace = partition.iterator().next().iterator().next();

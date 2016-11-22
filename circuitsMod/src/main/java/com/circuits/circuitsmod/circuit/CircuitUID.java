@@ -14,6 +14,10 @@ public class CircuitUID implements Serializable {
 		this.idNum = id;
 	}
 	
+	public static void bumpLastUID(int id) {
+		lastUIDNum = Math.max(lastUIDNum, id);
+	}
+	
 	public static CircuitUID getNextUID() {
 		lastUIDNum++;
 		return new CircuitUID(lastUIDNum);
@@ -25,8 +29,8 @@ public class CircuitUID implements Serializable {
 	 * @param idNum
 	 * @return
 	 */
-	public static Optional<CircuitUID> fromInteger(int idNum) {
-		return Optional.of(new CircuitUID(idNum));
+	public static CircuitUID fromInteger(int idNum) {
+		return new CircuitUID(idNum);
 	}
 	
 	public int toInteger() {
@@ -35,7 +39,7 @@ public class CircuitUID implements Serializable {
 	
 	public static Optional<CircuitUID> fromString(String s) {
 		try {
-			return fromInteger(Integer.parseInt(s));
+			return Optional.of(fromInteger(Integer.parseInt(s)));
 		}
 		catch (NumberFormatException e) {
 			return Optional.empty();

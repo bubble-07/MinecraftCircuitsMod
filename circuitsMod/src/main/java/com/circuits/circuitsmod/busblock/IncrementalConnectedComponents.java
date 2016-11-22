@@ -19,6 +19,34 @@ import net.minecraft.util.math.BlockPos;
 public class IncrementalConnectedComponents {
 	
 	public static Set<BlockFace> unifyOnAdd(BlockPos newlyAdded, Predicate<BlockPos> safe, Predicate<BlockFace> success) {
+		Set<BlockFace> result = new HashSet<>();
+		
+		//This is an unneccessarily exhaustive search, but for now, correctness matters more than speed.
+		Stack<BlockPos> toVisit = new Stack<>();
+		Set<BlockPos> visited = new HashSet<>();
+		toVisit.push(newlyAdded);
+		while (!toVisit.isEmpty()) {
+			BlockPos current = toVisit.pop();
+			if (visited.contains(current)) {
+				continue;
+			}
+			visited.add(current);
+			//From this block, search all of the adjacent faces of blocks next to it, and if successful, add to the success set
+			PosUtils.adjacentFaces(current).filter(success).forEachOrdered((f) -> result.add(f));
+			PosUtils.neighbors(current).filter(safe).forEachOrdered((p) -> toVisit.push(p));
+		}
+		return result;
+	}
+	
+	public static Set<Set<BlockFace>> separateOnDelete(BlockPos newlyRemoved, Predicate<BlockPos> safe, Predicate<BlockFace> success) {
+		Predicate<BlockPos> safeMinusRemoved = (p) -> (!p.equals(newlyRemoved) && safe.test(p));
+		return PosUtils.neighbors(newlyRemoved).filter(safeMinusRemoved)
+		        .map((neighborPos) -> unifyOnAdd(neighborPos, safeMinusRemoved, success))
+		        .distinct().collect(Collectors.toSet());
+	}
+	
+	/*
+	public static Set<BlockFace> unifyOnAdd(BlockPos newlyAdded, Predicate<BlockPos> safe, Predicate<BlockFace> success) {
 		Set<Set<BlockFace>> searchResults = search(newlyAdded, safe, success, false);
 		return searchResults.stream().filter((s) -> !s.isEmpty())
 				                     .map((s) -> s.iterator().next()).collect(Collectors.toSet());
@@ -26,11 +54,16 @@ public class IncrementalConnectedComponents {
 	
 	public static Set<Set<BlockFace>> separateOnDelete(BlockPos toDelete, Predicate<BlockPos> safe, Predicate<BlockFace> success) {
 		return search(toDelete, safe, success, true);
-	}
+	}*/
 	
+	/*
+	 * Stuff that was too clever (possible factor-of-6 speedup) based on sending out six "probes" from the start in every direction,
+	 * but turned out to be too complicated
 	public static Set<Set<BlockFace>> search(BlockPos newlyAdded, Predicate<BlockPos> safe, Predicate<BlockFace> success, boolean exhaustive) {
 		List<EnumFacing> searchDirs = Stream.of(EnumFacing.VALUES).filter((f) -> safe.test(newlyAdded.offset(f))).collect(Collectors.toList());
-		if (searchDirs.size() < 2) {
+		if (searchDirs.size() < 2 && 
+		   !searchDirs.stream().map(f -> new BlockFace(newlyAdded, f).otherSide()).anyMatch(success)) {
+			
 			return new HashSet<>();
 		}
 		Map<BlockPos, EnumFacing> foundIds = new HashMap<>();
@@ -71,7 +104,9 @@ public class IncrementalConnectedComponents {
 						}
 					}
 					else if (safe.test(current.getPos())) {
-						PosUtils.adjacentFaces(current.getPos()).forEachOrdered((f) -> {
+						PosUtils.adjacentFaces(current.getPos())
+						.filter((bf) -> !bf.otherSide().getPos().equals(current.getPos()))
+						.forEachOrdered((f) -> {
 							searchStack.push(f);
 						});
 						foundIds.put(current.getPos(), probeId);
@@ -84,10 +119,6 @@ public class IncrementalConnectedComponents {
 		}
 		return foundResults;
 	}
-	
-	//Maybe this and the previous method can be unified through the use of a boolean parameter "exhaustive",
-	//which will tell the search whether or not each probe should terminate after finding the first successful example,
-	//or continue on. Then, a better-suited return type for the method is Set<Set<BlockFace>>, representing a partition
-	//of BlockFaces. Make the new method private, and have these two depend on the helper method
+	*/
 	
 }

@@ -52,10 +52,12 @@ public class WireDirectionMapper implements Serializable {
 				case 2:
 					outputFaces[0] = parentFacing.rotateYCCW();
 					outputFaces[1] = parentFacing.rotateY();
+					break;
 				case 3:
 					outputFaces[0] = parentFacing.rotateYCCW();
 					outputFaces[1] = parentFacing;
 					outputFaces[2] = parentFacing.rotateY();
+					break;
 				}
 				break;
 			case 2:
@@ -70,6 +72,7 @@ public class WireDirectionMapper implements Serializable {
 					inputFaces[1] = parentFacing.getOpposite();
 					outputFaces[0] = parentFacing;
 					outputFaces[1] = parentFacing.rotateY();
+					break;
 				}
 				break;
 			}

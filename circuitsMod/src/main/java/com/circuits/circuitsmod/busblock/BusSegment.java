@@ -102,12 +102,18 @@ public class BusSegment {
 	 * @param other
 	 */
 	public void accumulate(World worldIn, BlockFace inputFace, BusData other) {
+		
 		if (other.getWidth() != busWidth) {
 			Log.internalError("ERROR: Attempting to accumulate a value of width: " + other.getWidth() + 
 					          " in BusSegment " + this.toString());
 			return;
 		}
-		this.currentVal = this.currentVal.combine(other);
+		if (!waitingOn.contains(inputFace)) {
+			Log.internalError("WARN: Attempting to accumulate a value we're not waiting on");
+			return;
+		}
+		
+		this.currentVal = this.currentVal.or(other);
 		waitingOn.remove(inputFace);
 		if (waitingOn.isEmpty()) {
 			//Oh boy! Time to actually do stuff!
@@ -120,6 +126,7 @@ public class BusSegment {
 				}
 				circuitEntity.get().receiveInput(face.getFacing(), this.currentVal);
 			}
+			this.currentVal = new BusData(this.currentVal.getWidth(), 0L);
 		}
 	}
 	

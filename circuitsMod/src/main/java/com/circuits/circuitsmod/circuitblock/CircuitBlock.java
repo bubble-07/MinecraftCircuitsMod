@@ -26,6 +26,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -54,7 +55,12 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 		if (te == null) {
 			return Optional.empty();
 		}
-		return OptionalUtils.tryCast(worldIn.getTileEntity(pos), CircuitTileEntity.class);
+		try {
+			return Optional.of((CircuitTileEntity) te);
+		}
+		catch (ClassCastException e) {
+			return Optional.empty();
+		}
 	}
 	public static Optional<BusSegment> getBusSegmentAt(IBlockAccess worldIn, BlockFace face) {
 		return getCircuitTileEntityAt(worldIn, face.getPos()).flatMap(te -> te.getBusSegment(face.getFacing()));
@@ -126,18 +132,15 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
     {
         return getWeakPower(blockState, blockAccess, pos, side);
     }
+    
+    @Override
+    public boolean canProvidePower(IBlockState state) {
+    	return true;
+    }
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int ignored) {
 		return new CircuitTileEntity();
-	}
-
-	/**
-	 * The type of render function that is called for this block
-	 */
-	 public int getRenderType()
-	{
-		 return 3;
 	}
 	 
 	 @Override
@@ -203,6 +206,15 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 	@Override
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, new IProperty[]{FACING});
+	}
+	
+	@Override
+	public boolean isOpaqueCube(IBlockState state) {
+		return true;
+	}
+	@Override
+	public EnumBlockRenderType getRenderType(IBlockState state) {
+		return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
 	}
 
 }

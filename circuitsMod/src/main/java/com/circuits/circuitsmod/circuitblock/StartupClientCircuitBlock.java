@@ -2,6 +2,7 @@ package com.circuits.circuitsmod.circuitblock;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 
 public class StartupClientCircuitBlock
 {
@@ -14,6 +15,7 @@ public class StartupClientCircuitBlock
 
   public static void initClientOnly()
   {
+	  ClientRegistry.bindTileEntitySpecialRenderer(CircuitTileEntity.class, new CircuitEntitySpecialRenderer());
   }
 
   public static void postInitClientOnly()
