@@ -230,7 +230,9 @@ public class CircuitTileEntity extends TileEntity {
 	}
 	public void tryInitClient() {
 		if (CircuitInfoProvider.isClientModelInit()) {
-			initWireDirAndBuses();
+			if (CircuitInfoProvider.hasInfoOn(circuitUID)) {
+				initWireDirAndBuses();
+			}
 		}
 		else {
 			CircuitInfoProvider.ensureClientModelInit();

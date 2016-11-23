@@ -57,6 +57,7 @@ public class CircuitEntitySpecialRenderer extends TileEntitySpecialRenderer<Circ
 		CircuitUID uid = tileEntity.getCircuitUID();
 		if (!tileEntity.isClientInit()) {
 			tileEntity.tryInitClient();
+			return;
 		}
 		
 		if (uid == null) { return; }

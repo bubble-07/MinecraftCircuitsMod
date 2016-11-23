@@ -170,6 +170,10 @@ public class CircuitInfoProvider {
 		return loc;
 	}
 	
+	public static boolean hasInfoOn(CircuitUID uid) {
+		return infoMap.containsKey(uid);
+	}
+	
 	public static int getNumInputs(CircuitUID uid) {
 		return getInputWidths(uid).length;
 	}
