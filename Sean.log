@@ -41,3 +41,11 @@ thinking about it a little more, I can still endeavor to lay the framework for t
 like a thing I should do today.  Other things I learned how to do include getting a dimension to generate an empty chunk, and how to make a block clean your inventory
 and warp you to a fixed position.  What surprises me is that when th project begain, it took me two weeks to properly render a block, and now I can do it in less than
 an hour.  I suppose that means that I'm learning the technology finally.  
+
+11/23/2016
+I started building the framework for puzzles in the puzzle dimension.  I managed
+to build puzzle frameworks for most combinatorial circuits.  I plan to expand the puzzles
+once we are 100% sure of what the objective of each one will be.
+I'm getting kind of tired of working separately on this project.  I feel like if we're going to
+get it done well at this point, we need to be working jointly on this project, in the same room,
+for multiple hours.  

@@ -2,10 +2,15 @@ package com.circuits.circuitsmod.testblock;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
+
+import com.circuits.circuitsmod.reflective.TestGeneratorInvoker;
+
 import net.minecraft.nbt.*;
 
 @SuppressWarnings("unused")
 public class TileEntityTesting extends TileEntity implements ITickable {
+	
+	private TestGeneratorInvoker testInvoker;
 	
 	private NBTTagString andTag = new NBTTagString("AND");
 	private NBTTagString orTag = new NBTTagString("OR");
