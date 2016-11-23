@@ -31,8 +31,25 @@ public class TeleCleaner extends Block
 	  if (!playerIn.isRiding() && !playerIn.isBeingRidden() && playerIn.isNonBoss() && playerIn instanceof EntityPlayerMP) {
 		  EntityPlayerMP thePlayer = (EntityPlayerMP) playerIn;
 		  thePlayer.inventory.clear();
-		  thePlayer.setPositionAndUpdate(thePlayer.posX + 128, thePlayer.posY, thePlayer.posZ);
-		  return true;
+		  EnumFacing direction = thePlayer.getAdjustedHorizontalFacing();
+		  
+		  if (direction == EnumFacing.EAST){ 
+			  thePlayer.setPositionAndUpdate(thePlayer.posX + 128, thePlayer.posY, thePlayer.posZ);
+			  return true;
+		  }
+		  if (direction == EnumFacing.WEST) {
+			  thePlayer.setPositionAndUpdate(thePlayer.posX - 128, thePlayer.posY, thePlayer.posZ);
+			  return true;
+		  }
+		  if (direction == EnumFacing.NORTH) {
+			  thePlayer.setPositionAndUpdate(thePlayer.posX, thePlayer.posY, thePlayer.posZ - 128);
+			  return true;
+		  }
+		  if (direction == EnumFacing.SOUTH) {
+			  thePlayer.setPositionAndUpdate(thePlayer.posX, thePlayer.posY, thePlayer.posZ + 128);
+			  return true;
+		  }
+		 
 	  }
 	  return false;
   }
