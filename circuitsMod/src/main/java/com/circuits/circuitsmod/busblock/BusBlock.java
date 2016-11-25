@@ -1,30 +1,32 @@
 package com.circuits.circuitsmod.busblock;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.BiPredicate;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
+import com.circuits.circuitsmod.circuitblock.CircuitBlock;
+import com.circuits.circuitsmod.circuitblock.CircuitTileEntity;
+import com.circuits.circuitsmod.common.BlockFace;
 import com.circuits.circuitsmod.common.IMetaBlockName;
-import com.circuits.circuitsmod.common.OptionalUtils;
-import com.google.common.base.Optional;
-import com.google.common.collect.Lists;
+import com.circuits.circuitsmod.common.Log;
+import com.circuits.circuitsmod.common.PosUtils;
+import com.google.common.base.Predicates;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockDirectional;
-import net.minecraft.block.BlockObsidian;
-import net.minecraft.block.BlockPistonBase;
-import net.minecraft.block.BlockPortal;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
@@ -190,8 +192,22 @@ public class BusBlock extends Block implements IBusConnectable, IMetaBlockName {
 		return getMetaFromState(state);
 	}
 
-	private boolean canConnect(IBlockAccess worldIn, BlockPos pos) {
-		return (worldIn.getBlockState(pos).getBlock() instanceof IBusConnectable);
+	private boolean canConnect(IBlockAccess worldIn, IBlockState state, BlockFace face) {
+		int meta = this.getMetaFromState(state);
+		BlockPos otherPos = face.adjacent();
+		IBlockState neighborState = worldIn.getBlockState(otherPos);
+		if (neighborState.getBlock() instanceof BusBlock) {
+			return this.getMetaFromState(neighborState) == meta;
+		}
+		if (neighborState.getBlock() instanceof CircuitBlock) {
+			Optional<CircuitTileEntity> te = CircuitBlock.getCircuitTileEntityAt(worldIn, face.adjacent());
+			if (te.isPresent() && !te.get().isClientInit()) {
+				te.get().tryInitClient();
+			}
+			Optional<BusSegment> seg = CircuitBlock.getBusSegmentAt(worldIn, face.otherSide());
+			return seg.isPresent() && seg.get().getWidth() == busWidths[meta].getWidth();
+		}
+		return (neighborState.getBlock() instanceof IBusConnectable);
 	}
 
 	/**
@@ -199,21 +215,141 @@ public class BusBlock extends Block implements IBusConnectable, IMetaBlockName {
 	 */
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
 	{
-		boolean updown = canConnect(worldIn, pos.up()) || canConnect(worldIn, pos.down());
-		boolean northsouth = canConnect(worldIn, pos.south()) || canConnect(worldIn, pos.north());
-		boolean eastwest = canConnect(worldIn, pos.east()) || canConnect(worldIn, pos.west());
+		BiPredicate<BlockFace, BlockFace> connectable = (f1, f2) -> canConnect(worldIn, state, f1) || canConnect(worldIn, state, f2);
+		
+		//First, determine if any neighbors are buses of different widths, in which case this thing should be a cap
+		boolean capoverride = PosUtils.neighbors(pos).anyMatch((nbPos) -> {
+			IBlockState neighborState = worldIn.getBlockState(nbPos);
+			if (neighborState.getBlock() instanceof BusBlock) {
+				return this.getMetaFromState(neighborState) != this.getMetaFromState(state);
+			}
+			return false;
+		});
+		
+		boolean updown = connectable.test(BlockFace.up(pos), BlockFace.down(pos));
+		boolean northsouth = connectable.test(BlockFace.north(pos), BlockFace.south(pos));
+		boolean eastwest = connectable.test(BlockFace.east(pos), BlockFace.west(pos));
 
 		BusFacing facing = BusFacing.CAP;
-		if (updown && !northsouth && !eastwest) {
-			facing = BusFacing.UPDOWN;
-		}
-		else if (!updown && northsouth && !eastwest) {
-			facing = BusFacing.NORTHSOUTH;
-		}
-		else if (!updown && !northsouth && eastwest) {
-			facing = BusFacing.EASTWEST;
+		if (!capoverride) {
+			if (updown && !northsouth && !eastwest) {
+				facing = BusFacing.UPDOWN;
+			}
+			else if (!updown && northsouth && !eastwest) {
+				facing = BusFacing.NORTHSOUTH;
+			}
+			else if (!updown && !northsouth && eastwest) {
+				facing = BusFacing.EASTWEST;
+			}
 		}
 		return state.withProperty(FACING, facing);
+	}
+	
+	private static Predicate<BlockPos> connectablePredicate(World worldIn, BlockPos pos, int meta) {
+		return (p) -> {
+			IBlockState bState = worldIn.getBlockState(p);
+			if (bState.getBlock() instanceof BusBlock) {
+				int otherMeta = StartupCommonBus.busBlock.getMetaFromState(bState);
+				if (meta == otherMeta) {
+					return true;
+				}
+			}
+			//Only other "safe" case is if it's the block we're currently in the process of placing.
+			//We stop whenever we hit a circuit tile entity and then rely on the success condition testing,
+			//and so we don't include circuit tile entities at all
+			return p.equals(pos);
+		};
+	}
+	
+	private static Predicate<BlockFace> circuitPredicate(World worldIn, BlockPos pos, int meta) {
+		//Use the metadata within this bus block to determine what the width of any and all connecting
+		//circuit inputs should be
+		int connectingWidth = busWidths[meta].getWidth();
+		return (p) -> {
+			//We only stop if we find a circuit with a present bus segment whose defined width matches the width of this bus
+			Optional<BusSegment> seg = CircuitBlock.getBusSegmentAt(worldIn, p);
+			if (seg.isPresent()) {
+				return seg.get().getWidth() == connectingWidth;
+			}
+			return false;
+		};
+	}
+	
+	public static void connectOnPlace(World worldIn, BlockPos pos, int meta) {
+		
+		//Note: The "connectable" predicate should depend on the width of the bus, as should the "success" predicate
+
+		Predicate<BlockPos> connectable = connectablePredicate(worldIn, pos, meta);
+
+		//Note: we need to make the incremental components thing able to go into places with unsafe block positions
+		//if the success condition holds.
+		Predicate<BlockFace> circuit = circuitPredicate(worldIn, pos, meta);
+
+		//We may be a connecting block here...
+		Set<BlockFace> facesToUnify = IncrementalConnectedComponents.unifyOnAdd(pos, connectable, circuit);
+		Set<BusSegment> toUnify = facesToUnify.stream()
+				.map((p) -> CircuitBlock.getBusSegmentAt(worldIn, p).get())
+				.collect(Collectors.toSet());
+		if (!toUnify.isEmpty()) {                              ;
+			BusSegment overlord = toUnify.stream().findAny().get();
+			for (BusSegment seg : toUnify) {
+				if (overlord != seg) {
+					overlord.unifyWith(worldIn, seg);
+				}
+			}
+			//Okay, now that we've unified all of the bus segments, force an update
+			overlord.forceUpdate(worldIn);
+		}
+
+	}
+	
+    /**
+     * Upon placing a bus, we need to determine whether or not this bus bridges two bus segments,
+     * and update existing bus segments accordingly
+     * IBlockstate
+     */
+	@Override
+    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+    {
+		connectOnPlace(worldIn, pos, meta);
+        return this.getStateFromMeta(meta);
+    }
+	
+	
+	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+	{
+		//Here, we'll need to separate BusSegments that have been split up by this change. 
+		
+		int meta = getMetaFromState(state);
+		Predicate<BlockPos> connectable = connectablePredicate(worldIn, pos, meta);
+		Predicate<BlockFace> circuit = circuitPredicate(worldIn, pos, meta);
+		
+		super.breakBlock(worldIn, pos, state);
+
+		Set<Set<BlockFace>> partition = IncrementalConnectedComponents.separateOnDelete(pos, connectable, circuit);
+		//Okay, now that we got a new partition of the block faces that are circuit blocks,
+		//what we need to do is to create a copy of the bus segment they used to share in common
+		//and then use that to inform new bus segment assignments
+		if (partition.isEmpty() || partition.iterator().next().isEmpty()) {
+			return;
+		}
+		BlockFace sampleFace = partition.iterator().next().iterator().next();
+		Optional<BusSegment> maybeSeg = CircuitBlock.getBusSegmentAt(worldIn, sampleFace);
+		if (!maybeSeg.isPresent()) {
+			Log.internalError("BusBlock#breakBlock -- separateOnDelete returned a circuit TE face that doesn't exist!");
+			return;
+		}
+		BusSegment parentSeg = maybeSeg.get();
+		for (Set<BlockFace> equivClass : partition) {
+			//For each equivalence class, split off a new bus segment filtered on the inputs/outputs of the segment
+			BusSegment classSeg = parentSeg.splitOff(equivClass);
+			for (BlockFace bf : equivClass) {
+				CircuitBlock.setBusSegmentAt(worldIn, bf, classSeg);
+			}
+			//Okay, cool. Now force an update on the newly-split bus segments
+			classSeg.forceUpdate(worldIn);
+		}
+			
 	}
 
 	@SideOnly(Side.CLIENT)

@@ -1,12 +1,19 @@
 {
-    "parent": "block/cube",
-    "textures": {
-        "down": "#sidetex",
-        "up": "#sidetex",
-        "north": "#sidetex",
-        "east": "#endtex",
-        "south": "#sidetex",
-        "west": "#endtex",
-        "particle": "blocks/lapis_block"
-    }
+	"textures": {
+        "sidetex" : "circuitsmod:blocks/2bitbusside",
+        "endtex" : "circuitsmod:blocks/2bitbusend"
+    },
+    "elements": [
+        {   "from": [ 0, 0, 0 ],
+            "to": [ 16, 16, 16 ],
+            "faces": {
+                "down":  { "texture": "#sidetex", "cullface": "down" },
+                "up":    { "texture": "#sidetex", "cullface": "up" },
+                "north": { "texture": "#sidetex", "cullface": "north" },
+                "south": { "texture": "#sidetex", "cullface": "south" },
+                "west":  { "texture": "#endtex", "cullface": "west" },
+                "east":  { "texture": "#endtex", "cullface": "east" }
+            }
+        }
+    ]
 }

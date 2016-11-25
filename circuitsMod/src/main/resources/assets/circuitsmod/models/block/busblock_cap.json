@@ -1,6 +1,8 @@
 {
-    "parent": "block/cube",
+    "parent": "circuitsmod:block/busblock_common",
     "textures": {
+    	"sidetex" : "circuitsmod:blocks/2bitbusside",
+        "endtex" : "circuitsmod:blocks/2bitbusend",
         "down": "#endtex",
         "up": "#endtex",
         "north": "#endtex",

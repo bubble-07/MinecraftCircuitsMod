@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 
 import com.circuits.circuitsmod.common.ArrayUtils;
 import com.circuits.circuitsmod.common.BusData;
+import com.circuits.circuitsmod.common.FileUtils;
 import com.circuits.circuitsmod.common.Log;
 import com.google.common.collect.Lists;
 
@@ -84,6 +85,14 @@ public class ChipInvoker extends Invoker {
 		this.isSequential = isSequential;
 		this.outputWidths = outputWidths;
 		this.inputWidths = inputWidths;
+	}
+	
+	public static Optional<ChipInvoker> getInvoker(File implFile) {
+		Optional<Class<?>> clazz = ReflectiveUtils.loadClassFile(implFile, FileUtils.getCircuitLibDir(), "Implementation");
+		if (clazz.isPresent()) {
+			return getInvoker(clazz.get());
+		}
+		return Optional.empty();
 	}
 
 	public static Optional<ChipInvoker> getInvoker(Class<?> implClass) {
@@ -208,8 +217,46 @@ public class ChipInvoker extends Invoker {
 		return this.inputWidths;
 	}
 	
+	public int numInputs() {
+		return this.inputWidths.length;
+	}
+	
+	public int numOutputs() {
+		return this.outputWidths.length;
+	}
+	
 	public boolean isSequential() {
 		return this.isSequential;
+	}
+	
+	private static int[] indicesOfOnes(int[] orig) {
+		int count = 0;
+		for (int i = 0; i < orig.length; i++) {
+			if (orig[i] == 1) {
+				count++;
+			}
+		}
+		int[] result = new int[count];
+		int j = 0;
+		for (int i = 0; i < orig.length; i++) {
+			if (orig[i] == 1) {
+				result[j] = i;
+				j++;
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * Returns an array of indices to those inputs
+	 * which have a declared input width of 1
+	 */
+	public int[] getRedstoneInputs() {
+		return indicesOfOnes(this.inputWidths);
+	}
+	
+	public int[] getRedstoneOutputs() {
+		return indicesOfOnes(this.outputWidths);
 	}
 	
 	

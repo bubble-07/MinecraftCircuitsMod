@@ -1,0 +1,1 @@
+Circuit which splits a single 2-bit bus input into two 1-bit bus outputs

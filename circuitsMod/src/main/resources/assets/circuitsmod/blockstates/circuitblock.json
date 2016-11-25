@@ -1,0 +1,16 @@
+{
+	"forge_marker": 1,
+    "defaults": {
+        "model": "circuitsmod:frameblock"
+    },
+    "variants": {
+    	"facing": {
+    		"up" : {},
+    		"down" : {},
+    		"south" : {},
+    		"north" : {},
+    		"east" : {},
+    		"west" : {}
+    	}
+    }
+}

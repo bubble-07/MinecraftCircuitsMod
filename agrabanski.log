@@ -19,8 +19,18 @@ missing texture in the inventory
 of moving things over into circuitsMod
 -Created an initial version of a bus block
 
+Progress for the week ending in 10/28/16:
+-Finished up initial bus network code, began work on Circuit Tile Entity code.
+This is something that requires some level of bootstrapping for real testing,
+so putting it on a separate branch for now.
 
-...Fast forward... (intervening entries to be filled on merge)
+Note:
+-The order of things as in the Gantt chart will likely change -- I will
+spend this next week working on developing the protocol for bus networks,
+and then will begin work on the Circuit Tile Entity. This is desirable
+because the operation of the tile entity will likely be closely
+tied to the operation of buses.
+
 Progress for the week ending in 11/4/16:
 -Performed work to integrate Circuit Tile Entity logic with the
 Bus Network logic. Works in theory, but still's gotta be tested.
@@ -36,7 +46,13 @@ Progress for the week ending in 11/18/16:
 of circuit tile entities
 -Collaborated with Sean to come up with a road map for puzzle dimension levels
 
+Progress for the week ending in 11/25/16:
+-Fixed a number of bugs related to circuit bus behavior
+-Fixed a number of bugs related to circuit tile entity rendering
+-Fixed a number of bugs related to circuit item rendering
+-Made it so the server communicates bus/wire mapping to the client, used
+to add more visual cues about connectivity to the user
+-Merged Circuit Tile Entity branch into master
+
 Up next:
--Fix issue with 1-bit (redstone) inputs/outputs to circuit TES
--Perform extensive functionality tests of circuits
--Merge CircuitTileEntity branch back into master
+Work with Sean to develop Puzzle Dimension content

@@ -1,7 +1,11 @@
 {
     "forge_marker" : 1,
     "defaults": {
-        "model": "circuitsmod:busblock"
+        "model": "circuitsmod:busblock",
+        "textures" : {
+              "sidetex" : "circuitsmod:blocks/2bitbusside",
+              "endtex" : "circuitsmod:blocks/2bitbusend"
+        }
     },
     "variants": {
         "facing": {

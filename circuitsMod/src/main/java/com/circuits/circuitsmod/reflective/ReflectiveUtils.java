@@ -11,7 +11,7 @@ import com.circuits.circuitsmod.common.Log;
 
 public class ReflectiveUtils {
 	
-	private static Optional<Class<?>> loadClassFile(File classFile, File libDir, String classname) {
+	public static Optional<Class<?>> loadClassFile(File classFile, File libDir, String classname) {
 		try {	
 			
 			URL[] urls = new URL[]{classFile.getParentFile().toURI().toURL(), libDir.toURI().toURL()};
@@ -26,7 +26,7 @@ public class ReflectiveUtils {
 		catch (ClassNotFoundException e) {
 			Log.userError("Cannot find the class " + classname + " in " + classFile.toString());
 		}
-		return null;
+		return Optional.empty();
 	}
 
 	/**

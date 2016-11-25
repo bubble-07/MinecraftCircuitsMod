@@ -3,6 +3,16 @@ package com.circuits.circuitsmod.common;
 import java.util.Optional;
 
 public class OptionalUtils {
+	
+	public static <T> Optional<T> tryCast(Object o, Class<T> clazz) {
+		try {
+			return Optional.of((T) o);
+		}
+		catch (ClassCastException e) {
+			return Optional.empty();
+		}
+	}
+	
 	@SafeVarargs
 	public static <T> Optional<T> firstOf(Optional<T>... opts) {
 		for (Optional<T> opt : opts) {

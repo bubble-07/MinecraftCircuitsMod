@@ -25,6 +25,7 @@ public abstract class CommonProxy {
 	  com.circuits.circuitsmod.telecleaner.StartupCommonCleaner.preInitCommon();
 	  com.circuits.circuitsmod.testblock.StartupCommonTesting.preInitCommon();
 	  //com.circuits.circuitsmod.portalitem.StartupCommonActivator.preInitCommon();
+  	  com.circuits.circuitsmod.circuitblock.StartupCommonCircuitBlock.preInitCommon();
   }
   /**
    * Do your mod setup. Build whatever data structures you care about. Register recipes,
@@ -39,6 +40,8 @@ public abstract class CommonProxy {
 	  com.circuits.circuitsmod.telecleaner.StartupCommonCleaner.initCommon();
 	  com.circuits.circuitsmod.testblock.StartupCommonTesting.initCommon();
 	  //com.circuits.circuitsmod.portalitem.StartupCommonActivator.initCommon();
+	  com.circuits.circuitsmod.circuitblock.StartupCommonCircuitBlock.initCommon();
+	  
 	  PuzzleDimensions.init();
   }
 
@@ -53,6 +56,8 @@ public abstract class CommonProxy {
 	  com.circuits.circuitsmod.blockportalpuzzle.StartupCommonPortal.postInitCommon();
 	  com.circuits.circuitsmod.telecleaner.StartupCommonCleaner.postInitCommon();
 	  com.circuits.circuitsmod.testblock.StartupCommonTesting.postInitCommon();
+	  com.circuits.circuitsmod.circuitblock.StartupCommonCircuitBlock.postInitCommon();
+	  
 	  //com.circuits.circuitsmod.portalitem.StartupCommonActivator.postInitCommon();
   }
 
