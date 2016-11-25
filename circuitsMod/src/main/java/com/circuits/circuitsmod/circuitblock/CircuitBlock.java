@@ -1,5 +1,6 @@
 package com.circuits.circuitsmod.circuitblock;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -11,6 +12,7 @@ import com.circuits.circuitsmod.circuit.CircuitUID;
 import com.circuits.circuitsmod.common.BlockFace;
 import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.OptionalUtils;
+import com.google.common.collect.Lists;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
@@ -143,15 +145,29 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 	public TileEntity createNewTileEntity(World world, int ignored) {
 		return new CircuitTileEntity();
 	}
-	 
-	 @Override
-	 public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
+	
+	@Override
+    public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
+    {
 		 Optional<CircuitTileEntity> te = getCircuitTileEntityAt(world, pos);
 		 if (!te.isPresent()) {
 			 return null;
 		 }
-		 return CircuitItem.getStackFromUID(te.get().getCircuitUID());
-	 }
+		 return Lists.newArrayList(CircuitItem.getStackFromUID(te.get().getCircuitUID()));
+    }
+	
+    @Override
+    public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
+    {
+        if (willHarvest) return true; //If it will harvest, delay deletion of the block until after getDrops
+        return super.removedByPlayer(state, world, pos, player, willHarvest);
+    }
+    @Override
+    public void harvestBlock(World world, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te, ItemStack tool)
+    {
+        super.harvestBlock(world, player, pos, state, te, tool);
+        world.setBlockToAir(pos);
+    }
 
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
 	{

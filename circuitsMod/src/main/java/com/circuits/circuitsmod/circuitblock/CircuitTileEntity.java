@@ -248,11 +248,13 @@ public class CircuitTileEntity extends TileEntity {
 			}
 			else if (getWorld() != null && !getWorld().isRemote) {
 				if (CircuitInfoProvider.isServerModelInit()) {
-					this.impl = CircuitInfoProvider.getInvoker(circuitUID);
-					this.state = this.impl.initState();
-					
-					initWireDirAndBuses();
-					this.connectBuses();
+					if (CircuitInfoProvider.hasImplOn(circuitUID)) {
+						this.impl = CircuitInfoProvider.getInvoker(circuitUID);
+						this.state = this.impl.initState();
+
+						initWireDirAndBuses();
+						this.connectBuses();
+					}
 				}
 				else {
 					CircuitInfoProvider.ensureServerModelInit();

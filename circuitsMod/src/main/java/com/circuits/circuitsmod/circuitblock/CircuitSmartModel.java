@@ -24,6 +24,7 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -44,12 +45,9 @@ public class CircuitSmartModel implements IBakedModel {
 	
 	TransformType transformType = null;
 	EntityPlayer owner = null;
-	
-	ModelResourceLocation resourceLocation;
-	
-	public CircuitSmartModel(ModelResourceLocation resourceLocation) {
-		this.resourceLocation = resourceLocation;
-	}
+		
+	public static final ModelResourceLocation variantTag
+	= new ModelResourceLocation("circuitsmod:circuitsmartmodel");
 	
 	protected boolean onGround() {
 		return transformType == null;
@@ -88,14 +86,28 @@ public class CircuitSmartModel implements IBakedModel {
 	@Override
 	public List<BakedQuad> getQuads(IBlockState state, EnumFacing side,
 			long rand) {
+		
+		if (circuitUID == null) {
+			return Collections.EMPTY_LIST;
+		}
+		
 		//Uses the same technique as the one found here:
 		//https://gist.github.com/Gliby/77a9d963b2ae3072f6cd
 		//First, we finish drawing the set of quads that was already initiated upon calling this method,
 		//and then we draw our own stuff.
 		Tessellator tessellator = Tessellator.getInstance();
-		tessellator.draw();
 		
 		VertexBuffer buf = tessellator.getBuffer();
+		boolean wasBuilding = true;
+		VertexFormat oldFormat = buf.getVertexFormat();
+		int oldMode = buf.getDrawMode();
+		
+		try {
+			tessellator.draw();
+		}
+		catch (IllegalStateException e) {
+			wasBuilding = false;
+		}
 		
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(0.5F, 0.5F, 0.5F);
@@ -124,31 +136,44 @@ public class CircuitSmartModel implements IBakedModel {
 			
 			GL11.glColor3f(1.0f, 1.0f, 1.0f);
 			
-			GlStateManager.scale(1.2, 1.2, 1.2);
+			GlStateManager.scale(0.8, 0.8, 0.8);
 			
 			GlStateManager.translate(-0.5F, -0.5F, 0);
 			
-			GlStateManager.rotate(45, 0.0F, 1.0F, 0.0F);
+			if (owner == null) {
+				GlStateManager.rotate(90, 0.0F, 0.0F, 1.0F);
+				GlStateManager.scale(1.0, 0.8, 1.0);
+				GlStateManager.scale(0.9, 0.9, 0.9);
+				GlStateManager.translate(0.2F, -1.2F, 0);
+				GlStateManager.rotate(-45, 0.0F, 1.0F, 0.0F);
+			}
+			else {
+			}
+			
 			
 			Minecraft.getMinecraft().renderEngine.bindTexture(rsc);
 			
 			buf.begin(7, DefaultVertexFormats.POSITION_TEX);
-			buf.pos(16, 16, 0).tex(0, 0).endVertex();
-			buf.pos(16, 0, 0).tex(1, 0).endVertex();
+			buf.pos(1.0, 1.0, 0).tex(0, 0).endVertex();
+			buf.pos(1.0, 0, 0).tex(1, 0).endVertex();
 			buf.pos(0, 0, 0).tex(1, 1).endVertex();
-			buf.pos(0, 16, 0).tex(0, 1).endVertex();
-			tessellator.draw();
+			buf.pos(0, 1.0, 0).tex(0, 1).endVertex();
 
-			buf.pos(0, 16, 0).tex(0, 1).endVertex();
+			buf.pos(0, 1.0, 0).tex(0, 1).endVertex();
 			buf.pos(0, 0, 0).tex(1, 1).endVertex();
-			buf.pos(16, 0, 0).tex(1, 0).endVertex();
-			buf.pos(16, 16, 0).tex(0, 0).endVertex();
+			buf.pos(1.0, 0, 0).tex(1, 0).endVertex();
+			buf.pos(1.0, 1.0, 0).tex(0, 0).endVertex();
 			tessellator.draw();
 		}
 		
 		GlStateManager.popMatrix();
 		this.owner = null;
 		this.transformType = null;
+		
+		if (wasBuilding) {
+			buf.begin(oldMode, oldFormat);
+			
+		}
 		return Collections.EMPTY_LIST;
 	}
 

@@ -157,7 +157,7 @@ public class CircuitInfoProvider {
     	if (texMap.containsKey(uid)) {
     		return texMap.get(uid);
     	}
-    	if (!isClientModelInit()) {
+    	if (!isClientModelInit() || !CircuitInfoProvider.hasInfoOn(uid)) {
     		ensureClientModelInit();
     		return null;
     	}
@@ -172,6 +172,10 @@ public class CircuitInfoProvider {
 	
 	public static boolean hasInfoOn(CircuitUID uid) {
 		return infoMap.containsKey(uid);
+	}
+	
+	public static boolean hasImplOn(CircuitUID uid) {
+		return implMap.containsKey(uid);
 	}
 	
 	public static int getNumInputs(CircuitUID uid) {

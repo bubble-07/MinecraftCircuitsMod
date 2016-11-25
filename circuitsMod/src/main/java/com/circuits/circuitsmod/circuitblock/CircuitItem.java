@@ -72,7 +72,7 @@ public class CircuitItem extends ItemBlock {
 	}
 	
 	public static ItemStack getStackFromUID(CircuitUID uid) {
-		ItemStack result = new ItemStack(StartupCommonCircuitBlock.circuitBlock);
+		ItemStack result = new ItemStack(StartupCommonCircuitBlock.itemcircuitBlock);
 		result.setStackDisplayName(getStackNameFromUID(uid));
 		return result;
 	}

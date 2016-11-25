@@ -18,12 +18,13 @@ public class CircuitRendererManager {
 	public void registerItemRenderer(CircuitItem item, CircuitSmartModel itemRenderer) {
 		this.itemRenderer = itemRenderer;
 		item.setRenderer(itemRenderer);
-		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, itemRenderer.resourceLocation);
+		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, itemRenderer.variantTag);
 	}
 	
 	@SubscribeEvent
 	public void bakeModel(ModelBakeEvent event) {
-		event.getModelRegistry().putObject(itemRenderer.resourceLocation, itemRenderer);
+		itemRenderer = new CircuitSmartModel();
+		event.getModelRegistry().putObject(itemRenderer.variantTag, itemRenderer);
 	}
 	
 }
