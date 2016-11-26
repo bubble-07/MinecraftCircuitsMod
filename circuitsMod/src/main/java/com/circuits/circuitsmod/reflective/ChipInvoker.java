@@ -9,7 +9,9 @@ import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -18,6 +20,8 @@ import com.circuits.circuitsmod.common.ArrayUtils;
 import com.circuits.circuitsmod.common.BusData;
 import com.circuits.circuitsmod.common.FileUtils;
 import com.circuits.circuitsmod.common.Log;
+import com.circuits.circuitsmod.common.Pair;
+import com.circuits.circuitsmod.common.StreamUtils;
 import com.google.common.collect.Lists;
 
 /**
@@ -33,6 +37,8 @@ import com.google.common.collect.Lists;
  * (int[] inputWidths();)
  * (int[] outputWidths();)
  * (boolean isSequential(););
+ * (boolean[] analogInputs(););
+ * (boolean[] analogOutputs(););
  * 
  * Where T0, T1, T2, I0, I1, and I2 are each one of {boolean, byte, short, int, long},
  * and anything enclosed in parentheses is optional. 
@@ -50,6 +56,12 @@ import com.google.common.collect.Lists;
  * 
  * "isSequential()" returns "true" if the circuit is sequential, and "false" if the circuit is
  * combinational. The default (method doesn't exist) is combinational.
+ * 
+ * For each input/output, it's also possible to declare whether or not the input/output
+ * is an analog input/output (analogInputs()/analogOutputs()). If analog(Inputs/Outputs)()[i]
+ * is true, then the input/output at position i will be a redstone input/output where the power
+ * level of the connected wire is identified with the corresponding input/output value to the circuit
+ * implementation. Any input/output position declared to be analog must have a 16-bit width (short datatype)
  * 
  * "inputWidths", "outputWidths", and "isSequential" are all required to be idempotent
  *
@@ -74,17 +86,33 @@ public class ChipInvoker extends Invoker {
 	private final int[] outputWidths;
 	private final int[] inputWidths;
 	
+	private final boolean[] analogInputs;
+	private final boolean[] analogOutputs;
+	
+	private final int[] redstoneInputs;
+	private final int[] redstoneOutputs;
 	
 	
 	private ChipInvoker(Class<?> implClass, Method tickMethod,
 			List<Method> outputMethods, boolean isSequential,
-			int[] outputWidths, int[] inputWidths) {
+			int[] outputWidths, int[] inputWidths, boolean[] analogInputs, boolean[] analogOutputs) {
 		super(implClass);
 		this.tickMethod = tickMethod;
 		this.outputMethods = outputMethods;
 		this.isSequential = isSequential;
 		this.outputWidths = outputWidths;
 		this.inputWidths = inputWidths;
+		this.analogInputs = analogInputs;
+		this.analogOutputs = analogOutputs;
+		
+		BiFunction<int[], boolean[], int[]> redstoneIndices = (widths, analog) -> {
+			return ArrayUtils.unbox(
+					Stream.concat(indicesOfOnes(widths), indicesOfTrue(analog))
+					      .distinct().toArray(Integer[]::new));
+		};
+		
+		this.redstoneInputs = redstoneIndices.apply(inputWidths, analogInputs);
+		this.redstoneOutputs = redstoneIndices.apply(outputWidths, analogOutputs);
 	}
 	
 	public static Optional<ChipInvoker> getInvoker(File implFile) {
@@ -167,34 +195,69 @@ public class ChipInvoker extends Invoker {
 		//Great, now if overrides are present, modify the input and output widths
 		//to reflect those instead.
 		
-		//TODO: abstract these two out with a lambda
-		Optional<Method> outputWidthsMethod = ReflectiveUtils.getMethodFromName(implClass, "outputWidths");
-		Optional<Method> inputWidthsMethod = ReflectiveUtils.getMethodFromName(implClass, "inputWidths");
-		if (outputWidthsMethod.isPresent()) {
-			try {
-				outputWidths = (int[]) outputWidthsMethod.get().invoke(instance.get());
+		BiFunction<String, int[], int[]> widthOverride = (name, old) -> {
+			Optional<Method> widthsMethod = ReflectiveUtils.getMethodFromName(implClass, name);
+			if (widthsMethod.isPresent()) {
+				try {
+					int[] result = (int[]) widthsMethod.get().invoke(instance.get());
+					
+					if (result.length != old.length) {
+						error.accept("has an " + name + " override, but the method returns an array of the wrong size");
+						Log.info("Continuing with default widths");
+						return old;
+					}
+					
+					return result;
+				}
+				catch (Exception e) {
+					error.accept("has an " + name + " override, but the method is not formatted correctly");
+					Log.info("Continuing with default widths");
+				}
 			}
-			catch (Exception e) {
-				error.accept("has an output width override, but the method is not formatted correctly");
-				Log.info("Continuing with default output widths");
+			return old;
+		};
+		
+		outputWidths = widthOverride.apply("outputWidths", outputWidths);
+		inputWidths = widthOverride.apply("inputWidths", inputWidths);
+		
+		//Cool, now determine whether or not any of the input/outputs are analog
+		
+		BiFunction<String, int[], boolean[]> analogOverride = (name, corrWidths) -> {
+			Optional<Method> analogMethod = ReflectiveUtils.getMethodFromName(implClass, name);
+			if (analogMethod.isPresent()) {
+				try {
+					boolean[] result = (boolean[]) analogMethod.get().invoke(instance.get());
+					if (result.length != corrWidths.length) {
+						error.accept("has an " + name + " override, but the method returns an array of the wrong size");
+						Log.info("Continuing, assuming everything is digital");
+						return new boolean[corrWidths.length];
+					}
+					//Okay, cool. Now check to make sure that every analog position has a width of 16
+					for (int i = 0; i < result.length; i++) {
+						if (result[i] && corrWidths[i] != 16) {
+							error.accept("has an " + name + " override, but position " + i + " is not 16-bit!");
+							Log.info("Continuing, assuming everything is digital");
+							return new boolean[corrWidths.length];
+						}
+					}
+					return result;
+				}
+				catch (Exception e) {
+					error.accept("has an " + name + " override, but the method is not formatted correctly");
+					Log.info("Continuing, assuming everything is digital");
+				}
 			}
-		}
-		if (inputWidthsMethod.isPresent()) {
-			try {
-				inputWidths = (int[]) inputWidthsMethod.get().invoke(instance.get());
-			}
-			catch (Exception e) {
-				error.accept("has an input width override, but the method is not formatted correctly");
-				Log.info("Continuing with default input widths");
-			}
-		}
+			return new boolean[corrWidths.length];
+		};
+		boolean[] analogInputs = analogOverride.apply("analogInputs", inputWidths);
+		boolean[] analogOutputs = analogOverride.apply("analogOutputs", outputWidths);
 		
 		//Cool, now just determine whether or not it's a sequential circuit
 		boolean isSequential = false;
 		Optional<Method> isSequentialMethod = ReflectiveUtils.getMethodFromName(implClass, "isSequential");
 		if (isSequentialMethod.isPresent()) {
 			try {
-				isSequential = (Boolean) isSequentialMethod.get().invoke(instance);
+				isSequential = (Boolean) isSequentialMethod.get().invoke(instance.get());
 			}
 			catch (Exception e) {
 				error.accept("specifies isSequential, but the method is not formatted correctly");
@@ -205,7 +268,7 @@ public class ChipInvoker extends Invoker {
 		//So we do so.
 		return Optional.of(new ChipInvoker(implClass, tickMethod.get(),
 				                          outputMethods.get(), isSequential,
-				                          outputWidths, inputWidths));
+				                          outputWidths, inputWidths, analogInputs, analogOutputs));
 		
 	}
 	
@@ -229,34 +292,35 @@ public class ChipInvoker extends Invoker {
 		return this.isSequential;
 	}
 	
-	private static int[] indicesOfOnes(int[] orig) {
-		int count = 0;
-		for (int i = 0; i < orig.length; i++) {
-			if (orig[i] == 1) {
-				count++;
-			}
-		}
-		int[] result = new int[count];
-		int j = 0;
-		for (int i = 0; i < orig.length; i++) {
-			if (orig[i] == 1) {
-				result[j] = i;
-				j++;
-			}
-		}
-		return result;
+	public boolean[] analogInputs() {
+		return this.analogInputs;
+	}
+	public boolean[] analogOutputs() {
+		return this.analogOutputs;
+	}
+	
+	private static Stream<Integer> indicesOfOnes(int[] orig) {
+		return StreamUtils.indexStream(Arrays.stream(orig).mapToObj((i) -> i))
+		           .filter((p) -> p.second().intValue() == 1)
+		           .map(Pair::first);
+	}
+	
+	private static Stream<Integer> indicesOfTrue(boolean[] orig) {
+		return StreamUtils.indexStream(StreamUtils.fromArray(orig))
+		           .filter((p) -> p.second())
+		           .map(Pair::first);
 	}
 	
 	/**
 	 * Returns an array of indices to those inputs
-	 * which have a declared input width of 1
+	 * which have a declared input width of 1 or are analog
 	 */
 	public int[] getRedstoneInputs() {
-		return indicesOfOnes(this.inputWidths);
+		return this.redstoneInputs;
 	}
 	
 	public int[] getRedstoneOutputs() {
-		return indicesOfOnes(this.outputWidths);
+		return this.redstoneOutputs;
 	}
 	
 	

@@ -81,7 +81,7 @@ public class CircuitTileEntity extends TileEntity {
 	/**
 	 * Buffer to store all redstone output signals delivered at this tick
 	 */
-	private boolean[] redstoneOuptuts = new boolean[EnumFacing.values().length];
+	private int[] redstoneOutputs = new int[EnumFacing.values().length];
 	
 	/**
 	 * List of current impending inputs to this CircuitTileEntity,
@@ -117,15 +117,19 @@ public class CircuitTileEntity extends TileEntity {
 		return (EnumFacing)parentState.getValue(BlockDirectional.FACING);
 	}
 	
-	boolean isSidePowered(EnumFacing side) {
+	int getSidePower(EnumFacing side) {
 		BlockPos pos = getPos().offset(side);
 		if (getWorld().getRedstonePower(pos, side) > 0) {
-			return true;
+			return getWorld().getRedstonePower(pos, side);
 		}
 		else {
 			IBlockState iblockstate1 = getWorld().getBlockState(pos);
-			return iblockstate1.getBlock() == Blocks.REDSTONE_WIRE && ((Integer)iblockstate1.getValue(BlockRedstoneWire.POWER)).intValue() > 0;
+			return iblockstate1.getBlock() == Blocks.REDSTONE_WIRE ? ((Integer)iblockstate1.getValue(BlockRedstoneWire.POWER)).intValue() : 0;
 		}
+	}
+	
+	boolean isSidePowered(EnumFacing side) {
+		return getSidePower(side) > 0;
 	}
 	
 	private void notifyNeighbor(EnumFacing side) {
@@ -151,7 +155,7 @@ public class CircuitTileEntity extends TileEntity {
 	 * @param state
 	 */
 	private void clearOutputs() {
-		this.redstoneOuptuts = new boolean[EnumFacing.values().length];
+		this.redstoneOutputs = new int[EnumFacing.values().length];
 	}
 	
 	/**
@@ -268,16 +272,15 @@ public class CircuitTileEntity extends TileEntity {
 			//bus segments, so we only need (for now) to deal explicitly with redstone inputs
 			
 			//Okay, so first, find all of the input faces with a declared
-			//input width of 1, and fill the bus data values
+			//input width of 1 or are analog, and fill the bus data values
 			//with actual redstone signals coming into this block
 			for (int redstoneIndex : this.impl.getRedstoneInputs()) {
 				EnumFacing redstoneFace = this.wireMapper.getInputFace(redstoneIndex);
-				if (isSidePowered(redstoneFace)) {
-					//Active, so replace the bus data with a high signal
-					this.inputData.set(redstoneIndex, new BusData(1,1));
+				if (this.impl.analogInputs()[redstoneIndex]) {
+					this.inputData.set(redstoneIndex, new BusData(16, getSidePower(redstoneFace)));
 				}
 				else {
-					this.inputData.set(redstoneIndex, new BusData(1, 0));
+					this.inputData.set(redstoneIndex, new BusData(1, isSidePowered(redstoneFace) ? 1 : 0));
 				}
 			}
 			
@@ -290,7 +293,12 @@ public class CircuitTileEntity extends TileEntity {
 			//Okay, now we need to deliver any and all redstone output signals
 			for (int redstoneIndex : this.impl.getRedstoneOutputs()) {
 				EnumFacing face = this.wireMapper.getOutputFace(redstoneIndex);
-				this.redstoneOuptuts[face.getIndex()] = outputs.get(redstoneIndex).getData() > 0;
+				if (this.impl.analogOutputs()[redstoneIndex]) {
+					this.redstoneOutputs[face.getIndex()] = (int) outputs.get(redstoneIndex).getData();
+				}
+				else {
+					this.redstoneOutputs[face.getIndex()] = outputs.get(redstoneIndex).getData() > 0 ? 15 : 0;
+				}
 			}
 			
 			//Okay, great. We've set the redstone outputs to be delivered, so now
@@ -358,7 +366,7 @@ public class CircuitTileEntity extends TileEntity {
 
 	public int isProvidingWeakPower(IBlockState state, EnumFacing side) {
 		if (impl != null) {
-			return redstoneOuptuts[side.getIndex()] ? 15 : 0;
+			return redstoneOutputs[side.getIndex()];
 		}
 		
 		return 0;
