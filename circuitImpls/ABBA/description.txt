@@ -1,0 +1,1 @@
+ABBA circuit with one 1-bit input and two 1-bit outputs

@@ -1,0 +1,1 @@
+Demultiplexer circuit with a single 1-bit input and a switch, and two 1-bit outputs.

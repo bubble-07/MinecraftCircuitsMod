@@ -1,0 +1,1 @@
+Nor circuit with two 1-bit inputs and one 1-bit output.

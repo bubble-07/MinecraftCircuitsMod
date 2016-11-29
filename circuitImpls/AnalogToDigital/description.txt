@@ -1,0 +1,1 @@
+Analog to Digital Converter circuit with four 1-bit inputs and one 4-bit output.
