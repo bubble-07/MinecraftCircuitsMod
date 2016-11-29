@@ -37,6 +37,7 @@ public class ControlBlock extends BlockContainer
 	public ControlBlock()
 	{
 		super(Material.ROCK);
+		this.setHardness(9999);
 		this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);     // the block will appear on the Blocks tab.
 	}
 

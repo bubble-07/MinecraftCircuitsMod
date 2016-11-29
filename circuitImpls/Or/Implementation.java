@@ -4,7 +4,7 @@ public class Implementation {
 	long input2;
 	long output;
 	
-	public Implementaion() {
+	public Implementation() {
 		input1 = 0;
 		input2 = 0;
 		output = 0;

@@ -67,10 +67,11 @@ public class CircuitInfoProvider {
     	 * And: 0
     	 * Splitter2 : 2
     	 * Combiner1 : 8
+    	 * Emitter: 15
     	 */
     	String[] toRegister = {"And", "Xor", "Splitter2", "Splitter4", "Splitter8", "Splitter16", "Splitter32", "Splitter64",
     			               "Combiner1", "Combiner2", "Combiner4", "Combiner8", "Combiner16", "Combiner32",
-    			               "HalfAdder"};
+    			               "HalfAdder", "Emitter"};
     	for (int i = 0; i < toRegister.length; i++) {
     		folderToUIDMap.put(toRegister[i], CircuitUID.fromInteger(i));
     	}
