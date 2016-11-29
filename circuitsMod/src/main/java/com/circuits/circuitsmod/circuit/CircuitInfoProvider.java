@@ -78,7 +78,7 @@ public class CircuitInfoProvider {
     }
     
     public static void loadUIDMapFromFile() {
-    	folderToUIDMap = new HashMap<>();
+    	folderToUIDMap = new HashMap<String, CircuitUID>();
     	Optional<Object> uidMap = FileUtils.objectFromFile(getUIDMapFile());
     	if (uidMap.isPresent()) {
     		folderToUIDMap = (HashMap<String, CircuitUID>) uidMap.get();
@@ -103,18 +103,22 @@ public class CircuitInfoProvider {
 	}
 	
 	private static CircuitUID getUIDForDir(File dir) {
-		if (folderToUIDMap == null) {
-			loadUIDMapFromFile();
+		try{
+			if (folderToUIDMap == null) {
+				loadUIDMapFromFile();
+			}
+			
+			CircuitUID result = folderToUIDMap.get(dir.getName());
+			if (result == null) {
+				//In this case, we need to generate a new UID for the given folder name!
+				result = CircuitUID.getNextUID();
+				folderToUIDMap.put(dir.getName(), result);
+				saveUIDMapToFile();
+			}
+			return result;
+		} catch (Exception e) {
+			return null;
 		}
-		
-		CircuitUID result = folderToUIDMap.get(dir.getName());
-		if (result == null) {
-			//In this case, we need to generate a new UID for the given folder name!
-			result = CircuitUID.getNextUID();
-			folderToUIDMap.put(dir.getName(), result);
-			saveUIDMapToFile();
-		}
-		return result;
 	}
     
 	public static void ensureServerModelInit() { 

@@ -233,10 +233,8 @@ public class CircuitTileEntity extends TileEntity {
 		return this.wireMapper != null;
 	}
 	public void tryInitClient() {
-		if (CircuitInfoProvider.isClientModelInit()) {
-			if (CircuitInfoProvider.hasInfoOn(circuitUID)) {
+		if (CircuitInfoProvider.isClientModelInit() && CircuitInfoProvider.hasInfoOn(circuitUID)) {
 				initWireDirAndBuses();
-			}
 		}
 		else {
 			CircuitInfoProvider.ensureClientModelInit();

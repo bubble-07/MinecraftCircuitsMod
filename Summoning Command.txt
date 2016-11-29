@@ -1,0 +1,9 @@
+Circuit summoning command:
+
+Specific example:
+
+/give @p circuitsmod:circuitblock 1 0 {display:{Name:Emitter�1�5}}
+
+General case:
+
+/give @p circuitsmod:circuitblock 1 0 {display:{Name:[anything you want][circuit unique identifier as in CircuitInfoProvider, with every digit preceded by the empty set symbol]}}

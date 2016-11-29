@@ -46,7 +46,7 @@ public class CircuitItem extends ItemBlock {
 		String result = "";
 		String[] chars = Integer.toString(val).split("");
 		for (String c : chars) {
-			result += "Â§" + c;
+			result += "ø" + c;
 		}
 		return result;
 	}
@@ -79,9 +79,9 @@ public class CircuitItem extends ItemBlock {
 	
 	public static Optional<CircuitUID> getUIDFromStack(ItemStack stack) {
 		String displayName = stack.getDisplayName();
-		int secretIndex = displayName.indexOf("Â§", 0);
+		int secretIndex = displayName.indexOf("ø", 0);
 		if (secretIndex == -1) {
-			secretIndex = displayName.indexOf("Ã¸", 0);
+			secretIndex = displayName.indexOf("ø", 0);
 			if (secretIndex == -1) {
 				Log.internalError("Circuit TE Item Stack has bad metadata.");
 				return Optional.empty();
