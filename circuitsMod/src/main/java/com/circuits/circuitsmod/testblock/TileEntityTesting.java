@@ -6,6 +6,7 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -18,13 +19,15 @@ import com.circuits.circuitsmod.circuitblock.CircuitTileEntity;
 import com.circuits.circuitsmod.common.BlockFace;
 import com.circuits.circuitsmod.common.PosUtils;
 import com.circuits.circuitsmod.reflective.TestGeneratorInvoker;
+import com.circuits.circuitsmod.testingclasses.PuzzleTest;
+import com.circuits.circuitsmod.testingclasses.TestAnd;
+import com.circuits.circuitsmod.testingclasses.TestTickResult;
 
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.BlockRedstoneWire;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.*;
-
 @SuppressWarnings("unused")
 public class TileEntityTesting extends TileEntity implements ITickable {
 	
@@ -34,68 +37,58 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 	private BusSegment segment;
 	private BlockFace inputFace;
 	
-	private CircuitBlock emitterBlock;
+	private boolean initialized = false;
+	
+	private HashMap<Integer, PuzzleTest> testMap = new HashMap<Integer, PuzzleTest>();
 	
 	private int[] redstoneOutputs = new int[EnumFacing.values().length];
+	
+	public static int getSidePower(TileEntityTesting testEntity, EnumFacing side) {
+		return testEntity.getSidePower(side);
+	}
+	
+	public static boolean isSidePowered(TileEntityTesting testEntity, EnumFacing side) {
+		return testEntity.isSidePowered(side);
+	}
 	
 	public int getLevelID() {
 		return this.levelID;
 	}
 	
+	public BusSegment getBusSegment() {
+		return segment;
+	}
+	
+	public BlockFace getInputFace() {
+		return inputFace;
+	}
+	
 	public void init(World worldIn, int levelID) {
 		this.levelID = levelID;
+		produceHashMap();
+		initialized = true;
+	}
+	
+	public void produceHashMap() {
+		testMap.put(Integer.valueOf(0), new TestAnd());
 	}
 	
 	public void update() {
 		//Send signal back to emitter
 		//monitor incoming signals
-		//determine which test to run, in the most BRUTE FORCE WAY POSSIBLE HOLY SHIT!
-		if (!getWorld().isRemote) {
-			switch(levelID) {
-			case 1:
-				break;
-			case 2:
-				break;
-			case 3:
-				break;
-			case 4:
-				break;
-			case 5:
-				break;
-			case 6:
-				break;
-			case 7:
-				break;
-			case 8:
-				break;
-			case 9:
-				break;
-			case 10:
-				break;
-			case 11:
-				break;
-			case 12:
-				break;
-			case 13:
-				break;
-			case 14:
-				break;
-			case 15:
-				break;
-			case 16:
-				break;
-			case 17:
-				break;
-			case 18:
-				break;
-			case 19:
-				break;
-			case 20:
-				break;
-			}
-		}
+		
+		if (!initialized)
+			return;
+		PuzzleTest toRun = testMap.get(levelID);
+		TestTickResult result = toRun.test(getWorld(), this);
+		if (result.getAtEndOfTest() && result.getCurrentlySucceeding())
+			spawnTeleCleaner();
 	}
 	
+	private void spawnTeleCleaner() {
+	
+	}
+
 	public void findNearestEmitter() {
 		/**
 		 * A predicate function to determine if the block is safe to search.
@@ -164,5 +157,6 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 		IBlockState parentState = getWorld().getBlockState(getPos());
 		return (EnumFacing)parentState.getValue(BlockDirectional.FACING);
 	}
+
 	
 }

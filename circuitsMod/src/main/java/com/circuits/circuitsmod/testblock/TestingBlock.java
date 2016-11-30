@@ -25,7 +25,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TestingBlock extends BlockDirectional implements ITileEntityProvider {
-
+//IUpdatePlayerListBox
 	public TestingBlock() {
 		super(Material.IRON);
 		this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
@@ -63,11 +63,9 @@ public class TestingBlock extends BlockDirectional implements ITileEntityProvide
 		return true;
 	}
 	
-	@Override
+	/*@Override
 	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
 	{
-		//Whenever a circuit tile entity comes online (operational, with a loaded implementation),
-		//then we will perform the appropriate logic for initializing bus segments on all valid input/output faces.
 		return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing());
-	}
+	}*/
 }
