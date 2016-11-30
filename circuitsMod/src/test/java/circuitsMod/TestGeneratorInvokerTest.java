@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.circuits.circuitsmod.circuit.CircuitConfigOptions;
 import com.circuits.circuitsmod.reflective.Invoker;
 import com.circuits.circuitsmod.reflective.TestGeneratorInvoker;
 
@@ -26,7 +27,7 @@ public class TestGeneratorInvokerTest {
 
 	@Test
 	public void testFailsOnNoTickMethod() {
-		if (TestGeneratorInvoker.getInvoker(TestGeneratorInvokerTest.class).isPresent()) {
+		if (TestGeneratorInvoker.getInvoker(TestGeneratorInvokerTest.class, new CircuitConfigOptions()).isPresent()) {
 			fail("Test Generator Invokers load with no tick() method? Huh?");
 		}
 	}
@@ -42,7 +43,7 @@ public class TestGeneratorInvokerTest {
 	}
 	@Test
 	public void testRealSimpleCase() {
-		Optional<TestGeneratorInvoker> invoker = TestGeneratorInvoker.getInvoker(RealSimpleCase.class);
+		Optional<TestGeneratorInvoker> invoker = TestGeneratorInvoker.getInvoker(RealSimpleCase.class, new CircuitConfigOptions());
 		if (!invoker.isPresent()) {
 			fail("Test Generator Invoker isn't present!");
 		}

@@ -19,8 +19,10 @@ import org.junit.Test;
 
 
 
+
 import com.circuits.circuitsmod.reflective.ChipInvoker;
 import com.circuits.circuitsmod.reflective.Invoker;
+import com.circuits.circuitsmod.circuit.CircuitConfigOptions;
 import com.circuits.circuitsmod.common.BusData;
 import com.circuits.circuitsmod.common.OptionalUtils;
 import com.google.common.collect.Lists;
@@ -42,7 +44,7 @@ public class ChipInvokerTest {
 	 * @param tester
 	 */
 	public void presenceTest(Class<?> toLoad, Function<ChipInvoker, Optional<String>> tester) {
-		Optional<ChipInvoker> testInvoker = ChipInvoker.getInvoker(toLoad);
+		Optional<ChipInvoker> testInvoker = ChipInvoker.getInvoker(toLoad, new CircuitConfigOptions());
 		String name = toLoad.getName();
 		if (!testInvoker.isPresent()) {
 			fail("Failed to load " + name);
@@ -55,7 +57,7 @@ public class ChipInvokerTest {
 	}
 	
 	public void absenceTest(Class<?> toLoad) {
-		if(ChipInvoker.getInvoker(toLoad).isPresent()) {
+		if(ChipInvoker.getInvoker(toLoad, new CircuitConfigOptions()).isPresent()) {
 			fail("Should not have loaded " + toLoad.getName());
 		}
 	}

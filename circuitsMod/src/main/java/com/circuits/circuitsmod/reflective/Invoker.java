@@ -1,10 +1,13 @@
 package com.circuits.circuitsmod.reflective;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+import com.circuits.circuitsmod.circuit.CircuitConfigOptions;
+import com.circuits.circuitsmod.common.ArrayUtils;
 import com.circuits.circuitsmod.common.BusData;
 import com.circuits.circuitsmod.common.Log;
 import com.google.common.collect.Lists;
@@ -14,7 +17,7 @@ import com.google.common.collect.Lists;
  * responsible for invoking methods from a reflectively-loaded
  * class based on the state contained in some object,
  * where the class is assumed to have a zero-argument constructor.
- * In the context of the mod, this means ChipInvoker and TestGeneratorInvoker
+ * In the context of the mod, this means ChipInvoker and TestGeneratorInvoker.
  * 
  * @author bubble-07
  *
@@ -26,8 +29,29 @@ public abstract class Invoker {
 	 */
 	protected final Class<?> implClass;
 	
-	protected Invoker(Class<?> implClass) {
+	/**
+	 * Stores the configuration options for the circuit being invoked. 
+	 */
+	protected final CircuitConfigOptions circuitConfigs;
+	
+	/**
+	 * Stores the name of the particular configuration of this invoker.
+	 */
+	protected final String configName;
+	
+	public CircuitConfigOptions getConfigOptions() {
+		return circuitConfigs;
+	}
+	
+	public String getConfigName() {
+		return configName;
+	}
+	
+	
+	protected Invoker(Class<?> implClass, CircuitConfigOptions configOpts, String configName) {
 		this.implClass = implClass;
+		this.circuitConfigs = configOpts;
+		this.configName = configName;
 	}
 	
 	public static class State {
@@ -42,6 +66,7 @@ public abstract class Invoker {
 		 */
 		public State(Invoker parent) {
 			instance = getInstance(parent.implClass).get();
+			Invoker.initConfigs(instance, parent.circuitConfigs);
 		}
 		public Object getWrapped() {
 			return this.instance;
@@ -57,11 +82,42 @@ public abstract class Invoker {
 		return new State(this);
 	}
 	
+	/**
+	 * Initializes the configuration of a given instance and returns the
+	 * configuration name for that instance
+	 */
+	protected static Optional<String> initConfigs(Object instance, CircuitConfigOptions configs) {
+		Optional<Method> configMethod = ReflectiveUtils.getMethodFromName(instance.getClass(), "config");
+		if (!configMethod.isPresent()) {
+			if (configs.asInts().length != 0) {
+				Log.userError("Config method not specified for " + instance + " but we passed a non-empty configs list!");
+				return Optional.empty();
+			}
+			//Otherwise, there must not be any configuration options for the circuit, after all!
+			return Optional.of("");
+		}
+		Integer[] configArr = ArrayUtils.box(configs.asInts());
+		String resultString = null;
+		try {
+			resultString = (String) configMethod.get().invoke(instance, (Object[])configArr);
+		} catch (IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException | ClassCastException e) {
+			Log.userError("Unable to invoke config method for " + instance);
+			return Optional.empty();
+		}
+		if (resultString == null) {
+			return Optional.empty();
+		}
+		return Optional.of(resultString);
+		
+	}
+	
 	protected static Optional<Object> getInstance(Class<?> implClass) {
 		Consumer<String> error = (s) -> Log.userError("Class: " + implClass + " " + s);
 		
 		try {
-			return Optional.of(implClass.getConstructors()[0].newInstance());
+			Object instance = implClass.getConstructors()[0].newInstance();
+			return Optional.of(instance);
 		}
 		catch (Exception e) {
 			error.accept("has no zero-argument public constructor");
@@ -144,6 +200,25 @@ public abstract class Invoker {
 			default:
 				return ((byte) data.getData());
 		}
+	}
+	
+	protected static int getWidthOf(Class<?> type) {
+		if (long.class.isAssignableFrom(type)) {
+			return 64;
+		}
+		if (int.class.isAssignableFrom(type)) {
+			return 32;
+		}
+		if (short.class.isAssignableFrom(type)) {
+			return 16;
+		}
+		if (byte.class.isAssignableFrom(type)) {
+			return 8;
+		}
+		if (boolean.class.isAssignableFrom(type)) {
+			return 1;
+		}
+		return 0;
 	}
 	
 	/**

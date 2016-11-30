@@ -12,8 +12,10 @@ import scala.actors.threadpool.Arrays;
 import com.circuits.circuitsmod.busblock.BusBlock;
 import com.circuits.circuitsmod.busblock.BusSegment;
 import com.circuits.circuitsmod.busblock.StartupCommonBus;
+import com.circuits.circuitsmod.circuit.CircuitConfigOptions;
 import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
 import com.circuits.circuitsmod.circuit.CircuitUID;
+import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.circuitblock.WireDirectionMapper.WireDirectionGenerator;
 import com.circuits.circuitsmod.common.ArrayUtils;
 import com.circuits.circuitsmod.common.BlockFace;
@@ -48,16 +50,16 @@ public class CircuitTileEntity extends TileEntity {
 		connectedBuses.put(face, seg);
 	}
 	
-	public CircuitUID getCircuitUID() {
+	public SpecializedCircuitUID getCircuitUID() {
 		return this.circuitUID;
 	}
 	
 	/**
-	 * The circuit UID is the __only__ thing saved with this tile entity
+	 * The specialized circuit UID is the __only__ thing saved with this tile entity
 	 * other than the invocation state
 	 * The facing direction of the circuit block is stored in its block metadata
 	 */
-	private CircuitUID circuitUID = null;
+	private SpecializedCircuitUID circuitUID = null;
 	
 	private final String name = "circuittileentity";
 	
@@ -97,7 +99,7 @@ public class CircuitTileEntity extends TileEntity {
 	}
 	
 
-	public void init(World worldIn, CircuitUID circuitUID) {
+	public void init(World worldIn, SpecializedCircuitUID circuitUID) {
 		
 		this.circuitUID = circuitUID;
 		
@@ -222,7 +224,7 @@ public class CircuitTileEntity extends TileEntity {
 	}
 	
 	private void initWireDirAndBuses() {
-		WireDirectionGenerator dirGen = CircuitInfoProvider.getWireDirectionGenerator(circuitUID);
+		WireDirectionGenerator dirGen = CircuitInfoProvider.getWireDirectionGenerator(circuitUID.getUID());
 		this.wireMapper = dirGen.getMapper(getParentFacing(), CircuitInfoProvider.getNumInputs(circuitUID), 
 				                                              CircuitInfoProvider.getNumOutputs(circuitUID));
 		this.clearInputs();
@@ -234,11 +236,12 @@ public class CircuitTileEntity extends TileEntity {
 	}
 	public void tryInitClient() {
 		if (CircuitInfoProvider.isClientModelInit()) {
-			if (CircuitInfoProvider.hasInfoOn(circuitUID)) {
+			if (CircuitInfoProvider.hasSpecializedInfoOn(circuitUID)) {
 				initWireDirAndBuses();
 			}
 		}
 		else {
+			CircuitInfoProvider.requestSpecializedClientInfoFor(circuitUID);
 			CircuitInfoProvider.ensureClientModelInit();
 		}
 	}
@@ -252,7 +255,7 @@ public class CircuitTileEntity extends TileEntity {
 			}
 			else if (getWorld() != null && !getWorld().isRemote) {
 				if (CircuitInfoProvider.isServerModelInit()) {
-					if (CircuitInfoProvider.hasImplOn(circuitUID)) {
+					if (CircuitInfoProvider.hasImplOn(circuitUID.getUID())) {
 						this.impl = CircuitInfoProvider.getInvoker(circuitUID);
 						this.state = this.impl.initState();
 
@@ -333,12 +336,16 @@ public class CircuitTileEntity extends TileEntity {
 	
 	private NBTTagCompound getUIDTagCompound() {
         NBTTagCompound TEData = new NBTTagCompound();
-        TEData.setInteger("CircuitUID", this.circuitUID.toInteger());
+        TEData.setInteger("CircuitUID", this.circuitUID.getUID().toInteger());
+        TEData.setIntArray("ConfigOptions", this.circuitUID.getOptions().asInts());
         return TEData;
 	}
 	private void setUIDFromCompound(NBTTagCompound compound) {
     	int uidNum = compound.getInteger("CircuitUID");
-    	this.circuitUID = CircuitUID.fromInteger(uidNum);
+    	int[] optvals = compound.getIntArray("ConfigOptions");
+    	CircuitUID uid = CircuitUID.fromInteger(uidNum);
+    	CircuitConfigOptions opts = new CircuitConfigOptions(optvals);
+    	this.circuitUID = new SpecializedCircuitUID(uid, opts);
 	}
 	
     public void readFromNBT(NBTTagCompound compound)

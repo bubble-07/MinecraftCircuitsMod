@@ -4,16 +4,16 @@ import java.io.File;
 import java.util.Optional;
 
 public class ChipImpl {
-	private final ChipInvoker invoker;
-	private final Optional<TestGeneratorInvoker> testGen;
-	public ChipImpl(ChipInvoker invoker, Optional<TestGeneratorInvoker> testGen) {
+	private final ChipInvoker.Provider invoker;
+	private final Optional<TestGeneratorInvoker.Provider> testGen;
+	public ChipImpl(ChipInvoker.Provider invoker, Optional<TestGeneratorInvoker.Provider> testGen) {
 		this.invoker = invoker;
 		this.testGen = testGen;
 	}
-	public ChipInvoker getInvoker() {
+	public ChipInvoker.Provider getInvoker() {
 		return this.invoker;
 	}
-	public Optional<TestGeneratorInvoker> getTestGenerator() {
+	public Optional<TestGeneratorInvoker.Provider> getTestGenerator() {
 		return this.testGen;
 	}
 	
@@ -21,8 +21,8 @@ public class ChipImpl {
 		File testsFile = new File(dir.toString() + "/Tests.class");
 		File implFile = new File(dir.toString() + "/Implementation.class");
 		
-		Optional<ChipInvoker> invoker = ChipInvoker.getInvoker(implFile);
-		Optional<TestGeneratorInvoker> testGen = TestGeneratorInvoker.getInvoker(testsFile);
+		Optional<ChipInvoker.Provider> invoker = ChipInvoker.Provider.getProvider(implFile);
+		Optional<TestGeneratorInvoker.Provider> testGen = TestGeneratorInvoker.Provider.getProvider(testsFile);
 		
 		if (!invoker.isPresent()) {
 			return Optional.empty();

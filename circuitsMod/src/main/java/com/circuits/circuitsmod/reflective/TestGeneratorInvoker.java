@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+import com.circuits.circuitsmod.circuit.CircuitConfigOptions;
 import com.circuits.circuitsmod.common.BusData;
 import com.circuits.circuitsmod.common.FileUtils;
 import com.circuits.circuitsmod.common.Log;
+import com.circuits.circuitsmod.reflective.ChipInvoker.Provider;
 import com.google.common.collect.Lists;
 
 /**
@@ -59,28 +61,49 @@ public class TestGeneratorInvoker extends Invoker {
 	boolean slowable;
 
 	private TestGeneratorInvoker(Class<?> implClass, Method tickMethod,
-			List<Method> inputMethods, boolean slowable) {
-		super(implClass);
+			List<Method> inputMethods, boolean slowable, CircuitConfigOptions configOpts, String configName) {
+		super(implClass, configOpts, configName);
 		this.tickMethod = tickMethod;
 		this.inputMethods = inputMethods;
 		this.slowable = slowable;
 	}
 	
-	public static Optional<TestGeneratorInvoker> getInvoker(File implFile) {
-		Optional<Class<?>> clazz = ReflectiveUtils.loadClassFile(implFile, FileUtils.getCircuitLibDir(), "Tests");
-		if (clazz.isPresent()) {
-			return getInvoker(clazz.get());
+	/**
+	 * Something that provides TestGeneratorInvokers given a list of config options
+	 * @author bubble-07
+	 *
+	 */
+	//TODO: Find a way to merge this with ChipInvoker#Provider?
+	public static class Provider {
+		Class<?> implClass;
+		private Provider(Class<?> implClass) {
+			this.implClass = implClass;
 		}
-		return Optional.empty();
+		public static Optional<Provider> getProvider(File implFile) {
+			Optional<Class<?>> clazz = ReflectiveUtils.loadClassFile(implFile, FileUtils.getCircuitLibDir(), "Tests");
+			if (clazz.isPresent()) {
+				return Optional.of(new Provider(clazz.get()));
+			}
+			return Optional.empty();
+		}
+		public Optional<TestGeneratorInvoker> getInvoker(CircuitConfigOptions configs) {
+			return TestGeneratorInvoker.getInvoker(this.implClass, configs);
+		}
 	}
 	
-	public static Optional<TestGeneratorInvoker> getInvoker(Class<?> implClass) {
+	public static Optional<TestGeneratorInvoker> getInvoker(Class<?> implClass, CircuitConfigOptions configOpts) {
 		Consumer<String> error = (s) -> Log.userError("Class: " + implClass + " " + s);
 		
 		Optional<Object> instance = getInstance(implClass);
 		if (!instance.isPresent()) {
 			return Optional.empty();
 		}
+		
+		Optional<String> configName = Invoker.initConfigs(instance.get(), configOpts);
+		if (!configName.isPresent()) {
+			return Optional.empty();
+		}
+		
 		Optional<Method> slowableMethod = ReflectiveUtils.getMethodFromName(implClass, "slowable");
 		boolean slowable = true;
 		if (slowableMethod.isPresent()) {
@@ -103,7 +126,8 @@ public class TestGeneratorInvoker extends Invoker {
 			return Optional.empty();
 		}
 		return Optional.of(new TestGeneratorInvoker(implClass, tickMethod.get(), 
-				                                    inputMethods.get(), slowable));
+				                                    inputMethods.get(), slowable,
+				                                    configOpts, configName.get()));
 	}
 	
 	/**

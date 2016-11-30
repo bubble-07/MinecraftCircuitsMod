@@ -9,6 +9,7 @@ import com.circuits.circuitsmod.busblock.BusSegment;
 import com.circuits.circuitsmod.busblock.IBusConnectable;
 import com.circuits.circuitsmod.busblock.IncrementalConnectedComponents;
 import com.circuits.circuitsmod.circuit.CircuitUID;
+import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.common.BlockFace;
 import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.OptionalUtils;
@@ -92,7 +93,7 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 		//Block placed
 		CircuitTileEntity tileEntity = (CircuitTileEntity)worldIn.getTileEntity(pos);
 		if (tileEntity != null) {
-			Optional<CircuitUID> uid = CircuitItem.getUIDFromStack(stack);
+			Optional<SpecializedCircuitUID> uid = CircuitItem.getUIDFromStack(stack);
 			if (uid.isPresent()) {
 				tileEntity.init(worldIn, uid.get());
 			}

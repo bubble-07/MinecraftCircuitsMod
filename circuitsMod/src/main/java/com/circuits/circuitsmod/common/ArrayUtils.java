@@ -1,5 +1,7 @@
 package com.circuits.circuitsmod.common;
 
+import java.util.Arrays;
+
 public class ArrayUtils {
 	public static boolean inArray(int val, int[] array) {
 		for (int i = 0; i < array.length; i++) {
@@ -15,6 +17,10 @@ public class ArrayUtils {
 			result[i] = input[i];
 		}
 		return result;
+	}
+	
+	public static Integer[] box(int[] input) {
+		return (Integer[]) Arrays.stream(input).boxed().toArray((size) -> (Object[]) new Integer[size]);
 	}
 	
 	public static <T> T[] cat(T[] a, T[] b) {

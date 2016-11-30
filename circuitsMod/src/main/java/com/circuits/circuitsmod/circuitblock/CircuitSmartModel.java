@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
 import com.circuits.circuitsmod.circuit.CircuitUID;
+import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.state.IBlockState;
@@ -41,7 +42,7 @@ import net.minecraft.world.World;
 //is a trivial visual thing.
 public class CircuitSmartModel implements IBakedModel {
 	
-	CircuitUID circuitUID = null;
+	SpecializedCircuitUID circuitUID = null;
 	
 	TransformType transformType = null;
 	EntityPlayer owner = null;
@@ -126,7 +127,7 @@ public class CircuitSmartModel implements IBakedModel {
 		}
 		
 		//Render the stupid thing
-		ResourceLocation rsc = CircuitInfoProvider.getTexture(circuitUID);
+		ResourceLocation rsc = CircuitInfoProvider.getTexture(circuitUID.getUID());
 		if (rsc != null) {
 			
 			TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
@@ -189,7 +190,7 @@ public class CircuitSmartModel implements IBakedModel {
 			@Override
 			public
 			IBakedModel handleItemState(IBakedModel originalModel, ItemStack stack, World world, EntityLivingBase entity) {
-				Optional<CircuitUID> uid = CircuitItem.getUIDFromStack(stack);
+				Optional<SpecializedCircuitUID> uid = CircuitItem.getUIDFromStack(stack);
 				if (uid.isPresent()) {
 					circuitUID = uid.get();
 				}

@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import com.circuits.circuitsmod.circuit.CircuitConfigOptions;
 import com.circuits.circuitsmod.common.ArrayUtils;
 import com.circuits.circuitsmod.common.BusData;
 import com.circuits.circuitsmod.common.FileUtils;
@@ -92,11 +93,34 @@ public class ChipInvoker extends Invoker {
 	private final int[] redstoneInputs;
 	private final int[] redstoneOutputs;
 	
+	/**
+	 * Something that provides ChipInvokers given a list of config options
+	 * @author bubble-07
+	 *
+	 */
+	public static class Provider {
+		Class<?> implClass;
+		private Provider(Class<?> implClass) {
+			this.implClass = implClass;
+		}
+		public static Optional<Provider> getProvider(File implFile) {
+			Optional<Class<?>> clazz = ReflectiveUtils.loadClassFile(implFile, FileUtils.getCircuitLibDir(), "Implementation");
+			if (clazz.isPresent()) {
+				return Optional.of(new Provider(clazz.get()));
+			}
+			return Optional.empty();
+		}
+		public Optional<ChipInvoker> getInvoker(CircuitConfigOptions configs) {
+			return ChipInvoker.getInvoker(this.implClass, configs);
+		}
+	}
+	
 	
 	private ChipInvoker(Class<?> implClass, Method tickMethod,
 			List<Method> outputMethods, boolean isSequential,
-			int[] outputWidths, int[] inputWidths, boolean[] analogInputs, boolean[] analogOutputs) {
-		super(implClass);
+			int[] outputWidths, int[] inputWidths, boolean[] analogInputs, boolean[] analogOutputs,
+			CircuitConfigOptions configOpts, String configName) {
+		super(implClass, configOpts, configName);
 		this.tickMethod = tickMethod;
 		this.outputMethods = outputMethods;
 		this.isSequential = isSequential;
@@ -114,22 +138,18 @@ public class ChipInvoker extends Invoker {
 		this.redstoneInputs = redstoneIndices.apply(inputWidths, analogInputs);
 		this.redstoneOutputs = redstoneIndices.apply(outputWidths, analogOutputs);
 	}
-	
-	public static Optional<ChipInvoker> getInvoker(File implFile) {
-		Optional<Class<?>> clazz = ReflectiveUtils.loadClassFile(implFile, FileUtils.getCircuitLibDir(), "Implementation");
-		if (clazz.isPresent()) {
-			return getInvoker(clazz.get());
-		}
-		return Optional.empty();
-	}
 
-	public static Optional<ChipInvoker> getInvoker(Class<?> implClass) {
+	public static Optional<ChipInvoker> getInvoker(Class<?> implClass, CircuitConfigOptions configs) {
 		Consumer<String> error = (s) -> Log.userError("Class: " + implClass + " " + s);
 		
 		//Create an instance of the implementation class to be able to
 		//determine the results of calling the idempotent functions in the API
 		Optional<Object> instance = getInstance(implClass);
 		if (!instance.isPresent()) {
+			return Optional.empty();
+		} 
+		Optional<String> configName = initConfigs(instance.get(), configs);
+		if (!configName.isPresent()) {
 			return Optional.empty();
 		}
 		
@@ -268,7 +288,8 @@ public class ChipInvoker extends Invoker {
 		//So we do so.
 		return Optional.of(new ChipInvoker(implClass, tickMethod.get(),
 				                          outputMethods.get(), isSequential,
-				                          outputWidths, inputWidths, analogInputs, analogOutputs));
+				                          outputWidths, inputWidths, analogInputs, analogOutputs,
+				                          configs, configName.get()));
 		
 	}
 	
@@ -335,7 +356,10 @@ public class ChipInvoker extends Invoker {
 	public List<BusData> invoke(Invoker.State state, List<BusData> inputValues) {
 		Object[] tickArgs = new Object[inputValues.size()];
 		for (int i = 0; i < tickArgs.length; i++) {
-			tickArgs[i] = unBus(inputValues.get(i));
+			int formalWidth = Invoker.getWidthOf(this.tickMethod.getParameterTypes()[i]);
+			BusData oldBus = inputValues.get(i);
+			BusData modBus = new BusData(Math.max(formalWidth, oldBus.getWidth()), oldBus.getData());
+			tickArgs[i] = unBus(modBus);
 		}
 		
 		try {

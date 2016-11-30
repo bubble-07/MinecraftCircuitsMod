@@ -4,8 +4,10 @@ package com.circuits.circuitsmod.circuitblock;
 import java.util.Optional;
 
 import com.circuits.circuitsmod.CircuitsMod;
+import com.circuits.circuitsmod.circuit.CircuitConfigOptions;
 import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
 import com.circuits.circuitsmod.circuit.CircuitUID;
+import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.common.Log;
 
 import net.minecraft.block.Block;
@@ -42,7 +44,7 @@ public class CircuitItem extends ItemBlock {
 		this.renderer = itemRenderer;
 	}
 	
-	private static String getSecretString(int val) {
+	private static String intToSecret(int val) {
 		String result = "";
 		String[] chars = Integer.toString(val).split("");
 		for (String c : chars) {
@@ -50,8 +52,7 @@ public class CircuitItem extends ItemBlock {
 		}
 		return result;
 	}
-	
-	private static int fromSecretString(String str) {
+	private static int secretToInt(String str) {
 		String toParse = "";
 		String[] chars = str.split("");
 		for (int i = 1; i < chars.length; i += 2) {
@@ -60,24 +61,67 @@ public class CircuitItem extends ItemBlock {
 		return Integer.parseInt(toParse);
 	}
 	
+	private static String getSecretString(SpecializedCircuitUID uid) {
+		
+		int val = uid.getUID().toInteger();
+		String prefix = intToSecret(val);
+		
+		int[] optVals = uid.getOptions().asInts();
+		if (optVals.length == 0) {
+			return prefix;
+		}
+		
+		String result = prefix;
+		for (int i = 0; i < optVals.length; i++) {
+			result += "§ ";
+			result += intToSecret(optVals[i]);
+		}
+		return result;
+	}
+	
+	private static SpecializedCircuitUID fromSecretString(String str) {
+		String separator = "§ ";
+		if (!str.contains(separator)) {
+			separator = "ø ";
+		}
+		if (!str.contains(separator)) {
+			return new SpecializedCircuitUID(CircuitUID.fromInteger(secretToInt(str)), new CircuitConfigOptions());
+		}
+		
+		String[] splitString = str.split(separator);
+		
+		CircuitUID uid = CircuitUID.fromInteger(secretToInt(splitString[0]));
+		
+		int[] opts = new int[splitString.length - 1];
+		
+		for (int i = 1; i < splitString.length; i++) {
+			opts[i - 1] = secretToInt(splitString[i]);
+		}
+		CircuitConfigOptions config = new CircuitConfigOptions(opts);
+		return new SpecializedCircuitUID(uid, config);
+	}
+	
 	/**
-	 * Part of a hilariously terrible hack. We need 
+	 * Part of a hilariously terrible hack. We need to
+	 * store data with items while still keeping them stackable,
+	 * so we store the data in a hidden string (control sequences)
+	 * in the name of the item.
 	 * @param uid
 	 * @return
 	 */
-	private static String getStackNameFromUID(CircuitUID uid) {
+	private static String getStackNameFromUID(SpecializedCircuitUID uid) {
 		String name = CircuitInfoProvider.getDisplayName(uid);
-		String secretString = getSecretString(uid.toInteger());
+		String secretString = getSecretString(uid);
 		return name + secretString;
 	}
 	
-	public static ItemStack getStackFromUID(CircuitUID uid) {
+	public static ItemStack getStackFromUID(SpecializedCircuitUID uid) {
 		ItemStack result = new ItemStack(StartupCommonCircuitBlock.itemcircuitBlock);
 		result.setStackDisplayName(getStackNameFromUID(uid));
 		return result;
 	}
 	
-	public static Optional<CircuitUID> getUIDFromStack(ItemStack stack) {
+	public static Optional<SpecializedCircuitUID> getUIDFromStack(ItemStack stack) {
 		String displayName = stack.getDisplayName();
 		int secretIndex = displayName.indexOf("§", 0);
 		if (secretIndex == -1) {
@@ -88,7 +132,6 @@ public class CircuitItem extends ItemBlock {
 			}
 		}
 		String secretString = displayName.substring(secretIndex, displayName.length());
-		int uidIntValue = fromSecretString(secretString);
-		return Optional.of(CircuitUID.fromInteger(uidIntValue));
+		return Optional.of(fromSecretString(secretString));
 	}
 }

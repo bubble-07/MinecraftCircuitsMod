@@ -3,6 +3,11 @@ package com.circuits.circuitsmod.circuit;
 import java.io.Serializable;
 import java.util.Optional;
 
+/**
+ * A Circuit UID uniquely identifies an (unspecialized) circuit
+ * @author bubble-07
+ *
+ */
 public class CircuitUID implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL11;
 import com.circuits.circuitsmod.busblock.BusSegment;
 import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
 import com.circuits.circuitsmod.circuit.CircuitUID;
+import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -54,7 +55,7 @@ public class CircuitEntitySpecialRenderer extends TileEntitySpecialRenderer<Circ
 	@Override
 	public void renderTileEntityAt(CircuitTileEntity tileEntity, double x, double y, double z, float f, int state) {
 		
-		CircuitUID uid = tileEntity.getCircuitUID();
+		SpecializedCircuitUID uid = tileEntity.getCircuitUID();
 		if (!tileEntity.isClientInit()) {
 			tileEntity.tryInitClient();
 			return;
@@ -63,7 +64,7 @@ public class CircuitEntitySpecialRenderer extends TileEntitySpecialRenderer<Circ
 		if (uid == null) { return; }
 		
 		Tessellator tessellator = Tessellator.getInstance();
-		ResourceLocation rsc = CircuitInfoProvider.getTexture(uid);
+		ResourceLocation rsc = CircuitInfoProvider.getTexture(uid.getUID());
 		if (rsc != null) {
 			
 			GL11.glPushMatrix();
