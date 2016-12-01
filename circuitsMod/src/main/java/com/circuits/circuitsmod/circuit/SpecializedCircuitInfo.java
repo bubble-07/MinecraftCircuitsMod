@@ -18,6 +18,8 @@ public class SpecializedCircuitInfo implements Serializable {
 	private CircuitConfigOptions origOpts;
 	private int[] inputWidths;
 	private int[] outputWidths;
+	private boolean[] analogInputs;
+	private boolean[] analogOutputs;
 	private String configName;
 	
 	public CircuitInfo getInfo() {
@@ -29,6 +31,13 @@ public class SpecializedCircuitInfo implements Serializable {
 	public int[] getOutputWidths() {
 		return this.outputWidths;
 	}
+	public boolean[] getAnalogInputs() {
+		return this.analogInputs;
+	}
+	public boolean[] getAnalogOutputs() {
+		return this.analogOutputs;
+	}
+	
 	public CircuitConfigOptions getConfigOptions() {
 		return this.origOpts;
 	}
@@ -46,6 +55,8 @@ public class SpecializedCircuitInfo implements Serializable {
 		this.configName = impl.getInvoker().getConfigName();
 		this.origOpts = impl.getInvoker().getConfigOptions();
 		this.inputWidths = impl.getInvoker().inputWidths();
-		this.outputWidths = impl.getInvoker().outputWidths();		
+		this.outputWidths = impl.getInvoker().outputWidths();	
+		this.analogInputs = impl.getInvoker().analogInputs();
+		this.analogOutputs = impl.getInvoker().analogOutputs();
 	}
 }

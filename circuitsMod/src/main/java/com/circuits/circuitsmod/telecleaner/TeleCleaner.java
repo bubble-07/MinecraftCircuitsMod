@@ -23,6 +23,7 @@ public class TeleCleaner extends Block
   public TeleCleaner()
   {
     super(Material.ROCK);
+    this.setHardness(9999);
     this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);   // the block will appear on the Blocks tab in creative
   }
 

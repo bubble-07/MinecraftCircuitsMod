@@ -100,12 +100,20 @@ public class CircuitInfoProvider {
     private static void loadUIDMapDefaults() {
     	/*
     	 * And: 0
-    	 * Splitter2 : 2
-    	 * Combiner1 : 8
+    	 * Splitter : 2
+    	 * Combiner : 3
+    	 * Emitter: 7
+    	 * PulseLengthener : 9
+    	 * AnalogToDigital : 11
+    	 * Inverter : 13
+    	 * Demultiplexer : 15
+    	 * NBitDLatch : 17
+    	 * ABBA : 19
     	 */
-    	String[] toRegister = {"And", "Xor", "Splitter2", "Splitter4", "Splitter8", "Splitter16", "Splitter32", "Splitter64",
-    			               "Combiner1", "Combiner2", "Combiner4", "Combiner8", "Combiner16", "Combiner32",
-    			               "HalfAdder"};
+    	String[] toRegister = {"And", "Xor", "Splitter", "Combiner", "Nor", "Nand",
+    			               "HalfAdder", "Emitter", "RisingEdgeDetector", "PulseLengthener",
+    			               "DigitalToAnalog", "AnalogToDigital", "Clock", "Inverter",
+    			               "Multiplexer", "Demultiplexer", "FullAdder", "NBitDLatch", "Implies", "ABBA"};
     	for (int i = 0; i < toRegister.length; i++) {
     		folderToUIDMap.put(toRegister[i], CircuitUID.fromInteger(i));
     	}
@@ -247,6 +255,13 @@ public class CircuitInfoProvider {
 	 */
 	public static int[] getOutputWidths(SpecializedCircuitUID uid) {
 		return infoCache.get(uid).getOutputWidths();
+	}
+	
+	public static boolean[] getAnalogInputs(SpecializedCircuitUID uid) {
+		return infoCache.get(uid).getAnalogInputs();
+	}
+	public static boolean[] getAnalogOutputs(SpecializedCircuitUID uid) {
+		return infoCache.get(uid).getAnalogOutputs();
 	}
 	
 	/**

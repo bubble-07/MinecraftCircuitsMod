@@ -98,6 +98,18 @@ public class CircuitTileEntity extends TileEntity {
 		}
 	}
 	
+	public boolean isAnalog(EnumFacing facing) {
+		Optional<Integer> index = wireMapper.getInputIndexOf(facing);
+		if (index.isPresent()) {
+			return CircuitInfoProvider.getAnalogInputs(this.circuitUID)[index.get()];
+		}
+		index = wireMapper.getOutputIndexOf(facing);
+		if (index.isPresent()) {
+			return CircuitInfoProvider.getAnalogOutputs(this.circuitUID)[index.get()];
+		}
+		return false;
+	}
+	
 
 	public void init(World worldIn, SpecializedCircuitUID circuitUID) {
 		
@@ -138,8 +150,8 @@ public class CircuitTileEntity extends TileEntity {
         BlockPos blockpos1 = pos.offset(side);
         if(net.minecraftforge.event.ForgeEventFactory.onNeighborNotify(getWorld(), pos, getWorld().getBlockState(pos), java.util.EnumSet.of(side)).isCanceled())
             return;
-        getWorld().notifyBlockOfStateChange(blockpos1, this.blockType);
-        getWorld().notifyNeighborsOfStateExcept(blockpos1, this.blockType, side.getOpposite());
+        getWorld().notifyBlockOfStateChange(blockpos1, StartupCommonCircuitBlock.circuitBlock);
+        getWorld().notifyNeighborsOfStateExcept(blockpos1, StartupCommonCircuitBlock.circuitBlock, side.getOpposite());
 	}
 	
 	/**
@@ -280,7 +292,7 @@ public class CircuitTileEntity extends TileEntity {
 			for (int redstoneIndex : this.impl.getRedstoneInputs()) {
 				EnumFacing redstoneFace = this.wireMapper.getInputFace(redstoneIndex);
 				if (this.impl.analogInputs()[redstoneIndex]) {
-					this.inputData.set(redstoneIndex, new BusData(16, getSidePower(redstoneFace)));
+					this.inputData.set(redstoneIndex, new BusData(4, getSidePower(redstoneFace)));
 				}
 				else {
 					this.inputData.set(redstoneIndex, new BusData(1, isSidePowered(redstoneFace) ? 1 : 0));
@@ -300,7 +312,7 @@ public class CircuitTileEntity extends TileEntity {
 					this.redstoneOutputs[face.getIndex()] = (int) outputs.get(redstoneIndex).getData();
 				}
 				else {
-					this.redstoneOutputs[face.getIndex()] = outputs.get(redstoneIndex).getData() > 0 ? 15 : 0;
+					this.redstoneOutputs[face.getIndex()] = ((outputs.get(redstoneIndex).getData() & 1) > 0) ? 15 : 0;
 				}
 			}
 			
@@ -325,7 +337,7 @@ public class CircuitTileEntity extends TileEntity {
 			getWorld().scheduleBlockUpdate(getPos(), StartupCommonCircuitBlock.circuitBlock, 2, 0);
 			getWorld().notifyBlockOfStateChange(getPos(), StartupCommonCircuitBlock.circuitBlock);
 			
-			getWorld().notifyNeighborsOfStateChange(getPos(), blockType);
+			getWorld().notifyNeighborsOfStateChange(getPos(), StartupCommonCircuitBlock.circuitBlock);
 		}
 	}
 	@Override

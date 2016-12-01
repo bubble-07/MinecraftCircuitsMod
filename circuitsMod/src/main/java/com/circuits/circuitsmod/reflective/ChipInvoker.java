@@ -62,7 +62,7 @@ import com.google.common.collect.Lists;
  * is an analog input/output (analogInputs()/analogOutputs()). If analog(Inputs/Outputs)()[i]
  * is true, then the input/output at position i will be a redstone input/output where the power
  * level of the connected wire is identified with the corresponding input/output value to the circuit
- * implementation. Any input/output position declared to be analog must have a 16-bit width (short datatype)
+ * implementation. Any input/output position declared to be analog must have a 4-bit width (byte datatype)
  * 
  * "inputWidths", "outputWidths", and "isSequential" are all required to be idempotent
  *
@@ -252,10 +252,10 @@ public class ChipInvoker extends Invoker {
 						Log.info("Continuing, assuming everything is digital");
 						return new boolean[corrWidths.length];
 					}
-					//Okay, cool. Now check to make sure that every analog position has a width of 16
+					//Okay, cool. Now check to make sure that every analog position has a width of 4
 					for (int i = 0; i < result.length; i++) {
-						if (result[i] && corrWidths[i] != 16) {
-							error.accept("has an " + name + " override, but position " + i + " is not 16-bit!");
+						if (result[i] && corrWidths[i] != 4) {
+							error.accept("has an " + name + " override, but position " + i + " is not 4-bit!");
 							Log.info("Continuing, assuming everything is digital");
 							return new boolean[corrWidths.length];
 						}

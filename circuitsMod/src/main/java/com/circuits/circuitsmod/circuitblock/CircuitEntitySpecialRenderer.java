@@ -31,6 +31,12 @@ public class CircuitEntitySpecialRenderer extends TileEntitySpecialRenderer<Circ
 		Optional<BusSegment> seg = tileEntity.getBusSegment(face);
 		
 		if (seg.isPresent()) {
+			//Special case: analog input/output
+			
+			if (seg.get().getWidth() == 4 && tileEntity.isAnalog(face)) {
+				return new float[]{1.0f, 0.0f, 0.0f};
+			}
+			
 			switch (seg.get().getWidth()) {
 			case 1:
 				return new float[]{1.0f, 0.0f, 0.0f};

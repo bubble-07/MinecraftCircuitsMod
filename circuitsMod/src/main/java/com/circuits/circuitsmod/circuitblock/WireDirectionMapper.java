@@ -68,13 +68,18 @@ public class WireDirectionMapper implements Serializable {
 					outputFaces[0] = parentFacing;
 					break;
 				case 2:
-					inputFaces[0] = parentFacing.rotateYCCW();
-					inputFaces[1] = parentFacing.getOpposite();
-					outputFaces[0] = parentFacing;
-					outputFaces[1] = parentFacing.rotateY();
+					inputFaces[0] = parentFacing.getOpposite();
+					inputFaces[1] = parentFacing.rotateY();
+					outputFaces[0] = parentFacing.rotateYCCW();
+					outputFaces[1] = parentFacing;
 					break;
 				}
 				break;
+			case 3:
+				inputFaces[0] = parentFacing.rotateYCCW();
+				inputFaces[1] = parentFacing.getOpposite();
+				inputFaces[2] = parentFacing.rotateY();
+				outputFaces[0] = parentFacing;
 			}
 			return new WireDirectionMapper(inputFaces, outputFaces);
 		}
