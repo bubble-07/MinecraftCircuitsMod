@@ -1,8 +1,8 @@
 package com.circuits.circuitsmod.testingclasses;
 
 public class TestTickResult {
-	private boolean atEndOfTest;
-	private boolean currentlySucceeding;
+	private boolean atEndOfTest = false;
+	private boolean currentlySucceeding = true;
 	
 	
 	public boolean getAtEndOfTest() {

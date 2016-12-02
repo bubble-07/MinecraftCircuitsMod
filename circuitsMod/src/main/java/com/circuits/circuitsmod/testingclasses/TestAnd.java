@@ -48,7 +48,7 @@ public class TestAnd implements PuzzleTest {
 			break;
 		case 4:
 				testingData = new BusData(4, 3);
-				System.out.println("Test Case 3");
+				System.out.println("Test Case 4");
 				segment.accumulate(worldIn, inputFace, testingData);
 				segment.forceUpdate(worldIn);
 				if (!TileEntityTesting.isSidePowered(testEntity, inputFace.getFacing())) {
