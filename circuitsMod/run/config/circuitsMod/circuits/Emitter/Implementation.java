@@ -35,7 +35,7 @@ public class Implementation {
 		 return (isOn > 0);
 	 }
 	 
-	 public int[] intputWidths() {
+	 public int[] inputWidths() {
 		 int[] widths = {4};
 		 return widths;
 	 }

@@ -19,6 +19,7 @@ import com.circuits.circuitsmod.circuitblock.CircuitTileEntity;
 import com.circuits.circuitsmod.common.BlockFace;
 import com.circuits.circuitsmod.common.PosUtils;
 import com.circuits.circuitsmod.reflective.TestGeneratorInvoker;
+import com.circuits.circuitsmod.telecleaner.StartupCommonCleaner;
 import com.circuits.circuitsmod.testingclasses.PuzzleTest;
 import com.circuits.circuitsmod.testingclasses.TestAnd;
 import com.circuits.circuitsmod.testingclasses.TestTickResult;
@@ -38,6 +39,7 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 	private BlockFace inputFace;
 	
 	private boolean initialized = false;
+	private boolean startTesting = false;
 	
 	private HashMap<Integer, PuzzleTest> testMap = new HashMap<Integer, PuzzleTest>();
 	
@@ -49,6 +51,10 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 	
 	public static boolean isSidePowered(TileEntityTesting testEntity, EnumFacing side) {
 		return testEntity.isSidePowered(side);
+	}
+	
+	public void beginTesting(boolean startTesting) {
+		this.startTesting = startTesting;
 	}
 	
 	public int getLevelID() {
@@ -64,9 +70,12 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 	}
 	
 	public void init(World worldIn, int levelID) {
-		this.levelID = levelID;
-		produceHashMap();
-		initialized = true;
+		if (!getWorld().isRemote) {
+			this.levelID = levelID;
+			produceHashMap();
+			findNearestEmitter();
+			initialized = true;
+		}
 	}
 	
 	public void produceHashMap() {
@@ -77,16 +86,24 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 		//Send signal back to emitter
 		//monitor incoming signals
 		
-		if (!initialized)
+		if (!initialized || !startTesting)
 			return;
+		else if (initialized && startTesting) {
 		PuzzleTest toRun = testMap.get(levelID);
 		TestTickResult result = toRun.test(getWorld(), this);
 		if (result.getAtEndOfTest() && result.getCurrentlySucceeding())
 			spawnTeleCleaner();
+		}
 	}
 	
-	private void spawnTeleCleaner() {
+	@Override
+    public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
+    {
+        return oldState.getBlock() != newState.getBlock();
+    }
 	
+	private void spawnTeleCleaner() {
+		getWorld().setBlockState(getPos(), StartupCommonCleaner.teleCleaner.getDefaultState(), 1);
 	}
 
 	public void findNearestEmitter() {
@@ -95,7 +112,7 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 		 * A block is safe if it's less than 128 units away from the start.
 		 */
 		Predicate<BlockPos> safe = pos-> {
-			return pos.getDistance(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()) > 128;
+			return (pos.getDistance(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()) < 128) && (Math.abs(this.getPos().getY() - pos.getY()) <= 3);
 		};
 		
 		/*
@@ -115,7 +132,7 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 		
 		//Search for the correct block position
 		Optional<BlockPos> candidatePos = PosUtils.searchWithin(this.getPos(), safe, success);
-		
+		//CircuitTileEntity circuitEntity = (CircuitTileEntity)getWorld().getTileEntity(candidatePos.get());
 		if (candidatePos.isPresent()) {
 			BlockPos position = candidatePos.get();
 			Stream<BlockFace> faces = PosUtils.faces(position);
@@ -125,9 +142,13 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 			//Find the face with the largest bus width.  This is our input.
 			for (BlockFace face : faceList) {
 				Optional<BusSegment> currentSegment = CircuitBlock.getBusSegmentAt(getWorld(), face);
+				if (currentSegment.isPresent()) {
 				BusSegment segment = currentSegment.get();
-				if (segment.getWidth() > maxWidth)
-					maximumSegment = currentSegment.get();
+				if (segment.getWidth() > maxWidth) {
+					maxWidth = segment.getWidth();
+					maximumSegment = segment;
+				}
+			}
 			}
 			segment = maximumSegment; //remember the segment
 			BlockFace inputFace = new BlockFace(getPos(), EnumFacing.NORTH); //bind an input to it.

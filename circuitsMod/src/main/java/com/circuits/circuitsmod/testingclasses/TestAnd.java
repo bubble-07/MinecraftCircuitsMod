@@ -14,34 +14,43 @@ public class TestAnd implements PuzzleTest {
 	public TestTickResult test(World worldIn, TileEntityTesting testEntity) {
 		TestTickResult testResult = new TestTickResult();
 		BusSegment segment = testEntity.getBusSegment();
+		//System.out.println(segment.getWidth());
 		BlockFace inputFace = testEntity.getInputFace();
 		BusData testingData;
 		
 		switch (testCounter) {
 		case 1:
+				System.out.println("Test Case 1");
 				testingData = new BusData(4, 0);
 				segment.accumulate(worldIn, inputFace, testingData);
+				segment.forceUpdate(worldIn);
 				if (TileEntityTesting.isSidePowered(testEntity, inputFace.getFacing())) {
 					testResult.setCurrentlySucceeding(false);
 				}
 				break;
 		case 2:
 				testingData = new BusData(4, 1);
+				System.out.println("Test Case 2");
 				segment.accumulate(worldIn, inputFace, testingData);
+				segment.forceUpdate(worldIn);
 				if (TileEntityTesting.isSidePowered(testEntity, inputFace.getFacing())) {
 					testResult.setCurrentlySucceeding(false);
 				} 
 			break;
 		case 3:
 				testingData = new BusData(4, 2);
+				System.out.println("Test Case 3");
 				segment.accumulate(worldIn, inputFace, testingData);
+				segment.forceUpdate(worldIn);
 				if (TileEntityTesting.isSidePowered(testEntity, inputFace.getFacing())) {
 					testResult.setCurrentlySucceeding(false);
 				}
 			break;
 		case 4:
 				testingData = new BusData(4, 3);
+				System.out.println("Test Case 3");
 				segment.accumulate(worldIn, inputFace, testingData);
+				segment.forceUpdate(worldIn);
 				if (!TileEntityTesting.isSidePowered(testEntity, inputFace.getFacing())) {
 					testResult.setCurrentlySucceeding(false);
 				}
