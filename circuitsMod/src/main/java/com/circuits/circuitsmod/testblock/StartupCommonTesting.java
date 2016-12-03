@@ -1,10 +1,7 @@
 package com.circuits.circuitsmod.testblock;
 
-import com.circuits.circuitsmod.GuiHandlerRegistry;
-import com.circuits.circuitsmod.CircuitsMod;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**

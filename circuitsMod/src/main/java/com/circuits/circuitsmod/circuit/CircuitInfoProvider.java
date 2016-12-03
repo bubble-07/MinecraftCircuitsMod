@@ -3,16 +3,13 @@ package com.circuits.circuitsmod.circuit;
 import java.io.File;
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalInt;
 
 import com.circuits.circuitsmod.CircuitsMod;
-import com.circuits.circuitsmod.circuitblock.WireDirectionMapper;
 import com.circuits.circuitsmod.circuitblock.WireDirectionMapper.WireDirectionGenerator;
 import com.circuits.circuitsmod.common.FileUtils;
 import com.circuits.circuitsmod.common.Log;
-import com.circuits.circuitsmod.common.MapUtils;
 import com.circuits.circuitsmod.common.Pair;
 import com.circuits.circuitsmod.network.TypedMessage;
 import com.circuits.circuitsmod.reflective.ChipImpl;
@@ -273,10 +270,21 @@ public class CircuitInfoProvider {
 			Optional<SpecializedChipImpl> impl = SpecializedChipImpl.of(implMap.get(uid.getUID()), uid.getOptions());
 			//TODO: should the specialized chip impl be cached on the server?
 			if (impl.isPresent()) {
-				SpecializedCircuitInfo info = new SpecializedCircuitInfo(infoMap.get(uid.getUID()), impl.get());
+				SpecializedCircuitInfo info = new SpecializedCircuitInfo(uid, infoMap.get(uid.getUID()), impl.get());
 				infoCache.put(uid, info);
 			}
 		}
+	}
+	
+	/**
+	 * Meant to be called from the server only
+	 */
+	public static Optional<SpecializedCircuitInfo> getSpecializedInfoFor(SpecializedCircuitUID uid) {
+		createSpecializedInfoFor(uid);
+		if (infoCache.containsKey(uid)) {
+			return Optional.of(infoCache.get(uid));
+		}
+		return Optional.empty();
 	}
 	
 	/**
@@ -300,10 +308,9 @@ public class CircuitInfoProvider {
 	}
 	
 	public static String getDisplayName(SpecializedCircuitUID uid) {
-		String result = infoMap.get(uid.getUID()).getName();
 		if (infoCache.containsKey(uid)) {
-			result += "(" + infoCache.get(uid).getConfigName() + ")";
+			return infoCache.get(uid).getFullDisplayName();
 		}
-		return result;
+		return infoMap.get(uid.getUID()).getName();
 	}
 }

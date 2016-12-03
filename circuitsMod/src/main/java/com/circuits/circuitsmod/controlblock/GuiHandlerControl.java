@@ -6,7 +6,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
-import net.minecraft.client.gui.*;
 
 /**
  * This class is used to get the client and server gui elements when a player opens a gui. There can only be one registered

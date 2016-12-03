@@ -1,19 +1,13 @@
 package com.circuits.circuitsmod.busblock;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import com.circuits.circuitsmod.common.BlockFace;
 import com.circuits.circuitsmod.common.PosUtils;
 
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
 public class IncrementalConnectedComponents {

@@ -18,7 +18,6 @@ import com.circuits.circuitsmod.circuitblock.WireDirectionMapper.WireDirectionGe
 import com.circuits.circuitsmod.common.FileUtils;
 import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.SerializableItemStack;
-import com.circuits.circuitsmod.reflective.ChipImpl;
 
 /**
  * Information about a circuit that may be communicated over the network.

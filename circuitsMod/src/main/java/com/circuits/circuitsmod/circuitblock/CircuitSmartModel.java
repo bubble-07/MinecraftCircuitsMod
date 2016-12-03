@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.lwjgl.opengl.GL11;
 
 import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
-import com.circuits.circuitsmod.circuit.CircuitUID;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.google.common.collect.Lists;
 

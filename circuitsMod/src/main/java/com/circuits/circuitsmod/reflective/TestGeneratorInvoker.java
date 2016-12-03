@@ -10,7 +10,6 @@ import com.circuits.circuitsmod.circuit.CircuitConfigOptions;
 import com.circuits.circuitsmod.common.BusData;
 import com.circuits.circuitsmod.common.FileUtils;
 import com.circuits.circuitsmod.common.Log;
-import com.circuits.circuitsmod.reflective.ChipInvoker.Provider;
 import com.google.common.collect.Lists;
 
 /**

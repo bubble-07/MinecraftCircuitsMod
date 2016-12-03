@@ -2,7 +2,6 @@ package com.circuits.circuitsmod.busblock;
 
 import com.circuits.circuitsmod.common.ItemBlockMeta;
 
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 

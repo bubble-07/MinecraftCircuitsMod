@@ -1,6 +1,10 @@
 package com.circuits.circuitsmod.controlblock;
 
+import java.util.Optional;
+
 import com.circuits.circuitsmod.CircuitsMod;
+import com.circuits.circuitsmod.controlblock.frompoc.ControlTileEntity;
+
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -53,6 +57,19 @@ public class ControlBlock extends BlockContainer
   public TileEntity createNewTileEntity(World worldIn, int meta) {
     return new TileEntityControl();
   }
+  
+	public static Optional<ControlTileEntity> getControlTileEntityAt(IBlockAccess worldIn, BlockPos pos) {
+		TileEntity te = worldIn.getTileEntity(pos);
+		if (te == null) {
+			return Optional.empty();
+		}
+		try {
+			return Optional.of((ControlTileEntity) te);
+		}
+		catch (ClassCastException e) {
+			return Optional.empty();
+		}
+	}
 
   // not needed if your block implements ITileEntityProvider (in this case implemented by BlockContainer), but it
   //  doesn't hurt to include it anyway...

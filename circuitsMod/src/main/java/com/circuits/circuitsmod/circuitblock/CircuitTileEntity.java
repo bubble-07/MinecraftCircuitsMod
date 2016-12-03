@@ -7,8 +7,6 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import scala.actors.threadpool.Arrays;
-
 import com.circuits.circuitsmod.busblock.BusBlock;
 import com.circuits.circuitsmod.busblock.BusSegment;
 import com.circuits.circuitsmod.busblock.StartupCommonBus;
@@ -17,12 +15,10 @@ import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
 import com.circuits.circuitsmod.circuit.CircuitUID;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.circuitblock.WireDirectionMapper.WireDirectionGenerator;
-import com.circuits.circuitsmod.common.ArrayUtils;
 import com.circuits.circuitsmod.common.BlockFace;
 import com.circuits.circuitsmod.common.BusData;
 import com.circuits.circuitsmod.reflective.ChipInvoker;
 import com.circuits.circuitsmod.reflective.Invoker;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
