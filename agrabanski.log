@@ -54,5 +54,32 @@ Progress for the week ending in 11/25/16:
 to add more visual cues about connectivity to the user
 -Merged Circuit Tile Entity branch into master
 
+Progress for the week ending in 12/2/16:
+-Implemented configurable circuit implementations
+(cuts down on the number of implementation files)
+-Finalized implementations, images for all circuits
+-Helped Sean fix bugs with the puzzle dimension tester tile entity
+-Began assimilating overworld code from the proof-of-concept
+(under the branch merge_proof_of_concept_overworld_code) 
+
 Up next:
-Work with Sean to develop Puzzle Dimension content
+High priority:
+-Finish assimilating proof-of-concept overworld code
+    -Update overworld code to respect config options for unlocks
+    -Update overworld control TE code to allow testing bused circuits
+    -Add dummy I/O blocks for multi-bit testers
+    -Update overworld control GUI code to allow configuring circuits
+    -Merge overworld code back into master
+-Work with Sean to develop Puzzle Dimension content
+
+Low priority:
+-Update old GUI code to use Minecraft's standard widgets
+-Write better descriptions for all circuits
+-Comprehensive code cleanup
+-Fix circuit-reversal on load bug
+-Persist sequential circuit state between sessions
+-Fix permissions issue with saving circuit uidMap to file for
+ the first time on Windows
+-Programmatically generate unicode formatting strings (instead of hard-coding)
+-Visual updates (fancier+skinnier buses, circuit block face textures
+instead of solid colors)
