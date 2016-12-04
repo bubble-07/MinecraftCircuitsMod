@@ -3,6 +3,7 @@ package com.circuits.circuitsmod.controlblock.gui;
 import java.util.List;
 
 import com.circuits.circuitsmod.circuit.CircuitInfo;
+import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
 
 import net.minecraft.item.ItemStack;
 
@@ -24,7 +25,7 @@ public class ControlGuiMainPage extends ControlGuiPage {
 		}	
 	}
 	
-	private void renderCell(CircuitInfo cell, int cell_y, int cell_height) {
+	private void renderCell(CircuitCell cell, int cell_y, int cell_height) {
 		int nameWidth = screenWidth / 2;
 		String displayName = parent.getFontRenderer().trimStringToWidth(cell.getName(), nameWidth);
 		parent.getFontRenderer().drawString(displayName, screenX, cell_y, elementColor);
@@ -52,7 +53,7 @@ public class ControlGuiMainPage extends ControlGuiPage {
 		}
 	}
 	
-	private CircuitInfo yToCell(int ypos) {
+	private CircuitCell yToCell(int ypos) {
 		int y_incr = screenHeight / maxToDisplay;
 		int index =  ((ypos - screenY) / y_incr) + firstItem;
 		if (index > parent.model.numEntries()) {
@@ -76,7 +77,7 @@ public class ControlGuiMainPage extends ControlGuiPage {
 		else if (mouseX > screenX && mouseX < screenX + screenWidth && 
 				mouseY > 0 && mouseY < screenHeight) {
 			//Must be trying to click on a cell
-			CircuitInfo cell = yToCell(mouseY);
+			CircuitCell cell = yToCell(mouseY);
 			if (cell != null) {
 				parent.setDisplayPage(new CellDisplayPage(parent, cell));
 			}

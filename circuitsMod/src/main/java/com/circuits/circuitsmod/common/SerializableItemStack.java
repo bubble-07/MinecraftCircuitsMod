@@ -38,9 +38,12 @@ public class SerializableItemStack implements Serializable {
 	}
 	
 	public static List<ItemStack> itemStacksFromFile(File file) throws IOException {
+		return itemStacksFromNBT(CompressedStreamTools.read(file));
+	}
+	
+	public static List<ItemStack> itemStacksFromNBT(NBTTagCompound cpd) {
 		List<ItemStack> result = new ArrayList<>();
-		
-		NBTTagCompound cpd = CompressedStreamTools.read(file);
+
 		NBTTagList lerst = (NBTTagList) cpd.getTag("Stacks");
 		for (int i = 0; i < lerst.tagCount(); i++) {
 			NBTTagCompound itemCpd = (NBTTagCompound) lerst.get(i);
@@ -49,7 +52,8 @@ public class SerializableItemStack implements Serializable {
 		}
 		return result;
 	}
-	public static void itemStacksToFile(List<ItemStack> stacks, File file) throws IOException {
+	
+	public static NBTTagCompound itemStacksToNBT(List<ItemStack> stacks) {
 		NBTTagCompound cpd = new NBTTagCompound();
 		NBTTagList lerst = new NBTTagList();
 		for (ItemStack item : stacks) {
@@ -58,7 +62,10 @@ public class SerializableItemStack implements Serializable {
 			lerst.appendTag(itemCpd);
 		}
 		cpd.setTag("Stacks", lerst);
-		
-		CompressedStreamTools.write(cpd, file);
+		return cpd;
+	}
+	
+	public static void itemStacksToFile(List<ItemStack> stacks, File file) throws IOException {
+		CompressedStreamTools.write(itemStacksToNBT(stacks), file);
 	}
 }

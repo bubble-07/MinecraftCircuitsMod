@@ -1,10 +1,11 @@
 package com.circuits.circuitsmod.controlblock.gui;
 
 import com.circuits.circuitsmod.circuit.CircuitInfo;
+import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
 
 public class CellDisplayPage extends ControlGuiPage {
-	private final CircuitInfo cell;
-	public CellDisplayPage(final ControlGui parent, final CircuitInfo cell) {
+	private final CircuitCell cell;
+	public CellDisplayPage(final ControlGui parent, final CircuitCell cell) {
 		super(parent);
 		this.cell = cell;
 		this.addElement(new TextButton(parent, "Back", screenX + screenWidth - shortLabelWidth, screenY, () -> {

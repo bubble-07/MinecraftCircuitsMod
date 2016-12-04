@@ -1,6 +1,7 @@
 package com.circuits.circuitsmod.reflective;
 
 import java.io.File;
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -100,8 +101,10 @@ public class ChipInvoker extends Invoker {
 	 */
 	public static class Provider {
 		Class<?> implClass;
+		int numConfigSlots;
 		private Provider(Class<?> implClass) {
 			this.implClass = implClass;
+			this.numConfigSlots = Invoker.getNumConfigSlots(implClass);
 		}
 		public static Optional<Provider> getProvider(File implFile) {
 			Optional<Class<?>> clazz = ReflectiveUtils.loadClassFile(implFile, FileUtils.getCircuitLibDir(), "Implementation");
@@ -112,6 +115,9 @@ public class ChipInvoker extends Invoker {
 		}
 		public Optional<ChipInvoker> getInvoker(CircuitConfigOptions configs) {
 			return ChipInvoker.getInvoker(this.implClass, configs);
+		}
+		public int getNumConfigSlots() {
+			return this.numConfigSlots;
 		}
 	}
 	
@@ -144,7 +150,7 @@ public class ChipInvoker extends Invoker {
 		
 		//Create an instance of the implementation class to be able to
 		//determine the results of calling the idempotent functions in the API
-		Optional<Object> instance = getInstance(implClass);
+		Optional<Serializable> instance = getInstance(implClass);
 		if (!instance.isPresent()) {
 			return Optional.empty();
 		} 

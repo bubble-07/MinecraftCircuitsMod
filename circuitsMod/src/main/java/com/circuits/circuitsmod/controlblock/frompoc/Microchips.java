@@ -7,12 +7,14 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.Lock;
 
 import com.circuits.circuitsmod.circuit.CircuitInfo;
-import com.circuits.circuitsmod.controlblock.tester.RecipeGraph;
+import com.circuits.circuitsmod.controlblock.ControlBlock;
+import com.circuits.circuitsmod.controlblock.gui.net.SpecializationValidationRequest;
 import com.circuits.circuitsmod.controlblock.tester.net.CraftingRequest;
 import com.circuits.circuitsmod.controlblock.tester.net.StringMessage;
 import com.circuits.circuitsmod.controlblock.tester.net.TestRequest;
 import com.circuits.circuitsmod.controlblock.tester.net.TestStateUpdate;
 import com.circuits.circuitsmod.controlblock.tester.net.TestStopRequest;
+import com.circuits.circuitsmod.recipes.RecipeGraph;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -53,8 +55,6 @@ public class Microchips
     
     public static SimpleNetworkWrapper network;
     
-    public static Map<String, CircuitImpl> implMap = new HashMap<>();
-    
     public static RecipeGraph recipeGraph = null;
     
     //TODO: Add server code to periodically reload the main model when __nobody__ is looking
@@ -66,7 +66,6 @@ public class Microchips
     public static void ensureServerModelInit() {
     	if (mainModel == null) {
     		mainModel = new CircuitListModel();
-    		mainModel.initModelServerSide();
     	}
     }
     
@@ -128,6 +127,17 @@ public class Microchips
 			return null;
 		}
 	}
+	
+	public static class SpecializationValidationHandler implements IMessageHandler<SpecializationValidationRequest.Message, IMessage> {
+		@Override
+		public IMessage onMessage(SpecializationValidationRequest.Message msg, MessageContext ctxt) {
+			World world =  ctxt.getServerHandler().playerEntity.worldObj;
+			((IThreadListener) world).addScheduledTask(() -> {
+				SpecializationValidationRequest.handleSpecializationValidationRequest(msg.message, world);
+			});
+			return null;
+		}
+	}
     
     
     @Instance("microchips")
@@ -142,6 +152,8 @@ public class Microchips
     	network.registerMessage(TestStateUpdate.Message.Handler.class, TestStateUpdate.Message.class, 3, Side.CLIENT);
     	network.registerMessage(ServerCraftHandler.class, CraftingRequest.Message.class, 4, Side.SERVER);
     	network.registerMessage(ServerTestStopHandler.class, TestStopRequest.Message.class, 5, Side.SERVER);
+    	network.registerMessage(SpecializationValidationHandler.class, SpecializationValidationRequest.Message.class, 6, Side.SERVER);
+
     }
     
     

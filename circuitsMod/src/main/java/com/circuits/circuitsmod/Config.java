@@ -1,6 +1,9 @@
 package com.circuits.circuitsmod;
 
+import java.util.Arrays;
 import java.util.logging.Level;
+
+import com.circuits.circuitsmod.recipes.RecipeDeterminer.CostCurve;
 
 import net.minecraftforge.common.config.Configuration;
 
@@ -9,13 +12,11 @@ public class Config {
     private static final String CATEGORY_GENERAL = "general";
     private static final String CATEGORY_DIMENSIONS = "dimensions";
 
-    // This values below you can access elsewhere in your mod:
-    public static boolean isThisAGoodTutorial = true;
-    public static String yourRealName = "Steve";
 	public static int dimensionId = 5;
+	public static boolean isCircuitsProgressWorldGlobal = false;
+	public static double circuitCostMultiplier = 1.0;
+	public static CostCurve circuitCostCurve = CostCurve.LOG;
 
-    // Call this from CommonProxy.preInit(). It will create our config if it doesn't
-    // exist yet and read the values if it does exist.
     public static void readConfig() {
         Configuration cfg = CommonProxy.config;
         try {
@@ -33,9 +34,20 @@ public class Config {
 
     private static void initGeneralConfig(Configuration cfg) {
         cfg.addCustomCategoryComment(CATEGORY_GENERAL, "General configuration");
-        // cfg.getBoolean() will get the value in the config if it is already specified there. If not it will create the value.
-        isThisAGoodTutorial = cfg.getBoolean("goodTutorial", CATEGORY_GENERAL, isThisAGoodTutorial, "Set to false if you don't like this tutorial");
-        yourRealName = cfg.getString("realName", CATEGORY_GENERAL, yourRealName, "Set your real name here");
+        
+        isCircuitsProgressWorldGlobal = cfg.getBoolean("CircuitCraftingCollaborative", CATEGORY_GENERAL, isCircuitsProgressWorldGlobal, 
+        		       "Set this to true if you want the circuit unlock progress to be "
+        		       + "shared among all players on the server");
+        
+        circuitCostMultiplier = (double) cfg.getFloat("CircuitCostMultiplier", CATEGORY_GENERAL, (float) circuitCostMultiplier, 
+        		                                      0.0f, 1000.0f, "Change this if you want to change the multiplier"
+        		                                      + "on the item quantities required to craft circuits."
+        		                                      + "If the cost curve is constant, this sets a cap on the number of items instead");
+        String costCurve = cfg.getString("CircuitCostComputation", CATEGORY_GENERAL, circuitCostCurve.getName(), 
+        		                         "One of linear, log, sqrt, constant. Determines the method used to compute circuit costs");
+        circuitCostCurve = Arrays.stream(CostCurve.values())
+        		                 .filter((c) -> c.getName().equalsIgnoreCase(costCurve))
+        		                 .findFirst().orElse(circuitCostCurve);
     }
 
     private static void initDimensionConfig(Configuration cfg) {

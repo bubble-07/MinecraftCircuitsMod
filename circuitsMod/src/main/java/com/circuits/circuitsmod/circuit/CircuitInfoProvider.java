@@ -11,6 +11,7 @@ import com.circuits.circuitsmod.circuitblock.WireDirectionMapper.WireDirectionGe
 import com.circuits.circuitsmod.common.FileUtils;
 import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.Pair;
+import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
 import com.circuits.circuitsmod.network.TypedMessage;
 import com.circuits.circuitsmod.reflective.ChipImpl;
 import com.circuits.circuitsmod.reflective.ChipInvoker;
@@ -186,6 +187,7 @@ public class CircuitInfoProvider {
 					Log.userError("Circuit in directory " + subDir + " is either formatted incorrectly, or is underspecified!");
 					continue;
 				}
+				entry.get().fillImplInfo(impl.get());
 				infoMap.put(uid, entry.get());
 				implMap.put(uid, impl.get());
 			}
@@ -215,6 +217,13 @@ public class CircuitInfoProvider {
 	
 	public static boolean hasInfoOn(CircuitUID uid) {
 		return infoMap.containsKey(uid);
+	}
+	
+	public static Optional<CircuitCell> getCellFor(CircuitUID uid) {
+		if (infoMap.containsKey(uid)) {
+			return Optional.of(new CircuitCell(uid, infoMap.get(uid)));
+		}
+		return Optional.empty();
 	}
 	
 	/**
@@ -289,19 +298,26 @@ public class CircuitInfoProvider {
 	
 	/**
 	 * Meant to be called from the server only
-	 * @param uid
-	 * @return
 	 */
-	public static ChipInvoker getInvoker(SpecializedCircuitUID uid) {
+	public static SpecializedChipImpl getSpecializedImpl(SpecializedCircuitUID uid) {
 		createSpecializedInfoFor(uid);
 		
 		ChipImpl impl = implMap.get(uid.getUID());
 		
-		Optional<ChipInvoker> invoker = impl.getInvoker().getInvoker(uid.getOptions());
-		if (!invoker.isPresent()) {
-			Log.userError("Failed to instantiate invoker for id " + uid);
+		Optional<SpecializedChipImpl> specialized = SpecializedChipImpl.of(impl, uid.getOptions());
+		if (!specialized.isPresent()) {
+			Log.userError("Failed to instantiate specialized circuit for " + uid);
 		}
-		return invoker.get();
+		return specialized.get();
+	}
+	
+	/**
+	 * Meant to be called from the server only
+	 * @param uid
+	 * @return
+	 */
+	public static ChipInvoker getInvoker(SpecializedCircuitUID uid) {
+		return getSpecializedImpl(uid).getInvoker();
 	}
 	public static WireDirectionGenerator getWireDirectionGenerator(CircuitUID uid) {
 		return infoMap.get(uid).getWireDirectionGenerator();

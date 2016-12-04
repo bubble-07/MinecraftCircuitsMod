@@ -2,15 +2,25 @@ package com.circuits.circuitsmod.controlblock.gui;
 
 import java.util.Optional;
 
+import com.circuits.circuitsmod.circuit.CircuitConfigOptions;
 import com.circuits.circuitsmod.circuit.CircuitInfo;
+import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
+import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.controlblock.frompoc.Microchips;
+import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
 import com.circuits.circuitsmod.controlblock.tester.TestConfig;
 import com.circuits.circuitsmod.controlblock.tester.net.TestRequest;
 
 public class TestSettingsPage extends ControlGuiPage {
-	public final CircuitInfo cell;
+	public final CircuitCell cell;
 	private TextEntryBox.IntEntryBox delayBox;
-	public TestSettingsPage(final ControlGui parent, final CircuitInfo cell) {
+	private CircuitSpecializationFields circuitFields;
+	
+	public void setCircuitOptions(CircuitConfigOptions configs) {
+		circuitFields.setOptions(configs);
+	}
+	
+	public TestSettingsPage(final ControlGui parent, final CircuitCell cell) {
 		super(parent);
 		this.cell = cell;
 		addElement(new TextButton(parent, "Back", screenX + screenWidth - shortLabelWidth, screenY, new Runnable() {
@@ -24,6 +34,11 @@ public class TestSettingsPage extends ControlGuiPage {
 				shortLabelWidth, shortLabelHeight, 20);
 		addElement(delayBox);
 		
+		circuitFields = new CircuitSpecializationFields(parent, screenX, screenY + (screenHeight / 2) + shortLabelHeight,
+				                                        screenWidth, (screenHeight / 2), cell);
+		addElement(circuitFields);
+		
+		
 		this.addElement(new TextButton(parent, "Test", screenX + screenWidth - shortLabelWidth, screenY + screenHeight - shortLabelHeight, new Runnable() {
 			@Override public void run() {
 				if (parent.tileEntity.testInProgress()) {
@@ -31,10 +46,17 @@ public class TestSettingsPage extends ControlGuiPage {
 				}
 				else {
 					TestConfig config = getEnteredConfig();
-					if (config != null) {
+					if (config != null && circuitFields.getConfigName().isPresent()) {
+						Optional<SpecializedCircuitUID> uid = circuitFields.getUID();
+						if (!uid.isPresent()) {
+							Log.internalError("Circuit specialization has a name, but no valid UID");
+							return;
+						}
 						parent.setDisplayPage(new TestProgressPage(thiz.getThis()));
 						//Testing, ENGAGE
-						Microchips.network.sendToServer(new TestRequest.Message(cell.getName(), parent.tileEntity.getPos(), config));
+						Microchips.network.sendToServer(
+								new TestRequest.Message(parent.user.getUniqueID(),
+										                uid.get(), parent.tileEntity.getPos(), config));
 					}
 				}
 			}

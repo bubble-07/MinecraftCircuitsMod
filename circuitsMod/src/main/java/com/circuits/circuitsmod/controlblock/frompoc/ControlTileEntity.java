@@ -1,8 +1,11 @@
 package com.circuits.circuitsmod.controlblock.frompoc;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitInfo;
@@ -11,10 +14,12 @@ import com.circuits.circuitsmod.circuitblock.CircuitItem;
 import com.circuits.circuitsmod.common.ItemUtils;
 import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.SerialUtils;
+import com.circuits.circuitsmod.controlblock.gui.net.ServerGuiMessage;
 import com.circuits.circuitsmod.controlblock.tester.TestConfig;
 import com.circuits.circuitsmod.controlblock.tester.TestState;
 import com.circuits.circuitsmod.controlblock.tester.Tester;
 import com.circuits.circuitsmod.frameblock.StartupCommonFrame;
+import com.circuits.circuitsmod.recipes.RecipeUtils;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -34,7 +39,26 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 	Tester tester = null;
 	TestState state = null;
 	
-	private SpecializedCircuitInfo craftingCell = null;
+	private SpecializedCircuitUID craftingCell = null;
+	private UUID craftingPlayer = null;
+	
+	//TODO: I can't see a better way to send messages from the server back to the client than this.
+	//is there in fact a better way?
+	//TODO: should the results be in a queue? Some other structure?
+	private HashMap<UUID, ServerGuiMessage> pendingGuiMessages = new HashMap<>();
+	
+	public void postGuiMessage(UUID player, ServerGuiMessage msg) {
+		this.pendingGuiMessages.put(player, msg);
+	}
+	
+	public Optional<ServerGuiMessage> getGuiMessage(UUID player) {
+		ServerGuiMessage msg = this.pendingGuiMessages.get(player);
+		if (msg != null) {
+			this.pendingGuiMessages.remove(player);
+		}
+		return Optional.ofNullable(msg);
+	}
+	
 	
 	private final String name = "controltileentity";
 	
@@ -60,11 +84,16 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 		tester = null;
 		state = null;
 	}
+	public void unsetCraftingCell() {
+		this.craftingCell = null;
+		this.craftingPlayer = null;
+	}
 	
-	public void setCraftingCell(SpecializedCircuitInfo craftingCell) {
+	public void setCraftingCell(UUID player, SpecializedCircuitUID craftingCell) {
+		this.craftingPlayer = player;
 		this.craftingCell = craftingCell;
 	}
-	public SpecializedCircuitInfo getCraftingCell() {
+	public SpecializedCircuitUID getCraftingCell() {
 		return this.craftingCell;
 	}
 	
@@ -73,7 +102,7 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 			int numCraftable = numCraftable();
 			//TODO: Set this to work with chips
 			if (numCraftable != 0 && (inv[7] == null || inv[7].getItem() == Item.getItemFromBlock(StartupCommonFrame.frameBlock))) {
-				inv[7] = getCircuitStack(craftingCell.getUID(), numCraftable);
+				inv[7] = getCircuitStack(craftingCell, numCraftable);
 			}
 			this.markDirty();
 		}
@@ -91,7 +120,7 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 	
 	public int numCraftable() {
 		int numCraftable = 9999;
-		Optional<List<ItemStack>> cost = craftingCell.getInfo().getCost();
+		Optional<List<ItemStack>> cost = getCost(craftingPlayer, craftingCell);
 		if (!cost.isPresent()) {
 			return 0;
 		}
@@ -106,7 +135,7 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 		
 		inv[7] = null;
 		if (craftingCell != null) {
-			List<ItemStack> totalCost = ItemUtils.mapOverQty(craftingCell.getInfo().getCost().get(), (qty) -> (qty * numCrafted));
+			List<ItemStack> totalCost = ItemUtils.mapOverQty(getCost(craftingPlayer, craftingCell).get(), (qty) -> (qty * numCrafted));
 			for (ItemStack cost : totalCost) {
 				for (int i = 0; i < 5; i++) {
 					if (inv[i] != null && cost != null && cost.getItem() == inv[i].getItem()) {
@@ -130,7 +159,7 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 			EntityPlayer player = playersInRange.get(0);
 			
 			
-			player.inventory.addItemStackToInventory(getCircuitStack(craftingCell.getUID(), numCrafted));
+			player.inventory.addItemStackToInventory(getCircuitStack(craftingCell, numCrafted));
 		}
 	}
 	
@@ -138,6 +167,10 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 		ItemStack result = CircuitItem.getStackFromUID(uid);
 		result.stackSize = numCrafted;
 		return result;
+	}
+	
+	private Optional<List<ItemStack>> getCost(UUID craftingPlayer, SpecializedCircuitUID uid) {
+		return RecipeUtils.getRecipeFor(getWorld(), craftingPlayer, uid.getUID());
 	}
 	
 	public void updateState(TestState newState) {
@@ -149,14 +182,16 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 	}
 	
 	//Server-only
-	public void startTest(SpecializedCircuitUID circuitUID, TestConfig config) {
+	public void startTest(UUID playerId, SpecializedCircuitUID circuitUID, TestConfig config) {
+		
+		EntityPlayer player = getWorld().getPlayerEntityByUUID(playerId);
 		
 		Optional<SpecializedCircuitInfo> circuit = CircuitInfoProvider.getSpecializedInfoFor(circuitUID);
 		if (!circuit.isPresent()) {
 			Log.internalError("Circuit entry not present! " + circuitUID);
 			return;
 		}
-		this.tester = new Tester(this, circuit.get(), config);
+		this.tester = new Tester(player, this, circuit.get(), config);
 		this.state = tester.getState();
 	}
 	
@@ -232,6 +267,9 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 	public void readFromNBT(NBTTagCompound tagCompound) {
 		super.readFromNBT(tagCompound);
 		
+		this.pendingGuiMessages = (HashMap<UUID, ServerGuiMessage>) 
+				                 SerialUtils.fromByteArray(getTileData().getByteArray("PendingGuiMessages"));
+		
 		this.state = (TestState) SerialUtils.fromByteArray(getTileData().getByteArray("TestState"));
 		
 		NBTTagList tagList = tagCompound.getTagList("Inventory", 10);
@@ -247,6 +285,7 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 	public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 		
 		this.getTileData().setByteArray("TestState", SerialUtils.toByteArray(this.state));
+		this.getTileData().setByteArray("PendingGuiMessages", SerialUtils.toByteArray(this.pendingGuiMessages));
 		
 		super.writeToNBT(tagCompound);
 		NBTTagList itemList = new NBTTagList();

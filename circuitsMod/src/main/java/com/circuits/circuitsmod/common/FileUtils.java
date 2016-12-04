@@ -15,7 +15,7 @@ import net.minecraftforge.common.DimensionManager;
 import org.apache.commons.lang3.StringUtils;
 
 public class FileUtils {
-	static final String worldSaveDirName = "microchips";
+	static final String worldSaveDirName = "circuitsMod";
 
 	public static Optional<Object> objectFromFile(File in) {
 		try {
@@ -58,7 +58,6 @@ public class FileUtils {
 	public static File getConfigRootDir() {
 		return new File(Minecraft.getMinecraft().mcDataDir.toString() + "/config/circuitsMod");
 	}
-	
 
 	
 	public static File getCircuitDefinitionsDir() {

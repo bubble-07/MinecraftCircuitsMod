@@ -3,13 +3,16 @@ package com.circuits.circuitsmod.controlblock.frompoc;
 import io.netty.buffer.ByteBuf;
 
 import java.util.ArrayList;
+
 import com.circuits.circuitsmod.circuit.CircuitInfo;
 import com.circuits.circuitsmod.common.SerialUtils;
+import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
 
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 
+//TODO: Move me to the gui.model package
 public class CircuitListModel implements IMessage {
-	public ArrayList<CircuitInfo> items = new ArrayList<CircuitInfo>();
+	public ArrayList<CircuitCell> items = new ArrayList<CircuitCell>();
 	
 	public CircuitListModel() {}
 	
@@ -17,7 +20,7 @@ public class CircuitListModel implements IMessage {
 	public int numEntries() {
 		return items.size();
 	}
-	public CircuitInfo getCell(int index) {
+	public CircuitCell getCell(int index) {
 		return items.get(index);
 	}
 	
@@ -27,7 +30,7 @@ public class CircuitListModel implements IMessage {
 	
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		items = (ArrayList<CircuitInfo>) SerialUtils.fromBytes(buf);
+		items = (ArrayList<CircuitCell>) SerialUtils.fromBytes(buf);
 	}
 	@Override
 	public void toBytes(ByteBuf buf) {

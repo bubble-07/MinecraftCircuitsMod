@@ -2,7 +2,9 @@ package com.circuits.circuitsmod.controlblock.tester.net;
 
 import java.io.Serializable;
 import java.util.Optional;
+import java.util.UUID;
 
+import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.SerialUtils;
 import com.circuits.circuitsmod.controlblock.ControlBlock;
@@ -20,11 +22,14 @@ public class TestRequest implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String circuitName;
+	
+	private UUID playerId;
+	private SpecializedCircuitUID uid;
 	private Long pos;
 	private TestConfig config;
-	public TestRequest(String name, BlockPos pos, TestConfig config) {
-		this.circuitName = name;
+	public TestRequest(UUID playerId, SpecializedCircuitUID uid, BlockPos pos, TestConfig config) {
+		this.playerId = playerId;
+		this.uid = uid;
 		this.pos = pos.toLong();
 		this.config = config;
 	}
@@ -32,8 +37,8 @@ public class TestRequest implements Serializable {
 	public BlockPos getPos() {
 		return BlockPos.fromLong(pos);
 	}
-	public String getName() {
-		return circuitName;
+	public SpecializedCircuitUID getUID() {
+		return this.uid;
 	}
 	
 	public static void handleTestRequest(TestRequest in, World worldIn) {
@@ -42,15 +47,15 @@ public class TestRequest implements Serializable {
 			Log.internalError("Attempting to handle test request at " + in.getPos() + " but no control TE present!");
 			return;
 		}
-		entity.get().startTest(in.circuitName, in.config);
+		entity.get().startTest(in.playerId, in.uid, in.config);
 		
 	}
 	
 	public static class Message implements IMessage {
 		public TestRequest message = null;
 		public Message() { }
-		public Message(String circuitName, BlockPos pos, TestConfig config) {
-			message = new TestRequest(circuitName, pos, config);
+		public Message(UUID playerId, SpecializedCircuitUID uid, BlockPos pos, TestConfig config) {
+			message = new TestRequest(playerId, uid, pos, config);
 		}
 		@Override
 		public void fromBytes(ByteBuf in) {

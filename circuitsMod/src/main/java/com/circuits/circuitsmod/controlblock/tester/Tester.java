@@ -1,21 +1,33 @@
 package com.circuits.circuitsmod.controlblock.tester;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import com.circuits.circuitsmod.circuit.CircuitInfo;
+import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitInfo;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
+import com.circuits.circuitsmod.common.BusData;
 import com.circuits.circuitsmod.controlblock.frompoc.ControlTileEntity;
 import com.circuits.circuitsmod.controlblock.frompoc.Microchips;
 import com.circuits.circuitsmod.controlblock.tester.net.TestStateUpdate;
 import com.circuits.circuitsmod.frameblock.StartupCommonFrame;
+import com.circuits.circuitsmod.recipes.RecipeDeterminer;
+import com.circuits.circuitsmod.reflective.ChipInvoker;
+import com.circuits.circuitsmod.reflective.Invoker;
+import com.circuits.circuitsmod.reflective.SpecializedChipImpl;
+import com.circuits.circuitsmod.reflective.TestGenerator;
+import com.google.common.collect.Lists;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -29,9 +41,16 @@ public class Tester {
 	ControlTileEntity parent;
 	
 	public SpecializedCircuitInfo testing = null;
-	CircuitImpl impl = null;
+	public SpecializedChipImpl internalImpls;
+	Serializable internalTestState;
+	Invoker.State internalCircuitState;
+	
+	EntityPlayer invokingPlayer;
+	
 	int testindex = 0;
 	TestConfig config = null;
+	
+	List<BusData> currentInputCase;
 	
 	boolean finished = false;
 	boolean success = false;
@@ -47,17 +66,22 @@ public class Tester {
 	ArrayList<BlockPos> outputBlocks = new ArrayList<>();
 	ArrayList<IBlockState> initInputStates = new ArrayList<>();
 	
-	public Tester(ControlTileEntity parent, SpecializedCircuitInfo circuit, TestConfig config) {
+	public Tester(EntityPlayer player, ControlTileEntity parent, SpecializedCircuitInfo circuit, TestConfig config) {
 		this.parent = parent;
 		this.circuitUID = circuit.getUID();
 		this.config = config;
-		
+		this.invokingPlayer = player;
 		this.testing = circuit;
 		
-		this.impl = Microchips.implMap.get(testing.getName());
+		this.internalImpls = CircuitInfoProvider.getSpecializedImpl(circuitUID);
+		
 		initTesting();
 		setupNewTest();
 		
+	}
+	
+	public SpecializedCircuitUID getUID() {
+		return this.circuitUID;
 	}
 	
 	public boolean testInProgress() {
@@ -80,14 +104,19 @@ public class Tester {
 	}
 	
 	public TestState getState() {
-		return new TestState(circuitUID, testindex, impl.test.numTests(), this.finished, this.success, this.config);
+		return new TestState(circuitUID, testindex, this.internalImpls.getTestGenerator().totalTests(), 
+				             this.finished, this.success, this.config, this.internalTestState, this.currentInputCase);
+	}
+	
+	public EntityPlayer getInvokingPlayer() {
+		return this.invokingPlayer;
 	}
 	
 	public void update() {
 		if (!this.finished) {
 			if (testWait == 0) {
 				testWait = config.tickDelay;
-				if (!finishNewTest()) {
+				if (!getResultOfTest()) {
 					//Test failed
 					this.finished = true;
 					this.success = false;
@@ -95,14 +124,15 @@ public class Tester {
 				}
 				else {
 					testindex++;
-					if (testindex == impl.test.numTests()) {
+					boolean moreTests = setupNewTest();
+					if (!moreTests) {
 						this.finished = true;
 						this.success = true;
 						restoreInitState();
 						RecipeDeterminer.determineRecipe(this);
 					}
 					else {
-						setupNewTest();
+						deliverTestInputs();
 					}
 				}
 				parent.updateState(this.getState());
@@ -117,33 +147,47 @@ public class Tester {
 		}
 	}
 	
-	private void setupNewTest() {
-		boolean[] testInputs = impl.test.testCase(testindex);
-		
-		for (int i = 0; i < inputBlocks.size(); i++) {
-			if (testInputs[i]) {
-				//TODO: __don't__ place redstone blocks, place a block just like it that, when broken, explodes.
+	/**
+	 * 
+	 * @return true if we were able to set up a new test, false if there are no more tests
+	 */
+	private boolean setupNewTest() {
+		TestGenerator testGen = this.internalImpls.getTestGenerator();
+		Optional<List<BusData>> testData = testGen.invoke(this.internalTestState);
+		if (testData.isPresent()) {
+			this.currentInputCase = testData.get();
+			return true;
+		}
+		testWait = config.tickDelay;
+		return false;
+	}
+	
+	private void deliverTestInputs() {
+		for (int i = 0; i < this.inputBlocks.size(); i++) {
+			//TODO: support multi-bit inputs!
+			//TODO: Also don't do this -- instead, set the redstone power level or something like that
+			//the user should never be able to harvest redstone blocks during a test!
+			if (currentInputCase.get(i).getData() > 0) {
 				replaceWith(inputBlocks.get(i), Blocks.REDSTONE_BLOCK);
 			}
 			else {
 				replaceWith(inputBlocks.get(i), Blocks.AIR);
 			}
 		}
-		testWait = 100;
 	}
-	private boolean finishNewTest() {
-		System.out.println("Test index" + testindex);
-		boolean[] testInputs = impl.test.testCase(testindex);
-		boolean[] expectedOutputs = impl.impl.compute(testInputs);
+	
+	private boolean getResultOfTest() {
+		List<BusData> expected = internalImpls.getInvoker().invoke(this.internalCircuitState, this.currentInputCase);
+		//TODO: Support multi-bit outputs!
+		List<BusData> actual = Lists.newArrayList();
 		for (int i = 0; i < outputBlocks.size(); i++) {
-			boolean actual = parent.getWorld().isBlockPowered(outputBlocks.get(i)) || 
-							(parent.getWorld().isBlockIndirectlyGettingPowered(outputBlocks.get(i)) > 0);
-			if (actual != expectedOutputs[i]) {
-				return false;
+			boolean reading = parent.getWorld().isBlockPowered(outputBlocks.get(i)) || 
+					(parent.getWorld().isBlockIndirectlyGettingPowered(outputBlocks.get(i)) > 0);
+			if (reading) {
+				actual.add(new BusData(1, reading ? 1 : 0));
 			}
 		}
-		return true;
-		
+		return actual.equals(expected);
 	}
 	
 	private static Stream<BlockPos> forPosIn(AxisAlignedBB box) {
@@ -187,7 +231,9 @@ public class Tester {
 		return one.equalsIgnoreCase(two);
 	}
 	
-	private BlockPos findSignTextIn(String text, AxisAlignedBB box) {
+	private Optional<BlockPos> findSignFor(boolean isInput, int index, AxisAlignedBB box) {
+		final String text = (isInput ? "I" : "O") + index;
+		
 		return forPosIn(box).filter((pos) -> {
 			TileEntity entity = parent.getWorld().getTileEntity(pos);
 			if (entity instanceof TileEntitySign) {
@@ -195,7 +241,7 @@ public class Tester {
 				return approxStringMatch(text, signTextToString(chatlines));
 			}
 			return false;
-		}).findFirst().orElse(null);
+		}).findFirst();
 	}
 	
 	private void initTesting() {
@@ -237,18 +283,20 @@ public class Tester {
 								     parent.getPos().add(pos_x_extent, vertExtent, pos_z_extent));
 		System.out.println(testbbox);
 		
-		for (int i = 0; i < impl.impl.inputNames().length; i++) {
-			BlockPos pos = findSignTextIn(impl.impl.inputNames()[i], testbbox);
-			if (pos != null) {
-				inputBlocks.add(pos);
-				initInputStates.add(parent.getWorld().getBlockState(pos));
+		//TODO: Bring optional named inputs into circuit configs
+		ChipInvoker invoker = this.internalImpls.getInvoker();
+		for (int i = 0; i < invoker.numInputs(); i++) {
+			//TODO: Should we warn if we can't find a formally-defined input?
+			Optional<BlockPos> pos = findSignFor(true, i, testbbox);
+			if (pos.isPresent()) {
+				inputBlocks.add(pos.get());
+				initInputStates.add(parent.getWorld().getBlockState(pos.get()));
 			}
 		}
-		
-		for (int i = 0; i < impl.impl.outputNames().length; i++) {
-			BlockPos pos = findSignTextIn(impl.impl.outputNames()[i], testbbox);
-			if (pos != null) {
-				outputBlocks.add(pos);
+		for (int i = 0; i < invoker.numOutputs(); i++) {
+			Optional<BlockPos> pos = findSignFor(true, i, testbbox);
+			if (pos.isPresent()) {
+				outputBlocks.add(pos.get());
 			}
 		}
 	}

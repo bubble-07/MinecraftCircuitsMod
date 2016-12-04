@@ -1,24 +1,42 @@
 package com.circuits.circuitsmod.controlblock.gui;
 
+import java.util.Optional;
+
+import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitInfo;
+import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
+import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
 
 
 public class CraftingPage extends ControlGuiPage {
-	SpecializedCircuitInfo cell;
-	public CraftingPage(final ControlGui parent, final SpecializedCircuitInfo cell) {
+	CircuitCell cell;
+	CircuitSpecializationFields specialFields;
+	
+	public CraftingPage(final ControlGui parent, final CircuitCell cell) {
 		super(parent);
 		this.cell = cell;
-		parent.tileEntity.setCraftingCell(cell);
+		this.specialFields = new CircuitSpecializationFields(parent, screenX, screenY + (screenHeight / 2), 
+				                                             screenWidth, (screenHeight / 2),
+				                                             cell);
+		
+		
+		parent.tileEntity.unsetCraftingCell();
 		this.addElement(new TextButton(parent, "Back", screenX + screenWidth - shortLabelWidth, screenY, new Runnable() {
 			@Override public void run() {
 				parent.setDisplayPage(new ControlGuiMainPage(parent)); 
-				parent.tileEntity.setCraftingCell(null);
+				parent.tileEntity.unsetCraftingCell();
 			}
 		}));
 	}
 	@Override
 	public void draw() {
-		parent.getFontRenderer().drawString(cell.getFullDisplayName(), screenX, screenY, elementColor);
+		Optional<String> configName = specialFields.getConfigName();
+		if (configName.isPresent()) {
+			Optional<SpecializedCircuitUID> uid = specialFields.getUID();
+			parent.tileEntity.setCraftingCell(parent.user.getUniqueID(), uid.get());
+		}
+		
+		parent.getFontRenderer().drawString(cell.getName(), screenX, screenY, elementColor);
 		parent.drawHorizontalLine(screenX, screenX + screenWidth, screenY + 10, elementColor);
 		
 		cell.getInfo().getCost().ifPresent((cost) -> {

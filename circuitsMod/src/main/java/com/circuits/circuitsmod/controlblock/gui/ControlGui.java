@@ -2,6 +2,7 @@ package com.circuits.circuitsmod.controlblock.gui;
 
 import java.awt.Color;
 import java.io.IOException;
+
 import org.lwjgl.opengl.GL11;
 
 import com.circuits.circuitsmod.controlblock.frompoc.CircuitListModel;
@@ -13,6 +14,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -21,6 +23,8 @@ public class ControlGui extends GuiContainer {
 	public CircuitListModel model;
 	ControlTileEntity tileEntity;
 	ControlGuiPage currentPage;
+	EntityPlayer user;
+	
 	
 	public FontRenderer getFontRenderer() {
 		return fontRendererObj;
@@ -65,6 +69,9 @@ public class ControlGui extends GuiContainer {
 		}
 		model = Microchips.mainModel;
 		this.tileEntity = tileEntity;
+		
+		this.user = inventoryPlayer.player;
+		user.getUniqueID();
 		
 		this.setDisplayPage(new ServerWaitPage(this));
 	}

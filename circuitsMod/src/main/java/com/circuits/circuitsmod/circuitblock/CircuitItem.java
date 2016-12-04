@@ -21,6 +21,9 @@ public class CircuitItem extends ItemBlock {
 	
 	private static final String circuitUIDTag = "circuitUID";
 	
+	private static final String SECTION_SYMBOL = Character.toString((char)0x00a7);
+	private static final String NULL_SYMBOL = Character.toString((char)0xF8);
+	
 	@SideOnly(Side.CLIENT)
 	public CircuitSmartModel renderer;
 	
@@ -41,7 +44,7 @@ public class CircuitItem extends ItemBlock {
 		String result = "";
 		String[] chars = Integer.toString(val).split("");
 		for (String c : chars) {
-			result += "§" + c;
+			result += SECTION_SYMBOL + c;
 		}
 		return result;
 	}
@@ -66,16 +69,16 @@ public class CircuitItem extends ItemBlock {
 		
 		String result = prefix;
 		for (int i = 0; i < optVals.length; i++) {
-			result += "§ ";
+			result += SECTION_SYMBOL + " ";
 			result += intToSecret(optVals[i]);
 		}
 		return result;
 	}
 	
 	private static SpecializedCircuitUID fromSecretString(String str) {
-		String separator = "§ ";
+		String separator = SECTION_SYMBOL + " ";
 		if (!str.contains(separator)) {
-			separator = "ø ";
+			separator = NULL_SYMBOL + " ";
 		}
 		if (!str.contains(separator)) {
 			return new SpecializedCircuitUID(CircuitUID.fromInteger(secretToInt(str)), new CircuitConfigOptions());
@@ -116,9 +119,9 @@ public class CircuitItem extends ItemBlock {
 	
 	public static Optional<SpecializedCircuitUID> getUIDFromStack(ItemStack stack) {
 		String displayName = stack.getDisplayName();
-		int secretIndex = displayName.indexOf("§", 0);
+		int secretIndex = displayName.indexOf(SECTION_SYMBOL, 0);
 		if (secretIndex == -1) {
-			secretIndex = displayName.indexOf("ø", 0);
+			secretIndex = displayName.indexOf(NULL_SYMBOL, 0);
 			if (secretIndex == -1) {
 				Log.internalError("Circuit TE Item Stack has bad metadata.");
 				return Optional.empty();

@@ -1,5 +1,8 @@
 package com.circuits.circuitsmod;
 
+import java.io.File;
+
+import com.circuits.circuitsmod.common.FileUtils;
 import com.circuits.circuitsmod.world.PuzzleDimensions;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,6 +21,12 @@ public abstract class CommonProxy {
    */
   public void preInit()
   {
+	  File configRoot = FileUtils.getConfigRootDir();
+	  configRoot.mkdirs();
+	  File configFile = new File(configRoot + "/circuits.cfg");
+	  
+	  config = new Configuration(configFile);
+	  
 	  com.circuits.circuitsmod.frameblock.StartupCommonFrame.preInitCommon();
 	  com.circuits.circuitsmod.controlblock.StartupCommonControl.preInitCommon();
 	  com.circuits.circuitsmod.busblock.StartupCommonBus.preInitCommon();
@@ -26,6 +35,7 @@ public abstract class CommonProxy {
 	  com.circuits.circuitsmod.testblock.StartupCommonTesting.preInitCommon();
 	  //com.circuits.circuitsmod.portalitem.StartupCommonActivator.preInitCommon();
   	  com.circuits.circuitsmod.circuitblock.StartupCommonCircuitBlock.preInitCommon();
+  	  Config.readConfig();
   }
   /**
    * Do your mod setup. Build whatever data structures you care about. Register recipes,

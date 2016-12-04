@@ -1,5 +1,6 @@
 package com.circuits.circuitsmod.reflective;
 
+import java.io.Serializable;
 import java.util.Optional;
 
 import com.circuits.circuitsmod.circuit.CircuitConfigOptions;
@@ -13,14 +14,14 @@ import com.circuits.circuitsmod.circuit.CircuitConfigOptions;
 public class SpecializedChipImpl {
 	
 	private ChipInvoker invoker;
-	private Optional<TestGeneratorInvoker> testInvoker;
+	private TestGenerator testGen;
 	private ChipImpl oldImpl;
 	
 	public ChipInvoker getInvoker() {
 		return this.invoker;
 	}
-	public Optional<TestGeneratorInvoker> getTestGenerator() {
-		return this.testInvoker;
+	public TestGenerator getTestGenerator() {
+		return this.testGen;
 	}
 	
 	public static Optional<SpecializedChipImpl> of(ChipImpl impl, CircuitConfigOptions configs) {
@@ -34,7 +35,12 @@ public class SpecializedChipImpl {
 	
 	private SpecializedChipImpl(ChipInvoker invoker, Optional<TestGeneratorInvoker> testInvoker, ChipImpl oldImpl) {
 		this.invoker = invoker;
-		this.testInvoker = testInvoker;
+		if (testInvoker.isPresent()) {
+			this.testGen = testInvoker.get();
+		}
+		else {
+			this.testGen = new DefaultTestGenerator(invoker.inputWidths());
+		}
 		this.oldImpl = oldImpl;
 	}
 }

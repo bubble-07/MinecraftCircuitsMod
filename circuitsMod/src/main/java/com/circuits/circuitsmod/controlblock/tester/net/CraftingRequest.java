@@ -2,6 +2,7 @@ package com.circuits.circuitsmod.controlblock.tester.net;
 
 import java.io.Serializable;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.circuits.circuitsmod.circuit.CircuitInfo;
 import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
@@ -24,10 +25,12 @@ public class CraftingRequest implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long pos;
 	int numCrafted;
+	UUID player;
 	
 	SpecializedCircuitUID circuitUID;
 	
-	public CraftingRequest(BlockPos pos, int numCrafted, SpecializedCircuitUID uid) {
+	public CraftingRequest(UUID player, BlockPos pos, int numCrafted, SpecializedCircuitUID uid) {
+		this.player = player;
 		this.pos = pos.toLong();
 		this.numCrafted = numCrafted;
 		this.circuitUID = uid;
@@ -44,26 +47,18 @@ public class CraftingRequest implements Serializable {
 		if (!entity.isPresent()) {
 			Log.internalError("Crafting request failed. No control TE at " + in.getPos());
 		}
-		//Handling the crafting request happens on the server, so we're perfectly justified in just looking
-		//at specialized circuit info without needing to wait on some kind of initialization/response
-		Optional<SpecializedCircuitInfo> circuit = CircuitInfoProvider.getSpecializedInfoFor(in.circuitUID);
-
-		if (!circuit.isPresent()) {
-			Log.internalError("No circuit present on crafting request: " + in.circuitUID + " in " + Microchips.mainModel.items.toString());
-			return;
-		}
 		
 		//The server should never have the crafting cell set for too long
-		entity.get().setCraftingCell(circuit.get());
+		entity.get().setCraftingCell(in.player, in.circuitUID);
 		entity.get().craftingSlotPickedUp(in.numCrafted);
-		entity.get().setCraftingCell(null);
+		entity.get().unsetCraftingCell();
 	}
 	
 	public static class Message implements IMessage {
 		public CraftingRequest message = null;
 		public Message() { }
-		public Message(BlockPos pos, int numCrafted, SpecializedCircuitUID circuitUid) {
-			message = new CraftingRequest(pos, numCrafted, circuitUid);
+		public Message(UUID player, BlockPos pos, int numCrafted, SpecializedCircuitUID circuitUid) {
+			message = new CraftingRequest(player, pos, numCrafted, circuitUid);
 		}
 		@Override
 		public void fromBytes(ByteBuf in) {

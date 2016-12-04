@@ -2,11 +2,12 @@ package com.circuits.circuitsmod.controlblock.gui;
 
 import com.circuits.circuitsmod.circuit.CircuitInfo;
 import com.circuits.circuitsmod.controlblock.frompoc.Microchips;
+import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
 import com.circuits.circuitsmod.controlblock.tester.TestState;
 import com.circuits.circuitsmod.controlblock.tester.net.TestStopRequest;
 
 public class TestProgressPage extends ControlGuiPage {
-	private final CircuitInfo cell;
+	private final CircuitCell cell;
 	private final TestSettingsPage prev; 
 	int successBootTimer = 40;
 	
@@ -19,7 +20,7 @@ public class TestProgressPage extends ControlGuiPage {
 		}));
 		addElement(new TextButton(parent, "Stop", screenX + screenWidth - shortLabelWidth, screenY + screenHeight - shortLabelHeight, () -> {
 				parent.tileEntity.stopTest();
-				Microchips.network.sendToServer(new TestStopRequest.Message(cell.getName(), parent.tileEntity.getPos()));
+				Microchips.network.sendToServer(new TestStopRequest.Message(parent.tileEntity.getPos()));
 				parent.setDisplayPage(prev);
 		}));
 	}

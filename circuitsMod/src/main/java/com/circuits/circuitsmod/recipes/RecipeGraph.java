@@ -1,4 +1,4 @@
-package com.circuits.circuitsmod.controlblock.tester;
+package com.circuits.circuitsmod.recipes;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +15,7 @@ import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
+//TODO: Expand the "ItemData" here to incorporate circuits with given ids
 public class RecipeGraph {
 	
 	//Item, metadata pair

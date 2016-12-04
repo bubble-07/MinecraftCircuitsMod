@@ -18,17 +18,12 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 
 public class TestStopRequest implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private String circuitName;
 	private Long pos;
-	public TestStopRequest(String name, BlockPos pos) {
-		this.circuitName = name;
+	public TestStopRequest(BlockPos pos) {
 		this.pos = pos.toLong();
 	}
 	public BlockPos getPos() {
 		return BlockPos.fromLong(pos);
-	}
-	public String getName() {
-		return circuitName;
 	}
 	public static void handleTestStopRequest(TestStopRequest in, World worldIn) {
 		Optional<ControlTileEntity> entity = ControlBlock.getControlTileEntityAt(worldIn, in.getPos());
@@ -41,8 +36,8 @@ public class TestStopRequest implements Serializable {
 	public static class Message implements IMessage {
 		public TestStopRequest message = null;
 		public Message() { }
-		public Message(String circuitName, BlockPos pos) {
-			message = new TestStopRequest(circuitName, pos);
+		public Message(BlockPos pos) {
+			message = new TestStopRequest(pos);
 		}
 		@Override
 		public void fromBytes(ByteBuf in) {

@@ -18,6 +18,7 @@ import com.circuits.circuitsmod.circuitblock.WireDirectionMapper.WireDirectionGe
 import com.circuits.circuitsmod.common.FileUtils;
 import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.SerializableItemStack;
+import com.circuits.circuitsmod.reflective.ChipImpl;
 
 /**
  * Information about a circuit that may be communicated over the network.
@@ -33,6 +34,7 @@ public class CircuitInfo implements Serializable {
 	String name;
 	String description;
 	WireDirectionGenerator wireDirGen;
+	int numSpecializationSlots;
 	
 	transient BufferedImage image = null;
 	
@@ -107,6 +109,10 @@ public class CircuitInfo implements Serializable {
 		}
 	}
 	
+	public void fillImplInfo(ChipImpl impl) {
+		this.numSpecializationSlots = impl.getInvoker().getNumConfigSlots();
+	}
+	
 	
 	public boolean isUnlocked() {
 		return (materialsCost != null);
@@ -118,6 +124,11 @@ public class CircuitInfo implements Serializable {
 	public Optional<List<ItemStack>> getCost() {
 		return Optional.ofNullable(materialsCost).map(SerializableItemStack::deserializeItemStacks);
 	}
+	
+	public int getNumSpecializationSlots() {
+		return this.numSpecializationSlots;
+	}
+	
 	public BufferedImage getImage() {
 		return image;
 	}

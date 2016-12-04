@@ -1,6 +1,5 @@
-package com.circuits.circuitsmod.controlblock.tester;
+package com.circuits.circuitsmod.recipes;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,12 +14,13 @@ import java.util.stream.Collectors;
 
 import jdk.nashorn.internal.runtime.Debug;
 
-import com.circuits.circuitsmod.circuit.CircuitUID;
+import com.circuits.circuitsmod.Config;
+import com.circuits.circuitsmod.busblock.BusBlock.BusFacing;
 import com.circuits.circuitsmod.common.ItemUtils;
 import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.PosUtils;
-import com.circuits.circuitsmod.common.SerializableItemStack;
 import com.circuits.circuitsmod.controlblock.frompoc.Microchips;
+import com.circuits.circuitsmod.controlblock.tester.Tester;
 import com.sun.corba.se.impl.orbutil.graph.Graph;
 
 import net.minecraft.block.state.IBlockState;
@@ -30,34 +30,47 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.toposort.TopologicalSort.DirectedGraph;
 
 public class RecipeDeterminer {
 	
-	private static int costCurve(int x) {
-		return (int) Math.sqrt((float) x);
+	public static enum CostCurve {
+		CONSTANT("constant", (x) -> 1.0, (y) -> 1.0),
+		LINEAR("linear", (x) -> x, (y) -> y),
+		SQRT("sqrt", (x) -> Math.sqrt(x), (y) -> Math.pow(y, 2)),
+		LOG("log", (x) -> Math.log1p(x), (y) -> (Math.exp(y) - 1));
 		
-	}
-	
-	//TODO: Should we instead write out separate recipes for every specialization?
-	//if so, how would that interact with the inductive principle for unlocks?
-	private static void writeRecipeOut(CircuitUID uid, List<ItemStack> cost) throws IOException {
-		
-		Optional<File> folder = Common.getCircuitFolder(circuitName);
-		if (!folder.isPresent()) {
-			Log.internalError("Circuit folder not present when determining recipe! " + uid + " " + cost.toString());
-			Log.internalError("Failed to write out circuit crafting recipe");
-			return;
+		private final String name;
+		private final Function<Double, Double> costComputation;
+		private final Function<Double, Double> costComputationInverse;
+		CostCurve(String name, Function<Double, Double> costComputation, Function<Double, Double> costComputationInverse) {
+			this.name = name;
+			this.costComputation = costComputation;
+			this.costComputationInverse = costComputationInverse;
 		}
-		SerializableItemStack.itemStacksToFile(cost, new File(folder.get().toPath() + "/materials.nbt"));
+		public String getName() {
+			return this.name;
+		}
+		
+		public double computeCost(double inputVal) {
+			return costComputation.apply(inputVal);
+		}
+		public double inverse(double inputVal) {
+			return costComputationInverse.apply(inputVal);
+		}
+		
 	}
 	
 	public static Item itemFromState(IBlockState in) {
 		return Optional.ofNullable(Item.getItemFromBlock(in.getBlock()))
 	             .orElseGet(() -> in.getBlock().getItemDropped(in, ThreadLocalRandom.current(), 0));
+	}
+	
+	public static int costFromQty(int qty) {
+		return (int) (double) Config.circuitCostCurve.costComputation.apply((double) qty);
 	}
 	
 	public static void determineRecipe(final Tester test) {
@@ -79,14 +92,15 @@ public class RecipeDeterminer {
 			}
 		});
 		
-		List<ItemStack> costStacks = ItemUtils.mapOverQty(cost.extractItemStack(), RecipeDeterminer::costCurve);
+		List<ItemStack> costStacks = ItemUtils.mapOverQty(cost.extractItemStack(), RecipeDeterminer::costFromQty);
 		
 		costStacks = ItemUtils.sortQty(costStacks);
 
 		costStacks = costStacks.stream().limit(6).collect(Collectors.toCollection(ArrayList::new));
 		
+		
 		try {
-			writeRecipeOut(test.circuitUID.getUID(), costStacks);
+			RecipeUtils.writeRecipeOut(test.getInvokingPlayer(), test.getUID().getUID(), costStacks);
 		}
 		catch (IOException e) {
 			System.err.println(e);

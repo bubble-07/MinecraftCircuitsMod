@@ -60,6 +60,9 @@ public class TextEntryBox extends UIElement {
 				return Optional.empty();
 			}
 		}
+		public void setValue(int val) {
+			this.text = "" + val;
+		}
 		
 	}
 	
