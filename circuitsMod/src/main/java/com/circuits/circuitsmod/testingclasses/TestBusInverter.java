@@ -8,8 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 public class TestBusInverter implements PuzzleTest {
-
-	//int testCounter = 1;
+	//for this test, you have to put it on the right side of the emitter.
 	BlockFace inputFace;
 	BusSegment emmitterSeg;
 	BusSegment dummySeg;

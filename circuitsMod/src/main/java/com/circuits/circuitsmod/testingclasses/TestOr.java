@@ -7,8 +7,9 @@ import com.circuits.circuitsmod.testblock.TileEntityTesting;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class TestAnd implements PuzzleTest {
+public class TestOr implements PuzzleTest {
 
+	//int testCounter = 1;
 	BlockFace inputFace;
 	BusSegment segment;
 
@@ -16,16 +17,17 @@ public class TestAnd implements PuzzleTest {
 	public TestTickResult test(World worldIn, TileEntityTesting testEntity) {
 		System.out.println("Testing");
 		TestTickResult testResult = new TestTickResult();
+		//createInputData(testEntity);
 
 		switch (testEntity.testCounter) {
 		case 1:
 			TestingUtilityMethods.checkIfRedstoneSucceeds(testEntity, testResult, false);
 			break;
 		case 2:
-			TestingUtilityMethods.checkIfRedstoneSucceeds(testEntity, testResult, false);
+			TestingUtilityMethods.checkIfRedstoneSucceeds(testEntity, testResult, true);
 			break;
 		case 3:
-			TestingUtilityMethods.checkIfRedstoneSucceeds(testEntity, testResult, false);
+			TestingUtilityMethods.checkIfRedstoneSucceeds(testEntity, testResult, true);
 			break;
 		case 4:
 			TestingUtilityMethods.checkIfRedstoneSucceeds(testEntity, testResult, true);
@@ -44,7 +46,6 @@ public class TestAnd implements PuzzleTest {
 		inputFace = testEntity.getInputFace();
 		segment.addInput(inputFace);
 	}
-
 
 	public void setAndOutputData(World worldIn, int index) {
 		BusData testingData;

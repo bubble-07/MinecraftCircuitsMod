@@ -1,5 +1,7 @@
 package com.circuits.circuitsmod.common;
 
+import java.util.HashMap;
+
 /**
  * Represents data traveling down a bus
  * @author bubble-07
@@ -9,9 +11,11 @@ public class BusData {
 	private final int[] allowed = {1, 2, 4, 8, 16, 32, 64};
 	private final long data;
 	private final int width;
+	//private HashMap<Integer, Long> maskMap;
+	
 	public BusData(int width, long data) {
-		this.data = data;
 		this.width = width;
+		this.data = data;
 		assert(ArrayUtils.inArray(this.width, allowed));
 	}
 	

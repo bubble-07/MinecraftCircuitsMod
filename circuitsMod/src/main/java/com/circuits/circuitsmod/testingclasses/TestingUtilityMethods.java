@@ -1,10 +1,17 @@
 package com.circuits.circuitsmod.testingclasses;
 
+import java.util.HashMap;
+
 import com.circuits.circuitsmod.busblock.BusSegment;
 import com.circuits.circuitsmod.common.BusData;
 import com.circuits.circuitsmod.testblock.TileEntityTesting;
 
 public class TestingUtilityMethods {
+	public static HashMap<Integer, Long> maskMap = new HashMap<Integer, Long>();
+	static {
+		addMasks();
+	}
+	
 	public static void checkIfRedstoneSucceeds(TileEntityTesting testEntity, TestTickResult testResult, boolean expectedAnswer) {
 		if (expectedAnswer) {
 			if (TileEntityTesting.isSidePowered(testEntity, testEntity.getInputFace().getFacing())) {
@@ -23,11 +30,24 @@ public class TestingUtilityMethods {
 	
 	public static void checkIfBusSucceeds(TileEntityTesting testEntity, TestTickResult testResult, BusData expectedAnswer) {
 		BusSegment dummySeg = testEntity.getDummySeg();
-		
-		if (dummySeg.getCurrentVal().equals(expectedAnswer)) {
+		dummySeg.forceUpdate(testEntity.getWorld());
+		long data = maskMap.get(dummySeg.getWidth()) & dummySeg.getCurrentVal().getData();
+		BusData maskedData = new BusData(2, data);
+		if (maskedData.equals(expectedAnswer)) {
 			testResult.setCurrentlySucceeding(true);
 		} else {
 			testResult.setCurrentlySucceeding(false);
 		}
 	}
+	
+	private static void addMasks() {
+		maskMap.put(1, (long) 0b0000000000000000000000000000000000000000000000000000000000000001);
+		maskMap.put(2, (long) 0b0000000000000000000000000000000000000000000000000000000000000011);
+		maskMap.put(4, (long) 0b0000000000000000000000000000000000000000000000000000000000001111);
+		maskMap.put(8, (long) 0b0000000000000000000000000000000000000000000000000000000011111111);
+		maskMap.put(16, (long) 0b0000000000000000000000000000000000000000000000001111111111111111);
+		maskMap.put(32, (long) 0b0000000000000000000000000000000011111111111111111111111111111111);
+		maskMap.put(64, (long) ~0);
+	}
+	
 }

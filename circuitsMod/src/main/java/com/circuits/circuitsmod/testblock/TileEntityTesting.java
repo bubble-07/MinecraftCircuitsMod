@@ -52,7 +52,7 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 	private int testDelay = DELAY;
 
 	private HashMap<Integer, PuzzleTest> testMap = new HashMap<Integer, PuzzleTest>();
-	private HashMap<Integer, Integer> widthMap = new HashMap<Integer, Integer>();
+	private HashMap<Integer, Integer> emitterWidthMap = new HashMap<Integer, Integer>();
 	private HashMap<Integer, Integer> dummyWidthMap = new HashMap<Integer, Integer>();
 
 	private int[] redstoneOutputs = new int[EnumFacing.values().length];
@@ -93,16 +93,18 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 			Optional<BlockPos> candidatePos = this.searchForBlockPosOf(emitterID);
 			Optional<BlockPos> dummyPos = this.searchForBlockPosOf(dummyID);
 
-			//For now, we're looking for a basic emitter with a 4 bit input, so just look for that.
-			//Later on, additional logic will have to be added for input greater than 4 bits.  
-			Predicate<BusSegment> busPredicate = busSeg-> {
+			Predicate<BusSegment> emitterPredicate = busSeg-> {
+				return busSeg.getWidth() == emitterWidthMap.get(levelID);
+			};
+			
+			Predicate<BusSegment> dummyPredicate = busSeg-> {
 				return busSeg.getWidth() == dummyWidthMap.get(levelID);
 			};
 
-			emitterSeg = this.findBusSegment(candidatePos.get(), busPredicate).get();
+			emitterSeg = this.findBusSegment(candidatePos.get(), emitterPredicate).get();
 			
 			if (dummyPos.isPresent()) {
-				dummySeg = this.findBusSegment(candidatePos.get(), busPredicate).get();
+				dummySeg = this.findBusSegment(dummyPos.get(), dummyPredicate).get();
 			}
 			
 			initialized = true;
@@ -112,8 +114,8 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 	public void produceHashMap() {
 		testMap.put(0, new TestAnd());
 		testMap.put(1, new TestBusInverter());
-		widthMap.put(0, 2);
-		widthMap.put(1, 4);
+		emitterWidthMap.put(0, 2);
+		emitterWidthMap.put(1, 4);
 		dummyWidthMap.put(1, 2);
 	}
 

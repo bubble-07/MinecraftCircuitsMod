@@ -1,0 +1,84 @@
+---- Minecraft Crash Report ----
+// But it works on my machine.
+
+Time: 12/4/16 4:41 PM
+Description: Exception while ticking a block
+
+java.lang.NullPointerException: Exception while ticking a block
+	at com.circuits.circuitsmod.common.BusData.addMasks(BusData.java:25)
+	at com.circuits.circuitsmod.common.BusData.<init>(BusData.java:18)
+	at com.circuits.circuitsmod.circuitblock.CircuitTileEntity.clearInputs(CircuitTileEntity.java:163)
+	at com.circuits.circuitsmod.circuitblock.CircuitTileEntity.initWireDirAndBuses(CircuitTileEntity.java:242)
+	at com.circuits.circuitsmod.circuitblock.CircuitTileEntity.update(CircuitTileEntity.java:274)
+	at com.circuits.circuitsmod.circuitblock.CircuitBlock.updateTick(CircuitBlock.java:120)
+	at net.minecraft.world.WorldServer.tickUpdates(WorldServer.java:775)
+	at net.minecraft.world.WorldServer.tick(WorldServer.java:226)
+	at net.minecraft.server.MinecraftServer.updateTimeLightAndEntities(MinecraftServer.java:772)
+	at net.minecraft.server.MinecraftServer.tick(MinecraftServer.java:687)
+	at net.minecraft.server.integrated.IntegratedServer.tick(IntegratedServer.java:156)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:536)
+	at java.lang.Thread.run(Unknown Source)
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Thread: Server thread
+Stacktrace:
+	at com.circuits.circuitsmod.common.BusData.addMasks(BusData.java:25)
+	at com.circuits.circuitsmod.common.BusData.<init>(BusData.java:18)
+	at com.circuits.circuitsmod.circuitblock.CircuitTileEntity.clearInputs(CircuitTileEntity.java:163)
+	at com.circuits.circuitsmod.circuitblock.CircuitTileEntity.initWireDirAndBuses(CircuitTileEntity.java:242)
+	at com.circuits.circuitsmod.circuitblock.CircuitTileEntity.update(CircuitTileEntity.java:274)
+	at com.circuits.circuitsmod.circuitblock.CircuitBlock.updateTick(CircuitBlock.java:120)
+
+-- Block being ticked --
+Details:
+	Block: circuitsmod:circuitblock[facing=west]
+	Block location: World: (168,64,130), Chunk: (at 8,4,2 in 10,8; contains blocks 160,0,128 to 175,255,143), Region: (0,0; contains chunks 0,0 to 31,31, blocks 0,0,0 to 511,255,511)
+Stacktrace:
+	at net.minecraft.world.WorldServer.tickUpdates(WorldServer.java:775)
+	at net.minecraft.world.WorldServer.tick(WorldServer.java:226)
+
+-- Affected level --
+Details:
+	Level name: Test World
+	All players: 0 total; []
+	Chunk stats: ServerChunkCache: 625 Drop: 0
+	Level seed: 44912865265037700
+	Level generator: ID 00 - default, ver 1. Features enabled: true
+	Level generator options: 
+	Level spawn location: World: (180,64,106), Chunk: (at 4,4,10 in 11,6; contains blocks 176,0,96 to 191,255,111), Region: (0,0; contains chunks 0,0 to 31,31, blocks 0,0,0 to 511,255,511)
+	Level time: 47582 game time, 12105 day time
+	Level dimension: 0
+	Level storage version: 0x04ABD - Anvil
+	Level weather: Rain time: 27039 (now: false), thunder time: 119393 (now: false)
+	Level game mode: Game mode: creative (ID 1). Hardcore: false. Cheats: true
+Stacktrace:
+	at net.minecraft.server.MinecraftServer.updateTimeLightAndEntities(MinecraftServer.java:772)
+	at net.minecraft.server.MinecraftServer.tick(MinecraftServer.java:687)
+	at net.minecraft.server.integrated.IntegratedServer.tick(IntegratedServer.java:156)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:536)
+	at java.lang.Thread.run(Unknown Source)
+
+-- System Details --
+Details:
+	Minecraft Version: 1.10.2
+	Operating System: Windows 7 (amd64) version 6.1
+	Java Version: 1.8.0_101, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
+	Memory: 155809872 bytes (148 MB) / 571998208 bytes (545 MB) up to 928514048 bytes (885 MB)
+	JVM Flags: 0 total; 
+	IntCache: cache: 0, tcache: 0, allocated: 12, tallocated: 94
+	FML: MCP 9.32 Powered by Forge 12.18.1.2094 4 mods loaded, 4 mods active
+	States: 'U' = Unloaded 'L' = Loaded 'C' = Constructed 'H' = Pre-initialized 'I' = Initialized 'J' = Post-initialized 'A' = Available 'D' = Disabled 'E' = Errored
+	UCHIJAAAA	mcp{9.19} [Minecraft Coder Pack] (minecraft.jar) 
+	UCHIJAAAA	FML{8.0.99.99} [Forge Mod Loader] (forgeSrc-1.10.2-12.18.1.2094.jar) 
+	UCHIJAAAA	Forge{12.18.1.2094} [Minecraft Forge] (forgeSrc-1.10.2-12.18.1.2094.jar) 
+	UCHIJAAAA	circuitsmod{1.0} [circuitsmod] (bin) 
+	Loaded coremods (and transformers): 
+	Profiler Position: N/A (disabled)
+	Player Count: 0 / 8; []
+	Type: Integrated Server (map_client.txt)
+	Is Modded: Definitely; Client brand changed to 'fml,forge'
