@@ -21,12 +21,16 @@ import com.circuits.circuitsmod.controlblock.tester.Tester;
 import com.circuits.circuitsmod.frameblock.StartupCommonFrame;
 import com.circuits.circuitsmod.recipes.RecipeUtils;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.EnumPacketDirection;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.text.ITextComponent;
@@ -204,10 +208,14 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 	
 	@Override
 	public void update() {
+
 		if (tester != null) {
 			tester.update();
 		}
 		updateCraftingGrid();
+		if (worldObj.isRemote) return;
+		final IBlockState state = getWorld().getBlockState(getPos());
+		getWorld().notifyBlockUpdate(getPos(), state, state, 3);
 	}
 
 	@Override
@@ -301,6 +309,35 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 		tagCompound.setTag("Inventory", itemList);
 		return tagCompound;
 	}
+	
+	@Override
+	public NBTTagCompound getUpdateTag()
+	{
+		NBTTagCompound tag = super.getUpdateTag();
+		tag.setTag("CircuitsUpdateData", writeToNBT(new NBTTagCompound()));
+		return tag;
+	}
+
+	@Override
+	public void handleUpdateTag(NBTTagCompound tag)
+	{
+		super.handleUpdateTag(tag);
+		NBTTagCompound updateData = tag.getCompoundTag("CircuitsUpdateData");
+		readFromNBT(updateData);
+	}
+	
+	@Override
+	public SPacketUpdateTileEntity getUpdatePacket() {
+		return new SPacketUpdateTileEntity(getPos(), getBlockMetadata(), getUpdateTag());
+	}
+	
+	@Override
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+		if (net.getDirection() == EnumPacketDirection.CLIENTBOUND) {
+			readFromNBT(pkt.getNbtCompound());		
+		}
+	}
+	
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
 		return true;

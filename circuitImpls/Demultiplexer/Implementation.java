@@ -1,5 +1,6 @@
+import java.io.Serializable;
 //Convention: a high signal on the select line of a demux indicates the 0th (leftmost) output
-public class Implementation {
+public class Implementation implements Serializable {
 
         long input1;
         boolean select;

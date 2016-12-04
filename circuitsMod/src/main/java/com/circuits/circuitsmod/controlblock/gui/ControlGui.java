@@ -98,7 +98,6 @@ public class ControlGui extends GuiContainer {
 				currentPage.handleClick(mouseX, mouseY);	
 			}
 		}
-		System.out.println("Mouse pos" + mouseX + "," + mouseY + ":" + button);	
 	}
 	
 	@Override

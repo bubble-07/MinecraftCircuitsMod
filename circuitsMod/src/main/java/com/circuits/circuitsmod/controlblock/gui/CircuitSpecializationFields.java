@@ -44,6 +44,7 @@ public class CircuitSpecializationFields extends UIElement {
 					                               ControlGuiPage.shortLabelHeight, 1);
 			entryBoxes.add(entryBox);
 		}
+		serverValidateInfo();
 	}
 	
 	private void serverValidateInfo() {

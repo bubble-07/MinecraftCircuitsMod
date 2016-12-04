@@ -1,12 +1,15 @@
 package com.circuits.circuitsmod.common;
 
+import java.io.Serializable;
+
 /**
  * Represents data traveling down a bus
  * @author bubble-07
  *
  */
-public class BusData {
-	private final int[] allowed = {1, 2, 4, 8, 16, 32, 64};
+public class BusData implements Serializable {
+	private static final long serialVersionUID = 1L;
+	private static final int[] allowed = {1, 2, 4, 8, 16, 32, 64};
 	private final long data;
 	private final int width;
 	public BusData(int width, long data) {

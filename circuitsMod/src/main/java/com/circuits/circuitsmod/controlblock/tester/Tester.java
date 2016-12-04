@@ -279,9 +279,10 @@ public class Tester {
 			neg_z_extent++;
 		}
 		
+		//TODO: Warn the user if no testing bounding box was found!
+		
 		testbbox = new AxisAlignedBB(parent.getPos().add(-neg_x_extent, 0, -neg_z_extent), 
 								     parent.getPos().add(pos_x_extent, vertExtent, pos_z_extent));
-		System.out.println(testbbox);
 		
 		//TODO: Bring optional named inputs into circuit configs
 		ChipInvoker invoker = this.internalImpls.getInvoker();
@@ -299,6 +300,9 @@ public class Tester {
 				outputBlocks.add(pos.get());
 			}
 		}
+		
+		this.internalTestState = this.internalImpls.getTestGenerator().initState();
+		this.internalCircuitState = this.internalImpls.getInvoker().initState();
 	}
 	
 	public IBlockState replaceWith(BlockPos pos, Block newBlock) {

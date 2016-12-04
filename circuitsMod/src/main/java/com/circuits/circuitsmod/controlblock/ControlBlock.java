@@ -74,6 +74,12 @@ public class ControlBlock extends BlockContainer
 	public TileEntity createNewTileEntity(World world, int ignored) {
 		return new ControlTileEntity();
 	}
+	
+	@Override
+	public EnumBlockRenderType getRenderType(IBlockState state) {
+		return EnumBlockRenderType.MODEL;
+	}
+	
   
 	public static Optional<ControlTileEntity> getControlTileEntityAt(IBlockAccess worldIn, BlockPos pos) {
 		TileEntity te = worldIn.getTileEntity(pos);

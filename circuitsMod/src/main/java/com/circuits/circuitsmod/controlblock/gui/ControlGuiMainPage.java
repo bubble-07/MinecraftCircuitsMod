@@ -26,7 +26,7 @@ public class ControlGuiMainPage extends ControlGuiPage {
 	}
 	
 	private void renderCell(CircuitCell cell, int cell_y, int cell_height) {
-		int nameWidth = screenWidth / 2;
+		int nameWidth = (screenWidth * 3) / 4;
 		String displayName = parent.getFontRenderer().trimStringToWidth(cell.getName(), nameWidth);
 		parent.getFontRenderer().drawString(displayName, screenX, cell_y, elementColor);
 		parent.drawHorizontalLine(screenX, screenX + screenWidth, cell_y - 2, elementColor);
