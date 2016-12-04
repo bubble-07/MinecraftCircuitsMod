@@ -38,12 +38,19 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 	private BusSegment segment;
 	private BlockFace inputFace;
 
+	private boolean checkResults = false;
+
+
 	private boolean initialized = false;
 	private boolean startTesting = false;
+
+	public static final int DELAY = 25;
+	private int testDelay = DELAY;
 
 	private HashMap<Integer, PuzzleTest> testMap = new HashMap<Integer, PuzzleTest>();
 
 	private int[] redstoneOutputs = new int[EnumFacing.values().length];
+	public int testCounter = 1;
 
 	public static int getSidePower(TileEntityTesting testEntity, EnumFacing side) {
 		return testEntity.getSidePower(side);
@@ -74,13 +81,13 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 			this.levelID = levelID;
 			produceHashMap();
 			Optional<BlockPos> candidatePos = this.searchForBlockPosOf(15);
-			
+
 			//For now, we're looking for a basic emitter with a 4 bit input, so just look for that.
 			//Later on, additional logic will have to be added for input greater than 4 bits.  
 			Predicate<BusSegment> busPredicate = busSeg-> {
 				return busSeg.getWidth() == 4;
 			};
-			
+
 			segment = this.findBusSegment(candidatePos.get(), busPredicate).get();
 			initialized = true;
 		}
@@ -95,11 +102,34 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 			return;
 		else if (initialized && startTesting) {
 			PuzzleTest toRun = testMap.get(levelID);
-			TestTickResult result = toRun.test(getWorld(), this);
-			if (result.getAtEndOfTest() && result.getCurrentlySucceeding())
-				spawnTeleCleaner();
+			testDelay--;
+			if (testDelay == 0) {
+				testDelay = DELAY;
+				if (!checkResults) {
+					checkResults = true;
+				} else {
+					TestTickResult result = toRun.test(getWorld(), this);
+					testCounter++;
+					if(!result.getCurrentlySucceeding()) {
+						startTesting = false;
+						testCounter = 1;
+						testDelay = DELAY;
+					}
+					if (result.getAtEndOfTest() && result.getCurrentlySucceeding()) {
+						spawnTeleCleaner();
+						startTesting = false;
+						testCounter = 1;
+						testDelay = DELAY;
+					} 
+						
+				}
+			}
+			toRun.createInputData(this);
+			toRun.setAndOutputData(getWorld(), testCounter - 1);
 		}
 	}
+
+
 
 	@Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
@@ -108,7 +138,7 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 	}
 
 	private void spawnTeleCleaner() {
-		getWorld().setBlockState(getPos().offset(EnumFacing.UP), StartupCommonCleaner.teleCleaner.getDefaultState(), 1);
+		getWorld().setBlockState(getPos().offset(EnumFacing.UP), StartupCommonCleaner.teleCleaner.getDefaultState(), 2);
 	}
 
 	/*	private void findAndSetEmitterInput(Optional<BlockPos> candidatePos) {
@@ -179,6 +209,7 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 			if (entity instanceof CircuitTileEntity) {
 				CircuitTileEntity circuitEntity = (CircuitTileEntity) entity;
 				if (circuitEntity.getCircuitUID().toInteger() == uidInt) {
+					inputFace = new BlockFace(getPos(), EnumFacing.SOUTH);
 					return true;
 				} else return false;
 			}

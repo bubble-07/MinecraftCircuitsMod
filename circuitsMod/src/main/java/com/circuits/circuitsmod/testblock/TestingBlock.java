@@ -55,6 +55,7 @@ public class TestingBlock extends BlockDirectional implements ITileEntityProvide
 				if (levelID.isPresent()) {
 					tileEntity.init(worldIn, levelID.get());
 				}
+				
 				else {
 					Log.internalError("Invalid LevelID for the given stack:  " + stack);
 				}
