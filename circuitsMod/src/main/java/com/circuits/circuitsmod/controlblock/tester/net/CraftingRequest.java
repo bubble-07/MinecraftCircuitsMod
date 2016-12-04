@@ -11,8 +11,7 @@ import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.SerialUtils;
 import com.circuits.circuitsmod.controlblock.ControlBlock;
-import com.circuits.circuitsmod.controlblock.frompoc.ControlTileEntity;
-import com.circuits.circuitsmod.controlblock.frompoc.Microchips;
+import com.circuits.circuitsmod.controlblock.ControlTileEntity;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;

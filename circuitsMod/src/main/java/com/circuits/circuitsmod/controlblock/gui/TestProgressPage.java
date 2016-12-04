@@ -1,7 +1,7 @@
 package com.circuits.circuitsmod.controlblock.gui;
 
+import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.circuit.CircuitInfo;
-import com.circuits.circuitsmod.controlblock.frompoc.Microchips;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
 import com.circuits.circuitsmod.controlblock.tester.TestState;
 import com.circuits.circuitsmod.controlblock.tester.net.TestStopRequest;
@@ -20,7 +20,7 @@ public class TestProgressPage extends ControlGuiPage {
 		}));
 		addElement(new TextButton(parent, "Stop", screenX + screenWidth - shortLabelWidth, screenY + screenHeight - shortLabelHeight, () -> {
 				parent.tileEntity.stopTest();
-				Microchips.network.sendToServer(new TestStopRequest.Message(parent.tileEntity.getPos()));
+				CircuitsMod.network.sendToServer(new TestStopRequest.Message(parent.tileEntity.getPos()));
 				parent.setDisplayPage(prev);
 		}));
 	}

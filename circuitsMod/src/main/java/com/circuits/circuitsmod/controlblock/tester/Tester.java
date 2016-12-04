@@ -9,13 +9,13 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.circuit.CircuitInfo;
 import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitInfo;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.common.BusData;
-import com.circuits.circuitsmod.controlblock.frompoc.ControlTileEntity;
-import com.circuits.circuitsmod.controlblock.frompoc.Microchips;
+import com.circuits.circuitsmod.controlblock.ControlTileEntity;
 import com.circuits.circuitsmod.controlblock.tester.net.TestStateUpdate;
 import com.circuits.circuitsmod.frameblock.StartupCommonFrame;
 import com.circuits.circuitsmod.recipes.RecipeDeterminer;
@@ -137,7 +137,7 @@ public class Tester {
 				}
 				parent.updateState(this.getState());
 				if (!parent.getWorld().isRemote) {
-					Microchips.network.sendToAll(new TestStateUpdate.Message(this.getState(), parent.getPos()));
+					CircuitsMod.network.sendToAll(new TestStateUpdate.Message(this.getState(), parent.getPos()));
 				}
 				
 			}

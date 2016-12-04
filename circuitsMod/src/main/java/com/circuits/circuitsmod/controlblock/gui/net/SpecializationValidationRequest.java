@@ -12,7 +12,7 @@ import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.SerialUtils;
 import com.circuits.circuitsmod.controlblock.ControlBlock;
-import com.circuits.circuitsmod.controlblock.frompoc.ControlTileEntity;
+import com.circuits.circuitsmod.controlblock.ControlTileEntity;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;

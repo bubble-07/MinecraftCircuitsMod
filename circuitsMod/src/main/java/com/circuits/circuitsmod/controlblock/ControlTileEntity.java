@@ -1,4 +1,4 @@
-package com.circuits.circuitsmod.controlblock.frompoc;
+package com.circuits.circuitsmod.controlblock;
 
 
 import java.util.HashMap;

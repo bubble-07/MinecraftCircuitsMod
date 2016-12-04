@@ -1,6 +1,7 @@
-package com.circuits.circuitsmod.controlblock.frompoc;
+package com.circuits.circuitsmod.controlblock;
 
 
+import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.controlblock.tester.net.CraftingRequest;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -78,7 +79,7 @@ public class ControlContainer extends Container {
 			if (slot == 7) {
 				//Special handling! Need to remove from the other slots
 				if (tileEntity.getCraftingCell() != null) {
-				Microchips.network.sendToServer(new CraftingRequest.Message(player.getUniqueID(), tileEntity.getPos(), stack.stackSize, 
+				CircuitsMod.network.sendToServer(new CraftingRequest.Message(player.getUniqueID(), tileEntity.getPos(), stack.stackSize, 
 												tileEntity.getCraftingCell()));
 				tileEntity.craftingSlotPickedUp(stack.stackSize);
 				slotObject.onSlotChanged();

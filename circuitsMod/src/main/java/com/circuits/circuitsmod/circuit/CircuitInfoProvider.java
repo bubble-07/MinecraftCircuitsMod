@@ -12,6 +12,7 @@ import com.circuits.circuitsmod.common.FileUtils;
 import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.Pair;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
+import com.circuits.circuitsmod.controlblock.gui.model.CircuitListModel;
 import com.circuits.circuitsmod.network.TypedMessage;
 import com.circuits.circuitsmod.reflective.ChipImpl;
 import com.circuits.circuitsmod.reflective.ChipInvoker;
@@ -27,6 +28,7 @@ public class CircuitInfoProvider {
 	
 	//These will be populated on both the client and the server
 	private static HashMap<CircuitUID, CircuitInfo> infoMap;
+	private static CircuitListModel circuitList;
 	
 	//These will only be populated on the server
 	private static HashMap<CircuitUID, ChipImpl> implMap;
@@ -88,6 +90,7 @@ public class CircuitInfoProvider {
     	}
 		public static void handle(ModelResponseFromServer response) {
 			CircuitInfoProvider.infoMap = response.infoMap;
+			CircuitInfoProvider.circuitList = new CircuitListModel(response.infoMap);
 		}
     }
     
@@ -115,6 +118,10 @@ public class CircuitInfoProvider {
     	for (int i = 0; i < toRegister.length; i++) {
     		folderToUIDMap.put(toRegister[i], CircuitUID.fromInteger(i));
     	}
+    }
+    
+    public static CircuitListModel getCircuitListModel() {
+    	return circuitList;
     }
     
     public static void loadUIDMapFromFile() {
@@ -192,6 +199,7 @@ public class CircuitInfoProvider {
 				implMap.put(uid, impl.get());
 			}
 		}
+		circuitList = new CircuitListModel(infoMap);
 	}
 	
 	public static boolean isServerModelInit() {

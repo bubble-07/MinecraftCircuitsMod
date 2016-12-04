@@ -5,10 +5,10 @@ import java.io.IOException;
 
 import org.lwjgl.opengl.GL11;
 
-import com.circuits.circuitsmod.controlblock.frompoc.CircuitListModel;
-import com.circuits.circuitsmod.controlblock.frompoc.ControlContainer;
-import com.circuits.circuitsmod.controlblock.frompoc.ControlTileEntity;
-import com.circuits.circuitsmod.controlblock.frompoc.Microchips;
+import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
+import com.circuits.circuitsmod.controlblock.ControlContainer;
+import com.circuits.circuitsmod.controlblock.ControlTileEntity;
+import com.circuits.circuitsmod.controlblock.gui.model.CircuitListModel;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -65,9 +65,9 @@ public class ControlGui extends GuiContainer {
 		super(new ControlContainer(inventoryPlayer, tileEntity));
 		
 		if (tileEntity.getWorld().isRemote) {
-			Microchips.requestClientModelUpdate();
+			CircuitInfoProvider.ensureClientModelInit();
 		}
-		model = Microchips.mainModel;
+		model = CircuitInfoProvider.getCircuitListModel();
 		this.tileEntity = tileEntity;
 		
 		this.user = inventoryPlayer.player;
@@ -116,7 +116,7 @@ public class ControlGui extends GuiContainer {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
 		//Drawin' GUI stuffs
-		ResourceLocation loc = new ResourceLocation("microchips", "textures/gui/controlGui.png");
+		ResourceLocation loc = new ResourceLocation("circuitsMod", "textures/gui/controlGui.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.renderEngine.bindTexture(loc);
 		int x = (width - xSize) / 2;

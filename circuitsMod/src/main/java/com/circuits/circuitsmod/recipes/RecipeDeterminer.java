@@ -14,12 +14,12 @@ import java.util.stream.Collectors;
 
 import jdk.nashorn.internal.runtime.Debug;
 
+import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.Config;
 import com.circuits.circuitsmod.busblock.BusBlock.BusFacing;
 import com.circuits.circuitsmod.common.ItemUtils;
 import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.PosUtils;
-import com.circuits.circuitsmod.controlblock.frompoc.Microchips;
 import com.circuits.circuitsmod.controlblock.tester.Tester;
 import com.sun.corba.se.impl.orbutil.graph.Graph;
 
@@ -85,7 +85,7 @@ public class RecipeDeterminer {
 			
 			RecipeGraph.CostList addedCost = null;
 			if (item != null) {
-				addedCost = Microchips.recipeGraph.getCost(new RecipeGraph.ItemData(item, meta));
+				addedCost = CircuitsMod.recipeGraph.getCost(new RecipeGraph.ItemData(item, meta));
 			}	
 			if (addedCost != null) {
 				cost.mergeCost(addedCost);

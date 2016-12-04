@@ -2,11 +2,11 @@ package com.circuits.circuitsmod.controlblock.gui;
 
 import java.util.Optional;
 
+import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.circuit.CircuitConfigOptions;
 import com.circuits.circuitsmod.circuit.CircuitInfo;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.common.Log;
-import com.circuits.circuitsmod.controlblock.frompoc.Microchips;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
 import com.circuits.circuitsmod.controlblock.tester.TestConfig;
 import com.circuits.circuitsmod.controlblock.tester.net.TestRequest;
@@ -54,7 +54,7 @@ public class TestSettingsPage extends ControlGuiPage {
 						}
 						parent.setDisplayPage(new TestProgressPage(thiz.getThis()));
 						//Testing, ENGAGE
-						Microchips.network.sendToServer(
+						CircuitsMod.network.sendToServer(
 								new TestRequest.Message(parent.user.getUniqueID(),
 										                uid.get(), parent.tileEntity.getPos(), config));
 					}

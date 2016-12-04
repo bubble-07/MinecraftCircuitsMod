@@ -1,7 +1,7 @@
 package com.circuits.circuitsmod.controlblock.gui;
 
-import com.circuits.circuitsmod.controlblock.frompoc.ControlContainer;
-import com.circuits.circuitsmod.controlblock.frompoc.ControlTileEntity;
+import com.circuits.circuitsmod.controlblock.ControlContainer;
+import com.circuits.circuitsmod.controlblock.ControlTileEntity;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;

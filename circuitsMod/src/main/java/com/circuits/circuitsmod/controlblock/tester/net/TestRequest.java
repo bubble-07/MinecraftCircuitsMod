@@ -8,7 +8,7 @@ import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.SerialUtils;
 import com.circuits.circuitsmod.controlblock.ControlBlock;
-import com.circuits.circuitsmod.controlblock.frompoc.ControlTileEntity;
+import com.circuits.circuitsmod.controlblock.ControlTileEntity;
 import com.circuits.circuitsmod.controlblock.tester.TestConfig;
 
 import io.netty.buffer.ByteBuf;

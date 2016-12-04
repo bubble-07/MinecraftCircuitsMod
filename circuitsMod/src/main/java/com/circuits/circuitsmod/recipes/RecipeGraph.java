@@ -16,6 +16,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 //TODO: Expand the "ItemData" here to incorporate circuits with given ids
+//TODO: Un-reify this, so that you can account for the difference in circuit costs between players.
 public class RecipeGraph {
 	
 	//Item, metadata pair

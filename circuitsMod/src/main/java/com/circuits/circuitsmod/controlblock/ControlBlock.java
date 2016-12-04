@@ -5,8 +5,6 @@ import java.util.Optional;
 import javax.annotation.Nullable;
 
 import com.circuits.circuitsmod.CircuitsMod;
-import com.circuits.circuitsmod.controlblock.frompoc.ControlTileEntity;
-import com.circuits.circuitsmod.controlblock.frompoc.Microchips;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -47,7 +45,7 @@ public class ControlBlock extends BlockContainer
 		if (tileEntity == null) {
 			return false;
 		}
-		player.openGui(Microchips.instance, 0, worldIn, pos.getX(), pos.getY(), pos.getZ());
+		player.openGui(CircuitsMod.instance, 0, worldIn, pos.getX(), pos.getY(), pos.getZ());
 		
 		return true;
 	}

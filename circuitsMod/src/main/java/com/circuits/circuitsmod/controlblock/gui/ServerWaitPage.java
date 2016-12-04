@@ -2,11 +2,11 @@ package com.circuits.circuitsmod.controlblock.gui;
 
 import java.util.Optional;
 
+import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.circuit.CircuitInfo;
 import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.common.Log;
-import com.circuits.circuitsmod.controlblock.frompoc.Microchips;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
 
 //Shown while waiting for the server to send the model
@@ -38,8 +38,8 @@ public class ServerWaitPage extends ControlGuiPage {
 	public void draw() {
 		parent.getFontRenderer().drawString("Waiting For Server", screenX, screenY + (screenHeight / 2), ControlGuiPage.elementColor);
 		if (parent.model == null) {
-			if (Microchips.mainModel != null) {
-				parent.model = Microchips.mainModel;
+			if (CircuitInfoProvider.getCircuitListModel() != null) {
+				parent.model = CircuitInfoProvider.getCircuitListModel();
 				loadPage();
 			}
 			return;

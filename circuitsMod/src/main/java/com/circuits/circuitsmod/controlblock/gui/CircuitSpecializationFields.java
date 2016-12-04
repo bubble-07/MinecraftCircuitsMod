@@ -3,10 +3,10 @@ package com.circuits.circuitsmod.controlblock.gui;
 import java.util.List;
 import java.util.Optional;
 
+import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.circuit.CircuitConfigOptions;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.common.Log;
-import com.circuits.circuitsmod.controlblock.frompoc.Microchips;
 import com.circuits.circuitsmod.controlblock.gui.TextEntryBox.IntEntryBox;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
 import com.circuits.circuitsmod.controlblock.gui.net.ServerGuiMessage;
@@ -53,7 +53,7 @@ public class CircuitSpecializationFields extends UIElement {
 			return;
 		}
 		SpecializedCircuitUID uid = new SpecializedCircuitUID(this.cell.getUid(), new CircuitConfigOptions(opts.get()));
-		Microchips.network.sendToServer(
+		CircuitsMod.network.sendToServer(
 				new SpecializationValidationRequest.Message(parent.user.getUniqueID(), parent.tileEntity.getPos(), uid));
 	}
 	
