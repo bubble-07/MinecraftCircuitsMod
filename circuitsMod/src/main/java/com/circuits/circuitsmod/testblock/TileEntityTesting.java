@@ -48,6 +48,7 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 	private int testDelay = DELAY;
 
 	private HashMap<Integer, PuzzleTest> testMap = new HashMap<Integer, PuzzleTest>();
+	private HashMap<Integer, Integer> widthMap = new HashMap<Integer, Integer>();
 
 	private int[] redstoneOutputs = new int[EnumFacing.values().length];
 	public int testCounter = 1;
@@ -85,7 +86,7 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 			//For now, we're looking for a basic emitter with a 4 bit input, so just look for that.
 			//Later on, additional logic will have to be added for input greater than 4 bits.  
 			Predicate<BusSegment> busPredicate = busSeg-> {
-				return busSeg.getWidth() == 4;
+				return busSeg.getWidth() == widthMap.get(levelID);
 			};
 
 			segment = this.findBusSegment(candidatePos.get(), busPredicate).get();
@@ -94,7 +95,8 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 	}
 
 	public void produceHashMap() {
-		testMap.put(Integer.valueOf(0), new TestAnd());
+		testMap.put(0, new TestAnd());
+		widthMap.put(0, 4);
 	}
 
 	public void update() {		
