@@ -10,8 +10,9 @@ import net.minecraft.world.World;
 public class TestBusInverter implements PuzzleTest {
 	//for this test, you have to put it on the right side of the emitter.
 	BlockFace inputFace;
-	BusSegment emmitterSeg;
+	BusSegment emitterSeg;
 	BusSegment dummySeg;
+	TestCapsule capsule = new TestCapsule();
 
 	@Override
 	public TestTickResult test(World worldIn, TileEntityTesting testEntity) {
@@ -40,17 +41,16 @@ public class TestBusInverter implements PuzzleTest {
 
 
 	public void createInputData(TileEntityTesting testEntity) {
-		emmitterSeg = testEntity.getEmitterSegment();
-		inputFace = testEntity.getInputFace();
-		dummySeg = testEntity.getDummySeg();
-		emmitterSeg.addInput(inputFace);
+		TestCapsule capsule = TestingUtilityMethods.createInputData(testEntity);
+		this.capsule = capsule;
+		emitterSeg = capsule.emitterSeg;
+		inputFace = capsule.inputFace;
+		dummySeg = capsule.dummySeg;
+		emitterSeg.addInput(inputFace);
 	}
 
 	public void setAndOutputData(World worldIn, int index) {
-		BusData testingData;
-		testingData = new BusData(4, index);
-		emmitterSeg.accumulate(worldIn, inputFace, testingData);
-		emmitterSeg.forceUpdate(worldIn);
+		TestingUtilityMethods.setAndOutputData(worldIn, capsule, index);
 	}
 
 }

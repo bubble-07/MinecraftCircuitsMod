@@ -114,8 +114,12 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 	public void produceHashMap() {
 		testMap.put(0, new TestAnd());
 		testMap.put(1, new TestBusInverter());
+		testMap.put(2, new TestOr());
+		testMap.put(3, new TestMultiplexer());
 		emitterWidthMap.put(0, 2);
 		emitterWidthMap.put(1, 4);
+		emitterWidthMap.put(2, 2);
+		emitterWidthMap.put(3,  4);
 		dummyWidthMap.put(1, 2);
 	}
 

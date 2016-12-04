@@ -9,9 +9,9 @@ import net.minecraft.world.World;
 
 public class TestOr implements PuzzleTest {
 
-	//int testCounter = 1;
+	TestCapsule capsule = new TestCapsule();
 	BlockFace inputFace;
-	BusSegment segment;
+	BusSegment emitterSeg;
 
 	@Override
 	public TestTickResult test(World worldIn, TileEntityTesting testEntity) {
@@ -42,16 +42,15 @@ public class TestOr implements PuzzleTest {
 
 
 	public void createInputData(TileEntityTesting testEntity) {
-		segment = testEntity.getEmitterSegment();
-		inputFace = testEntity.getInputFace();
-		segment.addInput(inputFace);
+		TestCapsule capsule = TestingUtilityMethods.createInputData(testEntity);
+		this.capsule = capsule;
+		emitterSeg = capsule.emitterSeg;
+		inputFace = capsule.inputFace;
+		emitterSeg.addInput(inputFace);
 	}
 
 	public void setAndOutputData(World worldIn, int index) {
-		BusData testingData;
-		testingData = new BusData(2, index);
-		segment.accumulate(worldIn, inputFace, testingData);
-		segment.forceUpdate(worldIn);
+		TestingUtilityMethods.setAndOutputData(worldIn, capsule, index);
 	}
 
 }

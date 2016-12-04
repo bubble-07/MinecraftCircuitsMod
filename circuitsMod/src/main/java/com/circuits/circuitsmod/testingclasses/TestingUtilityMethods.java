@@ -6,6 +6,8 @@ import com.circuits.circuitsmod.busblock.BusSegment;
 import com.circuits.circuitsmod.common.BusData;
 import com.circuits.circuitsmod.testblock.TileEntityTesting;
 
+import net.minecraft.world.World;
+
 public class TestingUtilityMethods {
 	public static HashMap<Integer, Long> maskMap = new HashMap<Integer, Long>();
 	static {
@@ -48,6 +50,17 @@ public class TestingUtilityMethods {
 		maskMap.put(16, (long) 0b0000000000000000000000000000000000000000000000001111111111111111);
 		maskMap.put(32, (long) 0b0000000000000000000000000000000011111111111111111111111111111111);
 		maskMap.put(64, (long) ~0);
+	}
+	
+	public static TestCapsule createInputData(TileEntityTesting testEntity) {
+		TestCapsule capsule = new TestCapsule(testEntity);
+		return capsule;
+	}
+	
+	public static void setAndOutputData(World worldIn, TestCapsule capsule, int index) {
+		BusData testingData = new BusData(capsule.emitterSeg.getWidth(), index);
+		capsule.emitterSeg.accumulate(worldIn, capsule.inputFace, testingData);
+		capsule.emitterSeg.forceUpdate(worldIn);
 	}
 	
 }
