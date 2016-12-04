@@ -1,12 +1,12 @@
 {
     "parent": "block/cube",
     "textures": {
-        "down": "circuitsmod:blocks/testingblock",
-        "up": "circuitsmod:blocks/testingblock",
-        "north": "circuitsmod:blocks/testingblock",
-        "east": "circuitsmod:blocks/testingblock",
-        "south": "circuitsmod:blocks/testingblock",
-        "west": "circuitsmod:blocks/testingblock",
+        "down": "circuitsmod:blocks/testingblockB",
+        "up": "circuitsmod:blocks/testingblockT",
+        "north": "circuitsmod:blocks/testingblockN",
+        "east": "circuitsmod:blocks/testingblockE",
+        "south": "circuitsmod:blocks/testingblockS",
+        "west": "circuitsmod:blocks/testingblockW",
         "particle": "blocks/lapis_block"
     }
 }

@@ -1,0 +1,80 @@
+---- Minecraft Crash Report ----
+// On the bright side, I bought you a teddy bear!
+
+Time: 12/1/16 2:15 PM
+Description: Ticking block entity
+
+java.lang.NullPointerException: Ticking block entity
+	at com.circuits.circuitsmod.testingclasses.TestAnd.test(TestAnd.java:23)
+	at com.circuits.circuitsmod.testblock.TileEntityTesting.update(TileEntityTesting.java:83)
+	at net.minecraft.world.World.updateEntities(World.java:1942)
+	at net.minecraft.world.WorldServer.updateEntities(WorldServer.java:645)
+	at net.minecraft.server.MinecraftServer.updateTimeLightAndEntities(MinecraftServer.java:783)
+	at net.minecraft.server.MinecraftServer.tick(MinecraftServer.java:687)
+	at net.minecraft.server.integrated.IntegratedServer.tick(IntegratedServer.java:156)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:536)
+	at java.lang.Thread.run(Unknown Source)
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Thread: Server thread
+Stacktrace:
+	at com.circuits.circuitsmod.testingclasses.TestAnd.test(TestAnd.java:23)
+	at com.circuits.circuitsmod.testblock.TileEntityTesting.update(TileEntityTesting.java:83)
+
+-- Block entity being ticked --
+Details:
+	Name: testingblock // com.circuits.circuitsmod.testblock.TileEntityTesting
+	Block type: ID #223 (tile.testingblock // com.circuits.circuitsmod.testblock.TestingBlock)
+	Block data value: 0 / 0x0 / 0b0000
+	Block location: World: (428,78,241), Chunk: (at 12,4,1 in 26,15; contains blocks 416,0,240 to 431,255,255), Region: (0,0; contains chunks 0,0 to 31,31, blocks 0,0,0 to 511,255,511)
+	Actual block type: ID #223 (tile.testingblock // com.circuits.circuitsmod.testblock.TestingBlock)
+	Actual block data value: 0 / 0x0 / 0b0000
+Stacktrace:
+	at net.minecraft.world.World.updateEntities(World.java:1942)
+	at net.minecraft.world.WorldServer.updateEntities(WorldServer.java:645)
+
+-- Affected level --
+Details:
+	Level name: New World
+	All players: 1 total; [EntityPlayerMP['Player824'/146, l='New World', x=426.26, y=78.00, z=241.06]]
+	Chunk stats: ServerChunkCache: 625 Drop: 0
+	Level seed: -9054769128671134595
+	Level generator: ID 00 - default, ver 1. Features enabled: false
+	Level generator options: 
+	Level spawn location: World: (0,0,0), Chunk: (at 0,0,0 in 0,0; contains blocks 0,0,0 to 15,255,15), Region: (0,0; contains chunks 0,0 to 31,31, blocks 0,0,0 to 511,255,511)
+	Level time: 0 game time, 0 day time
+	Level dimension: 0
+	Level storage version: 0x00000 - Unknown?
+	Level weather: Rain time: 0 (now: false), thunder time: 0 (now: false)
+	Level game mode: ~~ERROR~~ NullPointerException: null
+Stacktrace:
+	at net.minecraft.server.MinecraftServer.updateTimeLightAndEntities(MinecraftServer.java:783)
+	at net.minecraft.server.MinecraftServer.tick(MinecraftServer.java:687)
+	at net.minecraft.server.integrated.IntegratedServer.tick(IntegratedServer.java:156)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:536)
+	at java.lang.Thread.run(Unknown Source)
+
+-- System Details --
+Details:
+	Minecraft Version: 1.10.2
+	Operating System: Windows 7 (amd64) version 6.1
+	Java Version: 1.8.0_101, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
+	Memory: 200981664 bytes (191 MB) / 716177408 bytes (683 MB) up to 928514048 bytes (885 MB)
+	JVM Flags: 0 total; 
+	IntCache: cache: 0, tcache: 0, allocated: 13, tallocated: 95
+	FML: MCP 9.32 Powered by Forge 12.18.1.2094 4 mods loaded, 4 mods active
+	States: 'U' = Unloaded 'L' = Loaded 'C' = Constructed 'H' = Pre-initialized 'I' = Initialized 'J' = Post-initialized 'A' = Available 'D' = Disabled 'E' = Errored
+	UCHIJAAAA	mcp{9.19} [Minecraft Coder Pack] (minecraft.jar) 
+	UCHIJAAAA	FML{8.0.99.99} [Forge Mod Loader] (forgeSrc-1.10.2-12.18.1.2094.jar) 
+	UCHIJAAAA	Forge{12.18.1.2094} [Minecraft Forge] (forgeSrc-1.10.2-12.18.1.2094.jar) 
+	UCHIJAAAA	circuitsmod{1.0} [circuitsmod] (bin) 
+	Loaded coremods (and transformers): 
+	Profiler Position: N/A (disabled)
+	Player Count: 1 / 8; [EntityPlayerMP['Player824'/146, l='New World', x=426.26, y=78.00, z=241.06]]
+	Type: Integrated Server (map_client.txt)
+	Is Modded: Definitely; Client brand changed to 'fml,forge'

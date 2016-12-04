@@ -1,0 +1,7 @@
+The process of generating tests reflectively is pretty much the same as invoking
+circuits reflectively, but I would use a TestGeneratorInvoker instead of a 
+ChipInvoker.
+
+For direct connections, I could borrow behavior from the CTE regarding them,
+but I would need to make sure I have search code for testing buses that are 
+under test, but not right next to the testing tile entity.

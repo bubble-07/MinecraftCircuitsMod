@@ -39,7 +39,7 @@ public class StartupCommonTesting
 		GameRegistry.register(testingBlock);
 
 		// same but for the associated item
-		itemTestingBlock = new ItemBlock(testingBlock);
+		itemTestingBlock = new TestingItem(testingBlock);
 		itemTestingBlock.setRegistryName(testingBlock.getRegistryName());
 		GameRegistry.register(itemTestingBlock);
 

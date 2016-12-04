@@ -1,0 +1,116 @@
+---- Minecraft Crash Report ----
+// Don't do that.
+
+Time: 11/29/16 10:32 PM
+Description: Unexpected error
+
+java.lang.IllegalArgumentException: Cannot set property PropertyDirection{name=facing, clazz=class net.minecraft.util.EnumFacing, values=[down, up, north, south, west, east]} as it does not exist in BlockStateContainer{block=circuitsmod:testingblock, properties=[]}
+	at net.minecraft.block.state.BlockStateContainer$StateImplementation.withProperty(BlockStateContainer.java:210)
+	at com.circuits.circuitsmod.testblock.TestingBlock.onBlockPlaced(TestingBlock.java:71)
+	at net.minecraft.item.ItemBlock.onItemUse(ItemBlock.java:58)
+	at net.minecraft.item.ItemStack.onItemUse(ItemStack.java:159)
+	at net.minecraft.client.multiplayer.PlayerControllerMP.processRightClickBlock(PlayerControllerMP.java:486)
+	at net.minecraft.client.Minecraft.rightClickMouse(Minecraft.java:1603)
+	at net.minecraft.client.Minecraft.processKeyBinds(Minecraft.java:2281)
+	at net.minecraft.client.Minecraft.runTickKeyboard(Minecraft.java:2058)
+	at net.minecraft.client.Minecraft.runTick(Minecraft.java:1846)
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:1118)
+	at net.minecraft.client.Minecraft.run(Minecraft.java:406)
+	at net.minecraft.client.main.Main.main(Main.java:118)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135)
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at net.minecraftforge.gradle.GradleStartCommon.launch(GradleStartCommon.java:97)
+	at GradleStart.main(GradleStart.java:26)
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Thread: Client thread
+Stacktrace:
+	at net.minecraft.block.state.BlockStateContainer$StateImplementation.withProperty(BlockStateContainer.java:210)
+	at com.circuits.circuitsmod.testblock.TestingBlock.onBlockPlaced(TestingBlock.java:71)
+	at net.minecraft.item.ItemBlock.onItemUse(ItemBlock.java:58)
+	at net.minecraft.item.ItemStack.onItemUse(ItemStack.java:159)
+	at net.minecraft.client.multiplayer.PlayerControllerMP.processRightClickBlock(PlayerControllerMP.java:486)
+	at net.minecraft.client.Minecraft.rightClickMouse(Minecraft.java:1603)
+	at net.minecraft.client.Minecraft.processKeyBinds(Minecraft.java:2281)
+	at net.minecraft.client.Minecraft.runTickKeyboard(Minecraft.java:2058)
+
+-- Affected level --
+Details:
+	Level name: MpServer
+	All players: 1 total; [EntityPlayerSP['Player31'/146, l='MpServer', x=699.24, y=76.00, z=-218.76]]
+	Chunk stats: MultiplayerChunkCache: 606, 606
+	Level seed: 0
+	Level generator: ID 00 - default, ver 1. Features enabled: false
+	Level generator options: 
+	Level spawn location: World: (232,64,256), Chunk: (at 8,4,0 in 14,16; contains blocks 224,0,256 to 239,255,271), Region: (0,0; contains chunks 0,0 to 31,31, blocks 0,0,0 to 511,255,511)
+	Level time: 317075 game time, 10231 day time
+	Level dimension: 0
+	Level storage version: 0x00000 - Unknown?
+	Level weather: Rain time: 0 (now: false), thunder time: 0 (now: false)
+	Level game mode: Game mode: creative (ID 1). Hardcore: false. Cheats: false
+	Forced entities: 31 total; [EntityChicken['Chicken'/193, l='MpServer', x=725.84, y=66.00, z=-150.50], EntitySheep['Sheep'/203, l='MpServer', x=718.71, y=70.00, z=-165.47], EntityChicken['Chicken'/204, l='MpServer', x=696.10, y=68.00, z=-149.84], EntityChicken['Chicken'/205, l='MpServer', x=689.50, y=68.00, z=-156.89], EntityChicken['Chicken'/207, l='MpServer', x=689.35, y=68.00, z=-156.46], EntityPlayerSP['Player31'/146, l='MpServer', x=699.24, y=76.00, z=-218.76], EntityChicken['Chicken'/212, l='MpServer', x=775.32, y=63.00, z=-150.19], EntityChicken['Chicken'/213, l='MpServer', x=772.46, y=63.00, z=-150.20], EntityChicken['Chicken'/228, l='MpServer', x=639.10, y=64.00, z=-163.36], EntityChicken['Chicken'/229, l='MpServer', x=635.96, y=64.00, z=-160.48], EntityChicken['Chicken'/230, l='MpServer', x=629.56, y=66.00, z=-174.20], EntityChicken['Chicken'/231, l='MpServer', x=637.78, y=64.00, z=-167.13], EntityItem['item.item.egg'/233, l='MpServer', x=638.83, y=64.00, z=-163.29], EntityItem['item.item.egg'/234, l='MpServer', x=639.83, y=64.00, z=-163.26], EntityChicken['Chicken'/236, l='MpServer', x=693.35, y=68.00, z=-169.18], EntityItem['item.item.egg'/237, l='MpServer', x=687.74, y=67.00, z=-160.13], EntityItem['item.item.egg'/238, l='MpServer', x=642.69, y=63.00, z=-157.58], EntityChicken['Chicken'/239, l='MpServer', x=645.10, y=62.45, z=-153.46], EntityChicken['Chicken'/240, l='MpServer', x=642.12, y=63.00, z=-156.53], EntityChicken['Chicken'/241, l='MpServer', x=640.20, y=64.00, z=-159.61], EntityItem['item.item.egg'/242, l='MpServer', x=640.67, y=64.00, z=-159.28], EntityChicken['Chicken'/243, l='MpServer', x=631.82, y=64.00, z=-160.54], EntityItem['item.item.egg'/307, l='MpServer', x=636.37, y=64.00, z=-159.82], EntityItem['item.item.egg'/244, l='MpServer', x=636.78, y=63.00, z=-157.88], EntityChicken['Chicken'/181, l='MpServer', x=746.57, y=63.09, z=-153.55], EntityChicken['Chicken'/183, l='MpServer', x=741.16, y=66.00, z=-146.23], EntityItem['item.item.egg'/312, l='MpServer', x=689.88, y=68.00, z=-157.30], EntitySheep['Sheep'/188, l='MpServer', x=730.25, y=66.00, z=-158.18], EntitySheep['Sheep'/189, l='MpServer', x=725.79, y=66.00, z=-153.51], EntityChicken['Chicken'/190, l='MpServer', x=722.78, y=66.00, z=-154.60], EntitySheep['Sheep'/191, l='MpServer', x=720.80, y=66.00, z=-150.65]]
+	Retry entities: 0 total; []
+	Server brand: fml,forge
+	Server type: Integrated singleplayer server
+Stacktrace:
+	at net.minecraft.client.multiplayer.WorldClient.addWorldInfoToCrashReport(WorldClient.java:451)
+	at net.minecraft.client.Minecraft.addGraphicsAndWorldToCrashReport(Minecraft.java:2779)
+	at net.minecraft.client.Minecraft.run(Minecraft.java:435)
+	at net.minecraft.client.main.Main.main(Main.java:118)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135)
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at net.minecraftforge.gradle.GradleStartCommon.launch(GradleStartCommon.java:97)
+	at GradleStart.main(GradleStart.java:26)
+
+-- System Details --
+Details:
+	Minecraft Version: 1.10.2
+	Operating System: Windows 7 (amd64) version 6.1
+	Java Version: 1.8.0_101, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
+	Memory: 198936112 bytes (189 MB) / 661651456 bytes (631 MB) up to 928514048 bytes (885 MB)
+	JVM Flags: 0 total; 
+	IntCache: cache: 0, tcache: 0, allocated: 13, tallocated: 95
+	FML: MCP 9.32 Powered by Forge 12.18.1.2094 4 mods loaded, 4 mods active
+	States: 'U' = Unloaded 'L' = Loaded 'C' = Constructed 'H' = Pre-initialized 'I' = Initialized 'J' = Post-initialized 'A' = Available 'D' = Disabled 'E' = Errored
+	UCHIJAAAA	mcp{9.19} [Minecraft Coder Pack] (minecraft.jar) 
+	UCHIJAAAA	FML{8.0.99.99} [Forge Mod Loader] (forgeSrc-1.10.2-12.18.1.2094.jar) 
+	UCHIJAAAA	Forge{12.18.1.2094} [Minecraft Forge] (forgeSrc-1.10.2-12.18.1.2094.jar) 
+	UCHIJAAAA	circuitsmod{1.0} [circuitsmod] (bin) 
+	Loaded coremods (and transformers): 
+	Launched Version: 1.10.2
+	LWJGL: 2.9.4
+	OpenGL: Intel(R) HD Graphics Family GL version 3.1.0 - Build 8.15.10.2418, Intel
+	GL Caps: Using GL 1.3 multitexturing.
+Using GL 1.3 texture combiners.
+Using framebuffer objects because OpenGL 3.0 is supported and separate blending is supported.
+Shaders are available because OpenGL 2.1 is supported.
+VBOs are available because OpenGL 1.5 is supported.
+
+	Using VBOs: Yes
+	Is Modded: Definitely; Client brand changed to 'fml,forge'
+	Type: Client (map_client.txt)
+	Resource Packs: 
+	Current Language: English (US)
+	Profiler Position: N/A (disabled)
+	CPU: 4x Intel(R) Core(TM) i5-2520M CPU @ 2.50GHz

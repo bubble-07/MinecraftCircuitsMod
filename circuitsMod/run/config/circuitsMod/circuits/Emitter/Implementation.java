@@ -21,21 +21,21 @@ public class Implementation {
 	 }
 	 
 	public boolean value0() {
-		 int isOn = input1 & 0100;
+		 int isOn = input1 & 0b0100;
 		 return (isOn > 0);
 	 }
 	 
 	 public boolean value1() {
-		 int isOn = input1 & 0010;
+		 int isOn = input1 & 0b0010;
 		 return (isOn > 0);
 	 }
 	 
 	 public boolean value2() {
-		 int isOn = input1 & 0001;
+		 int isOn = input1 & 0b0001;
 		 return (isOn > 0);
 	 }
 	 
-	 public int[] intputWidths() {
+	 public int[] inputWidths() {
 		 int[] widths = {4};
 		 return widths;
 	 }
