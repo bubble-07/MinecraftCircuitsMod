@@ -113,7 +113,7 @@ public class CircuitInfoProvider {
     	String[] toRegister = {"And", "Xor", "Splitter", "Combiner", "Nor", "Nand",
     			               "HalfAdder", "Emitter", "RisingEdgeDetector", "PulseLengthener",
     			               "DigitalToAnalog", "AnalogToDigital", "Clock", "Inverter",
-    			               "Multiplexer", "Demultiplexer", "FullAdder", "NBitDLatch", "Implies", "ABBA"};
+    			               "Multiplexer", "Demultiplexer", "FullAdder", "NBitDLatch", "Implies", "ABBA", "Dummy"};
     	for (int i = 0; i < toRegister.length; i++) {
     		folderToUIDMap.put(toRegister[i], CircuitUID.fromInteger(i));
     	}

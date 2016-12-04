@@ -250,6 +250,7 @@ public class CircuitTileEntity extends TileEntity {
 		if (CircuitInfoProvider.isClientModelInit()) {
 			if (CircuitInfoProvider.hasSpecializedInfoOn(circuitUID)) {
 				initWireDirAndBuses();
+			}
 		}
 		else {
 			CircuitInfoProvider.requestSpecializedClientInfoFor(circuitUID);

@@ -73,16 +73,16 @@ public class CircuitItem extends ItemBlock {
 		
 		String result = prefix;
 		for (int i = 0; i < optVals.length; i++) {
-			result += "Â§ ";
+			result += "ø ";
 			result += intToSecret(optVals[i]);
 		}
 		return result;
 	}
 	
 	private static SpecializedCircuitUID fromSecretString(String str) {
-		String separator = "Â§ ";
+		String separator = "ø ";
 		if (!str.contains(separator)) {
-			separator = "Ã¸ ";
+			separator = "ø ";
 		}
 		if (!str.contains(separator)) {
 			return new SpecializedCircuitUID(CircuitUID.fromInteger(secretToInt(str)), new CircuitConfigOptions());

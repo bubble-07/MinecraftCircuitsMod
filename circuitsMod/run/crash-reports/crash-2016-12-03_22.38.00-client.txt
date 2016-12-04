@@ -1,0 +1,149 @@
+---- Minecraft Crash Report ----
+// Why is it breaking :(
+
+Time: 12/3/16 10:38 PM
+Description: Rendering entity in world
+
+java.lang.NumberFormatException: For input string: "13ø"
+	at java.lang.NumberFormatException.forInputString(Unknown Source)
+	at java.lang.Integer.parseInt(Unknown Source)
+	at java.lang.Integer.parseInt(Unknown Source)
+	at com.circuits.circuitsmod.circuitblock.CircuitItem.secretToInt(CircuitItem.java:61)
+	at com.circuits.circuitsmod.circuitblock.CircuitItem.fromSecretString(CircuitItem.java:88)
+	at com.circuits.circuitsmod.circuitblock.CircuitItem.getUIDFromStack(CircuitItem.java:135)
+	at com.circuits.circuitsmod.circuitblock.CircuitSmartModel$1.handleItemState(CircuitSmartModel.java:193)
+	at net.minecraft.client.renderer.RenderItem.getItemModelWithOverrides(RenderItem.java:254)
+	at net.minecraft.client.renderer.entity.RenderEntityItem.doRender(RenderEntityItem.java:118)
+	at net.minecraft.client.renderer.entity.RenderEntityItem.doRender(RenderEntityItem.java:19)
+	at net.minecraft.client.renderer.entity.RenderManager.doRenderEntity(RenderManager.java:371)
+	at net.minecraft.client.renderer.entity.RenderManager.renderEntityStatic(RenderManager.java:355)
+	at net.minecraft.client.renderer.RenderGlobal.renderEntities(RenderGlobal.java:643)
+	at net.minecraft.client.renderer.EntityRenderer.renderWorldPass(EntityRenderer.java:1368)
+	at net.minecraft.client.renderer.EntityRenderer.renderWorld(EntityRenderer.java:1282)
+	at net.minecraft.client.renderer.EntityRenderer.updateCameraAndRender(EntityRenderer.java:1091)
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:1139)
+	at net.minecraft.client.Minecraft.run(Minecraft.java:406)
+	at net.minecraft.client.main.Main.main(Main.java:118)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135)
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at net.minecraftforge.gradle.GradleStartCommon.launch(GradleStartCommon.java:97)
+	at GradleStart.main(GradleStart.java:26)
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Thread: Client thread
+Stacktrace:
+	at java.lang.NumberFormatException.forInputString(Unknown Source)
+	at java.lang.Integer.parseInt(Unknown Source)
+	at java.lang.Integer.parseInt(Unknown Source)
+	at com.circuits.circuitsmod.circuitblock.CircuitItem.secretToInt(CircuitItem.java:61)
+	at com.circuits.circuitsmod.circuitblock.CircuitItem.fromSecretString(CircuitItem.java:88)
+	at com.circuits.circuitsmod.circuitblock.CircuitItem.getUIDFromStack(CircuitItem.java:135)
+	at com.circuits.circuitsmod.circuitblock.CircuitSmartModel$1.handleItemState(CircuitSmartModel.java:193)
+	at net.minecraft.client.renderer.RenderItem.getItemModelWithOverrides(RenderItem.java:254)
+	at net.minecraft.client.renderer.entity.RenderEntityItem.doRender(RenderEntityItem.java:118)
+	at net.minecraft.client.renderer.entity.RenderEntityItem.doRender(RenderEntityItem.java:19)
+
+-- Entity being rendered --
+Details:
+	Entity Type: Item (net.minecraft.entity.item.EntityItem)
+	Entity ID: 13109
+	Entity Name: item.tile.circuitblock
+	Entity's Exact location: -29.08, 74.32, 154.28
+	Entity's Block location: World: (-30,74,154), Chunk: (at 2,4,10 in -2,9; contains blocks -32,0,144 to -17,255,159), Region: (-1,0; contains chunks -32,0 to -1,31, blocks -512,0,0 to -1,255,511)
+	Entity's Momentum: -0.09, -0.03, -0.20
+	Entity's Passengers: []
+	Entity's Vehicle: ~~ERROR~~ NullPointerException: null
+
+-- Renderer details --
+Details:
+	Assigned renderer: net.minecraft.client.renderer.entity.RenderEntityItem@60adb5e8
+	Location: 0.00,1.32,0.00 - World: (0,1,0), Chunk: (at 0,0,0 in 0,0; contains blocks 0,0,0 to 15,255,15), Region: (0,0; contains chunks 0,0 to 31,31, blocks 0,0,0 to 511,255,511)
+	Rotation: 233.82628
+	Delta: 0.65206456
+Stacktrace:
+	at net.minecraft.client.renderer.entity.RenderManager.doRenderEntity(RenderManager.java:371)
+	at net.minecraft.client.renderer.entity.RenderManager.renderEntityStatic(RenderManager.java:355)
+	at net.minecraft.client.renderer.RenderGlobal.renderEntities(RenderGlobal.java:643)
+	at net.minecraft.client.renderer.EntityRenderer.renderWorldPass(EntityRenderer.java:1368)
+	at net.minecraft.client.renderer.EntityRenderer.renderWorld(EntityRenderer.java:1282)
+
+-- Affected level --
+Details:
+	Level name: MpServer
+	All players: 1 total; [EntityPlayerSP['Player135'/12295, l='MpServer', x=-29.08, y=73.00, z=154.28]]
+	Chunk stats: MultiplayerChunkCache: 570, 570
+	Level seed: 0
+	Level generator: ID 00 - default, ver 1. Features enabled: false
+	Level generator options: 
+	Level spawn location: World: (-196,64,256), Chunk: (at 12,4,0 in -13,16; contains blocks -208,0,256 to -193,255,271), Region: (-1,0; contains chunks -32,0 to -1,31, blocks -512,0,0 to -1,255,511)
+	Level time: 3714 game time, 3714 day time
+	Level dimension: 0
+	Level storage version: 0x00000 - Unknown?
+	Level weather: Rain time: 0 (now: false), thunder time: 0 (now: false)
+	Level game mode: Game mode: creative (ID 1). Hardcore: false. Cheats: false
+	Forced entities: 90 total; [EntityEnderman['Enderman'/12416, l='MpServer', x=18.73, y=13.00, z=140.52], EntityCreeper['Creeper'/12673, l='MpServer', x=-19.50, y=22.00, z=131.50], EntitySpider['Spider'/12418, l='MpServer', x=19.50, y=14.00, z=120.50], EntityEnderman['Enderman'/12421, l='MpServer', x=20.50, y=14.00, z=124.50], EntitySkeleton['Skeleton'/12677, l='MpServer', x=-81.50, y=36.00, z=189.50], EntityZombie['entity.Zombie.name'/12422, l='MpServer', x=16.50, y=31.00, z=117.50], EntitySkeleton['Skeleton'/12678, l='MpServer', x=-80.50, y=36.00, z=189.50], EntitySpider['Spider'/12806, l='MpServer', x=-10.50, y=20.00, z=209.50], EntityPlayerSP['Player135'/12295, l='MpServer', x=-29.08, y=73.00, z=154.28], EntityZombie['Zombie'/12809, l='MpServer', x=-13.50, y=20.00, z=210.50], EntityBat['Bat'/12557, l='MpServer', x=-103.52, y=45.04, z=181.19], EntityCreeper['Creeper'/12432, l='MpServer', x=16.44, y=34.00, z=122.16], EntityCreeper['Creeper'/12944, l='MpServer', x=-104.50, y=13.00, z=114.50], EntitySkeleton['Skeleton'/12434, l='MpServer', x=42.50, y=29.00, z=81.50], EntityZombie['Zombie'/12703, l='MpServer', x=32.50, y=22.00, z=148.50], EntitySkeleton['Skeleton'/13091, l='MpServer', x=-105.50, y=15.00, z=98.50], EntitySkeleton['Skeleton'/13092, l='MpServer', x=-106.50, y=15.00, z=102.50], EntityZombie['Zombie'/13093, l='MpServer', x=-102.50, y=15.00, z=99.50], EntityZombie['Zombie'/13094, l='MpServer', x=-106.50, y=15.00, z=102.50], EntityBat['Bat'/12711, l='MpServer', x=-6.89, y=22.64, z=136.20], EntitySkeleton['Skeleton'/13099, l='MpServer', x=-77.50, y=17.00, z=142.50], EntityZombie['Zombie'/12716, l='MpServer', x=50.50, y=14.00, z=118.50], EntityZombie['Zombie'/13100, l='MpServer', x=-76.50, y=17.00, z=141.50], EntityItem['item.tile.circuitblock'/13109, l='MpServer', x=-29.08, y=74.32, z=154.28], EntitySkeleton['Skeleton'/12984, l='MpServer', x=40.50, y=48.00, z=99.50], EntityCreeper['Creeper'/12986, l='MpServer', x=-85.50, y=12.00, z=187.50], EntityCreeper['Creeper'/12987, l='MpServer', x=11.50, y=26.00, z=162.50], EntityZombie['Zombie'/12225, l='MpServer', x=-105.50, y=15.00, z=101.50], EntityBat['Bat'/12609, l='MpServer', x=-13.89, y=31.33, z=211.61], EntityBat['Bat'/12612, l='MpServer', x=-88.64, y=30.94, z=197.38], EntityCreeper['Creeper'/12357, l='MpServer', x=15.50, y=12.00, z=151.50], EntityBat['Bat'/12230, l='MpServer', x=-106.55, y=15.10, z=145.40], EntityCreeper['Creeper'/12358, l='MpServer', x=14.50, y=30.00, z=145.50], EntityBat['Bat'/12231, l='MpServer', x=-101.81, y=20.52, z=132.90], EntityPig['Pig'/12233, l='MpServer', x=-108.50, y=63.00, z=154.50], EntityCreeper['Creeper'/12234, l='MpServer', x=-92.50, y=11.00, z=116.50], EntitySpider['Spider'/12618, l='MpServer', x=-95.50, y=14.00, z=208.50], EntityEnderman['Enderman'/12363, l='MpServer', x=8.46, y=34.00, z=127.71], EntitySkeleton['Skeleton'/12236, l='MpServer', x=-82.50, y=13.00, z=158.50], EntityCreeper['Creeper'/12366, l='MpServer', x=15.50, y=31.00, z=120.33], EntitySkeleton['Skeleton'/12243, l='MpServer', x=-67.50, y=48.00, z=95.50], EntityWitch['Witch'/12755, l='MpServer', x=-76.50, y=31.00, z=181.50], EntitySheep['Sheep'/12244, l='MpServer', x=-68.50, y=79.00, z=90.50], EntityWitch['Witch'/12756, l='MpServer', x=-78.50, y=31.00, z=185.50], EntitySheep['Sheep'/12245, l='MpServer', x=-60.79, y=80.00, z=81.52], EntitySkeleton['Skeleton'/12246, l='MpServer', x=-64.50, y=48.00, z=104.50], EntitySkeleton['Skeleton'/12248, l='MpServer', x=-51.21, y=29.00, z=108.51], EntitySkeleton['Skeleton'/12250, l='MpServer', x=-50.50, y=29.00, z=109.50], EntitySkeleton['Skeleton'/12251, l='MpServer', x=-47.50, y=54.00, z=110.50], EntityBat['Bat'/12252, l='MpServer', x=-21.50, y=39.42, z=126.75], EntityBat['Bat'/12253, l='MpServer', x=-29.12, y=41.02, z=122.33], EntityCreeper['Creeper'/12254, l='MpServer', x=-45.50, y=39.00, z=115.50], EntityCreeper['Creeper'/12255, l='MpServer', x=-34.50, y=29.00, z=134.50], EntitySkeleton['Skeleton'/12767, l='MpServer', x=-65.50, y=31.00, z=169.50], EntitySkeleton['Skeleton'/12768, l='MpServer', x=-65.50, y=31.00, z=170.50], EntitySkeleton['Skeleton'/12257, l='MpServer', x=-43.50, y=16.00, z=147.50], EntityCreeper['Creeper'/12769, l='MpServer', x=-71.50, y=31.00, z=165.50], EntityZombie['Zombie'/12258, l='MpServer', x=-32.65, y=18.00, z=216.35], EntitySquid['Squid'/12386, l='MpServer', x=-77.33, y=61.62, z=166.16], EntityPig['Pig'/12259, l='MpServer', x=-34.50, y=63.00, z=219.50], EntitySquid['Squid'/12387, l='MpServer', x=-10.90, y=55.79, z=178.83], EntityCreeper['Creeper'/12899, l='MpServer', x=26.50, y=12.00, z=163.50], EntityPig['Pig'/12260, l='MpServer', x=-33.50, y=63.00, z=218.50], EntitySquid['Squid'/12388, l='MpServer', x=-11.47, y=54.32, z=178.24], EntitySquid['Squid'/12389, l='MpServer', x=-20.62, y=59.54, z=186.34], EntitySquid['Squid'/12390, l='MpServer', x=-6.36, y=54.39, z=172.39], EntityBat['Bat'/13031, l='MpServer', x=-79.34, y=31.90, z=179.43], EntitySquid['Squid'/12393, l='MpServer', x=-69.62, y=61.14, z=140.81], EntitySkeleton['Skeleton'/12266, l='MpServer', x=-20.29, y=24.00, z=114.52], EntitySquid['Squid'/12394, l='MpServer', x=-69.80, y=61.00, z=151.52], EntityBat['Bat'/13035, l='MpServer', x=32.38, y=26.07, z=144.53], EntityPig['Pig'/12268, l='MpServer', x=-25.50, y=63.00, z=203.50], EntityBat['Bat'/13036, l='MpServer', x=10.66, y=17.79, z=91.63], EntityPig['Pig'/12269, l='MpServer', x=-25.50, y=65.00, z=201.50], EntityBat['Bat'/13037, l='MpServer', x=-79.32, y=32.90, z=183.89], EntityPig['Pig'/12270, l='MpServer', x=-29.50, y=64.00, z=202.50], EntityPig['Pig'/12271, l='MpServer', x=-28.50, y=64.00, z=202.50], EntityBat['Bat'/13039, l='MpServer', x=-74.59, y=33.17, z=177.70], EntityPig['Pig'/12272, l='MpServer', x=-30.17, y=63.00, z=221.15], EntityPig['Pig'/12273, l='MpServer', x=-28.80, y=63.00, z=216.72], EntityBat['Bat'/12917, l='MpServer', x=-84.18, y=31.47, z=183.78], EntitySkeleton['Skeleton'/12406, l='MpServer', x=22.50, y=11.00, z=203.50], EntityZombie['entity.Zombie.name'/12662, l='MpServer', x=47.57, y=30.00, z=116.52], EntityBat['Bat'/12408, l='MpServer', x=23.61, y=11.98, z=204.42], EntitySquid['Squid'/12282, l='MpServer', x=-17.61, y=58.61, z=187.92], EntityCreeper['Creeper'/12410, l='MpServer', x=38.50, y=27.00, z=152.50], EntitySquid['Squid'/12283, l='MpServer', x=-5.19, y=61.17, z=187.91], EntitySquid['Squid'/12284, l='MpServer', x=-7.19, y=55.63, z=184.64], EntityZombie['Zombie'/12412, l='MpServer', x=31.50, y=22.00, z=147.50], EntitySquid['Squid'/12413, l='MpServer', x=27.90, y=57.61, z=148.63]]
+	Retry entities: 0 total; []
+	Server brand: fml,forge
+	Server type: Integrated singleplayer server
+Stacktrace:
+	at net.minecraft.client.multiplayer.WorldClient.addWorldInfoToCrashReport(WorldClient.java:451)
+	at net.minecraft.client.Minecraft.addGraphicsAndWorldToCrashReport(Minecraft.java:2779)
+	at net.minecraft.client.Minecraft.run(Minecraft.java:427)
+	at net.minecraft.client.main.Main.main(Main.java:118)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135)
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at net.minecraftforge.gradle.GradleStartCommon.launch(GradleStartCommon.java:97)
+	at GradleStart.main(GradleStart.java:26)
+
+-- System Details --
+Details:
+	Minecraft Version: 1.10.2
+	Operating System: Windows 7 (amd64) version 6.1
+	Java Version: 1.8.0_101, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
+	Memory: 242356600 bytes (231 MB) / 742391808 bytes (708 MB) up to 928514048 bytes (885 MB)
+	JVM Flags: 0 total; 
+	IntCache: cache: 0, tcache: 0, allocated: 12, tallocated: 94
+	FML: MCP 9.32 Powered by Forge 12.18.1.2094 4 mods loaded, 4 mods active
+	States: 'U' = Unloaded 'L' = Loaded 'C' = Constructed 'H' = Pre-initialized 'I' = Initialized 'J' = Post-initialized 'A' = Available 'D' = Disabled 'E' = Errored
+	UCHIJAAAAAAAAAAAAAA	mcp{9.19} [Minecraft Coder Pack] (minecraft.jar) 
+	UCHIJAAAAAAAAAAAAAA	FML{8.0.99.99} [Forge Mod Loader] (forgeSrc-1.10.2-12.18.1.2094.jar) 
+	UCHIJAAAAAAAAAAAAAA	Forge{12.18.1.2094} [Minecraft Forge] (forgeSrc-1.10.2-12.18.1.2094.jar) 
+	UCHIJAAAAAAAAAAAAAA	circuitsmod{1.0} [circuitsmod] (bin) 
+	Loaded coremods (and transformers): 
+	Launched Version: 1.10.2
+	LWJGL: 2.9.4
+	OpenGL: Intel(R) HD Graphics Family GL version 3.1.0 - Build 8.15.10.2418, Intel
+	GL Caps: Using GL 1.3 multitexturing.
+Using GL 1.3 texture combiners.
+Using framebuffer objects because OpenGL 3.0 is supported and separate blending is supported.
+Shaders are available because OpenGL 2.1 is supported.
+VBOs are available because OpenGL 1.5 is supported.
+
+	Using VBOs: Yes
+	Is Modded: Definitely; Client brand changed to 'fml,forge'
+	Type: Client (map_client.txt)
+	Resource Packs: 
+	Current Language: English (US)
+	Profiler Position: N/A (disabled)
+	CPU: 4x Intel(R) Core(TM) i5-2520M CPU @ 2.50GHz

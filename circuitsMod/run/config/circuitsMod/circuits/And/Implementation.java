@@ -1,20 +1,31 @@
 
 public class Implementation {
-	
-	boolean input1;
-	boolean input2;
+
+        long input1;
+        long input2;
+        int bitWidth;
 	
 	public Implementation() {
-		input1 = false;
-		input2 = false;
+		input1 = 0L;
+		input2 = 0L;
 	}
 	
-	public void tick(boolean i1, boolean i2) {
+	public void tick(long i1, long i2) {
 		 input1 = i1;
 		 input2 = i2;
 	 }
 	 
-	public boolean value0() {
-		 return input1 && input2;
-	 }
+	public long value0() {
+		 return input1 & input2;
+	}
+        public String config(int bitWidth) {
+            this.bitWidth = bitWidth;
+            return "" + bitWidth;
+        }
+        public int[] inputWidths() {
+            return new int[]{bitWidth, bitWidth};
+        }
+        public int[] outputWidths() {
+            return new int[]{bitWidth};
+        }
 }

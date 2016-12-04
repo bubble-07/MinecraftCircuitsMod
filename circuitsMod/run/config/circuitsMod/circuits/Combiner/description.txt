@@ -1,0 +1,1 @@
+Circuit which combines two 1-bit (redstone) inputs to a single 2-bit output

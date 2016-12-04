@@ -1,0 +1,1 @@
+Half Adder circuit with two 1-bit inputs and a single 1-bit output plus 1-bit for carry out.

@@ -1,48 +1,37 @@
-
+//Splitters will be named after their input widths,
+//value0 will be the high bits, value1 will be the low bits (convention)
 public class Implementation {
-	
-	byte input1;
-	boolean output1;
-	boolean output2;
-	boolean output3;
+        int halfWidth;
+        int bitWidth;
+        long lowBits;
+        long highBits;
 	
 	public Implementation() {
-		input1 = 0;
-		output1 = false;
-		output2 = false;
-		output3 = false;
 	}
-	
-	public void tick(byte i1) {
-		 input1 = i1;
-		 output1 = value0();
-		 output2 = value1();
-		 output3 = value2();
-	 }
-	 
-	public boolean value0() {
-		 int isOn = input1 & 0b0100;
-		 return (isOn > 0);
-	 }
-	 
-	 public boolean value1() {
-		 int isOn = input1 & 0b0010;
-		 return (isOn > 0);
-	 }
-	 
-	 public boolean value2() {
-		 int isOn = input1 & 0b0001;
-		 return (isOn > 0);
-	 }
-	 
-	 public int[] inputWidths() {
-		 int[] widths = {4};
-		 return widths;
-	 }
-	 
-	 public int[] outputWidths() {
-		 int[] widths = {1, 1, 1};
-		 return widths;
-	 }
 
+        public String config(int bitWidth) {
+            this.bitWidth = bitWidth;
+            this.halfWidth = bitWidth >> 1;
+            return "" + bitWidth;
+        }
+	
+	public void tick(long data) {
+            this.highBits = data >> halfWidth;
+            this.lowBits = data - (highBits << halfWidth);
+	 }
+	 
+	public long value0() {
+            return highBits;
+        }
+
+        public long value1() {
+            return lowBits;
+        }
+
+        public int[] inputWidths() {
+            return new int[]{this.bitWidth};
+        }
+        public int[] outputWidths() {
+            return new int[]{this.halfWidth, this.halfWidth};
+        }
 }

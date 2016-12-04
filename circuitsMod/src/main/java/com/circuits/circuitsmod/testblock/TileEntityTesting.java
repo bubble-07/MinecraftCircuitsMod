@@ -21,7 +21,7 @@ import com.circuits.circuitsmod.common.PosUtils;
 import com.circuits.circuitsmod.reflective.TestGeneratorInvoker;
 import com.circuits.circuitsmod.telecleaner.StartupCommonCleaner;
 import com.circuits.circuitsmod.testingclasses.PuzzleTest;
-import com.circuits.circuitsmod.testingclasses.TestAnd;
+import com.circuits.circuitsmod.testingclasses.*;
 import com.circuits.circuitsmod.testingclasses.TestTickResult;
 
 import net.minecraft.block.BlockDirectional;
@@ -35,8 +35,12 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 	private TestGeneratorInvoker testInvoker;
 	private int levelID;
 	private final String name = "tileentitytesting";
-	private BusSegment segment;
+	private BusSegment emitterSeg;
+	private BusSegment dummySeg;
 	private BlockFace inputFace;
+	
+	public static final int emitterID = 7;
+	public static final int dummyID = 20;
 
 	private boolean checkResults = false;
 
@@ -49,6 +53,7 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 
 	private HashMap<Integer, PuzzleTest> testMap = new HashMap<Integer, PuzzleTest>();
 	private HashMap<Integer, Integer> widthMap = new HashMap<Integer, Integer>();
+	private HashMap<Integer, Integer> dummyWidthMap = new HashMap<Integer, Integer>();
 
 	private int[] redstoneOutputs = new int[EnumFacing.values().length];
 	public int testCounter = 1;
@@ -69,8 +74,12 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 		return this.levelID;
 	}
 
-	public BusSegment getBusSegment() {
-		return segment;
+	public BusSegment getEmitterSegment() {
+		return emitterSeg;
+	}
+	
+	public BusSegment getDummySeg() {
+		return dummySeg;
 	}
 
 	public BlockFace getInputFace() {
@@ -81,22 +90,31 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 		if (!getWorld().isRemote) {
 			this.levelID = levelID;
 			produceHashMap();
-			Optional<BlockPos> candidatePos = this.searchForBlockPosOf(15);
+			Optional<BlockPos> candidatePos = this.searchForBlockPosOf(emitterID);
+			Optional<BlockPos> dummyPos = this.searchForBlockPosOf(dummyID);
 
 			//For now, we're looking for a basic emitter with a 4 bit input, so just look for that.
 			//Later on, additional logic will have to be added for input greater than 4 bits.  
 			Predicate<BusSegment> busPredicate = busSeg-> {
-				return busSeg.getWidth() == widthMap.get(levelID);
+				return busSeg.getWidth() == dummyWidthMap.get(levelID);
 			};
 
-			segment = this.findBusSegment(candidatePos.get(), busPredicate).get();
+			emitterSeg = this.findBusSegment(candidatePos.get(), busPredicate).get();
+			
+			if (dummyPos.isPresent()) {
+				dummySeg = this.findBusSegment(candidatePos.get(), busPredicate).get();
+			}
+			
 			initialized = true;
 		}
 	}
 
 	public void produceHashMap() {
 		testMap.put(0, new TestAnd());
-		widthMap.put(0, 4);
+		testMap.put(1, new TestBusInverter());
+		widthMap.put(0, 2);
+		widthMap.put(1, 4);
+		dummyWidthMap.put(1, 2);
 	}
 
 	public void update() {		
@@ -143,39 +161,6 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 		getWorld().setBlockState(getPos().offset(EnumFacing.UP), StartupCommonCleaner.teleCleaner.getDefaultState(), 2);
 	}
 
-	/*	private void findAndSetEmitterInput(Optional<BlockPos> candidatePos) {
-		BlockPos position = candidatePos.get();
-		Stream<BlockFace> faces = PosUtils.faces(position);
-		List<BlockFace> faceList = faces.collect(Collectors.toList());
-		BusSegment maximumSegment = new BusSegment(0);
-		int maxWidth = 0;
-		//Find the face with the largest bus width.  This is our input.
-		for (BlockFace face : faceList) {
-			Optional<BusSegment> currentSegment = CircuitBlock.getBusSegmentAt(getWorld(), face);
-			if (currentSegment.isPresent()) {
-				BusSegment segment = currentSegment.get();
-				if (segment.getWidth() > maxWidth) {
-					maxWidth = segment.getWidth();
-					maximumSegment = segment;
-				}
-			}
-		}
-		segment = maximumSegment; //remember the segment
-	}
-
-	 */
-	/*public void findNearestCircuit() { //tell it to find the emitter, and also tell it to find the dummy block from the user-constructed circuit.
-		Optional<BlockPos> candidatePos = searchForBlockPosOf(15);
-
-		if (candidatePos.isPresent()) {
-			findAndSetEmitterInput(candidatePos);
-			BlockFace inputFace = new BlockFace(getPos(), EnumFacing.NORTH); //bind an input to it.
-			this.inputFace = inputFace; //remember the input
-			segment.addInput(inputFace); //add it to the segment.
-		}
-
-	}*/
-
 	public Optional<BusSegment> findBusSegment(BlockPos busPosition, Predicate<BusSegment> busPredicate) {
 		Stream<BlockFace> faces = PosUtils.faces(busPosition);
 		List<BlockFace> faceList = faces.collect(Collectors.toList());
@@ -210,7 +195,7 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 			TileEntity entity = getWorld().getTileEntity(pos);
 			if (entity instanceof CircuitTileEntity) {
 				CircuitTileEntity circuitEntity = (CircuitTileEntity) entity;
-				if (circuitEntity.getCircuitUID().toInteger() == uidInt) {
+				if (circuitEntity.getCircuitUID().getUID().toInteger() == uidInt) {
 					inputFace = new BlockFace(getPos(), EnumFacing.SOUTH);
 					return true;
 				} else return false;

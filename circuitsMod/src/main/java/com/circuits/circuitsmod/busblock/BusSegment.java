@@ -33,6 +33,10 @@ public class BusSegment {
 		return this.busWidth;
 	}
 	
+	public BusData getCurrentVal() {
+		return currentVal;
+	}
+	
 	/**
 	 * Split off a bus segment from this one with the same
 	 * bus width, but with the
