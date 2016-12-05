@@ -2,9 +2,7 @@
 package com.circuits.circuitsmod.testblock;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
  * The Startup class for this example is called during startup, in the following order:

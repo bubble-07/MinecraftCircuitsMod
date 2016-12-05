@@ -2,7 +2,6 @@ package com.circuits.circuitsmod.circuit;
 
 import java.io.Serializable;
 
-import com.circuits.circuitsmod.reflective.ChipImpl;
 import com.circuits.circuitsmod.reflective.SpecializedChipImpl;
 
 /**
@@ -21,6 +20,7 @@ public class SpecializedCircuitInfo implements Serializable {
 	private boolean[] analogInputs;
 	private boolean[] analogOutputs;
 	private String configName;
+	private SpecializedCircuitUID uid;
 	
 	public CircuitInfo getInfo() {
 		return this.info;
@@ -45,13 +45,24 @@ public class SpecializedCircuitInfo implements Serializable {
 		return this.configName;
 	}
 	
+	public SpecializedCircuitUID getUID() {
+		return this.uid;
+	}
+	
+	public String getFullDisplayName() {
+		String result = this.getInfo().getName();
+		result += "(" + this.getConfigName() + ")";
+		return result;
+	}
+	
 	/**
 	 * Note: only to be called from the server!
 	 * @param info
 	 * @param implementation
 	 */
-	public SpecializedCircuitInfo(CircuitInfo info, SpecializedChipImpl impl) {
+	public SpecializedCircuitInfo(SpecializedCircuitUID uid, CircuitInfo info, SpecializedChipImpl impl) {
 		this.info = info;
+		this.uid = uid;
 		this.configName = impl.getInvoker().getConfigName();
 		this.origOpts = impl.getInvoker().getConfigOptions();
 		this.inputWidths = impl.getInvoker().inputWidths();

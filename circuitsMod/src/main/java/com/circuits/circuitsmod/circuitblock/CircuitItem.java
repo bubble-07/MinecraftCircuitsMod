@@ -11,15 +11,8 @@ import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.common.Log;
 
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.client.config.GuiConfigEntries.ChatColorEntry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -27,6 +20,9 @@ public class CircuitItem extends ItemBlock {
 	private final String name = "circuititem";
 	
 	private static final String circuitUIDTag = "circuitUID";
+	
+	private static final String SECTION_SYMBOL = Character.toString((char)0x00a7);
+	private static final String NULL_SYMBOL = Character.toString((char)0xF8);
 	
 	@SideOnly(Side.CLIENT)
 	public CircuitSmartModel renderer;
@@ -48,7 +44,7 @@ public class CircuitItem extends ItemBlock {
 		String result = "";
 		String[] chars = Integer.toString(val).split("");
 		for (String c : chars) {
-			result += "ø" + c;
+			result += SECTION_SYMBOL + c;
 		}
 		return result;
 	}
@@ -73,16 +69,16 @@ public class CircuitItem extends ItemBlock {
 		
 		String result = prefix;
 		for (int i = 0; i < optVals.length; i++) {
-			result += "ø ";
+			result += SECTION_SYMBOL + " ";
 			result += intToSecret(optVals[i]);
 		}
 		return result;
 	}
 	
 	private static SpecializedCircuitUID fromSecretString(String str) {
-		String separator = "ø ";
+		String separator = SECTION_SYMBOL + " ";
 		if (!str.contains(separator)) {
-			separator = "ø ";
+			separator = NULL_SYMBOL + " ";
 		}
 		if (!str.contains(separator)) {
 			return new SpecializedCircuitUID(CircuitUID.fromInteger(secretToInt(str)), new CircuitConfigOptions());
@@ -123,9 +119,9 @@ public class CircuitItem extends ItemBlock {
 	
 	public static Optional<SpecializedCircuitUID> getUIDFromStack(ItemStack stack) {
 		String displayName = stack.getDisplayName();
-		int secretIndex = displayName.indexOf("ø", 0);
+		int secretIndex = displayName.indexOf(SECTION_SYMBOL, 0);
 		if (secretIndex == -1) {
-			secretIndex = displayName.indexOf("ø", 0);
+			secretIndex = displayName.indexOf(NULL_SYMBOL, 0);
 			if (secretIndex == -1) {
 				Log.internalError("Circuit TE Item Stack has bad metadata.");
 				return Optional.empty();

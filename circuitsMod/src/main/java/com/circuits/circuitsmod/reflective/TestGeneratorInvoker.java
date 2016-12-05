@@ -1,6 +1,7 @@
 package com.circuits.circuitsmod.reflective;
 
 import java.io.File;
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
@@ -10,7 +11,6 @@ import com.circuits.circuitsmod.circuit.CircuitConfigOptions;
 import com.circuits.circuitsmod.common.BusData;
 import com.circuits.circuitsmod.common.FileUtils;
 import com.circuits.circuitsmod.common.Log;
-import com.circuits.circuitsmod.reflective.ChipInvoker.Provider;
 import com.google.common.collect.Lists;
 
 /**
@@ -42,11 +42,15 @@ import com.google.common.collect.Lists;
  * slower -- that is, some integer multiple of the in-game redstone ticks, for 
  * the purposes of the test. 
  * 
+ * [int numTests()] : method which returns the total number of tests that will be ran on the circuit,
+ * or -1 if the number of runnable tests cannot be determined a priori. Default return value is -1.
+ * Defining this method is necessary to yield a progress bar in the control tile entity tests
+ * 
  * 
  * @author bubble-07
  *
  */
-public class TestGeneratorInvoker extends Invoker {
+public class TestGeneratorInvoker extends Invoker implements TestGenerator {
 	
 	/**
 	 * Stores the "tick" method
@@ -59,12 +63,15 @@ public class TestGeneratorInvoker extends Invoker {
 	private final List<Method> inputMethods;
 	
 	boolean slowable;
+	
+	int numTests;
 
 	private TestGeneratorInvoker(Class<?> implClass, Method tickMethod,
-			List<Method> inputMethods, boolean slowable, CircuitConfigOptions configOpts, String configName) {
+			List<Method> inputMethods, boolean slowable, int numTests, CircuitConfigOptions configOpts, String configName) {
 		super(implClass, configOpts, configName);
 		this.tickMethod = tickMethod;
 		this.inputMethods = inputMethods;
+		this.numTests = numTests;
 		this.slowable = slowable;
 	}
 	
@@ -94,7 +101,7 @@ public class TestGeneratorInvoker extends Invoker {
 	public static Optional<TestGeneratorInvoker> getInvoker(Class<?> implClass, CircuitConfigOptions configOpts) {
 		Consumer<String> error = (s) -> Log.userError("Class: " + implClass + " " + s);
 		
-		Optional<Object> instance = getInstance(implClass);
+		Optional<Serializable> instance = getInstance(implClass);
 		if (!instance.isPresent()) {
 			return Optional.empty();
 		}
@@ -116,6 +123,19 @@ public class TestGeneratorInvoker extends Invoker {
 			}
 		}
 		
+		Optional<Method> numTestsMethod = ReflectiveUtils.getMethodFromName(implClass, "numTests");
+		int numTests = -1;
+		if (numTestsMethod.isPresent()) {
+			try {
+				numTests = (int) numTestsMethod.get().invoke(instance);
+			}
+			catch (Exception e) {
+				error.accept("has an override to the numTests attribute, but the method is not formatted correctly");
+				Log.info("Continuing assuming the number of tests isn't pre-determined");
+			}
+		}
+		
+		
 		Optional<List<Method>> inputMethods = getSequentialMethods(implClass, "input");
 		if (!inputMethods.isPresent()) {
 			return Optional.empty();
@@ -126,7 +146,7 @@ public class TestGeneratorInvoker extends Invoker {
 			return Optional.empty();
 		}
 		return Optional.of(new TestGeneratorInvoker(implClass, tickMethod.get(), 
-				                                    inputMethods.get(), slowable,
+				                                    inputMethods.get(), slowable, numTests,
 				                                    configOpts, configName.get()));
 	}
 	
@@ -159,6 +179,21 @@ public class TestGeneratorInvoker extends Invoker {
 			Log.userError("Class: " + implClass + " does not have well-defined testing methods");
 			return Optional.empty();
 		}
+	}
+
+	@Override
+	public boolean slowable() {
+		return this.slowable;
+	}
+
+	@Override
+	public int totalTests() {
+		return this.numTests;
+	}
+
+	@Override
+	public Optional<List<BusData>> invoke(Serializable state) {
+		return invoke((State) state);
 	}
 
 }

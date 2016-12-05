@@ -4,6 +4,11 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class StreamUtils {
+	
+	public static <T, S> Stream<Pair<T, S>> focusStream(Stream<T> in, Function<T, S> derived) {
+		return in.map((t) -> Pair.of(t, derived.apply(t)));
+	}
+	
 	public static <T> Stream<Pair<Integer, T>> indexStream(Stream<T> in) {
 		
 		Function<T, Pair<Integer, T>> indexer = new Function<T, Pair<Integer, T>>() {

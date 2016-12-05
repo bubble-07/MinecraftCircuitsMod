@@ -1,6 +1,5 @@
 package com.circuits.circuitsmod.circuitblock;
 
-import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class StartupCommonCircuitBlock

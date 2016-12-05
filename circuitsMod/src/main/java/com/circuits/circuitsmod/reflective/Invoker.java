@@ -1,5 +1,6 @@
 package com.circuits.circuitsmod.reflective;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -54,11 +55,13 @@ public abstract class Invoker {
 		this.configName = configName;
 	}
 	
-	public static class State {
+	public static class State implements Serializable {
+		private static final long serialVersionUID = 1L;
+		
 		/**
 		 * Stores an instantiated chip object.
 		 */
-		private Object instance;
+		private Serializable instance;
 		
 		/**
 		 * Given an Invoker initialize a state object.
@@ -80,6 +83,14 @@ public abstract class Invoker {
 	 */
 	public State initState() {
 		return new State(this);
+	}
+	
+	protected static int getNumConfigSlots(Class<?> clazz) {
+		Optional<Method> configMethod = ReflectiveUtils.getMethodFromName(clazz, "config");
+		if (!configMethod.isPresent()) {
+			return 0;
+		}
+		return configMethod.get().getParameterCount();
 	}
 	
 	/**
@@ -112,17 +123,20 @@ public abstract class Invoker {
 		
 	}
 	
-	protected static Optional<Object> getInstance(Class<?> implClass) {
+	protected static Optional<Serializable> getInstance(Class<?> implClass) {
 		Consumer<String> error = (s) -> Log.userError("Class: " + implClass + " " + s);
 		
 		try {
 			Object instance = implClass.getConstructors()[0].newInstance();
-			return Optional.of(instance);
+			return Optional.of((Serializable) instance);
+		}
+		catch (ClassCastException e) {
+			error.accept("is not serializable!");
 		}
 		catch (Exception e) {
 			error.accept("has no zero-argument public constructor");
-			return Optional.empty();
 		}
+		return Optional.empty();
 	}
 	
 	/**

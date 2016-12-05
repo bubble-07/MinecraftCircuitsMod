@@ -1,4 +1,5 @@
-public class Implementation {
+import java.io.Serializable;
+public class Implementation implements Serializable {
         int bitWidth;
         long sum;
         boolean carryOut;

@@ -35,7 +35,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.circuits.circuitsmod.Config;
 import com.circuits.circuitsmod.frameblock.StartupCommonFrame;
-import com.circuits.circuitsmod.world.PuzzleDimensions;
 import com.google.common.cache.LoadingCache;
 
 public class BlockPortalPuzzle extends BlockBreakable {

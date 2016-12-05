@@ -1,5 +1,6 @@
+import java.io.Serializable;
 //Convention: a high signal on the select line of a mux indicates the 0th (leftmost) input
-public class Implementation {
+public class Implementation implements Serializable {
 
         long input1;
         long input2;

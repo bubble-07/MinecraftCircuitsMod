@@ -34,6 +34,7 @@ public class CircuitInfo implements Serializable {
 	String name;
 	String description;
 	WireDirectionGenerator wireDirGen;
+	int numSpecializationSlots;
 	
 	transient BufferedImage image = null;
 	
@@ -108,6 +109,10 @@ public class CircuitInfo implements Serializable {
 		}
 	}
 	
+	public void fillImplInfo(ChipImpl impl) {
+		this.numSpecializationSlots = impl.getInvoker().getNumConfigSlots();
+	}
+	
 	
 	public boolean isUnlocked() {
 		return (materialsCost != null);
@@ -119,6 +124,11 @@ public class CircuitInfo implements Serializable {
 	public Optional<List<ItemStack>> getCost() {
 		return Optional.ofNullable(materialsCost).map(SerializableItemStack::deserializeItemStacks);
 	}
+	
+	public int getNumSpecializationSlots() {
+		return this.numSpecializationSlots;
+	}
+	
 	public BufferedImage getImage() {
 		return image;
 	}

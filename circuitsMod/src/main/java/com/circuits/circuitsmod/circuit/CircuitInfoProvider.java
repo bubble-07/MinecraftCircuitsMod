@@ -3,17 +3,16 @@ package com.circuits.circuitsmod.circuit;
 import java.io.File;
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalInt;
 
 import com.circuits.circuitsmod.CircuitsMod;
-import com.circuits.circuitsmod.circuitblock.WireDirectionMapper;
 import com.circuits.circuitsmod.circuitblock.WireDirectionMapper.WireDirectionGenerator;
 import com.circuits.circuitsmod.common.FileUtils;
 import com.circuits.circuitsmod.common.Log;
-import com.circuits.circuitsmod.common.MapUtils;
 import com.circuits.circuitsmod.common.Pair;
+import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
+import com.circuits.circuitsmod.controlblock.gui.model.CircuitListModel;
 import com.circuits.circuitsmod.network.TypedMessage;
 import com.circuits.circuitsmod.reflective.ChipImpl;
 import com.circuits.circuitsmod.reflective.ChipInvoker;
@@ -29,6 +28,7 @@ public class CircuitInfoProvider {
 	
 	//These will be populated on both the client and the server
 	private static HashMap<CircuitUID, CircuitInfo> infoMap;
+	private static CircuitListModel circuitList;
 	
 	//These will only be populated on the server
 	private static HashMap<CircuitUID, ChipImpl> implMap;
@@ -90,6 +90,7 @@ public class CircuitInfoProvider {
     	}
 		public static void handle(ModelResponseFromServer response) {
 			CircuitInfoProvider.infoMap = response.infoMap;
+			CircuitInfoProvider.circuitList = new CircuitListModel(response.infoMap);
 		}
     }
     
@@ -117,6 +118,10 @@ public class CircuitInfoProvider {
     	for (int i = 0; i < toRegister.length; i++) {
     		folderToUIDMap.put(toRegister[i], CircuitUID.fromInteger(i));
     	}
+    }
+    
+    public static CircuitListModel getCircuitListModel() {
+    	return circuitList;
     }
     
     public static void loadUIDMapFromFile() {
@@ -193,10 +198,12 @@ public class CircuitInfoProvider {
 					Log.userError("Circuit in directory " + subDir + " is either formatted incorrectly, or is underspecified!");
 					continue;
 				}
+				entry.get().fillImplInfo(impl.get());
 				infoMap.put(uid, entry.get());
 				implMap.put(uid, impl.get());
 			}
 		}
+		circuitList = new CircuitListModel(infoMap);
 	}
 	
 	public static boolean isServerModelInit() {
@@ -222,6 +229,13 @@ public class CircuitInfoProvider {
 	
 	public static boolean hasInfoOn(CircuitUID uid) {
 		return infoMap.containsKey(uid);
+	}
+	
+	public static Optional<CircuitCell> getCellFor(CircuitUID uid) {
+		if (infoMap.containsKey(uid)) {
+			return Optional.of(new CircuitCell(uid, infoMap.get(uid)));
+		}
+		return Optional.empty();
 	}
 	
 	/**
@@ -277,10 +291,36 @@ public class CircuitInfoProvider {
 			Optional<SpecializedChipImpl> impl = SpecializedChipImpl.of(implMap.get(uid.getUID()), uid.getOptions());
 			//TODO: should the specialized chip impl be cached on the server?
 			if (impl.isPresent()) {
-				SpecializedCircuitInfo info = new SpecializedCircuitInfo(infoMap.get(uid.getUID()), impl.get());
+				SpecializedCircuitInfo info = new SpecializedCircuitInfo(uid, infoMap.get(uid.getUID()), impl.get());
 				infoCache.put(uid, info);
 			}
 		}
+	}
+	
+	/**
+	 * Meant to be called from the server only
+	 */
+	public static Optional<SpecializedCircuitInfo> getSpecializedInfoFor(SpecializedCircuitUID uid) {
+		createSpecializedInfoFor(uid);
+		if (infoCache.containsKey(uid)) {
+			return Optional.of(infoCache.get(uid));
+		}
+		return Optional.empty();
+	}
+	
+	/**
+	 * Meant to be called from the server only
+	 */
+	public static SpecializedChipImpl getSpecializedImpl(SpecializedCircuitUID uid) {
+		createSpecializedInfoFor(uid);
+		
+		ChipImpl impl = implMap.get(uid.getUID());
+		
+		Optional<SpecializedChipImpl> specialized = SpecializedChipImpl.of(impl, uid.getOptions());
+		if (!specialized.isPresent()) {
+			Log.userError("Failed to instantiate specialized circuit for " + uid);
+		}
+		return specialized.get();
 	}
 	
 	/**
@@ -289,25 +329,16 @@ public class CircuitInfoProvider {
 	 * @return
 	 */
 	public static ChipInvoker getInvoker(SpecializedCircuitUID uid) {
-		createSpecializedInfoFor(uid);
-		
-		ChipImpl impl = implMap.get(uid.getUID());
-		
-		Optional<ChipInvoker> invoker = impl.getInvoker().getInvoker(uid.getOptions());
-		if (!invoker.isPresent()) {
-			Log.userError("Failed to instantiate invoker for id " + uid);
-		}
-		return invoker.get();
+		return getSpecializedImpl(uid).getInvoker();
 	}
 	public static WireDirectionGenerator getWireDirectionGenerator(CircuitUID uid) {
 		return infoMap.get(uid).getWireDirectionGenerator();
 	}
 	
 	public static String getDisplayName(SpecializedCircuitUID uid) {
-		String result = infoMap.get(uid.getUID()).getName();
 		if (infoCache.containsKey(uid)) {
-			result += "(" + infoCache.get(uid).getConfigName() + ")";
+			return infoCache.get(uid).getFullDisplayName();
 		}
-		return result;
+		return infoMap.get(uid.getUID()).getName();
 	}
 }

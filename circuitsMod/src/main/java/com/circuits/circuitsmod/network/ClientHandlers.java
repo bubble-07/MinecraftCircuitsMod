@@ -7,8 +7,6 @@ import java.util.function.Consumer;
 import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.reflective.ReflectiveUtils;
 
-import net.minecraft.world.IBlockAccess;
-
 public class ClientHandlers {
 	public static void dispatch(TypedMessage msg) {
 		Consumer<Class<?>> handleCase = (clazz) -> {

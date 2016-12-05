@@ -1,6 +1,6 @@
+import java.io.Serializable;
 
-
-public class Implementation {
+public class Implementation implements Serializable {
 	boolean input;
 	boolean cin;
 	
