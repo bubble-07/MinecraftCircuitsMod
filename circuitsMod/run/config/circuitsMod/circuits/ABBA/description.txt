@@ -1,1 +1,14 @@
-Rising Edge detector circuit with two 1-bit inputs and a single 1-bit output
+ABBA Circuit:
+
+This circuit has configuration options:
+How long Output A is on
+How long Output B is on while A is on.
+
+An ABBA Circuit has one 1-bit input and two 1-bit outputs, A and B.
+When the circuit detects a pulse, ouput A will activate and remain on for the
+set length of time.  During this time, B will activate and remain on for the
+specified time.  
+
+The trick to this circuit is to remember that B CANNOT be On while A is Off.
+
+

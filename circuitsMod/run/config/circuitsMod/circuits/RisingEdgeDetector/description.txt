@@ -1,1 +1,8 @@
-Rising Edge detector circuit with two 1-bit inputs and a single 1-bit output
+Rising Edge detector:
+
+This circuit is not configurable.
+This circuit has one 1-bit input and has 1-bit output.
+
+When this circuit detects a rising edge in the input, it will output a pulse.
+
+A rising edge is when an input changes from low to high.

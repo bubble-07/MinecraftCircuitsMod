@@ -1,1 +1,9 @@
-Multiplexer circuit with two 1-bit inputs and a switching bit, and a single 1-bit output
+Multiplexer:
+
+This circuit has a configurable bitwidth n.
+this circuit has two n-bit inputs on its left and right, 
+one 1-bit input, and 1 n-bit output.
+
+A multiplexer decides which input to send to the output based on its switching
+input.  If the switching input is high, the left input will be forwarded,
+and if the switch is low, the right output will be forwarded.

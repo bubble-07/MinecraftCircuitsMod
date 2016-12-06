@@ -1,5 +1,6 @@
+import java.io.Serializable;
 //Convention: Combiners are named after their input widths
-public class Implementation {
+public class Implementation implements Serializable {
 
         long output;
         int bitWidth;

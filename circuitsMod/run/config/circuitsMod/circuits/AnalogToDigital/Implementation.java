@@ -1,5 +1,6 @@
+import java.io.Serializable;
 
-public class Implementation {
+public class Implementation implements Serializable {
 
         byte input;
 	

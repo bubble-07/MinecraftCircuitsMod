@@ -1,6 +1,7 @@
+import java.io.Serializable;
 //Splitters will be named after their input widths,
 //value0 will be the high bits, value1 will be the low bits (convention)
-public class Implementation {
+public class Implementation implements Serializable {
         int halfWidth;
         int bitWidth;
         long lowBits;

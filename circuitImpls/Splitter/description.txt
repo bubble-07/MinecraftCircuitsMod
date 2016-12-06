@@ -1,1 +1,10 @@
-Circuit which splits a single 2-bit bus input into two 1-bit bus outputs
+SPLITTER circuit:
+
+A splitter has a configurable bitwidth, n.
+A splitter has one n-bit input and two n-bit outputs.
+It takes the n-bit input and splits it among the two outputs.
+
+The high bits go to the left side of the splitter and the low bits go to the
+left side.
+
+This is the opposite of a Combiner.
