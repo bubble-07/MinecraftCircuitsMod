@@ -100,7 +100,7 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 		return this.craftingCell;
 	}
 	
-	private void updateCraftingGrid() {
+	public void updateCraftingGrid() {
 		if (craftingCell != null) {
 			int numCraftable = numCraftable();
 			//TODO: Set this to work with chips
@@ -294,7 +294,10 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 		
+		NBTTagCompound tileData = tagCompound.getCompoundTag("ForgeData");
+		
 		//TODO: This is problematic -- this should only write to the passed tagCompound
+		//okay, so this is problematic, but well, uh technically, nah
 		this.getTileData().setByteArray("TestState", SerialUtils.toByteArray(this.state));
 		this.getTileData().setByteArray("PendingGuiMessages", SerialUtils.toByteArray(this.pendingGuiMessages));
 		this.getTileData().setByteArray("CraftingCell", SerialUtils.toByteArray(this.craftingCell));

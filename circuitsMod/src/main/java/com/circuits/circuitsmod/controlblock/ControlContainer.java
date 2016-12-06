@@ -1,7 +1,11 @@
 package com.circuits.circuitsmod.controlblock;
 
 
+import java.util.Optional;
+
 import com.circuits.circuitsmod.CircuitsMod;
+import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
+import com.circuits.circuitsmod.circuitblock.CircuitItem;
 import com.circuits.circuitsmod.controlblock.tester.net.CraftingRequest;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -55,7 +59,7 @@ public class ControlContainer extends Container {
 		//null checks and checks if the item can be stacked (maxStackSize > 1)
 		if (slotObject != null && slotObject.getHasStack()) {
 			ItemStack stackInSlot = slotObject.getStack();
-			stack = stackInSlot.copy();
+			stack = stackInSlot.copy(); 
 			if (slot < tileEntity.getSizeInventory()) {
 				if (!this.mergeItemStack(stackInSlot, tileEntity.getSizeInventory(), 
 						36+tileEntity.getSizeInventory(), true)) {
@@ -78,11 +82,12 @@ public class ControlContainer extends Container {
 			slotObject.onPickupFromSlot(player, stackInSlot);
 			if (slot == 7) {
 				//Special handling! Need to remove from the other slots
-				if (tileEntity.getCraftingCell() != null) {
-				CircuitsMod.network.sendToServer(new CraftingRequest.Message(player.getUniqueID(), tileEntity.getPos(), stack.stackSize, 
-												tileEntity.getCraftingCell()));
-				tileEntity.craftingSlotPickedUp(stack.stackSize);
-				slotObject.onSlotChanged();
+				Optional<SpecializedCircuitUID> craftingCell = CircuitItem.getUIDFromStack(stack);
+				if (craftingCell.isPresent()) {
+					CircuitsMod.network.sendToServer(new CraftingRequest.Message(player.getUniqueID(), tileEntity.getPos(), stack.stackSize, 
+							craftingCell.get()));
+					//tileEntity.craftingSlotPickedUp(stack.stackSize);
+					slotObject.onSlotChanged();
 				}
 			}
 		}

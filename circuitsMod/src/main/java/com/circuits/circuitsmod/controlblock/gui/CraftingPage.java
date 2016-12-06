@@ -37,6 +37,7 @@ public class CraftingPage extends ControlGuiPage {
 			Optional<SpecializedCircuitUID> uid = specialFields.getUID();
 			if (uid.isPresent()) {
 				parent.tileEntity.setCraftingCell(parent.user.getUniqueID(), uid.get());
+				parent.tileEntity.updateCraftingGrid();
 			}
 		}
 		
