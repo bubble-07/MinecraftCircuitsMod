@@ -101,7 +101,7 @@ public class TestGeneratorInvoker extends Invoker implements TestGenerator {
 	public static Optional<TestGeneratorInvoker> getInvoker(Class<?> implClass, CircuitConfigOptions configOpts) {
 		Consumer<String> error = (s) -> Log.userError("Class: " + implClass + " " + s);
 		
-		Optional<Serializable> instance = getInstance(implClass);
+		Optional<Object> instance = getInstance(implClass);
 		if (!instance.isPresent()) {
 			return Optional.empty();
 		}

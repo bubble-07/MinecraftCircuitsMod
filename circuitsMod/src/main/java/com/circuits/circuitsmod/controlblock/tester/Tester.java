@@ -5,16 +5,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import com.circuits.circuitsmod.CircuitsMod;
-import com.circuits.circuitsmod.circuit.CircuitInfo;
+import com.circuits.circuitsmod.busblock.BusSegment;
 import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
+import com.circuits.circuitsmod.circuit.PersistentCircuitUIDs;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitInfo;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
+import com.circuits.circuitsmod.circuitblock.CircuitBlock;
+import com.circuits.circuitsmod.circuitblock.CircuitTileEntity;
+import com.circuits.circuitsmod.circuitblock.StartupCommonCircuitBlock;
+import com.circuits.circuitsmod.common.BlockFace;
 import com.circuits.circuitsmod.common.BusData;
+import com.circuits.circuitsmod.common.PosUtils;
+import com.circuits.circuitsmod.common.StreamUtils;
 import com.circuits.circuitsmod.controlblock.ControlTileEntity;
 import com.circuits.circuitsmod.controlblock.tester.net.TestStateUpdate;
 import com.circuits.circuitsmod.frameblock.StartupCommonFrame;
@@ -62,9 +68,8 @@ public class Tester {
 	SpecializedCircuitUID circuitUID;
 	
 	AxisAlignedBB testbbox = null;
-	ArrayList<BlockPos> inputBlocks = new ArrayList<>();
-	ArrayList<BlockPos> outputBlocks = new ArrayList<>();
-	ArrayList<IBlockState> initInputStates = new ArrayList<>();
+	ArrayList<BlockFace> inputFaces = new ArrayList<>();
+	ArrayList<BlockFace> outputFaces = new ArrayList<>();
 	
 	public Tester(EntityPlayer player, ControlTileEntity parent, SpecializedCircuitInfo circuit, TestConfig config) {
 		this.parent = parent;
@@ -88,13 +93,6 @@ public class Tester {
 		return !finished;
 	}
 	
-	private void restoreInitState() {
-		for (int i = 0; i < inputBlocks.size(); i++) {
-			parent.getWorld().destroyBlock(inputBlocks.get(i), false);
-			parent.getWorld().setBlockState(inputBlocks.get(i), initInputStates.get(i), 3);
-		}
-	}
-	
 	public AxisAlignedBB getBBox() {
 		return testbbox;
 	}
@@ -112,6 +110,30 @@ public class Tester {
 		return this.invokingPlayer;
 	}
 	
+	public void addBusSegFaces() {
+		for (BlockFace face : this.inputFaces) {
+			CircuitBlock.getBusSegmentAt(getWorld(), face).ifPresent((s) -> s.addInput(face));
+		}
+		for (BlockFace face : this.outputFaces) {
+			CircuitBlock.getBusSegmentAt(getWorld(), face).ifPresent((s) -> s.addOutput(face));
+		}
+	}
+	
+	public void removeBusSegFaces() {
+		for (BlockFace face : this.inputFaces) {
+			CircuitBlock.getBusSegmentAt(getWorld(), face).ifPresent((s) -> {
+				s.removeInput(face);
+				s.forceUpdate(getWorld());
+			});
+		}
+		for (BlockFace face : this.outputFaces) {
+			CircuitBlock.getBusSegmentAt(getWorld(), face).ifPresent((s) -> {
+				s.removeOutput(face);
+				s.forceUpdate(getWorld());
+			});
+		}
+	}
+	
 	public void update() {
 		if (!this.finished) {
 			if (testWait == 0) {
@@ -120,7 +142,7 @@ public class Tester {
 					//Test failed
 					this.finished = true;
 					this.success = false;
-					restoreInitState();
+					removeBusSegFaces();
 				}
 				else {
 					testindex++;
@@ -128,8 +150,8 @@ public class Tester {
 					if (!moreTests) {
 						this.finished = true;
 						this.success = true;
-						restoreInitState();
 						RecipeDeterminer.determineRecipe(this);
+						removeBusSegFaces();
 					}
 					else {
 						deliverTestInputs();
@@ -163,28 +185,27 @@ public class Tester {
 	}
 	
 	private void deliverTestInputs() {
-		for (int i = 0; i < this.inputBlocks.size(); i++) {
-			//TODO: support multi-bit inputs!
-			//TODO: Also don't do this -- instead, set the redstone power level or something like that
-			//the user should never be able to harvest redstone blocks during a test!
-			if (currentInputCase.get(i).getData() > 0) {
-				replaceWith(inputBlocks.get(i), Blocks.REDSTONE_BLOCK);
-			}
-			else {
-				replaceWith(inputBlocks.get(i), Blocks.AIR);
+		for (int i = 0; i < this.inputFaces.size(); i++) {
+			long toPush = currentInputCase.get(i).getData();
+			BlockFace face = inputFaces.get(i);
+			Optional<BusSegment> segToPush = CircuitBlock.getBusSegmentAt(getWorld(), face);
+			if (segToPush.isPresent()) {
+				segToPush.get().accumulate(getWorld(), face, new BusData(64, toPush));
+				segToPush.get().forceUpdate(getWorld());
 			}
 		}
 	}
 	
 	private boolean getResultOfTest() {
 		List<BusData> expected = internalImpls.getInvoker().invoke(this.internalCircuitState, this.currentInputCase);
-		//TODO: Support multi-bit outputs!
+		
 		List<BusData> actual = Lists.newArrayList();
-		for (int i = 0; i < outputBlocks.size(); i++) {
-			boolean reading = parent.getWorld().isBlockPowered(outputBlocks.get(i)) || 
-					(parent.getWorld().isBlockIndirectlyGettingPowered(outputBlocks.get(i)) > 0);
-			if (reading) {
-				actual.add(new BusData(1, reading ? 1 : 0));
+		for (int i = 0; i < outputFaces.size(); i++) {
+			BlockFace face = outputFaces.get(i);
+			Optional<BusSegment> segToRead = CircuitBlock.getBusSegmentAt(getWorld(), face);
+			if (segToRead.isPresent()) {
+				long reading = segToRead.get().getCurrentVal().getData();
+				actual.add(new BusData(expected.get(i).getWidth(), reading));
 			}
 		}
 		return actual.equals(expected);
@@ -197,52 +218,45 @@ public class Tester {
 					   .mapToObj((z) -> new BlockPos(x, y, z))));
 	}
 	
-	private static BlockPos findPosMatching(World world, AxisAlignedBB box, Predicate<IBlockState> statePred) {
-		return forPosIn(box).filter((pos) -> statePred.test(world.getBlockState(pos)))
-		                    .findFirst().orElse(null);
-	}
-	
-	private BlockPos findItemBlockIn(ItemStack item, AxisAlignedBB box) {
-		if (item == null) {
-			return null;
-		}
-		
-		Block itemBlock = Block.getBlockFromItem(item.getItem());
-		
-		return findPosMatching(parent.getWorld(), box, (state) -> {
-			Block block = state.getBlock();
-			if (itemBlock == block) {
-				int itemMeta = item.getMetadata();
-				int blockMeta = block.getMetaFromState(state);
-				if (itemMeta == blockMeta) {
-					return true;
-				}
+	private Predicate<BlockPos> isCircuitWithOption(int circuitID, int option) {
+		return (p) -> {
+			Optional<CircuitTileEntity> te = CircuitBlock.getCircuitTileEntityAt(getWorld(), p);
+			if (!te.isPresent()) {
+				return false;
 			}
-			return false;
-		});
-	}
-	
-	private static String signTextToString(ITextComponent[] comps) {
-		return Stream.of(comps).map(ITextComponent::getUnformattedText).reduce("", String::concat);
-	}
-	
-	public boolean approxStringMatch(String one, String two) {
-		//TODO: Implement fuzzy string matching
-		return one.equalsIgnoreCase(two);
-	}
-	
-	private Optional<BlockPos> findSignFor(boolean isInput, int index, AxisAlignedBB box) {
-		final String text = (isInput ? "I" : "O") + index;
-		
-		return forPosIn(box).filter((pos) -> {
-			TileEntity entity = parent.getWorld().getTileEntity(pos);
-			if (entity instanceof TileEntitySign) {
-				ITextComponent[] chatlines = ((TileEntitySign) entity).signText;
-				return approxStringMatch(text, signTextToString(chatlines));
+			SpecializedCircuitUID uid = te.get().getCircuitUID();
+			if (uid.getUID().toInteger() != circuitID) {
+				return false;
 			}
-			return false;
-		}).findFirst();
+			int[] opts = uid.getOptions().asInts();
+			if (opts.length < 1) {
+				return false;
+			}
+			return opts[0] == option;
+		};
 	}
+	
+	private Predicate<BlockFace> isBlockFaceWithBusWidth(int width) {
+		return (face) -> {
+			Optional<BusSegment> seg = CircuitBlock.getBusSegmentAt(getWorld(), face);
+			if (!seg.isPresent()) {
+				return false;
+			}
+			return seg.get().getWidth() == width;
+		};
+	}
+	
+	private Optional<BlockFace> getInputFace(int index, AxisAlignedBB searchBox) {
+				return forPosIn(searchBox).filter(isCircuitWithOption(PersistentCircuitUIDs.INPUT_CIRCUIT, index))
+						.flatMap(PosUtils::faces)
+						.filter(isBlockFaceWithBusWidth(64)).findAny();
+	}
+	
+	private Optional<BlockFace> getOutputFace(int index, AxisAlignedBB searchBox) {
+		return forPosIn(searchBox).filter(isCircuitWithOption(PersistentCircuitUIDs.OUTPUT_CIRCUIT, index))
+				.flatMap(PosUtils::faces)
+				.filter(isBlockFaceWithBusWidth(64)).findAny();
+}
 	
 	private void initTesting() {
 		//For now, must be placed in a bottom-most corner
@@ -286,20 +300,22 @@ public class Tester {
 		
 		//TODO: Bring optional named inputs into circuit configs
 		ChipInvoker invoker = this.internalImpls.getInvoker();
+		
 		for (int i = 0; i < invoker.numInputs(); i++) {
 			//TODO: Should we warn if we can't find a formally-defined input?
-			Optional<BlockPos> pos = findSignFor(true, i, testbbox);
-			if (pos.isPresent()) {
-				inputBlocks.add(pos.get());
-				initInputStates.add(parent.getWorld().getBlockState(pos.get()));
+			Optional<BlockFace> face = getInputFace(i, testbbox);
+			if (face.isPresent()) {
+				this.inputFaces.add(face.get());
 			}
 		}
 		for (int i = 0; i < invoker.numOutputs(); i++) {
-			Optional<BlockPos> pos = findSignFor(true, i, testbbox);
-			if (pos.isPresent()) {
-				outputBlocks.add(pos.get());
+			Optional<BlockFace> face = getOutputFace(i, testbbox);
+			if (face.isPresent()) {
+				this.outputFaces.add(face.get());
 			}
 		}
+		
+		this.addBusSegFaces();
 		
 		this.internalTestState = this.internalImpls.getTestGenerator().initState();
 		this.internalCircuitState = this.internalImpls.getInvoker().initState();

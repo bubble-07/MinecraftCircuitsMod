@@ -366,7 +366,7 @@ public class BusBlock extends Block implements IBusConnectable, IMetaBlockName {
 
 	@Override
 	public String getSpecialName(ItemStack stack) {
-		return this.busWidths[stack.getItemDamage()].getDisplayName();
+		return BusBlock.busWidths[stack.getItemDamage()].getDisplayName();
 	}
 
 	@Override

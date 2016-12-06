@@ -1,6 +1,5 @@
 package com.circuits.circuitsmod.common;
 
-import java.util.HashMap;
 import java.io.Serializable;
 
 /**

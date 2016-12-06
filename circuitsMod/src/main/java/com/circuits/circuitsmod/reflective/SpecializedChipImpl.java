@@ -1,6 +1,5 @@
 package com.circuits.circuitsmod.reflective;
 
-import java.io.Serializable;
 import java.util.Optional;
 
 import com.circuits.circuitsmod.circuit.CircuitConfigOptions;

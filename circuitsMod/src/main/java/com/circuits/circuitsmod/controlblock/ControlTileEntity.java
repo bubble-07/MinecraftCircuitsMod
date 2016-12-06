@@ -3,7 +3,6 @@ package com.circuits.circuitsmod.controlblock;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -292,6 +291,7 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 		
+		//TODO: This is problematic -- this should only write to the passed tagCompound
 		this.getTileData().setByteArray("TestState", SerialUtils.toByteArray(this.state));
 		this.getTileData().setByteArray("PendingGuiMessages", SerialUtils.toByteArray(this.pendingGuiMessages));
 		

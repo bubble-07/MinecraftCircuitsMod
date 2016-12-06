@@ -150,7 +150,7 @@ public class ChipInvoker extends Invoker {
 		
 		//Create an instance of the implementation class to be able to
 		//determine the results of calling the idempotent functions in the API
-		Optional<Serializable> instance = getInstance(implClass);
+		Optional<Object> instance = getInstance(implClass);
 		if (!instance.isPresent()) {
 			return Optional.empty();
 		} 

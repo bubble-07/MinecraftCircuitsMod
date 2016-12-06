@@ -13,6 +13,7 @@ import com.circuits.circuitsmod.circuitblock.WireDirectionMapper.WireDirectionGe
 
 /**
  * Class which contains all information necessary for displaying a circuit (not specialized!)
+ * [also not responsible for displaying the cost of the circuit]
  * in the GUI
  * @author bubble-07
  *
@@ -33,16 +34,6 @@ public class CircuitCell implements Serializable {
 		this.uid = uid;
 	}
 	
-	public boolean isUnlocked() {
-		return info.isUnlocked();
-	}
-	
-	/**
-	 * @return The cost of this Circuit entry, if unlocked.
-	 */
-	public Optional<List<ItemStack>> getCost() {
-		return info.getCost();
-	}
 	public BufferedImage getImage() {
 		return info.getImage();
 	}

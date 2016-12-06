@@ -2,12 +2,8 @@ package com.circuits.circuitsmod.testblock;
 
 import java.util.Optional;
 
-import com.circuits.circuitsmod.circuit.CircuitUID;
-import com.circuits.circuitsmod.circuitblock.CircuitItem;
-import com.circuits.circuitsmod.circuitblock.CircuitTileEntity;
 import com.circuits.circuitsmod.common.Log;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;

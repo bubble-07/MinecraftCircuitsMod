@@ -3,7 +3,6 @@ package com.circuits.circuitsmod.controlblock.gui.model;
 import io.netty.buffer.ByteBuf;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import com.circuits.circuitsmod.circuit.CircuitInfo;

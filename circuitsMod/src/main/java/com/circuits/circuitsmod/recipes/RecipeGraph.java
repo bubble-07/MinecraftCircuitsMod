@@ -190,7 +190,6 @@ public class RecipeGraph {
 	}
 	
 	public CostList getCost(ItemData item) {
-		System.out.println(item.item.getUnlocalizedName());
 		return getCost(itemMap.get(item), 1.0f);
 	}
 	

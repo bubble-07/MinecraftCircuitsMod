@@ -4,7 +4,6 @@ import com.circuits.circuitsmod.common.BlockFace;
 import com.circuits.circuitsmod.common.BusData;
 import com.circuits.circuitsmod.testblock.TileEntityTesting;
 
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 public class TestBusInverter implements PuzzleTest {

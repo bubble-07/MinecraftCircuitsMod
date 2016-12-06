@@ -61,7 +61,7 @@ public abstract class Invoker {
 		/**
 		 * Stores an instantiated chip object.
 		 */
-		private Serializable instance;
+		private Object instance;
 		
 		/**
 		 * Given an Invoker initialize a state object.
@@ -123,12 +123,15 @@ public abstract class Invoker {
 		
 	}
 	
-	protected static Optional<Serializable> getInstance(Class<?> implClass) {
+	protected static Optional<Object> getInstance(Class<?> implClass) {
 		Consumer<String> error = (s) -> Log.userError("Class: " + implClass + " " + s);
 		
 		try {
 			Object instance = implClass.getConstructors()[0].newInstance();
-			return Optional.of((Serializable) instance);
+			//TODO: Implement your own serialization routines/force the user to!
+			//We can't just cast to Serializable, because we're dealing with a different classloader!
+			//return Optional.of((Serializable) instance);
+			return Optional.of(instance);
 		}
 		catch (ClassCastException e) {
 			error.accept("is not serializable!");

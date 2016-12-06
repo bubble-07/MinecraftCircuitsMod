@@ -1,7 +1,6 @@
 package com.circuits.circuitsmod.controlblock.gui;
 
 import com.circuits.circuitsmod.CircuitsMod;
-import com.circuits.circuitsmod.circuit.CircuitInfo;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
 import com.circuits.circuitsmod.controlblock.tester.TestState;
 import com.circuits.circuitsmod.controlblock.tester.net.TestStopRequest;
@@ -36,8 +35,10 @@ public class TestProgressPage extends ControlGuiPage {
 				toDisplay = "Success!";
 				successBootTimer--;
 				if (successBootTimer < 0) {
-					//TODO: Reset the TileEntity's test state after the client has seen it
-					//TODO: On the server-side, after a success, ensure no more state updates are sent
+					//Send a message to the server to stop the test
+					parent.tileEntity.stopTest();
+					CircuitsMod.network.sendToServer(new TestStopRequest.Message(parent.tileEntity.getPos()));
+					
 					parent.setDisplayPage(new CellDisplayPage(parent, cell));
 					return;
 				}

@@ -25,6 +25,6 @@ public class ServerGuiMessage implements Serializable {
 	}
 	
 	public enum GuiMessageKind implements Serializable {
-		GUI_SPECIALIZATON_INFO
+		GUI_SPECIALIZATON_INFO, GUI_CIRCUIT_COSTS
 	};
 }

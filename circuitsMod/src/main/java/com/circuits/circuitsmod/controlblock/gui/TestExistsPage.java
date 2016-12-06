@@ -1,6 +1,5 @@
 package com.circuits.circuitsmod.controlblock.gui;
 
-import com.circuits.circuitsmod.circuit.CircuitInfo;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
 
 

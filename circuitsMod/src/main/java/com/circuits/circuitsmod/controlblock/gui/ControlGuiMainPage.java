@@ -2,7 +2,6 @@ package com.circuits.circuitsmod.controlblock.gui;
 
 import java.util.List;
 
-import com.circuits.circuitsmod.circuit.CircuitInfo;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
 
 import net.minecraft.item.ItemStack;
@@ -31,6 +30,9 @@ public class ControlGuiMainPage extends ControlGuiPage {
 		parent.getFontRenderer().drawString(displayName, screenX, cell_y, elementColor);
 		parent.drawHorizontalLine(screenX, screenX + screenWidth, cell_y - 2, elementColor);
 		
+		//TODO: Make it __visually apparent__ whether something has been unlocked,
+		//but don't display the cost -- too cramped!
+		/*
 		if (cell.isUnlocked()) {
 			//Special stuff to draw (materials cost) if the cell has been unlocked
 			List<ItemStack> materials = cell.getCost().get();
@@ -39,7 +41,7 @@ public class ControlGuiMainPage extends ControlGuiPage {
 				currentX += 10;
 				parent.renderItemStack(material, currentX, cell_y);
 			}
-		}
+		}*/
 	}
 	
 	private void tryScrollUp() {

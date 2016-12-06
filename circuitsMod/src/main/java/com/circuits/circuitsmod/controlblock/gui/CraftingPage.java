@@ -2,8 +2,6 @@ package com.circuits.circuitsmod.controlblock.gui;
 
 import java.util.Optional;
 
-import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
-import com.circuits.circuitsmod.circuit.SpecializedCircuitInfo;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
 
@@ -38,13 +36,13 @@ public class CraftingPage extends ControlGuiPage {
 		
 		parent.getFontRenderer().drawString(cell.getName(), screenX, screenY, elementColor);
 		parent.drawHorizontalLine(screenX, screenX + screenWidth, screenY + 10, elementColor);
-		
+		/*
 		cell.getInfo().getCost().ifPresent((cost) -> {
 			for (int i = 0; i < cost.size(); i++) {
 				int x = screenX + 20*i;
 				parent.renderItemStack(cost.get(i), x, screenY + screenHeight / 2 + shortLabelHeight);
 				parent.getFontRenderer().drawString("" + cost.get(i).stackSize, x, screenY + screenHeight / 2, elementColor);
 			}
-		});
+		});*/
 	}
 }

@@ -104,7 +104,7 @@ public class DefaultTestGenerator implements TestGenerator {
 	}
 	
 	public Optional<List<BusData>> invoke(State state) {
-		if (state.testNum > MAX_TESTS) {
+		if (state.testNum >= this.totalTests) {
 			//Done testing
 			return Optional.empty();
 		}

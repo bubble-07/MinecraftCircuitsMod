@@ -110,11 +110,18 @@ public class CircuitInfoProvider {
     	 * Demultiplexer : 15
     	 * NBitDLatch : 17
     	 * ABBA : 19
+    	 * Input : 21
     	 */
     	String[] toRegister = {"And", "Xor", "Splitter", "Combiner", "Nor", "Nand",
     			               "HalfAdder", "Emitter", "RisingEdgeDetector", "PulseLengthener",
     			               "DigitalToAnalog", "AnalogToDigital", "Clock", "Inverter",
-    			               "Multiplexer", "Demultiplexer", "FullAdder", "NBitDLatch", "Implies", "ABBA", "Dummy"};
+    			               "Multiplexer", "Demultiplexer", "FullAdder", "NBitDLatch", "Implies", "ABBA", "Dummy",
+    			               "Input", "Output"};
+    	
+    	//TODO: Do this by a "index of" or something
+    	PersistentCircuitUIDs.INPUT_CIRCUIT = 21;
+    	PersistentCircuitUIDs.OUTPUT_CIRCUIT = 22;
+    	
     	for (int i = 0; i < toRegister.length; i++) {
     		folderToUIDMap.put(toRegister[i], CircuitUID.fromInteger(i));
     	}

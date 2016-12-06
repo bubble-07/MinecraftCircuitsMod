@@ -2,38 +2,22 @@ package com.circuits.circuitsmod.recipes;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
-
-import jdk.nashorn.internal.runtime.Debug;
 
 import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.Config;
-import com.circuits.circuitsmod.busblock.BusBlock.BusFacing;
 import com.circuits.circuitsmod.common.ItemUtils;
-import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.PosUtils;
 import com.circuits.circuitsmod.controlblock.tester.Tester;
-import com.sun.corba.se.impl.orbutil.graph.Graph;
+import com.circuits.circuitsmod.frameblock.StartupCommonFrame;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.IStringSerializable;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.toposort.TopologicalSort.DirectedGraph;
 
 public class RecipeDeterminer {
 	
@@ -77,14 +61,12 @@ public class RecipeDeterminer {
 		
 		final RecipeGraph.CostList cost = new RecipeGraph.CostList();
 		
-		PosUtils.forBlockIn(test.getWorld(), test.getBBox().contract(1.0), (IBlockState in) -> {
+		PosUtils.forBlockIn(test.getWorld(), test.getBBox(), (IBlockState in) -> {
 			int meta = in.getBlock().getMetaFromState(in);
 			Item item = itemFromState(in);
-			
-			System.out.println(in.getBlock());
-			
+						
 			RecipeGraph.CostList addedCost = null;
-			if (item != null) {
+			if (item != null && item != StartupCommonFrame.itemFrameBlock) {
 				addedCost = CircuitsMod.recipeGraph.getCost(new RecipeGraph.ItemData(item, meta));
 			}	
 			if (addedCost != null) {

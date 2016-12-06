@@ -6,15 +6,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 
 import com.circuits.circuitsmod.Config;
 import com.circuits.circuitsmod.circuit.CircuitUID;
+import com.circuits.circuitsmod.common.EntityUtils;
 import com.circuits.circuitsmod.common.FileUtils;
 import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.SerializableItemStack;
@@ -55,11 +54,11 @@ public class RecipeUtils {
 				return Optional.of(SerializableItemStack.itemStacksFromFile(recipeFile));
 			}
 			else {
-				Optional<EntityPlayer> player = worldIn.getEntities(EntityPlayer.class, (p) -> 
-				                                  p.getUniqueID().equals(playerID)).stream().findAny();
+				Optional<EntityPlayer> player = EntityUtils.getPlayerFromUID(worldIn, playerID);
 				if (!player.isPresent()) {
 					Log.internalError("Could not find player with UUID " + playerID);
 				}
+				//TODO: Sync this with the client, so it knows what to display!
 				NBTTagCompound playerCpd = player.get().getEntityData();
 				NBTTagCompound costsCpd = playerCpd.getCompoundTag("CircuitCosts");
 				NBTTagCompound recipeCpd = costsCpd.getCompoundTag(uid.toInteger() + "");

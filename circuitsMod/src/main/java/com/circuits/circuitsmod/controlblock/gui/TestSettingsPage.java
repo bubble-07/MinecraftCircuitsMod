@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.circuit.CircuitConfigOptions;
-import com.circuits.circuitsmod.circuit.CircuitInfo;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;

@@ -2,8 +2,6 @@ package com.circuits.circuitsmod.controlblock.gui;
 
 import java.util.Optional;
 
-import com.circuits.circuitsmod.CircuitsMod;
-import com.circuits.circuitsmod.circuit.CircuitInfo;
 import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.common.Log;

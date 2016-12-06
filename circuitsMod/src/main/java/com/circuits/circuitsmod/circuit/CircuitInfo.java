@@ -30,7 +30,6 @@ import com.circuits.circuitsmod.reflective.ChipImpl;
 public class CircuitInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	List<SerializableItemStack> materialsCost;
 	String name;
 	String description;
 	WireDirectionGenerator wireDirGen;
@@ -44,7 +43,6 @@ public class CircuitInfo implements Serializable {
 		CircuitInfo result = new CircuitInfo();
 		File descripFile = new File(containingFolder.toString() + "/description.txt");
 		File imageFile = new File(containingFolder.toString() + "/Icon.png");
-		File matlsFile = new File(containingFolder.toString() + "/materials.nbt");
 		File nameFile = new File(containingFolder.toString() + "/name.txt");
 		
 		try {
@@ -78,13 +76,6 @@ public class CircuitInfo implements Serializable {
 			result.image = null;
 		}
 		
-		try {
-			result.materialsCost = SerializableItemStack.serializeItemStacks(SerializableItemStack.itemStacksFromFile(matlsFile));
-		}
-		catch (Exception e) {
-			result.materialsCost = null;
-		}
-		
 		//TODO: allow for the ability to override the default wire generator stuff in a file!
 		result.wireDirGen = new WireDirectionMapper.DefaultGenerator();
 		
@@ -111,18 +102,6 @@ public class CircuitInfo implements Serializable {
 	
 	public void fillImplInfo(ChipImpl impl) {
 		this.numSpecializationSlots = impl.getInvoker().getNumConfigSlots();
-	}
-	
-	
-	public boolean isUnlocked() {
-		return (materialsCost != null);
-	}
-	
-	/**
-	 * @return The cost of this Circuit entry, if unlocked.
-	 */
-	public Optional<List<ItemStack>> getCost() {
-		return Optional.ofNullable(materialsCost).map(SerializableItemStack::deserializeItemStacks);
 	}
 	
 	public int getNumSpecializationSlots() {

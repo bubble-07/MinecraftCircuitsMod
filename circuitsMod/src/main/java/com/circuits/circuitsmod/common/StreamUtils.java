@@ -1,5 +1,6 @@
 package com.circuits.circuitsmod.common;
 
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -7,6 +8,16 @@ public class StreamUtils {
 	
 	public static <T, S> Stream<Pair<T, S>> focusStream(Stream<T> in, Function<T, S> derived) {
 		return in.map((t) -> Pair.of(t, derived.apply(t)));
+	}
+	
+	public static <T, S> Stream<S> optionalMap(Stream<T> in, Function<T, Optional<S>> f) {
+		return in.flatMap((T t) -> {
+			Optional<S> result = f.apply(t);
+			if (result.isPresent()) {
+				return Stream.of(result.get());
+			}
+			return Stream.empty();
+		});
 	}
 	
 	public static <T> Stream<Pair<Integer, T>> indexStream(Stream<T> in) {

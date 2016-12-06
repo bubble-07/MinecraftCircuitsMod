@@ -1,6 +1,5 @@
 package com.circuits.circuitsmod.controlblock;
 
-import com.circuits.circuitsmod.GuiHandlerRegistry;
 import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.controlblock.gui.ControlGuiHandler;
 
