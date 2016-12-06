@@ -44,12 +44,15 @@ public class ControlGuiMainPage extends ControlGuiPage {
 		}*/
 	}
 	
-	private void tryScrollUp() {
+	@Override
+	protected void handleScrollUp() {
 		if (firstItem > 0) {
 			firstItem--;
 		}
 	}
-	private void tryScrollDown() {
+	
+	@Override
+	protected void handleScrollDown() {
 		if (firstItem < (parent.model.numEntries() - maxToDisplay)) {
 			firstItem++;
 		}
@@ -66,17 +69,7 @@ public class ControlGuiMainPage extends ControlGuiPage {
 	
 	@Override
 	public void handleClick(int mouseX, int mouseY) {
-		if (mouseX > screenX + screenWidth && mouseX < screenX + screenWidth + scrollBarWidth &&
-				mouseY < screenHeight && mouseY > 0) {
-			//Must be tryin' to scroll
-			if (mouseY > (screenHeight / 2)) {
-				tryScrollDown();
-			}
-			else {
-				tryScrollUp();
-			}
-		}	
-		else if (mouseX > screenX && mouseX < screenX + screenWidth && 
+		if (mouseX > screenX && mouseX < screenX + screenWidth && 
 				mouseY > 0 && mouseY < screenHeight) {
 			//Must be trying to click on a cell
 			CircuitCell cell = yToCell(mouseY);

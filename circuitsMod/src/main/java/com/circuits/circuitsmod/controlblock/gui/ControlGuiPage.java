@@ -23,6 +23,13 @@ public abstract class ControlGuiPage {
 		this.parent = parent;
 	}
 	
+	protected void handleScrollDown() {
+		
+	}
+	protected void handleScrollUp() {
+		
+	}
+	
 	protected void handleClick(int mouseX, int mouseY) {
 	}
 	

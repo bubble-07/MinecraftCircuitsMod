@@ -12,6 +12,16 @@ public class CircuitCosts implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	List<SerializableItemStack> stacks;
+	
+	public CircuitCosts(Optional<List<ItemStack>> stacks) {
+		if (!stacks.isPresent()) {
+			this.stacks = null;
+		}
+		else {
+			this.stacks = SerializableItemStack.serializeItemStacks(stacks.get());
+		}
+	}
+	
 	public CircuitCosts(List<SerializableItemStack> stacks) {
 		this.stacks = stacks;
 	}

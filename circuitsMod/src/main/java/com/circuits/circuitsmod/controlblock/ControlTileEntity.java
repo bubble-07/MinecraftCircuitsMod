@@ -279,6 +279,9 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 		
 		this.state = (TestState) SerialUtils.fromByteArray(getTileData().getByteArray("TestState"));
 		
+		this.craftingCell = (SpecializedCircuitUID) SerialUtils.fromByteArray(getTileData().getByteArray("CraftingCell"));
+		this.craftingPlayer = (UUID) SerialUtils.fromByteArray(getTileData().getByteArray("CraftingPlayer"));
+		
 		NBTTagList tagList = tagCompound.getTagList("Inventory", 10);
 		for (int i = 0; i < tagList.tagCount(); i++) {
 			NBTTagCompound tag = (NBTTagCompound) tagList.getCompoundTagAt(i);
@@ -294,6 +297,9 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 		//TODO: This is problematic -- this should only write to the passed tagCompound
 		this.getTileData().setByteArray("TestState", SerialUtils.toByteArray(this.state));
 		this.getTileData().setByteArray("PendingGuiMessages", SerialUtils.toByteArray(this.pendingGuiMessages));
+		this.getTileData().setByteArray("CraftingCell", SerialUtils.toByteArray(this.craftingCell));
+		this.getTileData().setByteArray("CraftingPlayer", SerialUtils.toByteArray(this.craftingPlayer));
+		
 		
 		super.writeToNBT(tagCompound);
 		NBTTagList itemList = new NBTTagList();

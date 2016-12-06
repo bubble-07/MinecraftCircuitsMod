@@ -3,6 +3,7 @@ package com.circuits.circuitsmod;
 import com.circuits.circuitsmod.CommonProxy;
 import com.circuits.circuitsmod.world.PuzzleTeleportCommand;
 import com.circuits.circuitsmod.CircuitsMod;
+import com.circuits.circuitsmod.controlblock.gui.net.CircuitCostRequest;
 import com.circuits.circuitsmod.controlblock.gui.net.SpecializationValidationRequest;
 import com.circuits.circuitsmod.controlblock.tester.net.CraftingRequest;
 import com.circuits.circuitsmod.controlblock.tester.net.TestRequest;
@@ -109,6 +110,16 @@ public class CircuitsMod
 		}
 	}
 	
+	public static class CircuitCostHandler implements IMessageHandler<CircuitCostRequest.Message, IMessage> {
+		@Override
+		public IMessage onMessage(CircuitCostRequest.Message msg, MessageContext ctxt) {
+			World world =  ctxt.getServerHandler().playerEntity.worldObj;
+			((IThreadListener) world).addScheduledTask(() -> {
+				CircuitCostRequest.handleCircuitCostRequest(msg.message, world);
+			});
+			return null;
+		}
+	}
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -122,6 +133,8 @@ public class CircuitsMod
     	network.registerMessage(ServerCraftHandler.class, CraftingRequest.Message.class, 4, Side.SERVER);
     	network.registerMessage(ServerTestStopHandler.class, TestStopRequest.Message.class, 5, Side.SERVER);
     	network.registerMessage(SpecializationValidationHandler.class, SpecializationValidationRequest.Message.class, 6, Side.SERVER);
+    	network.registerMessage(CircuitCostHandler.class, CircuitCostRequest.Message.class, 7, Side.SERVER);
+
     	
       proxy.preInit();
     }

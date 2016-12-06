@@ -94,6 +94,19 @@ public class ControlGui extends GuiContainer {
 				mouseX < ControlGuiPage.screenX + ControlGuiPage.screenWidth + ControlGuiPage.scrollBarWidth &&
 			mouseY > 0 && mouseY < ControlGuiPage.screenHeight) {
 			
+			
+			if (mouseX > ControlGuiPage.screenX + ControlGuiPage.screenWidth && mouseX < ControlGuiPage.screenX + ControlGuiPage.screenWidth + 
+					ControlGuiPage.scrollBarWidth &&
+					mouseY < ControlGuiPage.screenHeight && mouseY > 0) {
+				//Must be tryin' to scroll
+				if (mouseY > (ControlGuiPage.screenHeight / 2)) {
+					currentPage.handleScrollDown();
+				}
+				else {
+					currentPage.handleScrollUp();
+				}
+			}	
+			
 			if (!currentPage.handleElementClicks(mouseX, mouseY)) {
 				currentPage.handleClick(mouseX, mouseY);	
 			}
@@ -103,6 +116,12 @@ public class ControlGui extends GuiContainer {
 	@Override
 	protected void keyTyped(char typed, int keyCode) throws IOException {
 		super.keyTyped(typed, keyCode);
+		if (keyCode == 200) {
+			currentPage.handleScrollUp();
+		}
+		if (keyCode == 208) {
+			currentPage.handleScrollDown();
+		}
 		currentPage.handleElementKeys(typed, keyCode);
 	}
 		
