@@ -1,1 +1,8 @@
-Multiplexer circuit with two 1-bit inputs and a switching bit, and a single 1-bit output
+Demultiplexer
+
+This circuit has a configurable bitwidth n.
+This circuit has 1 n-bit input, one 1-bit input, and 2 n-bit outputs.
+
+This circuit decides which output to forward the input to based on the switch.
+If the switch is high, the left output is used, and if the switch is low,
+the right output is used.

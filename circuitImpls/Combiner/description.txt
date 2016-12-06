@@ -1,1 +1,6 @@
-Circuit which combines two 1-bit (redstone) inputs to a single 2-bit output
+COMBINER Circuit
+
+A combiner has a configurable bitwidth, n.  It has two n/2 bit inputs and 1
+n bit output.  The output is the combination of the two n/2 bit inputs.
+
+This is the opposite of a Splitter.

@@ -1,5 +1,5 @@
-
-public class Implementation {
+import java.io.Serializable;
+public class Implementation implements Serializable {
     
         long storedVal;
         int bitWidth;

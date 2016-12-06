@@ -1,1 +1,12 @@
-Full Adder circuit with three 1-bit inputs and a single 1-bit output plus 1-bit output of carry out.
+Full Adder
+
+This circuit has configurable bitwidth of n.
+This circuit has one 1-bit carry-in input, 1-bit carry-out output, two n-bit
+inputs and 1 n-bit output.
+
+This adder's job is to add the two n-bit inputs and the carry-in to produce 
+a result on the output.  The n-bit output carries the sum, and the carry-out
+output is on if the adder had to carry-out the leading bit.
+
+A carry-out occurs if the leading bits in the sum evaluate to 2 or more, which
+is the same as being greater than 10 in binary.  

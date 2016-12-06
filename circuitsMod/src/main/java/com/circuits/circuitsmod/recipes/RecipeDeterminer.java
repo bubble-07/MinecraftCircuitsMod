@@ -12,8 +12,6 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import jdk.nashorn.internal.runtime.Debug;
-
 import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.Config;
 import com.circuits.circuitsmod.busblock.BusBlock.BusFacing;
@@ -21,7 +19,6 @@ import com.circuits.circuitsmod.common.ItemUtils;
 import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.PosUtils;
 import com.circuits.circuitsmod.controlblock.tester.Tester;
-import com.sun.corba.se.impl.orbutil.graph.Graph;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
