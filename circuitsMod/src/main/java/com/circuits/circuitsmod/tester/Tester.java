@@ -1,4 +1,4 @@
-package com.circuits.circuitsmod.controlblock.tester;
+package com.circuits.circuitsmod.tester;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -43,8 +43,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 
-public class Tester {
-	ControlTileEntity parent;
+public abstract class Tester<TEType extends TileEntity> {
+	TEType parent;
 	
 	public SpecializedCircuitInfo testing = null;
 	public SpecializedChipImpl internalImpls;
@@ -71,7 +71,7 @@ public class Tester {
 	ArrayList<BlockFace> inputFaces = new ArrayList<>();
 	ArrayList<BlockFace> outputFaces = new ArrayList<>();
 	
-	public Tester(EntityPlayer player, ControlTileEntity parent, SpecializedCircuitInfo circuit, TestConfig config) {
+	public Tester(EntityPlayer player, TEType parent, SpecializedCircuitInfo circuit, TestConfig config) {
 		this.parent = parent;
 		this.circuitUID = circuit.getUID();
 		this.config = config;
@@ -84,6 +84,10 @@ public class Tester {
 		setupNewTest();
 		
 	}
+	
+	
+	public abstract void successAction();
+	public abstract void stateUpdateAction();
 	
 	public SpecializedCircuitUID getUID() {
 		return this.circuitUID;
@@ -150,16 +154,12 @@ public class Tester {
 					if (!moreTests) {
 						this.finished = true;
 						this.success = true;
-						RecipeDeterminer.determineRecipe(this);
+						successAction();
 						removeBusSegFaces();
 					}
 					else {
 						deliverTestInputs();
 					}
-				}
-				parent.updateState(this.getState());
-				if (!parent.getWorld().isRemote) {
-					CircuitsMod.network.sendToAll(new TestStateUpdate.Message(this.getState(), parent.getPos()));
 				}
 				
 			}
@@ -256,47 +256,16 @@ public class Tester {
 		return forPosIn(searchBox).filter(isCircuitWithOption(PersistentCircuitUIDs.OUTPUT_CIRCUIT, index))
 				.flatMap(PosUtils::faces)
 				.filter(isBlockFaceWithBusWidth(64)).findAny();
-}
+	}
+	
+	
+	public abstract Optional<AxisAlignedBB> getTestingBox();
 	
 	private void initTesting() {
-		//For now, must be placed in a bottom-most corner
 		testindex = 0;
 		
-		//TODO: Also check for transparent blocks extending in a 1 block shell!
-		
-		Block frameBlock = StartupCommonFrame.frameBlock;
-		
-		//Get the vertical extent
-		int vertExtent = 0;
-		while (parent.getWorld().getBlockState(parent.getPos().up(vertExtent + 1)).getBlock()
-				== frameBlock) {
-			vertExtent++;
-		}
-		int pos_x_extent = 0;
-		while (parent.getWorld().getBlockState(parent.getPos().add(pos_x_extent + 1, 0, 0)).getBlock()
-				== frameBlock) {
-			pos_x_extent++;
-		}
-		int neg_x_extent = 0;
-		while (parent.getWorld().getBlockState(parent.getPos().add(-neg_x_extent - 1, 0, 0)).getBlock()
-				== frameBlock) {
-			neg_x_extent++;
-		}
-		int pos_z_extent = 0;
-		while (parent.getWorld().getBlockState(parent.getPos().add(0, 0, pos_z_extent + 1)).getBlock()
-				== frameBlock) {
-			pos_z_extent++;
-		}
-		int neg_z_extent = 0;
-		while (parent.getWorld().getBlockState(parent.getPos().add(0, 0, -neg_z_extent - 1)).getBlock()
-				== frameBlock) {
-			neg_z_extent++;
-		}
-		
 		//TODO: Warn the user if no testing bounding box was found!
-		
-		testbbox = new AxisAlignedBB(parent.getPos().add(-neg_x_extent, 0, -neg_z_extent), 
-								     parent.getPos().add(pos_x_extent, vertExtent, pos_z_extent));
+		this.testbbox = getTestingBox().get();
 		
 		//TODO: Bring optional named inputs into circuit configs
 		ChipInvoker invoker = this.internalImpls.getInvoker();
@@ -319,14 +288,5 @@ public class Tester {
 		
 		this.internalTestState = this.internalImpls.getTestGenerator().initState();
 		this.internalCircuitState = this.internalImpls.getInvoker().initState();
-	}
-	
-	public IBlockState replaceWith(BlockPos pos, Block newBlock) {
-		IBlockState backupstate = parent.getWorld().getBlockState(pos);
-		
-		parent.getWorld().destroyBlock(pos, false);
-		parent.getWorld().setBlockState(pos, newBlock.getDefaultState(), 3);
-		
-		return backupstate;
 	}
 }

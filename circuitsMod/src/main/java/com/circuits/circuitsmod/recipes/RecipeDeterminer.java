@@ -12,8 +12,8 @@ import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.Config;
 import com.circuits.circuitsmod.common.ItemUtils;
 import com.circuits.circuitsmod.common.PosUtils;
-import com.circuits.circuitsmod.controlblock.tester.Tester;
 import com.circuits.circuitsmod.frameblock.StartupCommonFrame;
+import com.circuits.circuitsmod.tester.Tester;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;

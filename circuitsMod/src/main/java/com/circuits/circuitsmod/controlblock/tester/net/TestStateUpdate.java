@@ -7,7 +7,7 @@ import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.SerialUtils;
 import com.circuits.circuitsmod.controlblock.ControlBlock;
 import com.circuits.circuitsmod.controlblock.ControlTileEntity;
-import com.circuits.circuitsmod.controlblock.tester.TestState;
+import com.circuits.circuitsmod.tester.TestState;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;

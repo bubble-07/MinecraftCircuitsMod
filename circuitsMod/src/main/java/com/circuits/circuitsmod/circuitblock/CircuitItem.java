@@ -9,6 +9,7 @@ import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
 import com.circuits.circuitsmod.circuit.CircuitUID;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.common.Log;
+import com.circuits.circuitsmod.common.StringUtils;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
@@ -20,9 +21,6 @@ public class CircuitItem extends ItemBlock {
 	private final String name = "circuititem";
 	
 	private static final String circuitUIDTag = "circuitUID";
-	
-	private static final String SECTION_SYMBOL = Character.toString((char)0x00a7);
-	private static final String NULL_SYMBOL = Character.toString((char)0xF8);
 	
 	@SideOnly(Side.CLIENT)
 	public CircuitSmartModel renderer;
@@ -40,27 +38,10 @@ public class CircuitItem extends ItemBlock {
 		this.renderer = itemRenderer;
 	}
 	
-	private static String intToSecret(int val) {
-		String result = "";
-		String[] chars = Integer.toString(val).split("");
-		for (String c : chars) {
-			result += SECTION_SYMBOL + c;
-		}
-		return result;
-	}
-	private static int secretToInt(String str) {
-		String toParse = "";
-		String[] chars = str.split("");
-		for (int i = 1; i < chars.length; i += 2) {
-			toParse += chars[i];
-		}
-		return Integer.parseInt(toParse);
-	}
-	
 	private static String getSecretString(SpecializedCircuitUID uid) {
 		
 		int val = uid.getUID().toInteger();
-		String prefix = intToSecret(val);
+		String prefix = StringUtils.intToSecret(val);
 		
 		int[] optVals = uid.getOptions().asInts();
 		if (optVals.length == 0) {
@@ -69,29 +50,29 @@ public class CircuitItem extends ItemBlock {
 		
 		String result = prefix;
 		for (int i = 0; i < optVals.length; i++) {
-			result += SECTION_SYMBOL + " ";
-			result += intToSecret(optVals[i]);
+			result += StringUtils.SECTION_SYMBOL + " ";
+			result += StringUtils.intToSecret(optVals[i]);
 		}
 		return result;
 	}
 	
 	private static SpecializedCircuitUID fromSecretString(String str) {
-		String separator = SECTION_SYMBOL + " ";
+		String separator = StringUtils.SECTION_SYMBOL + " ";
 		if (!str.contains(separator)) {
-			separator = NULL_SYMBOL + " ";
+			separator = StringUtils.NULL_SYMBOL + " ";
 		}
 		if (!str.contains(separator)) {
-			return new SpecializedCircuitUID(CircuitUID.fromInteger(secretToInt(str)), new CircuitConfigOptions());
+			return new SpecializedCircuitUID(CircuitUID.fromInteger(StringUtils.secretToInt(str)), new CircuitConfigOptions());
 		}
 		
 		String[] splitString = str.split(separator);
 		
-		CircuitUID uid = CircuitUID.fromInteger(secretToInt(splitString[0]));
+		CircuitUID uid = CircuitUID.fromInteger(StringUtils.secretToInt(splitString[0]));
 		
 		int[] opts = new int[splitString.length - 1];
 		
 		for (int i = 1; i < splitString.length; i++) {
-			opts[i - 1] = secretToInt(splitString[i]);
+			opts[i - 1] = StringUtils.secretToInt(splitString[i]);
 		}
 		CircuitConfigOptions config = new CircuitConfigOptions(opts);
 		return new SpecializedCircuitUID(uid, config);
@@ -119,9 +100,9 @@ public class CircuitItem extends ItemBlock {
 	
 	public static Optional<SpecializedCircuitUID> getUIDFromStack(ItemStack stack) {
 		String displayName = stack.getDisplayName();
-		int secretIndex = displayName.indexOf(SECTION_SYMBOL, 0);
+		int secretIndex = displayName.indexOf(StringUtils.SECTION_SYMBOL, 0);
 		if (secretIndex == -1) {
-			secretIndex = displayName.indexOf(NULL_SYMBOL, 0);
+			secretIndex = displayName.indexOf(StringUtils.NULL_SYMBOL, 0);
 			if (secretIndex == -1) {
 				Log.internalError("Circuit TE Item Stack has bad metadata.");
 				return Optional.empty();

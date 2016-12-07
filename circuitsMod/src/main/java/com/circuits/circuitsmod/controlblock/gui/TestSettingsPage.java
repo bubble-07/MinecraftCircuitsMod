@@ -7,8 +7,8 @@ import com.circuits.circuitsmod.circuit.CircuitConfigOptions;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
-import com.circuits.circuitsmod.controlblock.tester.TestConfig;
 import com.circuits.circuitsmod.controlblock.tester.net.TestRequest;
+import com.circuits.circuitsmod.tester.TestConfig;
 
 public class TestSettingsPage extends ControlGuiPage {
 	public final CircuitCell cell;

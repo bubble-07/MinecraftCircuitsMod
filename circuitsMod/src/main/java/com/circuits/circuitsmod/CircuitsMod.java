@@ -1,6 +1,7 @@
 package com.circuits.circuitsmod;
 
 import com.circuits.circuitsmod.CommonProxy;
+import com.circuits.circuitsmod.world.CircuitGiveCommand;
 import com.circuits.circuitsmod.world.PuzzleTeleportCommand;
 import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.controlblock.gui.net.CircuitCostRequest;
@@ -157,6 +158,8 @@ public class CircuitsMod
     @Mod.EventHandler
     public void serverLoad(FMLServerStartingEvent event) {
         event.registerServerCommand(new PuzzleTeleportCommand());
+        event.registerServerCommand(new CircuitGiveCommand());
+
     }
 }
 

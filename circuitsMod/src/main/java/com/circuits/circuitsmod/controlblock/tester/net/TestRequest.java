@@ -9,7 +9,7 @@ import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.SerialUtils;
 import com.circuits.circuitsmod.controlblock.ControlBlock;
 import com.circuits.circuitsmod.controlblock.ControlTileEntity;
-import com.circuits.circuitsmod.controlblock.tester.TestConfig;
+import com.circuits.circuitsmod.tester.TestConfig;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.util.math.BlockPos;

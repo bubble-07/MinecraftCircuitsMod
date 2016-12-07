@@ -19,7 +19,8 @@ public class CircuitConfigOptions implements Serializable {
 	public CircuitConfigOptions() {
 		this.opts = new int[0];
 	}
-	public CircuitConfigOptions(int[] opts) {
+	
+	public CircuitConfigOptions(int... opts) {
 		this.opts = opts;
 	}
 	public int[] asInts() {

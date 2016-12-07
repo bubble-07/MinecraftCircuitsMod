@@ -1,4 +1,4 @@
-package com.circuits.circuitsmod.controlblock.tester;
+package com.circuits.circuitsmod.tester;
 
 import java.io.Serializable;
 import java.util.List;

@@ -14,11 +14,12 @@ import com.circuits.circuitsmod.common.ItemUtils;
 import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.SerialUtils;
 import com.circuits.circuitsmod.controlblock.gui.net.ServerGuiMessage;
-import com.circuits.circuitsmod.controlblock.tester.TestConfig;
-import com.circuits.circuitsmod.controlblock.tester.TestState;
-import com.circuits.circuitsmod.controlblock.tester.Tester;
 import com.circuits.circuitsmod.frameblock.StartupCommonFrame;
 import com.circuits.circuitsmod.recipes.RecipeUtils;
+import com.circuits.circuitsmod.tester.ControlBlockTester;
+import com.circuits.circuitsmod.tester.TestConfig;
+import com.circuits.circuitsmod.tester.TestState;
+import com.circuits.circuitsmod.tester.Tester;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -39,7 +40,7 @@ import net.minecraft.world.World;
 public class ControlTileEntity extends TileEntity implements IInventory, ITickable {
 	public ItemStack[] inv;
 	
-	Tester tester = null;
+	ControlBlockTester tester = null;
 	TestState state = null;
 	
 	private SpecializedCircuitUID craftingCell = null;
@@ -69,7 +70,7 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 		inv = new ItemStack[8];
 	}
 	
-	public Tester getTester() {
+	public ControlBlockTester getTester() {
 		return tester;
 	}
 	
@@ -194,7 +195,7 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 			Log.internalError("Circuit entry not present! " + circuitUID);
 			return;
 		}
-		this.tester = new Tester(player, this, circuit.get(), config);
+		this.tester = new ControlBlockTester(player, this, circuit.get(), config);
 		this.state = tester.getState();
 	}
 	

@@ -9,149 +9,120 @@ import net.minecraft.world.World;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.circuits.circuitsmod.busblock.BusSegment;
+import com.circuits.circuitsmod.circuit.CircuitConfigOptions;
+import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
+import com.circuits.circuitsmod.circuit.CircuitUID;
+import com.circuits.circuitsmod.circuit.PersistentCircuitUIDs;
+import com.circuits.circuitsmod.circuit.SpecializedCircuitInfo;
+import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.circuitblock.CircuitBlock;
 import com.circuits.circuitsmod.circuitblock.CircuitTileEntity;
 import com.circuits.circuitsmod.common.BlockFace;
+import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.PosUtils;
 import com.circuits.circuitsmod.reflective.TestGeneratorInvoker;
 import com.circuits.circuitsmod.telecleaner.StartupCommonCleaner;
-import com.circuits.circuitsmod.testingclasses.PuzzleTest;
-import com.circuits.circuitsmod.testingclasses.*;
-import com.circuits.circuitsmod.testingclasses.TestTickResult;
+import com.circuits.circuitsmod.tester.ControlBlockTester;
+import com.circuits.circuitsmod.tester.PuzzleBlockTester;
+import com.circuits.circuitsmod.tester.TestConfig;
 
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.BlockRedstoneWire;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.*;
 @SuppressWarnings("unused")
 public class TileEntityTesting extends TileEntity implements ITickable {
 
-	private TestGeneratorInvoker testInvoker;
 	private int levelID;
 	private final String name = "tileentitytesting";
-	private BusSegment emitterSeg;
-	private BusSegment dummySeg;
-	private BlockFace inputFace;
 	
-	public static final int emitterID = 7;
-	public static final int dummyID = 20;
+	private static class CircuitTest {
+		private SpecializedCircuitUID uid;
+		private TestConfig testConfig;
+		
+		public CircuitTest(int circuitId, CircuitConfigOptions opts) {
+			this(circuitId, opts, 20);
+		}
+		
+		public CircuitTest(int circuitId, CircuitConfigOptions opts, int delay) {
+			this(new SpecializedCircuitUID(CircuitUID.fromInteger(circuitId), opts), new TestConfig(delay));
 
-	private boolean checkResults = false;
+		}
 
+		public CircuitTest(int circuitId, int delay) {
+			this(circuitId, new CircuitConfigOptions(), delay);
+		}
+		
+		public CircuitTest(int circuitId) {
+			this(circuitId, new CircuitConfigOptions());
+		}
+		
+		public CircuitTest(SpecializedCircuitUID uid, TestConfig testConfig) {
+			this.uid = uid;
+			this.testConfig = testConfig;
+		}
 
-	private boolean initialized = false;
-	private boolean startTesting = false;
-
-	public static final int DELAY = 25;
-	private int testDelay = DELAY;
-
-	private HashMap<Integer, PuzzleTest> testMap = new HashMap<Integer, PuzzleTest>();
-	private HashMap<Integer, Integer> emitterWidthMap = new HashMap<Integer, Integer>();
-	private HashMap<Integer, Integer> dummyWidthMap = new HashMap<Integer, Integer>();
-
-	private int[] redstoneOutputs = new int[EnumFacing.values().length];
-	public int testCounter = 1;
-
-	public static int getSidePower(TileEntityTesting testEntity, EnumFacing side) {
-		return testEntity.getSidePower(side);
+		public SpecializedCircuitUID getUID() {
+			return this.uid;
+		}
+		public TestConfig getConfig() {
+			return this.testConfig;
+		}
 	}
-
-	public static boolean isSidePowered(TileEntityTesting testEntity, EnumFacing side) {
-		return testEntity.isSidePowered(side);
-	}
-
-	public void beginTesting(boolean startTesting) {
-		this.startTesting = startTesting;
+	
+	private static HashMap<Integer, CircuitTest> testMap = new HashMap<Integer, CircuitTest>();
+	
+	static {
+		testMap.put(0, new CircuitTest(PersistentCircuitUIDs.AND_CIRCUIT, new CircuitConfigOptions(1)));
+		testMap.put(1, new CircuitTest(PersistentCircuitUIDs.INVERTER_CIRCUIT, new CircuitConfigOptions(2)));
+		testMap.put(2, new CircuitTest(PersistentCircuitUIDs.OR_CIRCUIT, new CircuitConfigOptions(1)));
+		testMap.put(3, new CircuitTest(PersistentCircuitUIDs.MUX_CIRCUIT, new CircuitConfigOptions(1)));
 	}
 
 	public int getLevelID() {
 		return this.levelID;
 	}
-
-	public BusSegment getEmitterSegment() {
-		return emitterSeg;
+	
+	private PuzzleBlockTester tester;
+	
+	public PuzzleBlockTester getTester() {
+		return this.tester;
 	}
 	
-	public BusSegment getDummySeg() {
-		return dummySeg;
-	}
-
-	public BlockFace getInputFace() {
-		return inputFace;
+	//Server-only
+	public void startTest(World worldIn) {
+		CircuitTest test = testMap.get(this.levelID);
+		if (test == null) {
+			Log.internalError("Puzzle tester not found for id: " + this.levelID);
+		}
+		SpecializedCircuitUID circuitUID = test.getUID();
+		
+		
+		Optional<SpecializedCircuitInfo> circuit = CircuitInfoProvider.getSpecializedInfoFor(circuitUID);
+		if (!circuit.isPresent()) {
+			Log.internalError("Circuit entry not present! " + circuitUID);
+			return;
+		}
+		this.tester = new PuzzleBlockTester(this, circuit.get(), test.getConfig());
 	}
 
 	public void init(World worldIn, int levelID) {
 		if (!getWorld().isRemote) {
 			this.levelID = levelID;
-			produceHashMap();
-			Optional<BlockPos> candidatePos = this.searchForBlockPosOf(emitterID);
-			Optional<BlockPos> dummyPos = this.searchForBlockPosOf(dummyID);
-
-			Predicate<BusSegment> emitterPredicate = busSeg-> {
-				return busSeg.getWidth() == emitterWidthMap.get(levelID);
-			};
-			
-			Predicate<BusSegment> dummyPredicate = busSeg-> {
-				return busSeg.getWidth() == dummyWidthMap.get(levelID);
-			};
-
-			emitterSeg = this.findBusSegment(candidatePos.get(), emitterPredicate).get();
-			
-			if (dummyPos.isPresent()) {
-				dummySeg = this.findBusSegment(dummyPos.get(), dummyPredicate).get();
-			}
-			
-			initialized = true;
 		}
 	}
 
-	public void produceHashMap() {
-		testMap.put(0, new TestAnd());
-		testMap.put(1, new TestBusInverter());
-		testMap.put(2, new TestOr());
-		testMap.put(3, new TestMultiplexer());
-		emitterWidthMap.put(0, 2);
-		emitterWidthMap.put(1, 4);
-		emitterWidthMap.put(2, 2);
-		emitterWidthMap.put(3,  4);
-		dummyWidthMap.put(1, 2);
-	}
-
 	public void update() {		
-		if (!initialized || !startTesting) //called every tick, so if we're not ready to test, we need to back off.
-			return;
-		else if (initialized && startTesting) {
-			PuzzleTest toRun = testMap.get(levelID);
-			testDelay--;
-			if (testDelay == 0) {
-				testDelay = DELAY;
-				if (!checkResults) {
-					checkResults = true;
-				} else {
-					TestTickResult result = toRun.test(getWorld(), this);
-					testCounter++;
-					if(!result.getCurrentlySucceeding()) {
-						startTesting = false;
-						testCounter = 1;
-						testDelay = DELAY;
-					}
-					if (result.getAtEndOfTest() && result.getCurrentlySucceeding()) {
-						spawnTeleCleaner();
-						startTesting = false;
-						testCounter = 1;
-						testDelay = DELAY;
-					} 
-						
-				}
-			}
-			toRun.createInputData(this);
-			toRun.setAndOutputData(getWorld(), testCounter - 1);
+		if (tester != null) {
+			tester.update();
 		}
 	}
 
@@ -163,71 +134,8 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 		return oldState.getBlock() != newState.getBlock();
 	}
 
-	private void spawnTeleCleaner() {
+	public void spawnTeleCleaner() {
 		getWorld().setBlockState(getPos().offset(EnumFacing.UP), StartupCommonCleaner.teleCleaner.getDefaultState(), 2);
-	}
-
-	public Optional<BusSegment> findBusSegment(BlockPos busPosition, Predicate<BusSegment> busPredicate) {
-		Stream<BlockFace> faces = PosUtils.faces(busPosition);
-		List<BlockFace> faceList = faces.collect(Collectors.toList());
-		BusSegment maximumSegment = new BusSegment(0);
-		int maxWidth = 0;
-		//Find the face with the largest bus width.  This is our input.
-		for (BlockFace face : faceList) {
-			Optional<BusSegment> currentSegment = CircuitBlock.getBusSegmentAt(getWorld(), face);
-			if (currentSegment.isPresent()) {
-				if (busPredicate.test(currentSegment.get())) {
-					return currentSegment;
-				}
-			}
-		}
-		return Optional.empty();
-	}
-
-	public  Optional<BlockPos> searchForBlockPosOf(int uidInt) {
-		/**
-		 * A predicate function to determine if the block is safe to search.
-		 * A block is safe if it's less than 128 units away from the start.
-		 */
-		Predicate<BlockPos> safe = pos-> {
-			return (pos.getDistance(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()) < 128) && (Math.abs(this.getPos().getY() - pos.getY()) <= 3);
-		};
-
-		/*
-		 * A predicate to determine if we've found an emitter.
-		 * Returns true if we've found a circuit tile entity and its UID matches the emitters UID, currently 15.
-		 */
-		Predicate<BlockPos> success = pos-> {
-			TileEntity entity = getWorld().getTileEntity(pos);
-			if (entity instanceof CircuitTileEntity) {
-				CircuitTileEntity circuitEntity = (CircuitTileEntity) entity;
-				if (circuitEntity.getCircuitUID().getUID().toInteger() == uidInt) {
-					inputFace = new BlockFace(getPos(), EnumFacing.SOUTH);
-					return true;
-				} else return false;
-			}
-			else return false;
-		};
-		//Search for the correct block position
-		Optional<BlockPos> candidatePos = PosUtils.searchWithin(this.getPos(), safe, success);
-		return candidatePos;
-	}
-
-
-
-	boolean isSidePowered(EnumFacing side) {
-		return getSidePower(side) > 0;
-	}
-
-	int getSidePower(EnumFacing side) {
-		BlockPos pos = getPos().offset(side);
-		if (getWorld().getRedstonePower(pos, side) > 0) {
-			return getWorld().getRedstonePower(pos, side);
-		}
-		else {
-			IBlockState iblockstate1 = getWorld().getBlockState(pos);
-			return iblockstate1.getBlock() == Blocks.REDSTONE_WIRE ? ((Integer)iblockstate1.getValue(BlockRedstoneWire.POWER)).intValue() : 0;
-		}
 	}
 
 	public EnumFacing getParentFacing() {

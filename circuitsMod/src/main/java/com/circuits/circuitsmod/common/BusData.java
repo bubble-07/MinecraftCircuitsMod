@@ -1,6 +1,7 @@
 package com.circuits.circuitsmod.common;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 /**
  * Represents data traveling down a bus
@@ -10,14 +11,33 @@ import java.io.Serializable;
 public class BusData implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final int[] allowed = {1, 2, 4, 8, 16, 32, 64};
+	
+	public static HashMap<Integer, Long> maskMap = new HashMap<Integer, Long>();
+	static {
+		addMasks();
+	}
+	
+	private static void addMasks() {
+		maskMap.put(1, (long) 0b0000000000000000000000000000000000000000000000000000000000000001);
+		maskMap.put(2, (long) 0b0000000000000000000000000000000000000000000000000000000000000011);
+		maskMap.put(4, (long) 0b0000000000000000000000000000000000000000000000000000000000001111);
+		maskMap.put(8, (long) 0b0000000000000000000000000000000000000000000000000000000011111111);
+		maskMap.put(16, (long) 0b0000000000000000000000000000000000000000000000001111111111111111);
+		maskMap.put(32, (long) 0b0000000000000000000000000000000011111111111111111111111111111111);
+		maskMap.put(64, (long) ~0);
+	}
+	
+	
 	private final long data;
 	private final int width;
 	//private HashMap<Integer, Long> maskMap;
 	
 	public BusData(int width, long data) {
 		this.width = width;
-		this.data = data;
 		assert(ArrayUtils.inArray(this.width, allowed));
+		
+		this.data = maskMap.get(width) & data;
+
 	}
 	
 	public BusData copy() {

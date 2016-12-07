@@ -3,6 +3,7 @@ package com.circuits.circuitsmod.circuit;
 import java.io.File;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalInt;
 
@@ -98,6 +99,15 @@ public class CircuitInfoProvider {
     	return new File(FileUtils.getConfigRootDir().toString() + "/uidmap");
     }
     
+    public static Optional<CircuitUID> getUIDFromFolderName(String name) {
+    	for (Map.Entry<String, CircuitUID> entry : folderToUIDMap.entrySet()) {
+    		if (entry.getKey().equalsIgnoreCase(name)) {
+    			return Optional.of(entry.getValue());
+    		}
+    	}
+    	return Optional.empty();
+    }
+    
     private static void loadUIDMapDefaults() {
     	/*
     	 * And: 0
@@ -111,16 +121,22 @@ public class CircuitInfoProvider {
     	 * NBitDLatch : 17
     	 * ABBA : 19
     	 * Input : 21
+    	 * Or : 23
     	 */
     	String[] toRegister = {"And", "Xor", "Splitter", "Combiner", "Nor", "Nand",
     			               "HalfAdder", "Emitter", "RisingEdgeDetector", "PulseLengthener",
     			               "DigitalToAnalog", "AnalogToDigital", "Clock", "Inverter",
     			               "Multiplexer", "Demultiplexer", "FullAdder", "NBitDLatch", "Implies", "ABBA", "Dummy",
-    			               "Input", "Output"};
+    			               "Input", "Output", "Or"};
     	
     	//TODO: Do this by a "index of" or something
     	PersistentCircuitUIDs.INPUT_CIRCUIT = 21;
     	PersistentCircuitUIDs.OUTPUT_CIRCUIT = 22;
+    	PersistentCircuitUIDs.AND_CIRCUIT = 0;
+    	PersistentCircuitUIDs.DEMUX_CIRCUIT = 15;
+    	PersistentCircuitUIDs.MUX_CIRCUIT = 14;
+    	PersistentCircuitUIDs.INVERTER_CIRCUIT = 13;
+    	PersistentCircuitUIDs.OR_CIRCUIT = 23;
     	
     	for (int i = 0; i < toRegister.length; i++) {
     		folderToUIDMap.put(toRegister[i], CircuitUID.fromInteger(i));

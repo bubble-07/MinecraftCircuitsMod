@@ -2,8 +2,8 @@ package com.circuits.circuitsmod.controlblock.gui;
 
 import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
-import com.circuits.circuitsmod.controlblock.tester.TestState;
 import com.circuits.circuitsmod.controlblock.tester.net.TestStopRequest;
+import com.circuits.circuitsmod.tester.TestState;
 
 public class TestProgressPage extends ControlGuiPage {
 	private final CircuitCell cell;

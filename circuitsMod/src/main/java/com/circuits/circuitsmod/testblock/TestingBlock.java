@@ -63,7 +63,7 @@ public class TestingBlock extends BlockDirectional implements ITileEntityProvide
 	  public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 		 if (!worldIn.isRemote) {
 			 TileEntityTesting tileEntity = (TileEntityTesting)worldIn.getTileEntity(pos);
-			 tileEntity.beginTesting(true);
+			 tileEntity.startTest(worldIn);
 			 return true;
 		 }
 		 return true;
