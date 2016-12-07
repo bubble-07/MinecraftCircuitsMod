@@ -4,6 +4,7 @@ import com.circuits.circuitsmod.CommonProxy;
 import com.circuits.circuitsmod.world.CircuitGiveCommand;
 import com.circuits.circuitsmod.world.PuzzleTeleportCommand;
 import com.circuits.circuitsmod.CircuitsMod;
+import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
 import com.circuits.circuitsmod.controlblock.gui.net.CircuitCostRequest;
 import com.circuits.circuitsmod.controlblock.gui.net.SpecializationValidationRequest;
 import com.circuits.circuitsmod.controlblock.tester.net.CraftingRequest;
@@ -144,6 +145,7 @@ public class CircuitsMod
     public void init(FMLInitializationEvent event)
     {
       proxy.init();
+      CircuitInfoProvider.loadUIDMapFromFile();
     }
 
     @EventHandler
