@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
 import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.reflective.ReflectiveUtils;
 
@@ -24,5 +25,6 @@ public class ClientHandlers {
 				}
 			}
 		};
+		handleCase.accept(CircuitInfoProvider.SpecializedInfoResponseFromServer.class);
 	}
 }

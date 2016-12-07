@@ -118,6 +118,9 @@ public class CircuitTileEntity extends TileEntity {
 			update(state);
 		}
 		else if (worldIn.isRemote && !this.isClientInit()) {
+			IBlockState state = worldIn.getBlockState(getPos());
+			update(state);
+			
 			this.tryInitClient();
 		}
 	}
@@ -232,6 +235,9 @@ public class CircuitTileEntity extends TileEntity {
 	}
 	
 	private void initWireDirAndBuses() {
+		if (getParentFacing().equals(EnumFacing.DOWN)) {
+			return;
+		}
 		WireDirectionGenerator dirGen = CircuitInfoProvider.getWireDirectionGenerator(circuitUID.getUID());
 		this.wireMapper = dirGen.getMapper(getParentFacing(), CircuitInfoProvider.getNumInputs(circuitUID), 
 				                                              CircuitInfoProvider.getNumOutputs(circuitUID));
@@ -253,6 +259,14 @@ public class CircuitTileEntity extends TileEntity {
 	}
 	
 	public void update(IBlockState state) {
+		//This was a really weird bug -- apparently, blocks can decide not to initialize themselves with their default state
+		//on load, so we test for a block having its default facing (DOWN) and break if it is
+		if (this.getParentFacing().equals(EnumFacing.DOWN)) {
+			getWorld().scheduleBlockUpdate(getPos(), StartupCommonCircuitBlock.circuitBlock, 2, 0);
+			return;
+		}
+		
+		
 		if (impl == null) {
 			//If we're on the client, don't care about updating, we're just here
 			//to look pretty

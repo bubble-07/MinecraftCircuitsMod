@@ -39,7 +39,7 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 	public CircuitBlock()
 	{
 		super(Material.IRON);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
+		//this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.DOWN));
 
 		this.isBlockContainer = false;
 		setUnlocalizedName(CircuitsMod.MODID + "_" + name);
@@ -211,10 +211,10 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 	public int getMetaFromState(IBlockState state)
 	{
 		int result = ((EnumFacing)state.getValue(FACING)).getHorizontalIndex();
-		if (result > 0) {
+		if (result >= 0) {
 			return result;
 		}
-		return 4;
+		return 3;
 	}
 	
 	@Override
