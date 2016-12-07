@@ -173,7 +173,9 @@ public class CircuitInfoProvider {
 	}
 	
 	public static void requestSpecializedClientInfoFor(SpecializedCircuitUID uid) {
-		CircuitsMod.network.sendToServer(new TypedMessage());
+		if (uid != null) {
+			CircuitsMod.network.sendToServer(new TypedMessage(uid));
+		}
 	}
 	
 	private static CircuitUID getUIDForDir(File dir) {

@@ -31,5 +31,6 @@ public class ServerHandlers {
 		};
 		
 		handleCase.accept(CircuitInfoProvider.ModelRequestFromClient.class);
+		handleCase.accept(CircuitInfoProvider.SpecializedInfoRequestFromClient.class);
 	}
 }
