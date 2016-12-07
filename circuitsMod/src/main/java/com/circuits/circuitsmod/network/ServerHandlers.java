@@ -13,6 +13,7 @@ import net.minecraft.world.IBlockAccess;
 public class ServerHandlers {
 	public static void dispatch(TypedMessage msg, IBlockAccess worldIn) {
 		Consumer<Class<?>> handleCase = (clazz) -> {
+			if (msg.asTaggedObject() != null && msg.getWrappedObject() != null && msg.getWrappedClass() != null) {
 			if (clazz.isAssignableFrom(msg.getWrappedClass())) {
 				Optional<Method> handleMethod = ReflectiveUtils.getMethodFromName(clazz, "handle");
 				if (!handleMethod.isPresent()) {
@@ -25,6 +26,7 @@ public class ServerHandlers {
 				catch (Exception e) {
 					Log.internalError("Server dispatch: Failed to dispatch handler method for " + clazz);
 				}
+			}
 			}
 		};
 		

@@ -18,6 +18,7 @@ import com.circuits.circuitsmod.recipes.RecipeGraph;
 
 import java.util.logging.Logger;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.IThreadListener;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Mod;
@@ -145,7 +146,6 @@ public class CircuitsMod
     public void init(FMLInitializationEvent event)
     {
       proxy.init();
-      CircuitInfoProvider.loadUIDMapFromFile();
     }
 
     @EventHandler
@@ -161,6 +161,8 @@ public class CircuitsMod
     public void serverLoad(FMLServerStartingEvent event) {
         event.registerServerCommand(new PuzzleTeleportCommand());
         event.registerServerCommand(new CircuitGiveCommand());
+        CircuitInfoProvider.ensureServerModelInit();
+
 
     }
 }

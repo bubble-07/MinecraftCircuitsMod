@@ -41,6 +41,10 @@ public class TypedMessage implements IMessage {
 		SerialUtils.toBytes(in, wrappedObject);
 	}
 	
+	public TaggedObject<?> asTaggedObject() {
+		return this.wrappedObject;
+	}
+	
 	public Class<?> getWrappedClass() {
 		return wrappedObject.clazz;
 	}
