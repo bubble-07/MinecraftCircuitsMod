@@ -55,6 +55,9 @@ public class CircuitGiveCommand extends CommandBase {
             return;
         }
         String majorId = args[0];
+        CircuitInfoProvider.loadUIDMapFromFile();
+        CircuitInfoProvider.ensureServerModelInit();
+        
         Optional<CircuitUID> uid = CircuitInfoProvider.getUIDFromFolderName(majorId);
         if (!uid.isPresent()) {
     		uid = CircuitUID.fromString(majorId);
@@ -81,6 +84,8 @@ public class CircuitGiveCommand extends CommandBase {
         CircuitConfigOptions configs = new CircuitConfigOptions(circuitOptions);
         
         SpecializedCircuitUID finalUid = new SpecializedCircuitUID(uid.get(), configs);
+        
+        CircuitInfoProvider.getSpecializedInfoFor(finalUid);
 
         if (sender instanceof EntityPlayer) {
             ((EntityPlayer) sender).inventory.addItemStackToInventory(CircuitItem.getStackFromUID(finalUid));
