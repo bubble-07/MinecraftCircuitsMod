@@ -105,6 +105,7 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 		CircuitTest test = testMap.get(this.levelID);
 		if (test == null) {
 			Log.internalError("Puzzle tester not found for id: " + this.levelID);
+			return;
 		}
 		SpecializedCircuitUID circuitUID = test.getUID();
 		
@@ -126,6 +127,9 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 	public void update() {		
 		if (tester != null) {
 			tester.update();
+			if (!tester.testInProgress()) {
+				tester = null;
+			}
 		}
 	}
 
@@ -136,6 +140,42 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 	{
 		return oldState.getBlock() != newState.getBlock();
 	}
+	
+	
+	private NBTTagCompound getUIDTagCompound() {
+        NBTTagCompound TEData = new NBTTagCompound();
+        TEData.setInteger("PuzzleID", this.levelID);
+        return TEData;
+	}
+	private void setUIDFromCompound(NBTTagCompound compound) {
+		this.levelID = compound.getInteger("PuzzleID");
+	}
+	
+	@Override
+    public void readFromNBT(NBTTagCompound compound)
+    {
+    	super.readFromNBT(compound);
+    	NBTTagCompound TEData = compound.getCompoundTag("TileEntityTesting");
+    	setUIDFromCompound(TEData);
+    }
+
+	@Override
+    public NBTTagCompound writeToNBT(NBTTagCompound compound)
+    {
+        NBTTagCompound result = super.writeToNBT(compound);
+        result.setTag("TileEntityTesting", getUIDTagCompound());
+        return result;
+    }
+	
+    
+    @Override
+    public NBTTagCompound getUpdateTag() {
+    	return this.writeToNBT(new NBTTagCompound());
+    }
+    @Override
+    public void handleUpdateTag(NBTTagCompound compound) {
+    	readFromNBT(compound);
+    }
 
 	public void spawnTeleCleaner() {
 		getWorld().setBlockState(getPos().offset(EnumFacing.UP), StartupCommonCleaner.teleCleaner.getDefaultState(), 2);

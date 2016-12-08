@@ -63,8 +63,11 @@ public class RecipeUtils {
 				NBTTagCompound costsCpd = playerCpd.getCompoundTag("CircuitCosts");
 				NBTTagCompound recipeCpd = costsCpd.getCompoundTag(uid.toInteger() + "");
 				NBTTagCompound recipeTag = recipeCpd.getCompoundTag("recipe");
-				List<ItemStack> itemStacks = SerializableItemStack.itemStacksFromNBT(recipeTag);
-				return Optional.of(itemStacks);
+				if (recipeTag.hasKey("Stacks")) {
+					List<ItemStack> itemStacks = SerializableItemStack.itemStacksFromNBT(recipeTag);
+					return Optional.of(itemStacks);
+				}
+				return Optional.empty();
 			}
 		}
 		catch (IOException e) {
