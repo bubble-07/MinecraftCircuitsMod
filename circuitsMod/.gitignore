@@ -1,5 +1,18 @@
 # logs
 logs
+# run
+run
+
+#other stuff
+usernamecache.json
+usercache.json
+options.txt
+gradlew.bat
+gradlew
+gradle
+config
+build.gradle
+
 # eclipse
 bin
 *.launch

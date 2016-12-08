@@ -147,6 +147,7 @@ public abstract class Tester<TEType extends TileEntity> {
 					this.finished = true;
 					this.success = false;
 					removeBusSegFaces();
+					failureAction();
 				}
 				else {
 					testindex++;
@@ -168,6 +169,8 @@ public abstract class Tester<TEType extends TileEntity> {
 			}
 		}
 	}
+	
+	public abstract void failureAction();
 	
 	/**
 	 * 

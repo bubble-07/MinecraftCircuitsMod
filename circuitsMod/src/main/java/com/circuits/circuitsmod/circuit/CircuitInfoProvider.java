@@ -129,7 +129,6 @@ public class CircuitInfoProvider {
     			               "Multiplexer", "Demultiplexer", "FullAdder", "NBitDLatch", "Implies", "ABBA", "Dummy",
     			               "Input", "Output", "Or"};
     	
-    	
     	for (int i = 0; i < toRegister.length; i++) {
     		folderToUIDMap.put(toRegister[i], CircuitUID.fromInteger(i));
     	}
