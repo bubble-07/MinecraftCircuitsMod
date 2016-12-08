@@ -1,0 +1,266 @@
+Symbol range map extraction starting
+Processing 66 files
+startProcessing "com\circuits\circuitsmod\CircuitsMod.java" md5: 18320143cbbee2a0371f50200637b7d2
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\CircuitsMod.java"
+
+startProcessing "com\circuits\circuitsmod\ClientOnlyProxy.java" md5: d18097e607067e7a4a81df691e93ac5f
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\ClientOnlyProxy.java"
+
+startProcessing "com\circuits\circuitsmod\CommonProxy.java" md5: 7aaddaee5d1e15ee6515b8631ced19b6
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\CommonProxy.java"
+
+startProcessing "com\circuits\circuitsmod\Config.java" md5: bf4b097ba9bd2315d7082246b9058214
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\Config.java"
+
+startProcessing "com\circuits\circuitsmod\DedicatedServerProxy.java" md5: 4adf2e6afcf082f2f134b9b587bfa2c0
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\DedicatedServerProxy.java"
+
+startProcessing "com\circuits\circuitsmod\GuiHandlerRegistry.java" md5: eeeba58d91209ebc71496e6cccbf9193
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\GuiHandlerRegistry.java"
+
+startProcessing "com\circuits\circuitsmod\blockportalpuzzle\BlockPortalPuzzle.java" md5: a46060aadfab917b0df12ed342caf7f5
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\blockportalpuzzle\BlockPortalPuzzle.java"
+
+startProcessing "com\circuits\circuitsmod\blockportalpuzzle\PuzzleTeleporter.java" md5: 4ad1f140977e4f5658ef06a9c152355b
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\blockportalpuzzle\PuzzleTeleporter.java"
+
+startProcessing "com\circuits\circuitsmod\blockportalpuzzle\StartupClientPortal.java" md5: 507d53954a37950d059b363ac2843b63
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\blockportalpuzzle\StartupClientPortal.java"
+
+startProcessing "com\circuits\circuitsmod\blockportalpuzzle\StartupCommonPortal.java" md5: 5399f1eefd8d1f67db8082f7d81d36e2
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\blockportalpuzzle\StartupCommonPortal.java"
+
+startProcessing "com\circuits\circuitsmod\busblock\BusBlock.java" md5: a09326cf81678486d6be2a772ba97f41
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\busblock\BusBlock.java"
+
+startProcessing "com\circuits\circuitsmod\busblock\IBusConnectable.java" md5: 920ff32589260522d9f1457abee9f638
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\busblock\IBusConnectable.java"
+
+startProcessing "com\circuits\circuitsmod\busblock\StartupClientBus.java" md5: ac06d000779ac8ab3ea0a793cbafe40a
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\busblock\StartupClientBus.java"
+
+startProcessing "com\circuits\circuitsmod\busblock\StartupCommonBus.java" md5: d490d9e0bbcb97c4cb57f3b568524c5b
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\busblock\StartupCommonBus.java"
+
+startProcessing "com\circuits\circuitsmod\circuitimplementation\ABBACircuit.java" md5: be61d1ec7eabedd727d4548defda7a9c
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\circuitimplementation\ABBACircuit.java"
+
+startProcessing "com\circuits\circuitsmod\circuitimplementation\AnalogToDigitalCircuit.java" md5: 243ad9c58f790b4a52d5e3b0dc6d3d4a
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\circuitimplementation\AnalogToDigitalCircuit.java"
+
+startProcessing "com\circuits\circuitsmod\circuitimplementation\AndCircuit.java" md5: 06741f2ae33c2606746fd6d0026261f6
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\circuitimplementation\AndCircuit.java"
+
+startProcessing "com\circuits\circuitsmod\circuitimplementation\ClockCircuit.java" md5: 30572f82ad33807e3e1129bbfb61c021
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\circuitimplementation\ClockCircuit.java"
+
+startProcessing "com\circuits\circuitsmod\circuitimplementation\DemultiplexerCircuit.java" md5: 8e8584b81935031d60b4854c4bf37ea3
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\circuitimplementation\DemultiplexerCircuit.java"
+
+startProcessing "com\circuits\circuitsmod\circuitimplementation\DigitalToAnalogCircuit.java" md5: 7cc38666838fbcde7476df371a05992f
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\circuitimplementation\DigitalToAnalogCircuit.java"
+
+startProcessing "com\circuits\circuitsmod\circuitimplementation\FullAdderCircuit.java" md5: c3dd75477dc992a396186866bf3fc7ae
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\circuitimplementation\FullAdderCircuit.java"
+
+startProcessing "com\circuits\circuitsmod\circuitimplementation\HalfAdderCircuit.java" md5: 09fc343f3bc2769bc4882c6de6fc22ea
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\circuitimplementation\HalfAdderCircuit.java"
+
+startProcessing "com\circuits\circuitsmod\circuitimplementation\ImpliesCircuit.java" md5: 8fe303aed0ef53159356c372ee9b299c
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\circuitimplementation\ImpliesCircuit.java"
+
+startProcessing "com\circuits\circuitsmod\circuitimplementation\InverterCircuit.java" md5: 884d14977df7e3bf1e2abfe305be28f5
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\circuitimplementation\InverterCircuit.java"
+
+startProcessing "com\circuits\circuitsmod\circuitimplementation\MultiplexerCircuit.java" md5: 9698d9692f22533e0a62eee0a82444a5
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\circuitimplementation\MultiplexerCircuit.java"
+
+startProcessing "com\circuits\circuitsmod\circuitimplementation\NBitDLatchCircuit.java" md5: 28c467c70aa5270fcba9e6c18edcf2fd
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\circuitimplementation\NBitDLatchCircuit.java"
+
+startProcessing "com\circuits\circuitsmod\circuitimplementation\NandCircuit.java" md5: 528bec6ccea64fec02d86924c5b472b5
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\circuitimplementation\NandCircuit.java"
+
+startProcessing "com\circuits\circuitsmod\circuitimplementation\NorCircuit.java" md5: 46fe9a2d2b072d02a22a8994dc85e559
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\circuitimplementation\NorCircuit.java"
+
+startProcessing "com\circuits\circuitsmod\circuitimplementation\OrCircuit.java" md5: a281b2773c5fa3f92980b51a37a5d5b5
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\circuitimplementation\OrCircuit.java"
+
+startProcessing "com\circuits\circuitsmod\circuitimplementation\PulseLengthenerCircuit.java" md5: 347ab3a00d8dc933653796e76ef9085f
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\circuitimplementation\PulseLengthenerCircuit.java"
+
+startProcessing "com\circuits\circuitsmod\circuitimplementation\RisingEdgeDetectorCircuit.java" md5: b6a4f56b0aca54df835b4c80a276fe96
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\circuitimplementation\RisingEdgeDetectorCircuit.java"
+
+startProcessing "com\circuits\circuitsmod\circuitimplementation\XorCircuit.java" md5: 9884529c4a5435b7f486b029abda6cc2
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\circuitimplementation\XorCircuit.java"
+
+startProcessing "com\circuits\circuitsmod\common\ArrayUtils.java" md5: 5794e9b6dc28547186120f7cd0de1881
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\common\ArrayUtils.java"
+
+startProcessing "com\circuits\circuitsmod\common\BusData.java" md5: 1c9dc9fece06806380693210e4fc58db
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\common\BusData.java"
+
+startProcessing "com\circuits\circuitsmod\common\IMetaBlockName.java" md5: 56f6ba6be85d9f9d44098e9e8262b409
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\common\IMetaBlockName.java"
+
+startProcessing "com\circuits\circuitsmod\common\ItemBlockMeta.java" md5: dd05895acf9f72b64f013b595918c93c
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\common\ItemBlockMeta.java"
+
+startProcessing "com\circuits\circuitsmod\common\Log.java" md5: 4f50f77c6c8922070c20133dddac6a95
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\common\Log.java"
+
+startProcessing "com\circuits\circuitsmod\common\OptionalUtils.java" md5: c2bfbf3a69d958af17e4d23a5f804b49
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\common\OptionalUtils.java"
+
+startProcessing "com\circuits\circuitsmod\common\Pair.java" md5: 4b1e12d31ef9847fdfa03f71b7acc23b
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\common\Pair.java"
+
+startProcessing "com\circuits\circuitsmod\controlblock\ContainerBasic.java" md5: 5f1c14644ba743a6fff53e824216d794
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\controlblock\ContainerBasic.java"
+
+startProcessing "com\circuits\circuitsmod\controlblock\ControlBlock.java" md5: 94104fe83f24c40138a58506f10b8804
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\controlblock\ControlBlock.java"
+
+startProcessing "com\circuits\circuitsmod\controlblock\GuiControlBasic.java" md5: 237dec9cace1037cc01a6bed66cd3de6
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\controlblock\GuiControlBasic.java"
+
+startProcessing "com\circuits\circuitsmod\controlblock\GuiHandlerControl.java" md5: bcabb1fb1ee640fad61f1ff17b26d429
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\controlblock\GuiHandlerControl.java"
+
+startProcessing "com\circuits\circuitsmod\controlblock\StartupClientControl.java" md5: f28fa8afc395f256ebf3494f5d0f0726
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\controlblock\StartupClientControl.java"
+
+startProcessing "com\circuits\circuitsmod\controlblock\StartupCommonControl.java" md5: c5bb0affa7624a304f4f104e6b0da395
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\controlblock\StartupCommonControl.java"
+
+startProcessing "com\circuits\circuitsmod\controlblock\TileEntityControl.java" md5: 43424c588374f2e9de1b9f4840c4fe1a
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\controlblock\TileEntityControl.java"
+
+startProcessing "com\circuits\circuitsmod\frameblock\FrameBlock.java" md5: e65189fca3aca782bd2c79559103861a
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\frameblock\FrameBlock.java"
+
+startProcessing "com\circuits\circuitsmod\frameblock\StartupClientFrame.java" md5: 0f434ad6d40b987555d088312620e667
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\frameblock\StartupClientFrame.java"
+
+startProcessing "com\circuits\circuitsmod\frameblock\StartupCommonFrame.java" md5: 40a3b2a89f851a3f63186360403a92b0
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\frameblock\StartupCommonFrame.java"
+
+startProcessing "com\circuits\circuitsmod\reflective\ChipInvoker.java" md5: ad7889a414217f9460a813fab0397497
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\reflective\ChipInvoker.java"
+
+startProcessing "com\circuits\circuitsmod\reflective\Invoker.java" md5: 25a37df5965bb436e810c8ebf13c5f45
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\reflective\Invoker.java"
+
+startProcessing "com\circuits\circuitsmod\reflective\ReflectiveUtils.java" md5: d74196b5efbbee23c92a0fbca4b53691
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\reflective\ReflectiveUtils.java"
+
+startProcessing "com\circuits\circuitsmod\reflective\TestGeneratorInvoker.java" md5: 9c2670e024b13bff5056008627277cd8
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\reflective\TestGeneratorInvoker.java"
+
+startProcessing "com\circuits\circuitsmod\telecleaner\StartupClientCleaner.java" md5: 6dd5a861b39006568cc655b956ba169b
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\telecleaner\StartupClientCleaner.java"
+
+startProcessing "com\circuits\circuitsmod\telecleaner\StartupCommonCleaner.java" md5: 1f9796ba0a4d70c97afd549bae0db10c
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\telecleaner\StartupCommonCleaner.java"
+
+startProcessing "com\circuits\circuitsmod\telecleaner\TeleCleaner.java" md5: 5fdb0e88b57179778270ea5f53eb6827
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\telecleaner\TeleCleaner.java"
+
+startProcessing "com\circuits\circuitsmod\testblock\StartupClientTesting.java" md5: 5ffbaa9051d5067b80a94e0ea6eaa739
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\testblock\StartupClientTesting.java"
+
+startProcessing "com\circuits\circuitsmod\testblock\StartupCommonTesting.java" md5: 09ade05b7aa27db8a8da9e512d647b24
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\testblock\StartupCommonTesting.java"
+
+startProcessing "com\circuits\circuitsmod\testblock\TestingBlock.java" md5: 4d2a47248b77f78bf6037536f95efa4e
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\testblock\TestingBlock.java"
+
+startProcessing "com\circuits\circuitsmod\testblock\TileEntityTesting.java" md5: 6deca4c3fd2648ea96827181a7702c94
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\testblock\TileEntityTesting.java"
+
+startProcessing "com\circuits\circuitsmod\world\PuzzleChunkGenerator.java" md5: 3f0b12d500f17b6b8ec4d56c79ca6e35
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\world\PuzzleChunkGenerator.java"
+
+startProcessing "com\circuits\circuitsmod\world\PuzzleDimensions.java" md5: 431b9fd05bce571a166f9d9760cd8953
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\world\PuzzleDimensions.java"
+
+startProcessing "com\circuits\circuitsmod\world\PuzzleTeleportCommand.java" md5: 94f57780265a7b8aea2f4edeaec346cc
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\world\PuzzleTeleportCommand.java"
+
+startProcessing "com\circuits\circuitsmod\world\PuzzleTeleporter.java" md5: 363de9401fce104c52ce78faacef0218
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\world\PuzzleTeleporter.java"
+
+startProcessing "com\circuits\circuitsmod\world\PuzzleTerrainGenerator.java" md5: 1278d5703f5d8d349f93eeafe23e734b
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\world\PuzzleTerrainGenerator.java"
+
+startProcessing "com\circuits\circuitsmod\world\PuzzleWorldProvider.java" md5: d66bf8998d51faae489ef5d534a0fbc6
+Cache Hit!
+endProcessing "com\circuits\circuitsmod\world\PuzzleWorldProvider.java"
+

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="circuitsMod.TestGeneratorInvokerTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2016-11-22T22:44:45" hostname="D86DHGS1" time="0.004">
+  <properties/>
+  <testcase name="testFailsOnNoTickMethod" classname="circuitsMod.TestGeneratorInvokerTest" time="0.002"/>
+  <testcase name="testRealSimpleCase" classname="circuitsMod.TestGeneratorInvokerTest" time="0.001"/>
+  <system-out><![CDATA[Circuits User ERROR: Class: class circuitsMod.TestGeneratorInvokerTest has no tick method!
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

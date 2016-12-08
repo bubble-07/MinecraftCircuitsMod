@@ -1,5 +1,6 @@
 package com.circuits.circuitsmod.testblock;
 
+import java.util.Iterator;
 import java.util.Optional;
 
 import com.circuits.circuitsmod.common.Log;
@@ -8,15 +9,20 @@ import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.gui.ChatLine;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.management.PlayerList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -64,6 +70,9 @@ public class TestingBlock extends BlockDirectional implements ITileEntityProvide
 		 if (!worldIn.isRemote) {
 			 TileEntityTesting tileEntity = (TileEntityTesting)worldIn.getTileEntity(pos);
 			 tileEntity.startTest(worldIn);
+			 MinecraftServer server = worldIn.getMinecraftServer();
+			 PlayerList list = server.getPlayerList();
+			 list.sendChatMsg(new TextComponentTranslation("Now testing...Please wait!"));
 			 return true;
 		 }
 		 return true;

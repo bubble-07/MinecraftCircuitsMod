@@ -1,0 +1,12 @@
+{
+    "parent": "block/cube",
+    "textures": {
+        "down": "circuitsmod:blocks/controlblock",
+        "up": "circuitsmod:blocks/controlblock",
+        "north": "circuitsmod:blocks/controlblock",
+        "east": "circuitsmod:blocks/controlblock",
+        "south": "circuitsmod:blocks/controlblock",
+        "west": "circuitsmod:blocks/controlblock",
+        "particle": "blocks/lapis_block"
+    }
+}

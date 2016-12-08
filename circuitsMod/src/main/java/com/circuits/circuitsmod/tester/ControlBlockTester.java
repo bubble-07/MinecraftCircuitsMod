@@ -71,4 +71,9 @@ public class ControlBlockTester extends Tester<ControlTileEntity> {
 			     parent.getPos().add(pos_x_extent, vertExtent, pos_z_extent)));
 	}
 
+	@Override
+	public void failureAction() {
+		System.out.println("Unimplemented");
+	}
+
 }

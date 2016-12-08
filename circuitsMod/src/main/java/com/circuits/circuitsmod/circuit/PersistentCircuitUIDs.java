@@ -1,6 +1,7 @@
 package com.circuits.circuitsmod.circuit;
 
 public class PersistentCircuitUIDs {
+	public static int XOR_CIRCUIT = 1;
 	public static int AND_CIRCUIT = 0;
 	public static int MUX_CIRCUIT = 14;
 	public static int DEMUX_CIRCUIT = 15;
