@@ -16,7 +16,7 @@ public class CraftingPage extends ControlGuiPage {
 		super(parent);
 		this.cell = cell;
 		this.costs = costs;
-		this.specialFields = new CircuitSpecializationFields(parent, screenX + (screenWidth / 2), screenY + 15, 
+		this.specialFields = new CircuitSpecializationFields(parent, screenX + 4, screenY + 15, 
 				                                             screenWidth, (screenHeight / 2),
 				                                             cell);
 		
@@ -48,7 +48,7 @@ public class CraftingPage extends ControlGuiPage {
 			for (int i = 0; i < cost.size(); i++) {
 				int x = screenX + 20*i;
 				parent.renderItemStack(cost.get(i), x, screenY + screenHeight / 2 + shortLabelHeight);
-				parent.getFontRenderer().drawString("" + cost.get(i).stackSize, x, screenY + screenHeight / 2, elementColor);
+				parent.getFontRenderer().drawString("" + cost.get(i).stackSize, x, screenY + screenHeight / 2 + 4, elementColor);
 			}
 		});
 	}

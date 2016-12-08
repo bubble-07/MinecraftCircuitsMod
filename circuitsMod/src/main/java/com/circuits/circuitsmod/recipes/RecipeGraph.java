@@ -72,7 +72,7 @@ public class RecipeGraph {
 		if (result == null) {
 			result = new RecipeNode(in);
 			itemMap.put(in, result);
-			System.out.println(in.item.getUnlocalizedName());
+			//System.out.println(in.item.getUnlocalizedName());
 		}
 		return result;
 	}
@@ -118,7 +118,7 @@ public class RecipeGraph {
 				constructHelper(shapelessore.getRecipeOutput(), fromOreRecipeInput(shapelessore.getInput()));
 			}
 			else {
-				System.out.println(recipe.getClass());
+				//System.out.println(recipe.getClass());
 			}
 		}
 	}
@@ -201,8 +201,8 @@ public class RecipeGraph {
 			return ret;
 		}
 		
-		System.out.println(node.item.item.getUnlocalizedName());
-		System.out.println(node.edges.size());
+		//System.out.println(node.item.item.getUnlocalizedName());
+		//System.out.println(node.edges.size());
 		
 		node.visited = true;
 		
@@ -223,7 +223,7 @@ public class RecipeGraph {
 					//(Inspiration: iron ingots vs. block of iron situation)
 					//TODO: I can't figure this out for the life of me, but there's a block of redstone
 					//with __different__ metadata in the recipes table. 
-					System.out.println("This indeg: " + node.indegree + "Other indeg: " + edge.dest.indegree);
+					//System.out.println("This indeg: " + node.indegree + "Other indeg: " + edge.dest.indegree);
 					if (node.indegree > edge.dest.indegree) {
 						//Use the node
 						ret.addItem(node.item, preMult);
@@ -234,7 +234,7 @@ public class RecipeGraph {
 					
 				}
 				else {
-					System.out.println("    " + edge.dest.item.item.getUnlocalizedName());
+					//System.out.println("    " + edge.dest.item.item.getUnlocalizedName());
 					//Otherwise, we're probly good
 					ret.mergeCost(getCost(edge.dest, preMult * edge.numRequired));
 				}

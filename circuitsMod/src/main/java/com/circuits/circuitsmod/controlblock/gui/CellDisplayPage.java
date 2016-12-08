@@ -15,8 +15,8 @@ public class CellDisplayPage extends ControlGuiPage {
 	private final TextButton craftButton;
 	private CircuitCosts costs;
 	
-	private static final int MAX_DESCRIP_LINES = 4;
-	private static final int SCROLL_INCREMENT = 2;
+	private static final int MAX_DESCRIP_LINES = 6;
+	private static final int SCROLL_INCREMENT = 3;
 	
 	private int scrollY = 0;
 	

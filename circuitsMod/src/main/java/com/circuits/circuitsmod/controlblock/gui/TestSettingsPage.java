@@ -29,12 +29,12 @@ public class TestSettingsPage extends ControlGuiPage {
 		
 		final TestSettingsPage thiz = this;
 		
-		delayBox = new TextEntryBox.IntEntryBox(parent, screenX, screenY + (screenHeight / 2), 
+		delayBox = new TextEntryBox.IntEntryBox(parent, screenX, screenY + (screenHeight / 2) + shortLabelHeight, 
 				shortLabelWidth, shortLabelHeight, 20);
 		addElement(delayBox);
 		
-		circuitFields = new CircuitSpecializationFields(parent, screenX, screenY + (screenHeight / 2) + shortLabelHeight,
-				                                        screenWidth, (screenHeight / 2), cell);
+		circuitFields = new CircuitSpecializationFields(parent, screenX, screenY + (screenHeight / 2) - 2 * shortLabelHeight,
+				                                        screenWidth, shortLabelHeight * 2, cell);
 		addElement(circuitFields);
 		
 		
@@ -85,6 +85,6 @@ public class TestSettingsPage extends ControlGuiPage {
 		parent.getFontRenderer().drawString(cell.getName(), screenX, screenY, elementColor);
 		parent.drawHorizontalLine(screenX, screenX + screenWidth, screenY + 10, elementColor);
 		parent.getFontRenderer().drawString("Delay (Ticks)", screenX, 
-											screenY + (screenHeight / 2) - shortLabelHeight, ControlGuiPage.elementColor);
+											screenY + (screenHeight / 2) + 4, ControlGuiPage.elementColor);
 	}
 }

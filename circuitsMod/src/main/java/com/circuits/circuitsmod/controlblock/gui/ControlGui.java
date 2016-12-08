@@ -64,6 +64,8 @@ public class ControlGui extends GuiContainer {
 	public ControlGui(InventoryPlayer inventoryPlayer, ControlTileEntity tileEntity) {
 		super(new ControlContainer(inventoryPlayer, tileEntity));
 		
+		this.ySize = (5 * this.ySize) / 4;
+		
 		if (tileEntity.getWorld().isRemote) {
 			CircuitInfoProvider.ensureClientModelInit();
 		}
@@ -88,7 +90,7 @@ public class ControlGui extends GuiContainer {
 		
 		//Convert to more useful coordinates
 		mouseX -= 125;
-		mouseY -= 42;
+		mouseY -= 18;
 		
 		if (mouseX > ControlGuiPage.screenX && 
 				mouseX < ControlGuiPage.screenX + ControlGuiPage.screenWidth + ControlGuiPage.scrollBarWidth &&
@@ -122,6 +124,7 @@ public class ControlGui extends GuiContainer {
 		if (keyCode == 208) {
 			currentPage.handleScrollDown();
 		}
+		currentPage.handleKeyboardInput(typed, keyCode);
 		currentPage.handleElementKeys(typed, keyCode);
 	}
 		

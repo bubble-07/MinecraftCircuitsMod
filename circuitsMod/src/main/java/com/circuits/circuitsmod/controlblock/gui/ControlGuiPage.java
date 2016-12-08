@@ -8,8 +8,8 @@ public abstract class ControlGuiPage {
 	final ControlGui parent;
 	final static int screenX = 6;
 	final static int screenY = 6;
-	final static int screenWidth = 102;
-	final static int screenHeight = 80;
+	final static int screenWidth = 120;
+	final static int screenHeight = 100;
 	final static int scrollBarWidth = 6;
 	final static int elementColor = 65280;
 	

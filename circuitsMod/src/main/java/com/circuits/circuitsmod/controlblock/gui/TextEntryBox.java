@@ -43,7 +43,7 @@ public class TextEntryBox extends UIElement {
 		else {
 			text = text.concat("" + typed);
 		}
-		System.out.println(keyCode);
+		//System.out.println(keyCode);
 	}
 	
 	public static class IntEntryBox extends TextEntryBox {

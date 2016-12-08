@@ -1,6 +1,9 @@
 package com.circuits.circuitsmod.controlblock.gui;
 
+import java.util.List;
+
 import com.circuits.circuitsmod.CircuitsMod;
+import com.circuits.circuitsmod.common.BusData;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
 import com.circuits.circuitsmod.controlblock.tester.net.TestStopRequest;
 import com.circuits.circuitsmod.tester.TestState;
@@ -45,6 +48,11 @@ public class TestProgressPage extends ControlGuiPage {
 			}
 			else {
 				toDisplay = "Failure";
+				//Display information about the failed test case
+				List<BusData> inputCase = state.getInputCase();
+				String failedCaseDisplay = inputCase.stream().map((data) -> "" + data.getData()).reduce((s1, s2) -> s1 + " " + s2).orElse("");
+				failedCaseDisplay = "Failed on Input: " + failedCaseDisplay;
+				parent.getFontRenderer().drawString(failedCaseDisplay, screenX + 12, (screenHeight / 4), ControlGuiPage.elementColor);
 			}
 			parent.getFontRenderer().drawString(toDisplay, screenX + 12, screenY + (screenHeight / 2) + 2, ControlGuiPage.elementColor);
 

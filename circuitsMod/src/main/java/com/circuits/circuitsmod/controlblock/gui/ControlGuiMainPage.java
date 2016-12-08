@@ -2,6 +2,8 @@ package com.circuits.circuitsmod.controlblock.gui;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
 
 import net.minecraft.item.ItemStack;
@@ -9,7 +11,7 @@ import net.minecraft.item.ItemStack;
 public class ControlGuiMainPage extends ControlGuiPage {
 	
 	private int firstItem = 0;
-	private final int maxToDisplay = 3;
+	private final int maxToDisplay = 5;
 	
 	
 	public ControlGuiMainPage(ControlGui parent) {
@@ -25,7 +27,7 @@ public class ControlGuiMainPage extends ControlGuiPage {
 	}
 	
 	private void renderCell(CircuitCell cell, int cell_y, int cell_height) {
-		int nameWidth = (screenWidth * 3) / 4;
+		int nameWidth = screenWidth;
 		String displayName = parent.getFontRenderer().trimStringToWidth(cell.getName(), nameWidth);
 		parent.getFontRenderer().drawString(displayName, screenX, cell_y, elementColor);
 		parent.drawHorizontalLine(screenX, screenX + screenWidth, cell_y - 2, elementColor);
@@ -42,6 +44,26 @@ public class ControlGuiMainPage extends ControlGuiPage {
 				parent.renderItemStack(material, currentX, cell_y);
 			}
 		}*/
+	}
+	
+	private void scrollToChar(char character) {
+		String asString = (character + "").toUpperCase();
+		if (!StringUtils.isAlpha(asString)) {
+			return;
+		}
+		for (int i = 0; i < parent.model.numEntries(); i++) {
+			if (asString.compareTo(parent.model.getCell(i).getName().toUpperCase()) <= 0) {
+				//We've found the cell to skip to
+				firstItem = i;
+				return;
+			}
+		}
+		return;
+	}
+	
+	@Override
+	protected void handleKeyboardInput(char charTyped, int keyCode) {
+		scrollToChar(charTyped);
 	}
 	
 	@Override

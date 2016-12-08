@@ -22,15 +22,21 @@ public class ControlContainer extends Container {
 	public ControlContainer(InventoryPlayer inventoryPlayer, ControlTileEntity te) {
 		tileEntity = te;
 		
-		for (int i=0; i < 2; i++) {
-			for (int j = 0; j < 3; j++) {
-				addSlotToContainer(new Slot(tileEntity, j + i * 3, 117 + j * 18, 42 + i * 18));
+		for (int i=0; i < 3; i++) {
+			for (int j = 0; j < 2; j++) {
+				addSlotToContainer(new Slot(tileEntity, i + j * 3, 136 + j * 18, 42 + i * 18));
 			}
 		}
 		
-		addSlotToContainer(new Slot(tileEntity, 6, 117, 14));
+		addSlotToContainer(new Slot(tileEntity, 6, 110, 14) {
+			@Override
+			public boolean canBeHovered() {
+				//I'm too lazy to remove this slot lol
+				return false;
+			}
+		});
 		
-		addSlotToContainer(new Slot(tileEntity, 7, 117 + 30, 8));
+		addSlotToContainer(new Slot(tileEntity, 7, 145, 10));
 		
 		bindPlayerInventory(inventoryPlayer);
 		
@@ -44,11 +50,11 @@ public class ControlContainer extends Container {
 	protected void bindPlayerInventory(InventoryPlayer inventoryPlayer) {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+				addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9, 8 + j * 18, 102 + i * 18));
 			}
 		}
 		for (int i =  0; i < 9; i++) {
-			addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 142));
+			addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 160));
 		}
 	}
 	@Override

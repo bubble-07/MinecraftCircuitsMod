@@ -33,4 +33,8 @@ public class TestState implements Serializable {
 		this.internalState = internalState;
 		this.inputCase = inputCase;
 	}
+	
+	public List<BusData> getInputCase() {
+		return this.inputCase;
+	}
 }

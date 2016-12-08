@@ -131,6 +131,9 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 		for (ItemStack stack : cost.get()) {
 			numCraftable = Math.min(numCraftable, getNumTimesIngredient(stack));
 		}
+		if (numCraftable == 9999) {
+			numCraftable = 0;
+		}
 		return numCraftable;
 	}
 	
