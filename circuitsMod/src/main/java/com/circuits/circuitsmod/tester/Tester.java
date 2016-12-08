@@ -161,7 +161,7 @@ public abstract class Tester<TEType extends TileEntity> {
 						deliverTestInputs();
 					}
 				}
-				
+				this.stateUpdateAction();
 			}
 			else {
 				testWait--;
@@ -197,13 +197,18 @@ public abstract class Tester<TEType extends TileEntity> {
 	}
 	
 	private boolean getResultOfTest() {
+		
 		List<BusData> expected = internalImpls.getInvoker().invoke(this.internalCircuitState, this.currentInputCase);
 		
 		List<BusData> actual = Lists.newArrayList();
 		for (int i = 0; i < outputFaces.size(); i++) {
 			BlockFace face = outputFaces.get(i);
+			CircuitBlock.getCircuitTileEntityAt(getWorld(), face.getPos()).ifPresent((te) -> {
+				te.update(getWorld().getBlockState(face.getPos()));
+			});
 			Optional<BusSegment> segToRead = CircuitBlock.getBusSegmentAt(getWorld(), face);
 			if (segToRead.isPresent()) {
+				segToRead.get().forceUpdate(getWorld());
 				long reading = segToRead.get().getCurrentVal().getData();
 				actual.add(new BusData(expected.get(i).getWidth(), reading));
 			}

@@ -129,14 +129,6 @@ public class CircuitInfoProvider {
     			               "Multiplexer", "Demultiplexer", "FullAdder", "NBitDLatch", "Implies", "ABBA", "Dummy",
     			               "Input", "Output", "Or"};
     	
-    	//TODO: Do this by a "index of" or something
-    	PersistentCircuitUIDs.INPUT_CIRCUIT = 21;
-    	PersistentCircuitUIDs.OUTPUT_CIRCUIT = 22;
-    	PersistentCircuitUIDs.AND_CIRCUIT = 0;
-    	PersistentCircuitUIDs.DEMUX_CIRCUIT = 15;
-    	PersistentCircuitUIDs.MUX_CIRCUIT = 14;
-    	PersistentCircuitUIDs.INVERTER_CIRCUIT = 13;
-    	PersistentCircuitUIDs.OR_CIRCUIT = 23;
     	
     	for (int i = 0; i < toRegister.length; i++) {
     		folderToUIDMap.put(toRegister[i], CircuitUID.fromInteger(i));
