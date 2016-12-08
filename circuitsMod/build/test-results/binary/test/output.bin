@@ -1,0 +1,7 @@
+xCircuits User ERROR: Class: class circuitsMod.ChipInvokerTest$NonSequentialOutputs has a non-sequential value indices!
+–Circuits User ERROR: Class: class circuitsMod.ChipInvokerTest$SimpleSequentialTest specifies isSequential, but the method is not formatted correctly
+BCircuits INFO: Continuing, assuming the circuit is combinational
+`Circuits User ERROR: Class: class circuitsMod.ChipInvokerTest$TooManyWires has too many inputs
+	_Circuits User ERROR: Class: class circuitsMod.ChipInvokerTest$TooManyArgs has too many inputs
+
+\Circuits User ERROR: Class: class circuitsMod.TestGeneratorInvokerTest has no tick method!

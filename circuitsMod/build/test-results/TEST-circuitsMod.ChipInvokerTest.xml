@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="circuitsMod.ChipInvokerTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2016-11-22T22:44:45" hostname="D86DHGS1" time="0.031">
+  <properties/>
+  <testcase name="simpleTest" classname="circuitsMod.ChipInvokerTest" time="0.016"/>
+  <testcase name="lowArgTypesTest" classname="circuitsMod.ChipInvokerTest" time="0.002"/>
+  <testcase name="nonSequentialWiresTest" classname="circuitsMod.ChipInvokerTest" time="0.003"/>
+  <testcase name="simpleSequentialTest" classname="circuitsMod.ChipInvokerTest" time="0.002"/>
+  <testcase name="limitingWidthTest" classname="circuitsMod.ChipInvokerTest" time="0.001"/>
+  <testcase name="highArgTypesTest" classname="circuitsMod.ChipInvokerTest" time="0.002"/>
+  <testcase name="tooManyWiresTest" classname="circuitsMod.ChipInvokerTest" time="0.002"/>
+  <testcase name="tooManyArgsTest" classname="circuitsMod.ChipInvokerTest" time="0.001"/>
+  <system-out><![CDATA[Circuits User ERROR: Class: class circuitsMod.ChipInvokerTest$NonSequentialOutputs has a non-sequential value indices!
+Circuits User ERROR: Class: class circuitsMod.ChipInvokerTest$SimpleSequentialTest specifies isSequential, but the method is not formatted correctly
+Circuits INFO: Continuing, assuming the circuit is combinational
+Circuits User ERROR: Class: class circuitsMod.ChipInvokerTest$TooManyWires has too many inputs
+Circuits User ERROR: Class: class circuitsMod.ChipInvokerTest$TooManyArgs has too many inputs
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

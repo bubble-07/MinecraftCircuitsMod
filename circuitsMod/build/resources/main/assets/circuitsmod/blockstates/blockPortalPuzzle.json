@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "axis=z": { "model": "circuitsmod:portal_ew" },
+        "axis=x": { "model": "circuitsmod:portal_ns" }
+    }
+}

@@ -1,0 +1,8 @@
+1480642086482	Extract method 'determineOverallSuccess'
+1480642224099	Extract method 'setAndOutputData'
+1480642604583	Extract method 'checkIfStillSucceeding'
+1480645289932	Delete element
+1480645501258	Extract method 'findAndSetEmitterInput'
+1480646195990	Extract method 'searchForBlockPosOf'
+1480797648962	Rename local variable 'isNegated'
+1480802073210	Extract method 'createInputData'

@@ -1,0 +1,12 @@
+1480812064895	Extract method 'hasTestSucceeded'
+1480818818808	Rename field 'segment'
+1480818826307	Rename field 'emiiterSeg'
+1480819107979	Copy compilation unit
+1480819357448	Rename method 'getBusSegment'
+1480819438715	Rename field 'segment'
+1480819703024	Rename local variable 'isSuccessPowered'
+1480820200556	Rename method 'checkIfStillSucceeding'
+1480820217643	Rename method 'checkIfStillSucceeding'
+1480880143215	Rename field 'widthMap'
+1480891936618	Rename field 'segment'
+1480892308505	Rename field 'emmitterSeg'

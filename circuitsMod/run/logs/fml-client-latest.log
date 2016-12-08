@@ -1,0 +1,1442 @@
+[19:00:57] [main/DEBUG] [FML/]: Injecting tracing printstreams for STDOUT/STDERR.
+[19:00:57] [main/INFO] [FML/]: Forge Mod Loader version 12.18.1.2094 for Minecraft 1.10.2 loading
+[19:00:57] [main/INFO] [FML/]: Java is Java HotSpot(TM) 64-Bit Server VM, version 1.8.0_101, running on Windows 7:amd64:6.1, installed at C:\Program Files\Java\jre1.8.0_101
+[19:00:57] [main/DEBUG] [FML/]: Java classpath at launch is C:\Users\Sean\Desktop\circuits_minecraft\circuitsMod\bin;C:\Users\Sean\.p2\pool\plugins\org.junit_4.12.0.v201504281640\junit.jar;C:\Users\Sean\.p2\pool\plugins\org.hamcrest.core_1.3.0.v201303031735.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\junit\junit\4.11\4e031bb61df09069aeb2bffb4019e7a5034a4ee0\junit-4.11.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.hamcrest\hamcrest-core\1.3\42a25dc3219429f0e5d060061f71acb49bf010a0\hamcrest-core-1.3.jar;C:\Users\Sean\.gradle\caches\minecraft\net\minecraftforge\forge\1.10.2-12.18.1.2094\snapshot\20160518\forgeSrc-1.10.2-12.18.1.2094.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\com.google.code.findbugs\jsr305\3.0.1\f7be08ec23c21485b9b5a1cf1654c2ec8c58168d\jsr305-3.0.1.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\com.mojang\netty\1.6\4b75825a06139752bd800d9e29c5fd55b8b1b1e4\netty-1.6.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\oshi-project\oshi-core\1.1\9ddf7b048a8d701be231c0f4f95fd986198fd2d8\oshi-core-1.1.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\net.java.dev.jna\jna\3.4.0\803ff252fedbd395baffd43b37341dc4a150a554\jna-3.4.0.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\net.java.dev.jna\platform\3.4.0\e3f70017be8100d3d6923f50b3d2ee17714e9c13\platform-3.4.0.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\com.ibm.icu\icu4j-core-mojang\51.2\63d216a9311cca6be337c1e458e587f99d382b84\icu4j-core-mojang-51.2.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\net.sf.jopt-simple\jopt-simple\4.6\306816fb57cf94f108a43c95731b08934dcae15c\jopt-simple-4.6.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\io.netty\netty-all\4.0.23.Final\294104aaf1781d6a56a07d561e792c5d0c95f45\netty-all-4.0.23.Final.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\com.google.guava\guava\17.0\9c6ef172e8de35fd8d4d8783e4821e57cdef7445\guava-17.0.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.apache.commons\commons-lang3\3.3.2\90a3822c38ec8c996e84c16a3477ef632cbc87a3\commons-lang3-3.3.2.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\commons-io\commons-io\2.4\b1b6ea3b7e4aa4f492509a4952029cd8e48019ad\commons-io-2.4.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\commons-codec\commons-codec\1.9\9ce04e34240f674bc72680f8b843b1457383161a\commons-codec-1.9.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\net.java.jutils\jutils\1.0.0\e12fe1fda814bd348c1579329c86943d2cd3c6a6\jutils-1.0.0.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.2.4\a60a5e993c98c864010053cb901b7eab25306568\gson-2.2.4.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\com.mojang\authlib\1.5.22\afaa8f6df976fcb5520e76ef1d5798c9e6b5c0b2\authlib-1.5.22.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\com.mojang\realms\1.9.8\c9609760e050cd7c369292252552c0cc81c54331\realms-1.9.8.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.apache.commons\commons-compress\1.8.1\a698750c16740fd5b3871425f4cb3bbaa87f529d\commons-compress-1.8.1.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.apache.httpcomponents\httpclient\4.3.3\18f4247ff4572a074444572cee34647c43e7c9c7\httpclient-4.3.3.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\commons-logging\commons-logging\1.1.3\f6f66e966c70a83ffbdb6f17a0919eaf7c8aca7f\commons-logging-1.1.3.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.apache.httpcomponents\httpcore\4.3.2\31fbbff1ddbf98f3aa7377c94d33b0447c646b6e\httpcore-4.3.2.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\it.unimi.dsi\fastutil\7.0.12_mojang\ba787e741efdc425fc5d2ea654b57c15fba27efa\fastutil-7.0.12_mojang.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.apache.logging.log4j\log4j-api\2.0-beta9\1dd66e68cccd907880229f9e2de1314bd13ff785\log4j-api-2.0-beta9.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.apache.logging.log4j\log4j-core\2.0-beta9\678861ba1b2e1fccb594bb0ca03114bb05da9695\log4j-core-2.0-beta9.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\net.minecraft\launchwrapper\1.12\111e7bea9c968cdb3d06ef4632bf7ff0824d0f36\launchwrapper-1.12.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\jline\jline\2.13\2d9530d0a25daffaffda7c35037b046b627bb171\jline-2.13.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm-debug-all\5.0.3\f9e364ae2a66ce2a543012a4668856e84e5dab74\asm-debug-all-5.0.3.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\com.typesafe.akka\akka-actor_2.11\2.3.3\ed62e9fc709ca0f2ff1a3220daa8b70a2870078e\akka-actor_2.11-2.3.3.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\com.typesafe\config\1.2.1\f771f71fdae3df231bcd54d5ca2d57f0bf93f467\config-1.2.1.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.scala-lang\scala-actors-migration_2.11\1.1.0\dfa8bc42b181d5b9f1a5dd147f8ae308b893eb6f\scala-actors-migration_2.11-1.1.0.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.scala-lang\scala-compiler\2.11.1\56ea2e6c025e0821f28d73ca271218b8dd04926a\scala-compiler-2.11.1.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.scala-lang.plugins\scala-continuations-library_2.11\1.0.2\e517c53a7e9acd6b1668c5a35eccbaa3bab9aac\scala-continuations-library_2.11-1.0.2.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.scala-lang.plugins\scala-continuations-plugin_2.11.1\1.0.2\f361a3283452c57fa30c1ee69448995de23c60f7\scala-continuations-plugin_2.11.1-1.0.2.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.scala-lang\scala-library\2.11.1\e11da23da3eabab9f4777b9220e60d44c1aab6a\scala-library-2.11.1.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.scala-lang.modules\scala-parser-combinators_2.11\1.0.1\f05d7345bf5a58924f2837c6c1f4d73a938e1ff0\scala-parser-combinators_2.11-1.0.1.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.scala-lang\scala-reflect\2.11.1\6580347e61cc7f8e802941e7fde40fa83b8badeb\scala-reflect-2.11.1.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.scala-lang.modules\scala-swing_2.11\1.0.1\b1cdd92bd47b1e1837139c1c53020e86bb9112ae\scala-swing_2.11-1.0.1.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.scala-lang.modules\scala-xml_2.11\1.0.2\820fbca7e524b530fdadc594c39d49a21ea0337e\scala-xml_2.11-1.0.2.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\lzma\lzma\0.0.1\521616dc7487b42bef0e803bd2fa3faf668101d7\lzma-0.0.1.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\net.sf.trove4j\trove4j\3.0.3\42ccaf4761f0dfdfa805c9e340d99a755907e2dd\trove4j-3.0.3.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\com.paulscode\codecjorbis\20101023\c73b5636faf089d9f00e8732a829577de25237ee\codecjorbis-20101023.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\com.paulscode\codecwav\20101023\12f031cfe88fef5c1dd36c563c0a3a69bd7261da\codecwav-20101023.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\com.paulscode\libraryjavasound\20101123\5c5e304366f75f9eaa2e8cca546a1fb6109348b3\libraryjavasound-20101123.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\com.paulscode\librarylwjglopenal\20100824\73e80d0794c39665aec3f62eee88ca91676674ef\librarylwjglopenal-20100824.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\com.paulscode\soundsystem\20120107\419c05fe9be71f792b2d76cfc9b67f1ed0fec7f6\soundsystem-20120107.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\net.java.jinput\jinput\2.0.5\39c7796b469a600f72380316f6b1f11db6c2c7c4\jinput-2.0.5.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.lwjgl.lwjgl\lwjgl\2.9.4-nightly-20150209\697517568c68e78ae0b4544145af031c81082dfe\lwjgl-2.9.4-nightly-20150209.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.lwjgl.lwjgl\lwjgl_util\2.9.4-nightly-20150209\d51a7c040a721d13efdfbd34f8b257b2df882ad0\lwjgl_util-2.9.4-nightly-20150209.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\java3d\vecmath\1.5.2\79846ba34cbd89e2422d74d53752f993dcc2ccaf\vecmath-1.5.2.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.fusesource.jansi\jansi\1.11\655c643309c2f45a56a747fda70e3fadf57e9f11\jansi-1.11.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.scala-lang\scala-actors\2.11.0\8ccfb6541de179bb1c4d45cf414acee069b7f78b\scala-actors-2.11.0.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\net.java.jinput\jinput-platform\2.0.5\7ff832a6eb9ab6a767f1ade2b548092d0fa64795\jinput-platform-2.0.5-natives-linux.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\net.java.jinput\jinput-platform\2.0.5\385ee093e01f587f30ee1c8a2ee7d408fd732e16\jinput-platform-2.0.5-natives-windows.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\net.java.jinput\jinput-platform\2.0.5\53f9c919f34d2ca9de8c51fc4e1e8282029a9232\jinput-platform-2.0.5-natives-osx.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.lwjgl.lwjgl\lwjgl-platform\2.9.4-nightly-20150209\b84d5102b9dbfabfeb5e43c7e2828d98a7fc80e0\lwjgl-platform-2.9.4-nightly-20150209-natives-windows.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.lwjgl.lwjgl\lwjgl-platform\2.9.4-nightly-20150209\931074f46c795d2f7b30ed6395df5715cfd7675b\lwjgl-platform-2.9.4-nightly-20150209-natives-linux.jar;C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.lwjgl.lwjgl\lwjgl-platform\2.9.4-nightly-20150209\bcab850f8f487c3f4c4dbabde778bb82bd1a40ed\lwjgl-platform-2.9.4-nightly-20150209-natives-osx.jar;C:\Users\Sean\.gradle\caches\minecraft\deobfedDeps\compileDummy.jar;C:\Users\Sean\.gradle\caches\minecraft\deobfedDeps\providedDummy.jar;C:\Users\Sean\.gradle\caches\minecraft\net\minecraftforge\forge\1.10.2-12.18.1.2094\start
+[19:00:57] [main/DEBUG] [FML/]: Java library path at launch is C:\Program Files\Java\jre1.8.0_101\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:/Program Files/Java/jre1.8.0_101/bin/server;C:/Program Files/Java/jre1.8.0_101/bin;C:/Program Files/Java/jre1.8.0_101/lib/amd64;C:\Program Files\Haskell\bin;C:\Program Files\Haskell Platform\7.10.3\lib\extralibs\bin;C:\Program Files\Haskell Platform\7.10.3\bin;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Google\Google Apps Sync\;C:\Program Files\Haskell Platform\7.10.3\mingw\bin;C:\Windows\system32\config\systemprofile\.dnx\bin;C:\Program Files\Microsoft DNX\Dnvm\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\MinGW\bin;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Users\Sean\Desktop\Forge\gradle-3.1/bin;C:\Program Files\Java\jre1.8.0_101\bin;C:\Program Files\Git\cmd;C:\Users\Sean\.dnx\bin;C:\Program Files\Haskell\bin;C:\Program Files\Haskell Platform\7.10.3\lib\extralibs\bin;C:\Program Files\Haskell Platform\7.10.3\bin;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Google\Google Apps Sync\;C:\Program Files\Haskell Platform\7.10.3\mingw\bin;C:\Users\Sean\.dnx\bin;C:\Program Files\Microsoft DNX\Dnvm\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\MinGW\bin;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Users\Sean\Desktop\Forge\gradle-3.1/bin;C:\Program Files\Git\cmd;C:\Program Files\Java\jdk1.8.0_101\bin;;.;;C:\Windows\system32;;.;;.;C:/Users/Sean/.gradle/caches/minecraft/net/minecraft/natives/1.10.2
+[19:00:57] [main/INFO] [FML/]: Managed to load a deobfuscated Minecraft name- we are in a deobfuscated environment. Skipping runtime deobfuscation
+[19:00:57] [main/DEBUG] [FML/]: Instantiating coremod class FMLCorePlugin
+[19:00:57] [main/DEBUG] [FML/]: Added access transformer class net.minecraftforge.fml.common.asm.transformers.AccessTransformer to enqueued access transformers
+[19:00:57] [main/DEBUG] [FML/]: Enqueued coremod FMLCorePlugin
+[19:00:57] [main/DEBUG] [FML/]: Instantiating coremod class FMLForgePlugin
+[19:00:57] [main/DEBUG] [FML/]: Enqueued coremod FMLForgePlugin
+[19:00:57] [main/DEBUG] [FML/]: All fundamental core mods are successfully located
+[19:00:57] [main/DEBUG] [FML/]: Attempting to load commandline specified mods, relative to C:\Users\Sean\Desktop\circuits_minecraft\circuitsMod\run\.
+[19:00:57] [main/DEBUG] [FML/]: Discovering coremods
+[19:00:57] [main/INFO] [LaunchWrapper/]: Calling tweak class net.minecraftforge.gradle.tweakers.CoremodTweaker
+[19:00:57] [main/INFO] [GradleStart/]: Injecting location in coremod net.minecraftforge.fml.relauncher.FMLCorePlugin
+[19:00:57] [main/INFO] [GradleStart/]: Injecting location in coremod net.minecraftforge.classloading.FMLForgePlugin
+[19:00:57] [main/INFO] [LaunchWrapper/]: Loading tweak class name net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker
+[19:00:57] [main/INFO] [LaunchWrapper/]: Loading tweak class name net.minecraftforge.fml.common.launcher.FMLDeobfTweaker
+[19:00:57] [main/INFO] [LaunchWrapper/]: Loading tweak class name net.minecraftforge.gradle.tweakers.AccessTransformerTweaker
+[19:00:57] [main/INFO] [LaunchWrapper/]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker
+[19:00:57] [main/INFO] [LaunchWrapper/]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker
+[19:00:57] [main/INFO] [LaunchWrapper/]: Calling tweak class net.minecraftforge.fml.relauncher.CoreModManager$FMLPluginWrapper
+[19:00:57] [main/DEBUG] [FML/]: Injecting coremod FMLCorePlugin {net.minecraftforge.fml.relauncher.FMLCorePlugin} class transformers
+[19:00:57] [main/TRACE] [FML/]: Registering transformer net.minecraftforge.fml.common.asm.transformers.BlamingTransformer
+[19:00:57] [main/TRACE] [FML/]: Registering transformer net.minecraftforge.fml.common.asm.transformers.SideTransformer
+[19:00:57] [main/TRACE] [FML/]: Registering transformer net.minecraftforge.fml.common.asm.transformers.EventSubscriptionTransformer
+[19:00:57] [main/TRACE] [FML/]: Registering transformer net.minecraftforge.fml.common.asm.transformers.EventSubscriberTransformer
+[19:00:57] [main/DEBUG] [FML/]: Injection complete
+[19:00:57] [main/DEBUG] [FML/]: Running coremod plugin for FMLCorePlugin {net.minecraftforge.fml.relauncher.FMLCorePlugin}
+[19:00:57] [main/DEBUG] [FML/]: Running coremod plugin FMLCorePlugin
+[19:00:57] [main/ERROR] [FML/]: The binary patch set is missing. Either you are in a development environment, or things are not going to work!
+[19:00:57] [main/DEBUG] [FML/]: Loading deobfuscation resource C:\Users\Sean\.gradle\caches\minecraft\de\oceanlabs\mcp\mcp_snapshot\20160518\1.10.2\srgs\srg-mcp.srg with 32364 records
+[19:00:59] [main/ERROR] [FML/]: FML appears to be missing any signature data. This is not a good thing
+[19:00:59] [main/DEBUG] [FML/]: Coremod plugin class FMLCorePlugin run successfully
+[19:00:59] [main/INFO] [LaunchWrapper/]: Calling tweak class net.minecraftforge.fml.relauncher.CoreModManager$FMLPluginWrapper
+[19:00:59] [main/DEBUG] [FML/]: Injecting coremod FMLForgePlugin {net.minecraftforge.classloading.FMLForgePlugin} class transformers
+[19:00:59] [main/DEBUG] [FML/]: Injection complete
+[19:00:59] [main/DEBUG] [FML/]: Running coremod plugin for FMLForgePlugin {net.minecraftforge.classloading.FMLForgePlugin}
+[19:00:59] [main/DEBUG] [FML/]: Running coremod plugin FMLForgePlugin
+[19:00:59] [main/DEBUG] [FML/]: Coremod plugin class FMLForgePlugin run successfully
+[19:00:59] [main/INFO] [LaunchWrapper/]: Calling tweak class net.minecraftforge.fml.common.launcher.FMLDeobfTweaker
+[19:00:59] [main/DEBUG] [FML/]: Loaded 195 rules from AccessTransformer config file forge_at.cfg
+[19:00:59] [main/DEBUG] [FML/]: Validating minecraft
+[19:01:00] [main/DEBUG] [FML/]: Minecraft validated, launching...
+[19:01:00] [main/INFO] [LaunchWrapper/]: Calling tweak class net.minecraftforge.gradle.tweakers.AccessTransformerTweaker
+[19:01:00] [main/INFO] [LaunchWrapper/]: Loading tweak class name net.minecraftforge.fml.common.launcher.TerminalTweaker
+[19:01:00] [main/INFO] [LaunchWrapper/]: Calling tweak class net.minecraftforge.fml.common.launcher.TerminalTweaker
+[19:01:00] [main/INFO] [LaunchWrapper/]: Launching wrapped minecraft {net.minecraft.client.main.Main}
+[19:01:07] [Client thread/DEBUG] [FML/]: Creating vanilla freeze snapshot
+[19:01:07] [Client thread/DEBUG] [FML/]: Vanilla freeze snapshot created
+[19:01:08] [Client thread/DEBUG] [FML/]: Bar Finished: Loading Resource - LanguageManager took 0.002s
+[19:01:08] [Client thread/INFO] [FML/]: MinecraftForge v12.18.1.2094 Initialized
+[19:01:08] [Client thread/INFO] [FML/]: Replaced 232 ore recipes
+[19:01:09] [Client thread/DEBUG] [FML/]: File C:\Users\Sean\Desktop\circuits_minecraft\circuitsMod\run\config\injectedDependencies.json not found. No dependencies injected
+[19:01:09] [Client thread/DEBUG] [FML/]: Building injected Mod Containers [net.minecraftforge.fml.common.FMLContainer, net.minecraftforge.common.ForgeModContainer]
+[19:01:09] [Client thread/DEBUG] [FML/]: Attempting to load mods contained in the minecraft jar file and associated classes
+[19:01:09] [Client thread/DEBUG] [FML/]: Found a minecraft related directory at C:\Users\Sean\Desktop\circuits_minecraft\circuitsMod\bin, examining for mod candidates
+[19:01:09] [Client thread/DEBUG] [FML/]: Found a minecraft related file at C:\Users\Sean\.p2\pool\plugins\org.junit_4.12.0.v201504281640\junit.jar, examining for mod candidates
+[19:01:09] [Client thread/DEBUG] [FML/]: Found a minecraft related file at C:\Users\Sean\.p2\pool\plugins\org.hamcrest.core_1.3.0.v201303031735.jar, examining for mod candidates
+[19:01:09] [Client thread/DEBUG] [FML/]: Found a minecraft related file at C:\Users\Sean\.gradle\caches\modules-2\files-2.1\junit\junit\4.11\4e031bb61df09069aeb2bffb4019e7a5034a4ee0\junit-4.11.jar, examining for mod candidates
+[19:01:09] [Client thread/DEBUG] [FML/]: Found a minecraft related file at C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.hamcrest\hamcrest-core\1.3\42a25dc3219429f0e5d060061f71acb49bf010a0\hamcrest-core-1.3.jar, examining for mod candidates
+[19:01:09] [Client thread/DEBUG] [FML/]: Found a minecraft related file at C:\Users\Sean\.gradle\caches\minecraft\net\minecraftforge\forge\1.10.2-12.18.1.2094\snapshot\20160518\forgeSrc-1.10.2-12.18.1.2094.jar, examining for mod candidates
+[19:01:09] [Client thread/DEBUG] [FML/]: Found a minecraft related file at C:\Users\Sean\.gradle\caches\modules-2\files-2.1\com.google.code.findbugs\jsr305\3.0.1\f7be08ec23c21485b9b5a1cf1654c2ec8c58168d\jsr305-3.0.1.jar, examining for mod candidates
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\com.mojang\netty\1.6\4b75825a06139752bd800d9e29c5fd55b8b1b1e4\netty-1.6.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\oshi-project\oshi-core\1.1\9ddf7b048a8d701be231c0f4f95fd986198fd2d8\oshi-core-1.1.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\net.java.dev.jna\jna\3.4.0\803ff252fedbd395baffd43b37341dc4a150a554\jna-3.4.0.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\net.java.dev.jna\platform\3.4.0\e3f70017be8100d3d6923f50b3d2ee17714e9c13\platform-3.4.0.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\com.ibm.icu\icu4j-core-mojang\51.2\63d216a9311cca6be337c1e458e587f99d382b84\icu4j-core-mojang-51.2.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\net.sf.jopt-simple\jopt-simple\4.6\306816fb57cf94f108a43c95731b08934dcae15c\jopt-simple-4.6.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\io.netty\netty-all\4.0.23.Final\294104aaf1781d6a56a07d561e792c5d0c95f45\netty-all-4.0.23.Final.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\com.google.guava\guava\17.0\9c6ef172e8de35fd8d4d8783e4821e57cdef7445\guava-17.0.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.apache.commons\commons-lang3\3.3.2\90a3822c38ec8c996e84c16a3477ef632cbc87a3\commons-lang3-3.3.2.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\commons-io\commons-io\2.4\b1b6ea3b7e4aa4f492509a4952029cd8e48019ad\commons-io-2.4.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\commons-codec\commons-codec\1.9\9ce04e34240f674bc72680f8b843b1457383161a\commons-codec-1.9.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\net.java.jutils\jutils\1.0.0\e12fe1fda814bd348c1579329c86943d2cd3c6a6\jutils-1.0.0.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.2.4\a60a5e993c98c864010053cb901b7eab25306568\gson-2.2.4.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\com.mojang\authlib\1.5.22\afaa8f6df976fcb5520e76ef1d5798c9e6b5c0b2\authlib-1.5.22.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\com.mojang\realms\1.9.8\c9609760e050cd7c369292252552c0cc81c54331\realms-1.9.8.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.apache.commons\commons-compress\1.8.1\a698750c16740fd5b3871425f4cb3bbaa87f529d\commons-compress-1.8.1.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.apache.httpcomponents\httpclient\4.3.3\18f4247ff4572a074444572cee34647c43e7c9c7\httpclient-4.3.3.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\commons-logging\commons-logging\1.1.3\f6f66e966c70a83ffbdb6f17a0919eaf7c8aca7f\commons-logging-1.1.3.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.apache.httpcomponents\httpcore\4.3.2\31fbbff1ddbf98f3aa7377c94d33b0447c646b6e\httpcore-4.3.2.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\it.unimi.dsi\fastutil\7.0.12_mojang\ba787e741efdc425fc5d2ea654b57c15fba27efa\fastutil-7.0.12_mojang.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.apache.logging.log4j\log4j-api\2.0-beta9\1dd66e68cccd907880229f9e2de1314bd13ff785\log4j-api-2.0-beta9.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.apache.logging.log4j\log4j-core\2.0-beta9\678861ba1b2e1fccb594bb0ca03114bb05da9695\log4j-core-2.0-beta9.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\net.minecraft\launchwrapper\1.12\111e7bea9c968cdb3d06ef4632bf7ff0824d0f36\launchwrapper-1.12.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\jline\jline\2.13\2d9530d0a25daffaffda7c35037b046b627bb171\jline-2.13.jar
+[19:01:09] [Client thread/DEBUG] [FML/]: Found a minecraft related file at C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm-debug-all\5.0.3\f9e364ae2a66ce2a543012a4668856e84e5dab74\asm-debug-all-5.0.3.jar, examining for mod candidates
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\com.typesafe.akka\akka-actor_2.11\2.3.3\ed62e9fc709ca0f2ff1a3220daa8b70a2870078e\akka-actor_2.11-2.3.3.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\com.typesafe\config\1.2.1\f771f71fdae3df231bcd54d5ca2d57f0bf93f467\config-1.2.1.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.scala-lang\scala-actors-migration_2.11\1.1.0\dfa8bc42b181d5b9f1a5dd147f8ae308b893eb6f\scala-actors-migration_2.11-1.1.0.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.scala-lang\scala-compiler\2.11.1\56ea2e6c025e0821f28d73ca271218b8dd04926a\scala-compiler-2.11.1.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.scala-lang.plugins\scala-continuations-library_2.11\1.0.2\e517c53a7e9acd6b1668c5a35eccbaa3bab9aac\scala-continuations-library_2.11-1.0.2.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.scala-lang.plugins\scala-continuations-plugin_2.11.1\1.0.2\f361a3283452c57fa30c1ee69448995de23c60f7\scala-continuations-plugin_2.11.1-1.0.2.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.scala-lang\scala-library\2.11.1\e11da23da3eabab9f4777b9220e60d44c1aab6a\scala-library-2.11.1.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.scala-lang.modules\scala-parser-combinators_2.11\1.0.1\f05d7345bf5a58924f2837c6c1f4d73a938e1ff0\scala-parser-combinators_2.11-1.0.1.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.scala-lang\scala-reflect\2.11.1\6580347e61cc7f8e802941e7fde40fa83b8badeb\scala-reflect-2.11.1.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.scala-lang.modules\scala-swing_2.11\1.0.1\b1cdd92bd47b1e1837139c1c53020e86bb9112ae\scala-swing_2.11-1.0.1.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.scala-lang.modules\scala-xml_2.11\1.0.2\820fbca7e524b530fdadc594c39d49a21ea0337e\scala-xml_2.11-1.0.2.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\lzma\lzma\0.0.1\521616dc7487b42bef0e803bd2fa3faf668101d7\lzma-0.0.1.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\net.sf.trove4j\trove4j\3.0.3\42ccaf4761f0dfdfa805c9e340d99a755907e2dd\trove4j-3.0.3.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\com.paulscode\codecjorbis\20101023\c73b5636faf089d9f00e8732a829577de25237ee\codecjorbis-20101023.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\com.paulscode\codecwav\20101023\12f031cfe88fef5c1dd36c563c0a3a69bd7261da\codecwav-20101023.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\com.paulscode\libraryjavasound\20101123\5c5e304366f75f9eaa2e8cca546a1fb6109348b3\libraryjavasound-20101123.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\com.paulscode\librarylwjglopenal\20100824\73e80d0794c39665aec3f62eee88ca91676674ef\librarylwjglopenal-20100824.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\com.paulscode\soundsystem\20120107\419c05fe9be71f792b2d76cfc9b67f1ed0fec7f6\soundsystem-20120107.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\net.java.jinput\jinput\2.0.5\39c7796b469a600f72380316f6b1f11db6c2c7c4\jinput-2.0.5.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.lwjgl.lwjgl\lwjgl\2.9.4-nightly-20150209\697517568c68e78ae0b4544145af031c81082dfe\lwjgl-2.9.4-nightly-20150209.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.lwjgl.lwjgl\lwjgl_util\2.9.4-nightly-20150209\d51a7c040a721d13efdfbd34f8b257b2df882ad0\lwjgl_util-2.9.4-nightly-20150209.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\java3d\vecmath\1.5.2\79846ba34cbd89e2422d74d53752f993dcc2ccaf\vecmath-1.5.2.jar
+[19:01:09] [Client thread/DEBUG] [FML/]: Found a minecraft related file at C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.fusesource.jansi\jansi\1.11\655c643309c2f45a56a747fda70e3fadf57e9f11\jansi-1.11.jar, examining for mod candidates
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.scala-lang\scala-actors\2.11.0\8ccfb6541de179bb1c4d45cf414acee069b7f78b\scala-actors-2.11.0.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\net.java.jinput\jinput-platform\2.0.5\7ff832a6eb9ab6a767f1ade2b548092d0fa64795\jinput-platform-2.0.5-natives-linux.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\net.java.jinput\jinput-platform\2.0.5\385ee093e01f587f30ee1c8a2ee7d408fd732e16\jinput-platform-2.0.5-natives-windows.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\net.java.jinput\jinput-platform\2.0.5\53f9c919f34d2ca9de8c51fc4e1e8282029a9232\jinput-platform-2.0.5-natives-osx.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.lwjgl.lwjgl\lwjgl-platform\2.9.4-nightly-20150209\b84d5102b9dbfabfeb5e43c7e2828d98a7fc80e0\lwjgl-platform-2.9.4-nightly-20150209-natives-windows.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.lwjgl.lwjgl\lwjgl-platform\2.9.4-nightly-20150209\931074f46c795d2f7b30ed6395df5715cfd7675b\lwjgl-platform-2.9.4-nightly-20150209-natives-linux.jar
+[19:01:09] [Client thread/TRACE] [FML/]: Skipping known library file C:\Users\Sean\.gradle\caches\modules-2\files-2.1\org.lwjgl.lwjgl\lwjgl-platform\2.9.4-nightly-20150209\bcab850f8f487c3f4c4dbabde778bb82bd1a40ed\lwjgl-platform-2.9.4-nightly-20150209-natives-osx.jar
+[19:01:09] [Client thread/DEBUG] [FML/]: Found a minecraft related file at C:\Users\Sean\.gradle\caches\minecraft\deobfedDeps\compileDummy.jar, examining for mod candidates
+[19:01:09] [Client thread/DEBUG] [FML/]: Found a minecraft related file at C:\Users\Sean\.gradle\caches\minecraft\deobfedDeps\providedDummy.jar, examining for mod candidates
+[19:01:09] [Client thread/DEBUG] [FML/]: Found a minecraft related directory at C:\Users\Sean\.gradle\caches\minecraft\net\minecraftforge\forge\1.10.2-12.18.1.2094\start, examining for mod candidates
+[19:01:09] [Client thread/DEBUG] [FML/]: Minecraft jar mods loaded successfully
+[19:01:09] [Client thread/INFO] [FML/]: Found 0 mods from the command line. Injecting into mod discoverer
+[19:01:09] [Client thread/INFO] [FML/]: Searching C:\Users\Sean\Desktop\circuits_minecraft\circuitsMod\run\mods for mods
+[19:01:09] [Client thread/DEBUG] [FML/]: Examining directory bin for potential mods
+[19:01:09] [Client thread/DEBUG] [FML/]: Found an mcmod.info file in directory bin
+[19:01:09] [Client thread/TRACE] [FML/]: Recursing into package assets
+[19:01:09] [Client thread/TRACE] [FML/]: Recursing into package assets/circuitsmod
+[19:01:09] [Client thread/TRACE] [FML/]: Recursing into package assets/circuitsmod/blockstates
+[19:01:09] [Client thread/TRACE] [FML/]: Recursing into package assets/circuitsmod/lang
+[19:01:09] [Client thread/TRACE] [FML/]: Recursing into package assets/circuitsmod/models
+[19:01:09] [Client thread/TRACE] [FML/]: Recursing into package assets/circuitsmod/models/block
+[19:01:09] [Client thread/TRACE] [FML/]: Recursing into package assets/circuitsmod/models/item
+[19:01:09] [Client thread/TRACE] [FML/]: Recursing into package assets/circuitsmod/textures
+[19:01:09] [Client thread/TRACE] [FML/]: Recursing into package assets/circuitsmod/textures/blocks
+[19:01:09] [Client thread/TRACE] [FML/]: Recursing into package assets/circuitsmod/textures/entity
+[19:01:09] [Client thread/TRACE] [FML/]: Recursing into package assets/circuitsmod/textures/gui
+[19:01:09] [Client thread/TRACE] [FML/]: Recursing into package assets/circuitsmod/textures/items
+[19:01:09] [Client thread/TRACE] [FML/]: Recursing into package circuitsMod
+[19:01:09] [Client thread/TRACE] [FML/]: Recursing into package com
+[19:01:09] [Client thread/TRACE] [FML/]: Recursing into package com/circuits
+[19:01:09] [Client thread/TRACE] [FML/]: Recursing into package com/circuits/circuitsmod
+[19:01:09] [Client thread/TRACE] [FML/]: Recursing into package com/circuits/circuitsmod/blockportalpuzzle
+[19:01:09] [Client thread/TRACE] [FML/]: Recursing into package com/circuits/circuitsmod/busblock
+[19:01:09] [Client thread/TRACE] [FML/]: Recursing into package com/circuits/circuitsmod/circuit
+[19:01:09] [Client thread/TRACE] [FML/]: Recursing into package com/circuits/circuitsmod/circuitblock
+[19:01:09] [Client thread/DEBUG] [FML/]: Identified a mod of type Lnet/minecraftforge/fml/common/Mod; (com.circuits.circuitsmod.CircuitsMod) - loading
+[19:01:09] [Client thread/TRACE] [circuitsmod/]: Parsed dependency info : [] [] []
+[19:01:09] [Client thread/INFO] [circuitsmod/]: Mod circuitsmod is missing the required element 'name'. Substituting circuitsmod
+[19:01:09] [Client thread/TRACE] [FML/]: Recursing into package com/circuits/circuitsmod/common
+[19:01:10] [Client thread/TRACE] [FML/]: Recursing into package com/circuits/circuitsmod/controlblock
+[19:01:10] [Client thread/TRACE] [FML/]: Recursing into package com/circuits/circuitsmod/controlblock/gui
+[19:01:10] [Client thread/TRACE] [FML/]: Recursing into package com/circuits/circuitsmod/controlblock/gui/model
+[19:01:10] [Client thread/TRACE] [FML/]: Recursing into package com/circuits/circuitsmod/controlblock/gui/net
+[19:01:10] [Client thread/TRACE] [FML/]: Recursing into package com/circuits/circuitsmod/controlblock/tester
+[19:01:10] [Client thread/TRACE] [FML/]: Recursing into package com/circuits/circuitsmod/controlblock/tester/net
+[19:01:10] [Client thread/TRACE] [FML/]: Recursing into package com/circuits/circuitsmod/frameblock
+[19:01:10] [Client thread/TRACE] [FML/]: Recursing into package com/circuits/circuitsmod/network
+[19:01:10] [Client thread/TRACE] [FML/]: Recursing into package com/circuits/circuitsmod/recipes
+[19:01:10] [Client thread/TRACE] [FML/]: Recursing into package com/circuits/circuitsmod/reflective
+[19:01:10] [Client thread/TRACE] [FML/]: Recursing into package com/circuits/circuitsmod/region
+[19:01:10] [Client thread/TRACE] [FML/]: Recursing into package com/circuits/circuitsmod/telecleaner
+[19:01:10] [Client thread/TRACE] [FML/]: Recursing into package com/circuits/circuitsmod/testblock
+[19:01:10] [Client thread/TRACE] [FML/]: Recursing into package com/circuits/circuitsmod/tester
+[19:01:10] [Client thread/TRACE] [FML/]: Recursing into package com/circuits/circuitsmod/world
+[19:01:10] [Client thread/DEBUG] [FML/]: Examining file junit.jar for potential mods
+[19:01:10] [Client thread/DEBUG] [FML/]: The mod container junit.jar appears to be missing an mcmod.info file
+[19:01:10] [Client thread/DEBUG] [FML/]: Examining file org.hamcrest.core_1.3.0.v201303031735.jar for potential mods
+[19:01:10] [Client thread/DEBUG] [FML/]: The mod container org.hamcrest.core_1.3.0.v201303031735.jar appears to be missing an mcmod.info file
+[19:01:11] [Client thread/DEBUG] [FML/]: Examining file junit-4.11.jar for potential mods
+[19:01:11] [Client thread/DEBUG] [FML/]: The mod container junit-4.11.jar appears to be missing an mcmod.info file
+[19:01:11] [Client thread/DEBUG] [FML/]: Examining file hamcrest-core-1.3.jar for potential mods
+[19:01:11] [Client thread/DEBUG] [FML/]: The mod container hamcrest-core-1.3.jar appears to be missing an mcmod.info file
+[19:01:11] [Client thread/DEBUG] [FML/]: Examining file forgeSrc-1.10.2-12.18.1.2094.jar for potential mods
+[19:01:11] [Client thread/DEBUG] [FML/]: The mod container forgeSrc-1.10.2-12.18.1.2094.jar appears to be missing an mcmod.info file
+[19:01:12] [Client thread/DEBUG] [FML/]: Examining file jsr305-3.0.1.jar for potential mods
+[19:01:12] [Client thread/DEBUG] [FML/]: The mod container jsr305-3.0.1.jar appears to be missing an mcmod.info file
+[19:01:12] [Client thread/DEBUG] [FML/]: Examining file asm-debug-all-5.0.3.jar for potential mods
+[19:01:12] [Client thread/DEBUG] [FML/]: The mod container asm-debug-all-5.0.3.jar appears to be missing an mcmod.info file
+[19:01:12] [Client thread/DEBUG] [FML/]: Examining file jansi-1.11.jar for potential mods
+[19:01:12] [Client thread/DEBUG] [FML/]: The mod container jansi-1.11.jar appears to be missing an mcmod.info file
+[19:01:12] [Client thread/DEBUG] [FML/]: Examining file compileDummy.jar for potential mods
+[19:01:12] [Client thread/DEBUG] [FML/]: The mod container compileDummy.jar appears to be missing an mcmod.info file
+[19:01:12] [Client thread/DEBUG] [FML/]: Examining file providedDummy.jar for potential mods
+[19:01:12] [Client thread/DEBUG] [FML/]: The mod container providedDummy.jar appears to be missing an mcmod.info file
+[19:01:12] [Client thread/DEBUG] [FML/]: Examining directory start for potential mods
+[19:01:12] [Client thread/DEBUG] [FML/]: No mcmod.info file found in directory start
+[19:01:12] [Client thread/TRACE] [FML/]: Recursing into package net
+[19:01:12] [Client thread/TRACE] [FML/]: Recursing into package net/minecraftforge
+[19:01:12] [Client thread/TRACE] [FML/]: Recursing into package net/minecraftforge/gradle
+[19:01:12] [Client thread/TRACE] [FML/]: Recursing into package net/minecraftforge/gradle/tweakers
+[19:01:12] [Client thread/INFO] [FML/]: Forge Mod Loader has identified 4 mods to load
+[19:01:12] [Client thread/TRACE] [FML/]: Received a system property request ''
+[19:01:12] [Client thread/TRACE] [FML/]: System property request managing the state of 0 mods
+[19:01:12] [Client thread/DEBUG] [FML/]: After merging, found state information for 0 mods
+[19:01:12] [Client thread/DEBUG] [circuitsmod/]: Enabling mod circuitsmod
+[19:01:12] [Client thread/TRACE] [FML/]: Verifying mod requirements are satisfied
+[19:01:12] [Client thread/TRACE] [FML/]: All mod requirements are satisfied
+[19:01:12] [Client thread/TRACE] [FML/]: Sorting mods into an ordered list
+[19:01:12] [Client thread/TRACE] [FML/]: Mod sorting completed successfully
+[19:01:12] [Client thread/DEBUG] [FML/]: Mod sorting data
+[19:01:12] [Client thread/DEBUG] [FML/]: 	circuitsmod(circuitsmod:1.0): bin ()
+[19:01:12] [Client thread/TRACE] [mcp/mcp]: Sending event FMLConstructionEvent to mod mcp
+[19:01:12] [Client thread/TRACE] [mcp/mcp]: Sent event FMLConstructionEvent to mod mcp
+[19:01:12] [Client thread/DEBUG] [FML/]: Bar Step: Construction - Minecraft Coder Pack took 0.004s
+[19:01:12] [Client thread/TRACE] [FML/FML]: Sending event FMLConstructionEvent to mod FML
+[19:01:13] [Client thread/TRACE] [FML/FML]: Mod FML is using network checker : Invoking method checkModLists
+[19:01:13] [Client thread/TRACE] [FML/FML]: Testing mod FML to verify it accepts its own version in a remote connection
+[19:01:13] [Client thread/TRACE] [FML/FML]: The mod FML accepts its own version (8.0.99.99)
+[19:01:13] [Client thread/INFO] [FML/FML]: Attempting connection with missing mods [mcp, FML, Forge, circuitsmod] at CLIENT
+[19:01:13] [Client thread/INFO] [FML/FML]: Attempting connection with missing mods [mcp, FML, Forge, circuitsmod] at SERVER
+[19:01:14] [Client thread/TRACE] [FML/FML]: Sent event FMLConstructionEvent to mod FML
+[19:01:14] [Client thread/DEBUG] [FML/]: Bar Step: Construction - Forge Mod Loader took 1.265s
+[19:01:14] [Client thread/TRACE] [Forge/Forge]: Sending event FMLConstructionEvent to mod Forge
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: Preloading CrashReport Classes
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/Minecraft$10
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/Minecraft$11
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/Minecraft$12
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/Minecraft$13
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/Minecraft$14
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/Minecraft$15
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/Minecraft$3
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/Minecraft$4
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/Minecraft$5
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/Minecraft$6
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/Minecraft$7
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/Minecraft$8
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/Minecraft$9
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/multiplayer/WorldClient$1
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/multiplayer/WorldClient$2
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/multiplayer/WorldClient$3
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/multiplayer/WorldClient$4
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/particle/ParticleManager$1
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/particle/ParticleManager$2
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/particle/ParticleManager$3
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/particle/ParticleManager$4
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/renderer/EntityRenderer$2
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/renderer/EntityRenderer$3
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/renderer/EntityRenderer$4
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/renderer/RenderGlobal$1
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/renderer/RenderItem$1
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/renderer/RenderItem$2
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/renderer/RenderItem$3
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/renderer/RenderItem$4
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/renderer/texture/TextureAtlasSprite$1
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/renderer/texture/TextureManager$1
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/renderer/texture/TextureMap$1
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/renderer/texture/TextureMap$2
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/client/renderer/texture/TextureMap$3
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/crash/CrashReport$1
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/crash/CrashReport$2
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/crash/CrashReport$3
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/crash/CrashReport$4
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/crash/CrashReport$5
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/crash/CrashReport$6
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/crash/CrashReport$7
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/crash/CrashReportCategory$1
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/crash/CrashReportCategory$2
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/crash/CrashReportCategory$3
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/crash/CrashReportCategory$4
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/crash/CrashReportCategory$5
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/entity/Entity$1
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/entity/Entity$2
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/entity/Entity$3
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/entity/Entity$4
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/entity/EntityTracker$1
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/entity/player/InventoryPlayer$1
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/nbt/NBTTagCompound$1
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/nbt/NBTTagCompound$2
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/network/NetHandlerPlayServer$3
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/network/NetworkSystem$6
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/server/MinecraftServer$2
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/server/MinecraftServer$3
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/server/dedicated/DedicatedServer$3
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/server/dedicated/DedicatedServer$4
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/server/integrated/IntegratedServer$1
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/server/integrated/IntegratedServer$2
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/tileentity/CommandBlockBaseLogic$1
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/tileentity/CommandBlockBaseLogic$2
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/tileentity/TileEntity$1
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/tileentity/TileEntity$2
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/tileentity/TileEntity$3
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/world/World$1
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/world/World$2
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/world/World$3
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/world/World$4
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/world/chunk/Chunk$1
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/world/gen/structure/MapGenStructure$1
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/world/gen/structure/MapGenStructure$2
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/world/gen/structure/MapGenStructure$3
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/world/storage/WorldInfo$10
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/world/storage/WorldInfo$2
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/world/storage/WorldInfo$3
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/world/storage/WorldInfo$4
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/world/storage/WorldInfo$5
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/world/storage/WorldInfo$6
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/world/storage/WorldInfo$7
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/world/storage/WorldInfo$8
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraft/world/storage/WorldInfo$9
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraftforge/fml/client/SplashProgress$1
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraftforge/fml/common/FMLCommonHandler$1
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraftforge/fml/common/ICrashCallable
+[19:01:14] [Client thread/DEBUG] [Forge/Forge]: 	net/minecraftforge/fml/common/Loader$3
+[19:01:14] [Client thread/TRACE] [FML/Forge]: Mod Forge is using network checker : No network checking performed
+[19:01:14] [Client thread/TRACE] [FML/Forge]: Testing mod Forge to verify it accepts its own version in a remote connection
+[19:01:14] [Client thread/TRACE] [FML/Forge]: The mod Forge accepts its own version (12.18.1.2094)
+[19:01:14] [Client thread/TRACE] [Forge/Forge]: Sent event FMLConstructionEvent to mod Forge
+[19:01:14] [Client thread/DEBUG] [FML/]: Bar Step: Construction - Minecraft Forge took 0.160s
+[19:01:14] [Client thread/TRACE] [circuitsmod/circuitsmod]: Sending event FMLConstructionEvent to mod circuitsmod
+[19:01:14] [Client thread/TRACE] [FML/circuitsmod]: Mod circuitsmod is using network checker : Accepting version 1.0
+[19:01:14] [Client thread/TRACE] [FML/circuitsmod]: Testing mod circuitsmod to verify it accepts its own version in a remote connection
+[19:01:14] [Client thread/TRACE] [FML/circuitsmod]: The mod circuitsmod accepts its own version (1.0)
+[19:01:14] [Client thread/DEBUG] [FML/circuitsmod]: Attempting to inject @SidedProxy classes into circuitsmod
+[19:01:14] [Client thread/DEBUG] [FML/circuitsmod]: Attempting to inject @EventBusSubscriber classes into the eventbus for circuitsmod
+[19:01:14] [Client thread/TRACE] [circuitsmod/circuitsmod]: Sent event FMLConstructionEvent to mod circuitsmod
+[19:01:14] [Client thread/DEBUG] [FML/]: Bar Step: Construction - circuitsmod took 0.052s
+[19:01:14] [Client thread/DEBUG] [FML/]: Bar Finished: Construction took 1.480s
+[19:01:14] [Client thread/DEBUG] [FML/]: Mod signature data
+[19:01:14] [Client thread/DEBUG] [FML/]:  	Valid Signatures:
+[19:01:14] [Client thread/DEBUG] [FML/]:  	Missing Signatures:
+[19:01:14] [Client thread/DEBUG] [FML/]: 		mcp	(Minecraft Coder Pack	9.19)	minecraft.jar
+[19:01:14] [Client thread/DEBUG] [FML/]: 		FML	(Forge Mod Loader	8.0.99.99)	forgeSrc-1.10.2-12.18.1.2094.jar
+[19:01:14] [Client thread/DEBUG] [FML/]: 		Forge	(Minecraft Forge	12.18.1.2094)	forgeSrc-1.10.2-12.18.1.2094.jar
+[19:01:14] [Client thread/DEBUG] [FML/]: 		circuitsmod	(circuitsmod	1.0)	bin
+[19:01:14] [Client thread/DEBUG] [FML/]: Bar Step: Loading Resources - Default took 0.016s
+[19:01:14] [Client thread/DEBUG] [FML/]: Bar Step: Loading Resources - FMLFileResourcePack:Forge Mod Loader took 0.022s
+[19:01:14] [Client thread/DEBUG] [FML/]: Bar Step: Loading Resources - FMLFileResourcePack:Minecraft Forge took 0.019s
+[19:01:14] [Client thread/DEBUG] [FML/]: Bar Step: Loading Resources - FMLFileResourcePack:circuitsmod took 0.005s
+[19:01:14] [Client thread/DEBUG] [FML/]: Bar Finished: Reloading - LanguageManager took 0.093s
+[19:01:14] [Client thread/DEBUG] [FML/]: Bar Step: Loading Resources - Reloading listeners took 0.095s
+[19:01:14] [Client thread/DEBUG] [FML/]: Bar Finished: Loading Resources took 0.157s
+[19:01:14] [Client thread/DEBUG] [Forge Mod Loader/]: Mod Forge Mod Loader is missing a pack.mcmeta file, substituting a dummy one
+[19:01:14] [Client thread/DEBUG] [Minecraft Forge/]: Mod Minecraft Forge is missing a pack.mcmeta file, substituting a dummy one
+[19:01:14] [Client thread/DEBUG] [circuitsmod/]: Mod circuitsmod is missing a pack.mcmeta file, substituting a dummy one
+[19:01:14] [Client thread/INFO] [FML/]: Processing ObjectHolder annotations
+[19:01:14] [Client thread/INFO] [FML/]: Found 423 ObjectHolder annotations
+[19:01:14] [Client thread/INFO] [FML/]: Identifying ItemStackHolder annotations
+[19:01:14] [Client thread/INFO] [FML/]: Found 0 ItemStackHolder annotations
+[19:01:14] [Client thread/INFO] [FML/]: Applying holder lookups
+[19:01:14] [Client thread/INFO] [FML/]: Holder lookups applied
+[19:01:14] [Client thread/INFO] [FML/]: Applying holder lookups
+[19:01:14] [Client thread/INFO] [FML/]: Holder lookups applied
+[19:01:14] [Client thread/INFO] [FML/]: Applying holder lookups
+[19:01:14] [Client thread/INFO] [FML/]: Holder lookups applied
+[19:01:14] [Client thread/TRACE] [mcp/mcp]: Sending event FMLPreInitializationEvent to mod mcp
+[19:01:14] [Client thread/TRACE] [mcp/mcp]: Sent event FMLPreInitializationEvent to mod mcp
+[19:01:14] [Client thread/DEBUG] [FML/]: Bar Step: PreInitialization - Minecraft Coder Pack took 0.003s
+[19:01:14] [Client thread/TRACE] [FML/FML]: Sending event FMLPreInitializationEvent to mod FML
+[19:01:14] [Client thread/TRACE] [FML/FML]: Sent event FMLPreInitializationEvent to mod FML
+[19:01:14] [Client thread/DEBUG] [FML/]: Bar Step: PreInitialization - Forge Mod Loader took 0.002s
+[19:01:14] [Client thread/TRACE] [Forge/Forge]: Sending event FMLPreInitializationEvent to mod Forge
+[19:01:14] [Client thread/INFO] [FML/Forge]: Configured a dormant chunk cache size of 0
+[19:01:14] [Client thread/TRACE] [Forge/Forge]: Sent event FMLPreInitializationEvent to mod Forge
+[19:01:14] [Client thread/DEBUG] [FML/]: Bar Step: PreInitialization - Minecraft Forge took 0.123s
+[19:01:14] [Client thread/TRACE] [circuitsmod/circuitsmod]: Sending event FMLPreInitializationEvent to mod circuitsmod
+[19:01:14] [Forge Version Check/INFO] [ForgeVersionCheck/Forge]: [Forge] Starting version check at http://files.minecraftforge.net/maven/net/minecraftforge/forge/promotions_slim.json
+[19:01:15] [Forge Version Check/DEBUG] [ForgeVersionCheck/Forge]: [Forge] Received version check data:
+{
+  "homepage": "http://files.minecraftforge.net/maven/net/minecraftforge/forge/",
+  "promos": {
+    "1.10-latest": "12.18.0.2000",
+    "1.10.2-latest": "12.18.3.2185",
+    "1.10.2-recommended": "12.18.3.2185",
+    "1.11-latest": "13.19.1.2188",
+    "1.11-recommended": "13.19.1.2188",
+    "1.5.2-latest": "7.8.1.738",
+    "1.5.2-recommended": "7.8.1.737",
+    "1.6.1-latest": "8.9.0.775",
+    "1.6.2-latest": "9.10.1.871",
+    "1.6.2-recommended": "9.10.1.871",
+    "1.6.3-latest": "9.11.0.878",
+    "1.6.4-latest": "9.11.1.1345",
+    "1.6.4-recommended": "9.11.1.1345",
+    "1.7.10-latest": "10.13.4.1614",
+    "1.7.10-latest-1.7.10": "10.13.2.1343",
+    "1.7.10-recommended": "10.13.4.1558",
+    "1.7.2-latest": "10.12.2.1147",
+    "1.7.2-recommended": "10.12.2.1121",
+    "1.8-latest": "11.14.4.1577",
+    "1.8-recommended": "11.14.4.1563",
+    "1.8.8-latest": "11.15.0.1655",
+    "1.8.9-latest": "11.15.1.1902",
+    "1.8.9-recommended": "11.15.1.1722",
+    "1.9-latest": "12.16.0.1942",
+    "1.9-recommended": "12.16.1.1887",
+    "1.9.4-latest": "12.17.0.2051",
+    "1.9.4-recommended": "12.17.0.1976",
+    "latest": "13.19.1.2188",
+    "latest-1.7.10": "10.13.2.1343",
+    "recommended": "13.19.1.2188"
+  }
+}
+[19:01:15] [Forge Version Check/INFO] [ForgeVersionCheck/Forge]: [Forge] Found status: OUTDATED Target: 12.18.3.2185
+[19:01:15] [Client thread/TRACE] [circuitsmod/circuitsmod]: Sent event FMLPreInitializationEvent to mod circuitsmod
+[19:01:15] [Client thread/DEBUG] [FML/]: Bar Step: PreInitialization - circuitsmod took 0.449s
+[19:01:15] [Client thread/DEBUG] [FML/]: Bar Finished: PreInitialization took 0.578s
+[19:01:15] [Client thread/INFO] [FML/]: Applying holder lookups
+[19:01:15] [Client thread/INFO] [FML/]: Holder lookups applied
+[19:01:15] [Client thread/INFO] [FML/]: Injecting itemstacks
+[19:01:15] [Client thread/INFO] [FML/]: Itemstack injection complete
+[19:01:15] [Client thread/DEBUG] [FML/]: Bar Finished: Loading Resource - TextureManager took 0.001s
+[19:01:18] [Client thread/DEBUG] [FML/]: Bar Finished: Loading Resource - SoundHandler took 2.895s
+[19:01:18] [Client thread/DEBUG] [FML/]: Bar Finished: Loading Resource - FontRenderer took 0.010s
+[19:01:18] [Client thread/DEBUG] [FML/]: Bar Finished: Loading Resource - FontRenderer took 0.005s
+[19:01:18] [Client thread/DEBUG] [FML/]: Bar Finished: Loading Resource - GrassColorReloadListener took 0.017s
+[19:01:18] [Client thread/DEBUG] [FML/]: Bar Finished: Loading Resource - FoliageColorReloadListener took 0.011s
+[19:01:18] [Client thread/DEBUG] [FML/]: Bar Step: Rendering Setup - GL Setup took 0.004s
+[19:01:18] [Client thread/DEBUG] [FML/]: Bar Step: Rendering Setup - Loading Texture Map took 0.011s
+[19:01:18] [Client thread/DEBUG] [FML/]: Bar Finished: Loading Resource - B3DLoader took 0.000s
+[19:01:18] [Client thread/DEBUG] [FML/]: Bar Finished: Loading Resource - OBJLoader took 0.000s
+[19:01:18] [Client thread/DEBUG] [FML/]: Bar Finished: Loading Resource - ModelFluid$FluidLoader took 0.000s
+[19:01:18] [Client thread/DEBUG] [FML/]: Bar Finished: Loading Resource - ItemLayerModel$Loader took 0.000s
+[19:01:18] [Client thread/DEBUG] [FML/]: Bar Finished: Loading Resource - MultiLayerModel$Loader took 0.000s
+[19:01:18] [Client thread/DEBUG] [FML/]: Bar Finished: Loading Resource - ModelDynBucket$LoaderDynBucket took 0.000s
+[19:01:22] [Client thread/DEBUG] [FML/]: Bar Finished: ModelLoader: blocks took 3.982s
+[19:01:22] [Client thread/DEBUG] [FML/]: Item json isn't found for 'circuitsmod:circuitsmartmodel#normal', trying to load the variant from the blockstate json
+[19:01:24] [Client thread/DEBUG] [FML/]: Bar Finished: ModelLoader: items took 1.374s
+[19:01:24] [Client thread/INFO] [FML/]: Max texture size: 8192
+[19:01:24] [Client thread/DEBUG] [FML/]: Bar Finished: Texture stitching - missingno took 0.002s
+[19:01:24] [Client thread/DEBUG] [FML/]: Bar Finished: Texture creation took 0.003s
+[19:01:24] [Client thread/DEBUG] [FML/]: Bar Finished: Texture mipmap and upload - missingno took 0.001s
+[19:01:25] [Client thread/DEBUG] [FML/]: Bar Finished: ModelLoader: baking took 1.449s
+[19:01:25] [Client thread/DEBUG] [FML/]: Bar Finished: Loading Resource - ModelManager took 7.072s
+[19:01:25] [Client thread/DEBUG] [FML/]: Bar Step: Rendering Setup - Loading Model Manager took 7.140s
+[19:01:26] [Client thread/DEBUG] [FML/]: Bar Finished: Loading Resource - RenderItem took 0.006s
+[19:01:26] [Client thread/DEBUG] [FML/]: Bar Step: Rendering Setup - Loading Item Renderer took 0.524s
+[19:01:26] [Client thread/DEBUG] [FML/]: Bar Finished: Loading Resource - EntityRenderer took 0.000s
+[19:01:26] [Client thread/DEBUG] [FML/]: Bar Finished: Loading Resource - BlockRendererDispatcher took 0.000s
+[19:01:26] [Client thread/DEBUG] [FML/]: Bar Finished: Loading Resource - RenderGlobal took 0.000s
+[19:01:26] [Client thread/DEBUG] [FML/]: Bar Step: Rendering Setup - Loading Entity Renderer took 0.452s
+[19:01:26] [Client thread/DEBUG] [FML/]: Bar Finished: Rendering Setup took 8.131s
+[19:01:26] [Client thread/TRACE] [mcp/mcp]: Sending event FMLInitializationEvent to mod mcp
+[19:01:26] [Client thread/TRACE] [mcp/mcp]: Sent event FMLInitializationEvent to mod mcp
+[19:01:26] [Client thread/DEBUG] [FML/]: Bar Step: Initialization - Minecraft Coder Pack took 0.001s
+[19:01:26] [Client thread/TRACE] [FML/FML]: Sending event FMLInitializationEvent to mod FML
+[19:01:26] [Client thread/TRACE] [FML/FML]: Sent event FMLInitializationEvent to mod FML
+[19:01:26] [Client thread/DEBUG] [FML/]: Bar Step: Initialization - Forge Mod Loader took 0.001s
+[19:01:26] [Client thread/TRACE] [Forge/Forge]: Sending event FMLInitializationEvent to mod Forge
+[19:01:26] [Client thread/TRACE] [Forge/Forge]: Sent event FMLInitializationEvent to mod Forge
+[19:01:26] [Client thread/DEBUG] [FML/]: Bar Step: Initialization - Minecraft Forge took 0.000s
+[19:01:26] [Client thread/TRACE] [circuitsmod/circuitsmod]: Sending event FMLInitializationEvent to mod circuitsmod
+[19:01:26] [Client thread/TRACE] [circuitsmod/circuitsmod]: Sent event FMLInitializationEvent to mod circuitsmod
+[19:01:26] [Client thread/DEBUG] [FML/]: Bar Step: Initialization - circuitsmod took 0.096s
+[19:01:26] [Client thread/DEBUG] [FML/]: Bar Finished: Initialization took 0.098s
+[19:01:26] [Client thread/TRACE] [FML/]: Attempting to deliver 0 IMC messages to mod mcp
+[19:01:26] [Client thread/TRACE] [mcp/mcp]: Sending event IMCEvent to mod mcp
+[19:01:26] [Client thread/TRACE] [mcp/mcp]: Sent event IMCEvent to mod mcp
+[19:01:26] [Client thread/DEBUG] [FML/]: Bar Step: InterModComms$IMC - Minecraft Coder Pack took 0.006s
+[19:01:26] [Client thread/TRACE] [FML/]: Attempting to deliver 0 IMC messages to mod FML
+[19:01:26] [Client thread/TRACE] [FML/FML]: Sending event IMCEvent to mod FML
+[19:01:26] [Client thread/TRACE] [FML/FML]: Sent event IMCEvent to mod FML
+[19:01:26] [Client thread/DEBUG] [FML/]: Bar Step: InterModComms$IMC - Forge Mod Loader took 0.000s
+[19:01:26] [Client thread/TRACE] [FML/]: Attempting to deliver 0 IMC messages to mod Forge
+[19:01:26] [Client thread/TRACE] [Forge/Forge]: Sending event IMCEvent to mod Forge
+[19:01:26] [Client thread/TRACE] [Forge/Forge]: Sent event IMCEvent to mod Forge
+[19:01:26] [Client thread/DEBUG] [FML/]: Bar Step: InterModComms$IMC - Minecraft Forge took 0.001s
+[19:01:26] [Client thread/TRACE] [FML/]: Attempting to deliver 0 IMC messages to mod circuitsmod
+[19:01:26] [Client thread/TRACE] [circuitsmod/circuitsmod]: Sending event IMCEvent to mod circuitsmod
+[19:01:26] [Client thread/TRACE] [circuitsmod/circuitsmod]: Sent event IMCEvent to mod circuitsmod
+[19:01:26] [Client thread/DEBUG] [FML/]: Bar Step: InterModComms$IMC - circuitsmod took 0.000s
+[19:01:26] [Client thread/DEBUG] [FML/]: Bar Finished: InterModComms$IMC took 0.008s
+[19:01:26] [Client thread/INFO] [FML/]: Injecting itemstacks
+[19:01:26] [Client thread/INFO] [FML/]: Itemstack injection complete
+[19:01:26] [Client thread/TRACE] [mcp/mcp]: Sending event FMLPostInitializationEvent to mod mcp
+[19:01:26] [Client thread/TRACE] [mcp/mcp]: Sent event FMLPostInitializationEvent to mod mcp
+[19:01:26] [Client thread/DEBUG] [FML/]: Bar Step: PostInitialization - Minecraft Coder Pack took 0.000s
+[19:01:26] [Client thread/TRACE] [FML/FML]: Sending event FMLPostInitializationEvent to mod FML
+[19:01:26] [Client thread/TRACE] [FML/FML]: Sent event FMLPostInitializationEvent to mod FML
+[19:01:26] [Client thread/DEBUG] [FML/]: Bar Step: PostInitialization - Forge Mod Loader took 0.000s
+[19:01:26] [Client thread/TRACE] [Forge/Forge]: Sending event FMLPostInitializationEvent to mod Forge
+[19:01:26] [Client thread/TRACE] [Forge/Forge]: Sent event FMLPostInitializationEvent to mod Forge
+[19:01:26] [Client thread/DEBUG] [FML/]: Bar Step: PostInitialization - Minecraft Forge took 0.012s
+[19:01:26] [Client thread/TRACE] [circuitsmod/circuitsmod]: Sending event FMLPostInitializationEvent to mod circuitsmod
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:<init>:121]: class net.minecraft.item.crafting.RecipesArmorDyes
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:<init>:121]: class net.minecraft.item.crafting.RecipeFireworks
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:<init>:121]: class net.minecraft.item.crafting.RecipesBanners$RecipeAddPattern
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.blockLapis
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.dyePowder
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.blockCoal
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.coal
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.hayBlock
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.wheat
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.ingotGold
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.goldNugget
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.rabbitStew
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.rabbitCooked
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.carrots
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.potatoBaked
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.mushroom
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.bowl
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.mushroom
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.melon
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.melon
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.beetroot_soup
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.beetroot
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.enderChest
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.obsidian
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.eyeOfEnder
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stairsPurpur
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.purpurBlock
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.netherWartBlock
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.netherStalkSeeds
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:<init>:121]: class net.minecraft.item.crafting.RecipeBookCloning
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:<init>:121]: class net.minecraft.item.crafting.RecipesMapCloning
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.emptyMap
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.paper
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:<init>:121]: class net.minecraft.item.crafting.RecipeTippedArrow
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stairsWood
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.wood
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stairsWoodBirch
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.wood
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stairsWoodSpruce
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.wood
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stairsWoodJungle
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.wood
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stairsWoodAcacia
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.wood
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stairsWoodDarkOak
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.wood
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stairsStone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stonebrick
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stairsBrick
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.brick
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stairsStoneBrickSmooth
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stonebricksmooth
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stairsNetherBrick
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.netherBrick
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stairsSandStone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.sandStone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stairsRedSandStone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.redSandStone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stairsQuartz
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.quartzBlock
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.carrotGolden
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.speckledMelon
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.end_crystal
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.glass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.ghastTear
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.boneBlock
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.dyePowder
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.thinGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.fence
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.stick
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.spruceFence
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.jungleFence
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.acaciaFence
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.darkOakFence
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.cobbleWall
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.cobbleWall
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stoneMoss
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.netherFence
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.fenceGate
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.birchFenceGate
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.spruceFenceGate
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.jungleFenceGate
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.acaciaFenceGate
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.darkOakFenceGate
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.doorSpruce
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.doorBirch
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.doorJungle
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.doorAcacia
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.doorDarkOak
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.glassBottle
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.boat.spruce
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.boat.birch
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.boat.jungle
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.boat.acacia
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.boat.dark_oak
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.flowerPot
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.brick
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.sandStone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.sand
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.redSandStone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.sand
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.sandStone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.redSandStone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stonebricksmooth
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.netherBrick
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.netherbrick
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.redNetherBrick
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.dirt
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.dirt
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.gravel
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.purpurBlock
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.chorusFruitPopped
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.endBricks
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.whiteStone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.magma
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.magmaCream
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:<init>:121]: class net.minecraft.item.crafting.RecipeRepairItem
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.snow
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.snowball
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.clay
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.clay
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.brick
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.quartzBlock
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.netherquartz
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.carrotOnAStick
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.fishingRod
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.leather
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.rabbitHide
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.cookie
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.dyePowder
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.snow
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.snow
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stoneSlab
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stoneSlab
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stoneSlab
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stoneSlab
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stoneSlab
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stoneSlab2
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.purpurSlab
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.woodSlab
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.woodSlab
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.woodSlab
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.woodSlab
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.woodSlab
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.woodSlab
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.bread
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.sandStone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.redSandStone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.quartzBlock
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.quartzBlock
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stonebricksmooth
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.purpurPillar
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.purpurSlab
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.woolCarpet
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.cloth
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.woolCarpet
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.cloth
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.woolCarpet
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.cloth
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.woolCarpet
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.cloth
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.woolCarpet
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.cloth
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.woolCarpet
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.cloth
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.woolCarpet
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.cloth
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.woolCarpet
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.cloth
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.woolCarpet
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.cloth
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.woolCarpet
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.cloth
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.woolCarpet
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.cloth
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.woolCarpet
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.cloth
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.woolCarpet
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.cloth
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.woolCarpet
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.cloth
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.woolCarpet
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.cloth
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.woolCarpet
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.cloth
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.litpumpkin
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.pumpkin
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.torch
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.minecartChest
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.chest
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.minecart
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.minecartFurnace
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.furnace
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.minecartTnt
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.tnt
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.minecartHopper
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.hopper
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.endRod
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.blazeRod
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.blockGold
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.ingotIron
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.blockIron
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.diamond
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.blockDiamond
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.emerald
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.blockEmerald
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.blockLapis
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.redstone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.blockRedstone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.blockCoal
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.hayBlock
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.slimeball
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.slime
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.seeds_melon
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.seeds_pumpkin
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.log
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.log
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.log
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.log
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.log
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.log
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.mushroomStew
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.mushroom
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.mushroom
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.fermentedSpiderEye
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.spiderEye
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.sugar
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stonebricksmooth
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.vine
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:<init>:121]: class net.minecraft.item.crafting.RecipesBanners$RecipeDuplicatePattern
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:<init>:121]: class net.minecraft.item.crafting.ShieldRecipes$Decoration
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.blazePowder
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.dyePowder
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.flower1
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.dyePowder
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.flower2
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.dyePowder
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.flower2
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.dyePowder
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.flower2
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.dyePowder
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.flower2
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.flower2
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.dyePowder
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.flower2
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.flower2
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.dyePowder
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.flower2
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.flower2
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.doublePlant
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.doublePlant
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.doublePlant
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.doublePlant
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.pickaxeWood
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.wood
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.pickaxeStone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stonebrick
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.pickaxeIron
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.pickaxeDiamond
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.pickaxeGold
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.bow
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.string
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.spectral_arrow
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.yellowDust
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.arrow
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.blockGold
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.blockIron
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.blockDiamond
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.blockEmerald
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.blockRedstone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.slime
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.chest
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.furnace
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.redstoneLight
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.lightgem
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.beacon
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.netherStar
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.prismarine
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.prismarineShard
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.prismarine
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.dyePowder
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.seaLantern
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.prismarineCrystals
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.chestplateCloth
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.leggingsCloth
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.chestplateIron
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.leggingsIron
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.chestplateDiamond
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.leggingsDiamond
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.chestplateGold
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.leggingsGold
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.clayHardenedStained
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.clayHardened
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.glass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.clayHardenedStained
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.clayHardenedStained
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.dyePowder
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.clayHardenedStained
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.clayHardenedStained
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.clayHardenedStained
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.dyePowder
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.clayHardenedStained
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.dyePowder
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.clayHardenedStained
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.clayHardenedStained
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.dyePowder
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.clayHardenedStained
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.clayHardenedStained
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.dyePowder
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.clayHardenedStained
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.clayHardenedStained
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.clayHardenedStained
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.clayHardenedStained
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.clayHardenedStained
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.banner
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.banner
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.banner
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.banner
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.banner
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.banner
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.banner
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.banner
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.banner
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.banner
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.banner
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.banner
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.banner
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.banner
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.banner
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.banner
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.shield
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.jukebox
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.leash
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.musicBlock
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.bookshelf
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.book
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.tnt
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.sulphur
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.sand
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.ladder
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.sign
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.cake
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.milk
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.egg
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.rail
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.goldenRail
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.activatorRail
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.notGate
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.detectorRail
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.pressurePlateStone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.cauldron
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.painting
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.cloth
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.frame
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.appleGold
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.apple
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.comparator
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.clock
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.compass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.dispenser
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.dropper
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.pistonBase
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.enchantmentTable
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.anvil
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.daylightDetector
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.woodSlab
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.hopper
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.armorStand
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stoneSlab
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.hatchetWood
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.hoeWood
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.hatchetStone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.hoeStone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.hatchetIron
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.hoeIron
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.hatchetDiamond
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.hoeDiamond
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.hatchetGold
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.hoeGold
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.fenceIron
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.helmetCloth
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.bootsCloth
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.helmetIron
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.bootsIron
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.helmetDiamond
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.bootsDiamond
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.helmetGold
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.bootsGold
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.thinStainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.thinStainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.thinStainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.thinStainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.thinStainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.thinStainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.thinStainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.thinStainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.thinStainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.thinStainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.thinStainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.thinStainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.thinStainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.thinStainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.thinStainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.thinStainedGlass
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.birchFence
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.doorOak
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.trapdoor
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.doorIron
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.brewingStand
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.boat.oak
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.bucket
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.diode
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.bed
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.shears
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.workbench
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.prismarine
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.lightgem
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.ironTrapdoor
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.shovelWood
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.shovelStone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.shovelIron
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.shovelDiamond
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.shovelGold
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.swordWood
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.swordStone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.swordIron
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.swordDiamond
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.swordGold
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.flint
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.feather
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.reeds
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stoneSlab
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.tripWireSource
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.torch
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.coal
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.lever
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.notGate
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.pressurePlateStone
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.pressurePlateWood
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.weightedPlate_heavy
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.weightedPlate_light
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.pistonStickyBase
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.pistonBase
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.button
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.button
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.pumpkinPie
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.pumpkin
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.writingBook
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.fireball
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.chestTrap
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: tile.stoneMoss
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.flintAndSteel
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.enderPearl
+[19:01:26] [Client thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.recipes.RecipeGraph:getNode:75]: item.bone
+[19:01:26] [Client thread/TRACE] [circuitsmod/circuitsmod]: Sent event FMLPostInitializationEvent to mod circuitsmod
+[19:01:26] [Client thread/DEBUG] [FML/]: Bar Step: PostInitialization - circuitsmod took 0.115s
+[19:01:26] [Client thread/DEBUG] [FML/]: Bar Finished: PostInitialization took 0.128s
+[19:01:26] [Client thread/TRACE] [mcp/mcp]: Sending event FMLLoadCompleteEvent to mod mcp
+[19:01:26] [Client thread/TRACE] [mcp/mcp]: Sent event FMLLoadCompleteEvent to mod mcp
+[19:01:26] [Client thread/DEBUG] [FML/]: Bar Step: LoadComplete - Minecraft Coder Pack took 0.001s
+[19:01:26] [Client thread/TRACE] [FML/FML]: Sending event FMLLoadCompleteEvent to mod FML
+[19:01:26] [Client thread/TRACE] [FML/FML]: Sent event FMLLoadCompleteEvent to mod FML
+[19:01:26] [Client thread/DEBUG] [FML/]: Bar Step: LoadComplete - Forge Mod Loader took 0.000s
+[19:01:26] [Client thread/TRACE] [Forge/Forge]: Sending event FMLLoadCompleteEvent to mod Forge
+[19:01:26] [Client thread/DEBUG] [FML/Forge]: Forge RecipeSorter Baking:
+[19:01:26] [Client thread/DEBUG] [FML/Forge]:   16: RecipeEntry("Before", UNKNOWN, )
+[19:01:26] [Client thread/DEBUG] [FML/Forge]:   15: RecipeEntry("minecraft:shaped", SHAPED, net.minecraft.item.crafting.ShapedRecipes) Before: minecraft:shapeless
+[19:01:26] [Client thread/DEBUG] [FML/Forge]:   14: RecipeEntry("forge:shapedore", SHAPED, net.minecraftforge.oredict.ShapedOreRecipe) Before: minecraft:shapeless After: minecraft:shaped
+[19:01:26] [Client thread/DEBUG] [FML/Forge]:   13: RecipeEntry("minecraft:mapextending", SHAPED, net.minecraft.item.crafting.RecipesMapExtending) Before: minecraft:shapeless After: minecraft:shaped
+[19:01:26] [Client thread/DEBUG] [FML/Forge]:   12: RecipeEntry("minecraft:shapeless", SHAPELESS, net.minecraft.item.crafting.ShapelessRecipes) After: minecraft:shaped
+[19:01:26] [Client thread/DEBUG] [FML/Forge]:   11: RecipeEntry("minecraft:repair", SHAPELESS, net.minecraft.item.crafting.RecipeRepairItem) After: minecraft:shapeless
+[19:01:26] [Client thread/DEBUG] [FML/Forge]:   10: RecipeEntry("minecraft:shield_deco", SHAPELESS, net.minecraft.item.crafting.ShieldRecipes$Decoration) After: minecraft:shapeless
+[19:01:26] [Client thread/DEBUG] [FML/Forge]:   9: RecipeEntry("minecraft:armordyes", SHAPELESS, net.minecraft.item.crafting.RecipesArmorDyes) After: minecraft:shapeless
+[19:01:26] [Client thread/DEBUG] [FML/Forge]:   8: RecipeEntry("minecraft:fireworks", SHAPELESS, net.minecraft.item.crafting.RecipeFireworks) After: minecraft:shapeless
+[19:01:26] [Client thread/DEBUG] [FML/Forge]:   7: RecipeEntry("minecraft:pattern_dupe", SHAPELESS, net.minecraft.item.crafting.RecipesBanners$RecipeDuplicatePattern) After: minecraft:shapeless
+[19:01:26] [Client thread/DEBUG] [FML/Forge]:   6: RecipeEntry("minecraft:tippedarrow", SHAPELESS, net.minecraft.item.crafting.RecipeTippedArrow) After: minecraft:shapeless
+[19:01:26] [Client thread/DEBUG] [FML/Forge]:   5: RecipeEntry("minecraft:mapcloning", SHAPELESS, net.minecraft.item.crafting.RecipesMapCloning) After: minecraft:shapeless
+[19:01:26] [Client thread/DEBUG] [FML/Forge]:   4: RecipeEntry("forge:shapelessore", SHAPELESS, net.minecraftforge.oredict.ShapelessOreRecipe) After: minecraft:shapeless
+[19:01:26] [Client thread/DEBUG] [FML/Forge]:   3: RecipeEntry("minecraft:pattern_add", SHAPELESS, net.minecraft.item.crafting.RecipesBanners$RecipeAddPattern) After: minecraft:shapeless
+[19:01:26] [Client thread/DEBUG] [FML/Forge]:   2: RecipeEntry("minecraft:bookcloning", SHAPELESS, net.minecraft.item.crafting.RecipeBookCloning) After: minecraft:shapeless
+[19:01:26] [Client thread/DEBUG] [FML/Forge]:   1: RecipeEntry("After", UNKNOWN, )
+[19:01:26] [Client thread/DEBUG] [FML/Forge]: Sorting recipes
+[19:01:26] [Client thread/TRACE] [Forge/Forge]: Sent event FMLLoadCompleteEvent to mod Forge
+[19:01:26] [Client thread/DEBUG] [FML/]: Bar Step: LoadComplete - Minecraft Forge took 0.021s
+[19:01:26] [Client thread/TRACE] [circuitsmod/circuitsmod]: Sending event FMLLoadCompleteEvent to mod circuitsmod
+[19:01:26] [Client thread/TRACE] [circuitsmod/circuitsmod]: Sent event FMLLoadCompleteEvent to mod circuitsmod
+[19:01:26] [Client thread/DEBUG] [FML/]: Bar Step: LoadComplete - circuitsmod took 0.001s
+[19:01:26] [Client thread/DEBUG] [FML/]: Bar Finished: LoadComplete took 0.023s
+[19:01:26] [Client thread/DEBUG] [FML/]: Freezing block and item id maps
+[19:01:27] [Client thread/INFO] [FML/]: Forge Mod Loader has successfully loaded 4 mods
+[19:01:27] [Client thread/DEBUG] [FML/]: Bar Step: Loading Resources - Default took 0.000s
+[19:01:27] [Client thread/DEBUG] [FML/]: Bar Step: Loading Resources - FMLFileResourcePack:Forge Mod Loader took 0.023s
+[19:01:27] [Client thread/DEBUG] [FML/]: Bar Step: Loading Resources - FMLFileResourcePack:Minecraft Forge took 0.022s
+[19:01:27] [Client thread/DEBUG] [FML/]: Bar Step: Loading Resources - FMLFileResourcePack:circuitsmod took 0.002s
+[19:01:27] [Client thread/DEBUG] [FML/]: Bar Step: Reloading Texture Manager - minecraft:textures/atlas/blocks.png took 0.000s
+[19:01:27] [Client thread/DEBUG] [FML/]: Bar Step: Reloading Texture Manager - minecraft:textures/font/ascii.png took 0.007s
+[19:01:27] [Client thread/DEBUG] [FML/]: Bar Step: Reloading Texture Manager - minecraft:dynamic/lightMap_1 took 0.000s
+[19:01:27] [Client thread/DEBUG] [FML/]: Bar Step: Reloading Texture Manager - minecraft:dynamic/logo_1 took 0.000s
+[19:01:27] [Client thread/DEBUG] [FML/]: Bar Step: Reloading Texture Manager - minecraft:textures/misc/forcefield.png took 0.003s
+[19:01:27] [Client thread/DEBUG] [FML/]: Bar Step: Reloading Texture Manager - minecraft:textures/font/ascii_sga.png took 0.090s
+[19:01:27] [Client thread/DEBUG] [FML/]: Bar Finished: Reloading Texture Manager took 0.100s
+[19:01:33] [Client thread/DEBUG] [FML/]: Bar Finished: ModelLoader: blocks took 2.556s
+[19:01:33] [Client thread/DEBUG] [FML/]: Item json isn't found for 'circuitsmod:circuitsmartmodel#normal', trying to load the variant from the blockstate json
+[19:01:34] [Client thread/DEBUG] [FML/]: Bar Finished: ModelLoader: items took 1.071s
+[19:01:34] [Client thread/INFO] [FML/]: Max texture size: 8192
+[19:01:35] [Client thread/DEBUG] [FML/]: Bar Finished: Texture stitching took 0.184s
+[19:01:35] [Client thread/DEBUG] [FML/]: Bar Finished: Texture stitching took 0.045s
+[19:01:35] [Client thread/DEBUG] [FML/]: Bar Finished: Texture creation took 0.049s
+[19:01:35] [Client thread/DEBUG] [FML/]: Bar Finished: Texture mipmap and upload took 0.549s
+[19:01:36] [Client thread/DEBUG] [FML/]: Bar Finished: ModelLoader: baking took 1.096s
+[19:01:36] [Client thread/DEBUG] [FML/]: Bar Finished: Reloading took 9.721s
+[19:01:36] [Client thread/DEBUG] [FML/]: Bar Step: Loading Resources - Reloading listeners took 9.722s
+[19:01:36] [Client thread/DEBUG] [FML/]: Bar Finished: Loading Resources took 9.768s
+[19:01:36] [Client thread/DEBUG] [Forge Mod Loader/]: Mod Forge Mod Loader is missing a pack.mcmeta file, substituting a dummy one
+[19:01:36] [Client thread/DEBUG] [Minecraft Forge/]: Mod Minecraft Forge is missing a pack.mcmeta file, substituting a dummy one
+[19:01:36] [Client thread/DEBUG] [circuitsmod/]: Mod circuitsmod is missing a pack.mcmeta file, substituting a dummy one
+[19:01:36] [Client thread/DEBUG] [FML/]: Bar Finished: Loading took 27.702s
+[19:02:37] [Server thread/TRACE] [mcp/mcp]: Sending event FMLServerAboutToStartEvent to mod mcp
+[19:02:37] [Server thread/TRACE] [mcp/mcp]: Sent event FMLServerAboutToStartEvent to mod mcp
+[19:02:37] [Server thread/DEBUG] [FML/]: Bar Step: ServerAboutToStart - Minecraft Coder Pack took 0.001s
+[19:02:37] [Server thread/TRACE] [FML/FML]: Sending event FMLServerAboutToStartEvent to mod FML
+[19:02:37] [Server thread/TRACE] [FML/FML]: Sent event FMLServerAboutToStartEvent to mod FML
+[19:02:37] [Server thread/DEBUG] [FML/]: Bar Step: ServerAboutToStart - Forge Mod Loader took 0.001s
+[19:02:37] [Server thread/TRACE] [Forge/Forge]: Sending event FMLServerAboutToStartEvent to mod Forge
+[19:02:37] [Server thread/TRACE] [Forge/Forge]: Sent event FMLServerAboutToStartEvent to mod Forge
+[19:02:37] [Server thread/DEBUG] [FML/]: Bar Step: ServerAboutToStart - Minecraft Forge took 0.000s
+[19:02:37] [Server thread/TRACE] [circuitsmod/circuitsmod]: Sending event FMLServerAboutToStartEvent to mod circuitsmod
+[19:02:37] [Server thread/TRACE] [circuitsmod/circuitsmod]: Sent event FMLServerAboutToStartEvent to mod circuitsmod
+[19:02:37] [Server thread/DEBUG] [FML/]: Bar Step: ServerAboutToStart - circuitsmod took 0.001s
+[19:02:37] [Server thread/DEBUG] [FML/]: Bar Finished: ServerAboutToStart took 0.002s
+[19:02:37] [Server thread/INFO] [FML/]: Injecting existing block and item data into this server instance
+[19:02:37] [Server thread/TRACE] [mcp/mcp]: Sending event FMLModIdMappingEvent to mod mcp
+[19:02:37] [Server thread/TRACE] [mcp/mcp]: Sent event FMLModIdMappingEvent to mod mcp
+[19:02:37] [Server thread/DEBUG] [FML/]: Bar Step: ModIdMapping - Minecraft Coder Pack took 0.001s
+[19:02:37] [Server thread/TRACE] [FML/FML]: Sending event FMLModIdMappingEvent to mod FML
+[19:02:37] [Server thread/TRACE] [FML/FML]: Sent event FMLModIdMappingEvent to mod FML
+[19:02:37] [Server thread/DEBUG] [FML/]: Bar Step: ModIdMapping - Forge Mod Loader took 0.000s
+[19:02:37] [Server thread/TRACE] [Forge/Forge]: Sending event FMLModIdMappingEvent to mod Forge
+[19:02:37] [Server thread/TRACE] [Forge/Forge]: Sent event FMLModIdMappingEvent to mod Forge
+[19:02:37] [Server thread/DEBUG] [FML/]: Bar Step: ModIdMapping - Minecraft Forge took 0.031s
+[19:02:37] [Server thread/TRACE] [circuitsmod/circuitsmod]: Sending event FMLModIdMappingEvent to mod circuitsmod
+[19:02:37] [Server thread/TRACE] [circuitsmod/circuitsmod]: Sent event FMLModIdMappingEvent to mod circuitsmod
+[19:02:37] [Server thread/DEBUG] [FML/]: Bar Step: ModIdMapping - circuitsmod took 0.000s
+[19:02:37] [Server thread/DEBUG] [FML/]: Bar Finished: ModIdMapping took 0.032s
+[19:02:37] [Server thread/INFO] [FML/]: Applying holder lookups
+[19:02:37] [Server thread/INFO] [FML/]: Holder lookups applied
+[19:02:37] [Server thread/DEBUG] [FML/]: Loading persistent fluid defaults from world
+[19:02:37] [Server thread/DEBUG] [FML/]: The fluid minecraft:lava has been selected as the default fluid for lava
+[19:02:37] [Server thread/DEBUG] [FML/]: The fluid minecraft:water has been selected as the default fluid for water
+[19:02:38] [Server thread/INFO] [FML/]: Loading dimension 0 (New World) (net.minecraft.server.integrated.IntegratedServer@4e98c74c)
+[19:02:38] [Server thread/INFO] [FML/]: Loading dimension 5 (New World) (net.minecraft.server.integrated.IntegratedServer@4e98c74c)
+[19:02:38] [Server thread/INFO] [FML/]: Loading dimension 1 (New World) (net.minecraft.server.integrated.IntegratedServer@4e98c74c)
+[19:02:38] [Server thread/INFO] [FML/]: Loading dimension -1 (New World) (net.minecraft.server.integrated.IntegratedServer@4e98c74c)
+[19:02:41] [Server thread/TRACE] [mcp/mcp]: Sending event FMLServerStartingEvent to mod mcp
+[19:02:41] [Server thread/TRACE] [mcp/mcp]: Sent event FMLServerStartingEvent to mod mcp
+[19:02:41] [Server thread/DEBUG] [FML/]: Bar Step: ServerStarting - Minecraft Coder Pack took 0.000s
+[19:02:41] [Server thread/TRACE] [FML/FML]: Sending event FMLServerStartingEvent to mod FML
+[19:02:41] [Server thread/TRACE] [FML/FML]: Sent event FMLServerStartingEvent to mod FML
+[19:02:41] [Server thread/DEBUG] [FML/]: Bar Step: ServerStarting - Forge Mod Loader took 0.000s
+[19:02:41] [Server thread/TRACE] [Forge/Forge]: Sending event FMLServerStartingEvent to mod Forge
+[19:02:41] [Server thread/TRACE] [Forge/Forge]: Sent event FMLServerStartingEvent to mod Forge
+[19:02:41] [Server thread/DEBUG] [FML/]: Bar Step: ServerStarting - Minecraft Forge took 0.003s
+[19:02:41] [Server thread/TRACE] [circuitsmod/circuitsmod]: Sending event FMLServerStartingEvent to mod circuitsmod
+[19:02:41] [Server thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.common.Log:userError:16]: Circuits User ERROR: Cannot find the class Tests in .\config\circuitsMod\circuits\ABBA\Tests.class
+[19:02:41] [Server thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.common.Log:userError:16]: Circuits User ERROR: Cannot find the class Tests in .\config\circuitsMod\circuits\AnalogToDigital\Tests.class
+[19:02:41] [Server thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.common.Log:userError:16]: Circuits User ERROR: Cannot find the class Tests in .\config\circuitsMod\circuits\And\Tests.class
+[19:02:41] [Server thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.common.Log:userError:16]: Circuits User ERROR: Cannot find the class Tests in .\config\circuitsMod\circuits\Clock\Tests.class
+[19:02:41] [Server thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.common.Log:userError:16]: Circuits User ERROR: Cannot find the class Tests in .\config\circuitsMod\circuits\Combiner\Tests.class
+[19:02:41] [Server thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.common.Log:userError:16]: Circuits User ERROR: Cannot find the class Tests in .\config\circuitsMod\circuits\Demultiplexer\Tests.class
+[19:02:41] [Server thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.common.Log:userError:16]: Circuits User ERROR: Cannot find the class Tests in .\config\circuitsMod\circuits\DigitalToAnalog\Tests.class
+[19:02:41] [Server thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.common.Log:userError:16]: Circuits User ERROR: Cannot find the class Tests in .\config\circuitsMod\circuits\Dummy\Tests.class
+[19:02:41] [Server thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.common.Log:userError:16]: Circuits User ERROR: Cannot find the class Tests in .\config\circuitsMod\circuits\Emitter\Tests.class
+[19:02:41] [Server thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.common.Log:userError:16]: Circuits User ERROR: Cannot find the class Tests in .\config\circuitsMod\circuits\FullAdder\Tests.class
+[19:02:41] [Server thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.common.Log:userError:16]: Circuits User ERROR: Cannot find the class Tests in .\config\circuitsMod\circuits\HalfAdder\Tests.class
+[19:02:41] [Server thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.common.Log:userError:16]: Circuits User ERROR: Cannot find the class Tests in .\config\circuitsMod\circuits\Implies\Tests.class
+[19:02:41] [Server thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.common.Log:userError:16]: Circuits User ERROR: Cannot find the class Tests in .\config\circuitsMod\circuits\Input\Tests.class
+[19:02:41] [Server thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.common.Log:userError:16]: Circuits User ERROR: Cannot find the class Tests in .\config\circuitsMod\circuits\Inverter\Tests.class
+[19:02:41] [Server thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.common.Log:userError:16]: Circuits User ERROR: Cannot find the class Tests in .\config\circuitsMod\circuits\Multiplexer\Tests.class
+[19:02:41] [Server thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.common.Log:userError:16]: Circuits User ERROR: Cannot find the class Tests in .\config\circuitsMod\circuits\Nand\Tests.class
+[19:02:41] [Server thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.common.Log:userError:16]: Circuits User ERROR: Cannot find the class Tests in .\config\circuitsMod\circuits\NBitDLatch\Tests.class
+[19:02:41] [Server thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.common.Log:userError:16]: Circuits User ERROR: Cannot find the class Tests in .\config\circuitsMod\circuits\Nor\Tests.class
+[19:02:41] [Server thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.common.Log:userError:16]: Circuits User ERROR: Cannot find the class Tests in .\config\circuitsMod\circuits\Or\Tests.class
+[19:02:41] [Server thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.common.Log:userError:16]: Circuits User ERROR: Cannot find the class Tests in .\config\circuitsMod\circuits\Output\Tests.class
+[19:02:41] [Server thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.common.Log:userError:16]: Circuits User ERROR: Cannot find the class Tests in .\config\circuitsMod\circuits\PulseLengthener\Tests.class
+[19:02:41] [Server thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.common.Log:userError:16]: Circuits User ERROR: Cannot find the class Tests in .\config\circuitsMod\circuits\RisingEdgeDetector\Tests.class
+[19:02:41] [Server thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.common.Log:userError:16]: Circuits User ERROR: Cannot find the class Tests in .\config\circuitsMod\circuits\Splitter\Tests.class
+[19:02:41] [Server thread/INFO] [STDOUT/circuitsmod]: [com.circuits.circuitsmod.common.Log:userError:16]: Circuits User ERROR: Cannot find the class Tests in .\config\circuitsMod\circuits\Xor\Tests.class
+[19:02:41] [Server thread/TRACE] [circuitsmod/circuitsmod]: Sent event FMLServerStartingEvent to mod circuitsmod
+[19:02:41] [Server thread/DEBUG] [FML/]: Bar Step: ServerStarting - circuitsmod took 0.360s
+[19:02:41] [Server thread/DEBUG] [FML/]: Bar Finished: ServerStarting took 0.364s
+[19:02:41] [Server thread/TRACE] [mcp/mcp]: Sending event FMLServerStartedEvent to mod mcp
+[19:02:41] [Server thread/TRACE] [mcp/mcp]: Sent event FMLServerStartedEvent to mod mcp
+[19:02:41] [Server thread/DEBUG] [FML/]: Bar Step: ServerStarted - Minecraft Coder Pack took 0.000s
+[19:02:41] [Server thread/TRACE] [FML/FML]: Sending event FMLServerStartedEvent to mod FML
+[19:02:41] [Server thread/TRACE] [FML/FML]: Sent event FMLServerStartedEvent to mod FML
+[19:02:41] [Server thread/DEBUG] [FML/]: Bar Step: ServerStarted - Forge Mod Loader took 0.000s
+[19:02:41] [Server thread/TRACE] [Forge/Forge]: Sending event FMLServerStartedEvent to mod Forge
+[19:02:41] [Server thread/TRACE] [Forge/Forge]: Sent event FMLServerStartedEvent to mod Forge
+[19:02:41] [Server thread/DEBUG] [FML/]: Bar Step: ServerStarted - Minecraft Forge took 0.001s
+[19:02:41] [Server thread/TRACE] [circuitsmod/circuitsmod]: Sending event FMLServerStartedEvent to mod circuitsmod
+[19:02:41] [Server thread/TRACE] [circuitsmod/circuitsmod]: Sent event FMLServerStartedEvent to mod circuitsmod
+[19:02:41] [Server thread/DEBUG] [FML/]: Bar Step: ServerStarted - circuitsmod took 0.000s
+[19:02:41] [Server thread/DEBUG] [FML/]: Bar Finished: ServerStarted took 0.001s
+[19:02:43] [Netty Local Client IO #0/TRACE] [FML/]: Handshake channel activating
+[19:02:43] [Netty Local Client IO #0/DEBUG] [FML/]: FMLHandshakeClientState: null->FMLHandshakeClientState$1:START
+[19:02:43] [Netty Local Client IO #0/DEBUG] [FML/]:   Next: HELLO
+[19:02:43] [Netty Server IO #1/TRACE] [FML/]: Handshake channel activating
+[19:02:43] [Netty Server IO #1/DEBUG] [FML/]: FMLHandshakeServerState: null->FMLHandshakeServerState$1:START
+[19:02:43] [Netty Server IO #1/DEBUG] [FML/]:   Next: HELLO
+[19:02:43] [Netty Local Client IO #0/DEBUG] [FML/]: Server FML protocol version 2, 4 byte dimension received 5
+[19:02:43] [Netty Local Client IO #0/DEBUG] [FML/]: FMLHandshakeClientState: $ServerHello->FMLHandshakeClientState$2:HELLO
+[19:02:43] [Netty Local Client IO #0/INFO] [FML/]: Server protocol version 2
+[19:02:43] [Netty Local Client IO #0/DEBUG] [FML/]: Received override dimension 5
+[19:02:43] [Netty Server IO #1/DEBUG] [FML/]: FMLHandshakeServerState: $ClientHello->FMLHandshakeServerState$2:HELLO
+[19:02:43] [Netty Server IO #1/INFO] [FML/]: Client protocol version 2
+[19:02:43] [Netty Server IO #1/DEBUG] [FML/]:   Next: HELLO
+[19:02:43] [Netty Local Client IO #0/DEBUG] [FML/]:   Next: WAITINGSERVERDATA
+[19:02:43] [Netty Server IO #1/DEBUG] [FML/]: FMLHandshakeServerState: $ModList:4 mods->FMLHandshakeServerState$2:HELLO
+[19:02:43] [Netty Server IO #1/INFO] [FML/]: Client attempting to join with 4 mods : FML@8.0.99.99,circuitsmod@1.0,Forge@12.18.1.2094,mcp@9.19
+[19:02:43] [Netty Server IO #1/DEBUG] [FML/]:   Next: WAITINGCACK
+[19:02:43] [Netty Local Client IO #0/DEBUG] [FML/]: FMLHandshakeClientState: $ModList:4 mods->FMLHandshakeClientState$3:WAITINGSERVERDATA
+[19:02:43] [Netty Server IO #1/DEBUG] [FML/]: FMLHandshakeServerState: $HandshakeAck:{2}->FMLHandshakeServerState$3:WAITINGCACK
+[19:02:43] [Netty Local Client IO #0/DEBUG] [FML/]:   Next: PENDINGCOMPLETE
+[19:02:43] [Netty Local Client IO #0/DEBUG] [FML/]: FMLHandshakeClientState: $HandshakeAck:{2}->FMLHandshakeClientState$5:PENDINGCOMPLETE
+[19:02:43] [Netty Local Client IO #0/DEBUG] [FML/]:   Next: COMPLETE
+[19:02:43] [Netty Server IO #1/DEBUG] [FML/]:   Next: COMPLETE
+[19:02:43] [Netty Server IO #1/DEBUG] [FML/]: FMLHandshakeServerState: $HandshakeAck:{4}->FMLHandshakeServerState$4:COMPLETE
+[19:02:43] [Netty Local Client IO #0/DEBUG] [FML/]: The fluid minecraft:lava has been selected as the default fluid for lava
+[19:02:43] [Netty Local Client IO #0/DEBUG] [FML/]: The fluid minecraft:water has been selected as the default fluid for water
+[19:02:43] [Netty Server IO #1/DEBUG] [FML/]:   Next: DONE
+[19:02:43] [Netty Local Client IO #0/DEBUG] [FML/]: FMLHandshakeClientState: $HandshakeAck:{3}->FMLHandshakeClientState$6:COMPLETE
+[19:02:43] [Netty Local Client IO #0/DEBUG] [FML/]:   Next: DONE
+[19:02:43] [Netty Server IO #1/DEBUG] [FML/]: FMLHandshakeServerState: $HandshakeAck:{5}->FMLHandshakeServerState$5:DONE
+[19:02:43] [Netty Server IO #1/DEBUG] [FML/]:   Next: DONE
+[19:02:43] [Netty Local Client IO #0/INFO] [FML/]: [Netty Local Client IO #0] Client side modded connection established
+[19:02:43] [Server thread/INFO] [FML/]: [Server thread] Server side modded connection established
+[19:02:43] [Client thread/DEBUG] [FML/]: Overriding dimension: using 5
+[19:02:45] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:02:46] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:04:12] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:25] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:26] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:26] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:26] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:26] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:26] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:26] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:26] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:26] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:26] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:26] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:26] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:26] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:26] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:26] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:26] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:26] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:26] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:26] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:26] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:26] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:26] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:26] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:26] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:26] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:26] [Client thread/INFO] [STDOUT/]: [com.circuits.circuitsmod.common.Log:internalError:11]: Circuits Internal ERROR: Circuit TE Item Stack has bad metadata.
+[19:04:57] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:05:42] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:06:27] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:07:12] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:07:57] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:09:13] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:09:41] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:13:59] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:15:10] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:15:55] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:16:23] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:16:33] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:16:48] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:17:31] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:17:34] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:17:36] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:18:21] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:18:49] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:19:15] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:19:57] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:20:05] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:20:50] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:21:35] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:22:20] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:23:05] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:23:50] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:24:02] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:24:42] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:25:27] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:26:12] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:26:57] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:27:02] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:31:10] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:31:50] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:32:31] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:33:52] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:34:37] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:35:22] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:36:07] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:36:10] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:36:12] [Server thread/TRACE] [mcp/mcp]: Sending event FMLServerStoppingEvent to mod mcp
+[19:36:12] [Server thread/TRACE] [mcp/mcp]: Sent event FMLServerStoppingEvent to mod mcp
+[19:36:12] [Server thread/DEBUG] [FML/]: Bar Step: ServerStopping - Minecraft Coder Pack took 0.000s
+[19:36:12] [Server thread/TRACE] [FML/FML]: Sending event FMLServerStoppingEvent to mod FML
+[19:36:12] [Server thread/TRACE] [FML/FML]: Sent event FMLServerStoppingEvent to mod FML
+[19:36:12] [Server thread/DEBUG] [FML/]: Bar Step: ServerStopping - Forge Mod Loader took 0.000s
+[19:36:12] [Server thread/TRACE] [Forge/Forge]: Sending event FMLServerStoppingEvent to mod Forge
+[19:36:12] [Server thread/TRACE] [Forge/Forge]: Sent event FMLServerStoppingEvent to mod Forge
+[19:36:12] [Server thread/DEBUG] [FML/]: Bar Step: ServerStopping - Minecraft Forge took 0.000s
+[19:36:12] [Server thread/TRACE] [circuitsmod/circuitsmod]: Sending event FMLServerStoppingEvent to mod circuitsmod
+[19:36:12] [Server thread/TRACE] [circuitsmod/circuitsmod]: Sent event FMLServerStoppingEvent to mod circuitsmod
+[19:36:12] [Server thread/DEBUG] [FML/]: Bar Step: ServerStopping - circuitsmod took 0.000s
+[19:36:12] [Server thread/DEBUG] [FML/]: Bar Finished: ServerStopping took 0.001s
+[19:36:12] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:36:12] [Server thread/INFO] [FML/]: Unloading dimension 0
+[19:36:12] [Server thread/INFO] [FML/]: Unloading dimension -1
+[19:36:12] [Server thread/INFO] [FML/]: Unloading dimension 1
+[19:36:12] [Server thread/INFO] [FML/]: Unloading dimension 5
+[19:36:12] [Server thread/DEBUG] [FML/]: Reverting to frozen data state.
+[19:36:12] [Server thread/TRACE] [mcp/mcp]: Sending event FMLModIdMappingEvent to mod mcp
+[19:36:12] [Server thread/TRACE] [mcp/mcp]: Sent event FMLModIdMappingEvent to mod mcp
+[19:36:12] [Server thread/DEBUG] [FML/]: Bar Step: ModIdMapping - Minecraft Coder Pack took 0.000s
+[19:36:12] [Server thread/TRACE] [FML/FML]: Sending event FMLModIdMappingEvent to mod FML
+[19:36:12] [Server thread/TRACE] [FML/FML]: Sent event FMLModIdMappingEvent to mod FML
+[19:36:12] [Server thread/DEBUG] [FML/]: Bar Step: ModIdMapping - Forge Mod Loader took 0.000s
+[19:36:12] [Server thread/TRACE] [Forge/Forge]: Sending event FMLModIdMappingEvent to mod Forge
+[19:36:13] [Server thread/TRACE] [Forge/Forge]: Sent event FMLModIdMappingEvent to mod Forge
+[19:36:13] [Server thread/DEBUG] [FML/]: Bar Step: ModIdMapping - Minecraft Forge took 1.264s
+[19:36:13] [Server thread/TRACE] [circuitsmod/circuitsmod]: Sending event FMLModIdMappingEvent to mod circuitsmod
+[19:36:13] [Server thread/TRACE] [circuitsmod/circuitsmod]: Sent event FMLModIdMappingEvent to mod circuitsmod
+[19:36:13] [Server thread/DEBUG] [FML/]: Bar Step: ModIdMapping - circuitsmod took 0.001s
+[19:36:13] [Server thread/DEBUG] [FML/]: Bar Finished: ModIdMapping took 1.265s
+[19:36:13] [Server thread/INFO] [FML/]: Applying holder lookups
+[19:36:13] [Server thread/INFO] [FML/]: Holder lookups applied
+[19:36:13] [Server thread/DEBUG] [FML/]: Frozen state restored.
+[19:36:13] [Server thread/TRACE] [mcp/mcp]: Sending event FMLServerStoppedEvent to mod mcp
+[19:36:13] [Server thread/TRACE] [mcp/mcp]: Sent event FMLServerStoppedEvent to mod mcp
+[19:36:13] [Server thread/DEBUG] [FML/]: Bar Step: ServerStopped - Minecraft Coder Pack took 0.000s
+[19:36:13] [Server thread/TRACE] [FML/FML]: Sending event FMLServerStoppedEvent to mod FML
+[19:36:13] [Server thread/TRACE] [FML/FML]: Sent event FMLServerStoppedEvent to mod FML
+[19:36:13] [Server thread/DEBUG] [FML/]: Bar Step: ServerStopped - Forge Mod Loader took 0.000s
+[19:36:13] [Server thread/TRACE] [Forge/Forge]: Sending event FMLServerStoppedEvent to mod Forge
+[19:36:13] [Server thread/TRACE] [Forge/Forge]: Sent event FMLServerStoppedEvent to mod Forge
+[19:36:13] [Server thread/DEBUG] [FML/]: Bar Step: ServerStopped - Minecraft Forge took 0.000s
+[19:36:13] [Server thread/TRACE] [circuitsmod/circuitsmod]: Sending event FMLServerStoppedEvent to mod circuitsmod
+[19:36:13] [Server thread/TRACE] [circuitsmod/circuitsmod]: Sent event FMLServerStoppedEvent to mod circuitsmod
+[19:36:13] [Server thread/DEBUG] [FML/]: Bar Step: ServerStopped - circuitsmod took 0.000s
+[19:36:13] [Server thread/DEBUG] [FML/]: Bar Finished: ServerStopped took 0.001s
+[19:36:18] [Server thread/TRACE] [mcp/mcp]: Sending event FMLServerAboutToStartEvent to mod mcp
+[19:36:18] [Server thread/TRACE] [mcp/mcp]: Sent event FMLServerAboutToStartEvent to mod mcp
+[19:36:18] [Server thread/DEBUG] [FML/]: Bar Step: ServerAboutToStart - Minecraft Coder Pack took 0.000s
+[19:36:18] [Server thread/TRACE] [FML/FML]: Sending event FMLServerAboutToStartEvent to mod FML
+[19:36:18] [Server thread/TRACE] [FML/FML]: Sent event FMLServerAboutToStartEvent to mod FML
+[19:36:18] [Server thread/DEBUG] [FML/]: Bar Step: ServerAboutToStart - Forge Mod Loader took 0.000s
+[19:36:18] [Server thread/TRACE] [Forge/Forge]: Sending event FMLServerAboutToStartEvent to mod Forge
+[19:36:18] [Server thread/TRACE] [Forge/Forge]: Sent event FMLServerAboutToStartEvent to mod Forge
+[19:36:18] [Server thread/DEBUG] [FML/]: Bar Step: ServerAboutToStart - Minecraft Forge took 0.000s
+[19:36:18] [Server thread/TRACE] [circuitsmod/circuitsmod]: Sending event FMLServerAboutToStartEvent to mod circuitsmod
+[19:36:18] [Server thread/TRACE] [circuitsmod/circuitsmod]: Sent event FMLServerAboutToStartEvent to mod circuitsmod
+[19:36:18] [Server thread/DEBUG] [FML/]: Bar Step: ServerAboutToStart - circuitsmod took 0.000s
+[19:36:18] [Server thread/DEBUG] [FML/]: Bar Finished: ServerAboutToStart took 0.001s
+[19:36:18] [Server thread/INFO] [FML/]: Injecting existing block and item data into this server instance
+[19:36:18] [Server thread/TRACE] [mcp/mcp]: Sending event FMLModIdMappingEvent to mod mcp
+[19:36:18] [Server thread/TRACE] [mcp/mcp]: Sent event FMLModIdMappingEvent to mod mcp
+[19:36:18] [Server thread/DEBUG] [FML/]: Bar Step: ModIdMapping - Minecraft Coder Pack took 0.000s
+[19:36:18] [Server thread/TRACE] [FML/FML]: Sending event FMLModIdMappingEvent to mod FML
+[19:36:18] [Server thread/TRACE] [FML/FML]: Sent event FMLModIdMappingEvent to mod FML
+[19:36:18] [Server thread/DEBUG] [FML/]: Bar Step: ModIdMapping - Forge Mod Loader took 0.000s
+[19:36:18] [Server thread/TRACE] [Forge/Forge]: Sending event FMLModIdMappingEvent to mod Forge
+[19:36:18] [Server thread/TRACE] [Forge/Forge]: Sent event FMLModIdMappingEvent to mod Forge
+[19:36:18] [Server thread/DEBUG] [FML/]: Bar Step: ModIdMapping - Minecraft Forge took 0.050s
+[19:36:18] [Server thread/TRACE] [circuitsmod/circuitsmod]: Sending event FMLModIdMappingEvent to mod circuitsmod
+[19:36:18] [Server thread/TRACE] [circuitsmod/circuitsmod]: Sent event FMLModIdMappingEvent to mod circuitsmod
+[19:36:18] [Server thread/DEBUG] [FML/]: Bar Step: ModIdMapping - circuitsmod took 0.001s
+[19:36:18] [Server thread/DEBUG] [FML/]: Bar Finished: ModIdMapping took 0.052s
+[19:36:18] [Server thread/INFO] [FML/]: Applying holder lookups
+[19:36:18] [Server thread/INFO] [FML/]: Holder lookups applied
+[19:36:18] [Server thread/DEBUG] [FML/]: Loading persistent fluid defaults from world
+[19:36:18] [Server thread/DEBUG] [FML/]: The fluid minecraft:lava has been selected as the default fluid for lava
+[19:36:18] [Server thread/DEBUG] [FML/]: The fluid minecraft:water has been selected as the default fluid for water
+[19:36:18] [Server thread/INFO] [FML/]: Loading dimension 0 (New World) (net.minecraft.server.integrated.IntegratedServer@522b0201)
+[19:36:18] [Server thread/INFO] [FML/]: Loading dimension 5 (New World) (net.minecraft.server.integrated.IntegratedServer@522b0201)
+[19:36:18] [Server thread/INFO] [FML/]: Loading dimension 1 (New World) (net.minecraft.server.integrated.IntegratedServer@522b0201)
+[19:36:18] [Server thread/INFO] [FML/]: Loading dimension -1 (New World) (net.minecraft.server.integrated.IntegratedServer@522b0201)
+[19:36:20] [Server thread/TRACE] [mcp/mcp]: Sending event FMLServerStartingEvent to mod mcp
+[19:36:20] [Server thread/TRACE] [mcp/mcp]: Sent event FMLServerStartingEvent to mod mcp
+[19:36:20] [Server thread/DEBUG] [FML/]: Bar Step: ServerStarting - Minecraft Coder Pack took 0.000s
+[19:36:20] [Server thread/TRACE] [FML/FML]: Sending event FMLServerStartingEvent to mod FML
+[19:36:20] [Server thread/TRACE] [FML/FML]: Sent event FMLServerStartingEvent to mod FML
+[19:36:20] [Server thread/DEBUG] [FML/]: Bar Step: ServerStarting - Forge Mod Loader took 0.000s
+[19:36:20] [Server thread/TRACE] [Forge/Forge]: Sending event FMLServerStartingEvent to mod Forge
+[19:36:20] [Server thread/TRACE] [Forge/Forge]: Sent event FMLServerStartingEvent to mod Forge
+[19:36:20] [Server thread/DEBUG] [FML/]: Bar Step: ServerStarting - Minecraft Forge took 0.000s
+[19:36:20] [Server thread/TRACE] [circuitsmod/circuitsmod]: Sending event FMLServerStartingEvent to mod circuitsmod
+[19:36:20] [Server thread/TRACE] [circuitsmod/circuitsmod]: Sent event FMLServerStartingEvent to mod circuitsmod
+[19:36:20] [Server thread/DEBUG] [FML/]: Bar Step: ServerStarting - circuitsmod took 0.001s
+[19:36:20] [Server thread/DEBUG] [FML/]: Bar Finished: ServerStarting took 0.001s
+[19:36:20] [Server thread/TRACE] [mcp/mcp]: Sending event FMLServerStartedEvent to mod mcp
+[19:36:20] [Server thread/TRACE] [mcp/mcp]: Sent event FMLServerStartedEvent to mod mcp
+[19:36:20] [Server thread/DEBUG] [FML/]: Bar Step: ServerStarted - Minecraft Coder Pack took 0.000s
+[19:36:20] [Server thread/TRACE] [FML/FML]: Sending event FMLServerStartedEvent to mod FML
+[19:36:20] [Server thread/TRACE] [FML/FML]: Sent event FMLServerStartedEvent to mod FML
+[19:36:20] [Server thread/DEBUG] [FML/]: Bar Step: ServerStarted - Forge Mod Loader took 0.000s
+[19:36:20] [Server thread/TRACE] [Forge/Forge]: Sending event FMLServerStartedEvent to mod Forge
+[19:36:20] [Server thread/TRACE] [Forge/Forge]: Sent event FMLServerStartedEvent to mod Forge
+[19:36:20] [Server thread/DEBUG] [FML/]: Bar Step: ServerStarted - Minecraft Forge took 0.000s
+[19:36:20] [Server thread/TRACE] [circuitsmod/circuitsmod]: Sending event FMLServerStartedEvent to mod circuitsmod
+[19:36:20] [Server thread/TRACE] [circuitsmod/circuitsmod]: Sent event FMLServerStartedEvent to mod circuitsmod
+[19:36:20] [Server thread/DEBUG] [FML/]: Bar Step: ServerStarted - circuitsmod took 0.000s
+[19:36:20] [Server thread/DEBUG] [FML/]: Bar Finished: ServerStarted took 0.001s
+[19:36:20] [Netty Local Client IO #1/TRACE] [FML/]: Handshake channel activating
+[19:36:20] [Netty Local Client IO #1/DEBUG] [FML/]: FMLHandshakeClientState: null->FMLHandshakeClientState$1:START
+[19:36:20] [Netty Local Client IO #1/DEBUG] [FML/]:   Next: HELLO
+[19:36:20] [Netty Server IO #3/TRACE] [FML/]: Handshake channel activating
+[19:36:20] [Netty Server IO #3/DEBUG] [FML/]: FMLHandshakeServerState: null->FMLHandshakeServerState$1:START
+[19:36:20] [Netty Server IO #3/DEBUG] [FML/]:   Next: HELLO
+[19:36:20] [Netty Local Client IO #1/DEBUG] [FML/]: Server FML protocol version 2, 4 byte dimension received 5
+[19:36:20] [Netty Local Client IO #1/DEBUG] [FML/]: FMLHandshakeClientState: $ServerHello->FMLHandshakeClientState$2:HELLO
+[19:36:20] [Netty Local Client IO #1/INFO] [FML/]: Server protocol version 2
+[19:36:20] [Netty Local Client IO #1/DEBUG] [FML/]: Received override dimension 5
+[19:36:20] [Netty Local Client IO #1/DEBUG] [FML/]:   Next: WAITINGSERVERDATA
+[19:36:20] [Netty Server IO #3/DEBUG] [FML/]: FMLHandshakeServerState: $ClientHello->FMLHandshakeServerState$2:HELLO
+[19:36:20] [Netty Server IO #3/INFO] [FML/]: Client protocol version 2
+[19:36:20] [Netty Server IO #3/DEBUG] [FML/]:   Next: HELLO
+[19:36:20] [Netty Server IO #3/DEBUG] [FML/]: FMLHandshakeServerState: $ModList:4 mods->FMLHandshakeServerState$2:HELLO
+[19:36:20] [Netty Server IO #3/INFO] [FML/]: Client attempting to join with 4 mods : FML@8.0.99.99,circuitsmod@1.0,Forge@12.18.1.2094,mcp@9.19
+[19:36:20] [Netty Server IO #3/DEBUG] [FML/]:   Next: WAITINGCACK
+[19:36:20] [Netty Local Client IO #1/DEBUG] [FML/]: FMLHandshakeClientState: $ModList:4 mods->FMLHandshakeClientState$3:WAITINGSERVERDATA
+[19:36:20] [Netty Local Client IO #1/DEBUG] [FML/]:   Next: PENDINGCOMPLETE
+[19:36:20] [Netty Server IO #3/DEBUG] [FML/]: FMLHandshakeServerState: $HandshakeAck:{2}->FMLHandshakeServerState$3:WAITINGCACK
+[19:36:20] [Netty Server IO #3/DEBUG] [FML/]:   Next: COMPLETE
+[19:36:20] [Netty Local Client IO #1/DEBUG] [FML/]: FMLHandshakeClientState: $HandshakeAck:{2}->FMLHandshakeClientState$5:PENDINGCOMPLETE
+[19:36:20] [Netty Local Client IO #1/DEBUG] [FML/]:   Next: COMPLETE
+[19:36:20] [Netty Local Client IO #1/DEBUG] [FML/]: The fluid minecraft:lava has been selected as the default fluid for lava
+[19:36:20] [Netty Local Client IO #1/DEBUG] [FML/]: The fluid minecraft:water has been selected as the default fluid for water
+[19:36:20] [Netty Server IO #3/DEBUG] [FML/]: FMLHandshakeServerState: $HandshakeAck:{4}->FMLHandshakeServerState$4:COMPLETE
+[19:36:20] [Netty Server IO #3/DEBUG] [FML/]:   Next: DONE
+[19:36:20] [Netty Local Client IO #1/DEBUG] [FML/]: FMLHandshakeClientState: $HandshakeAck:{3}->FMLHandshakeClientState$6:COMPLETE
+[19:36:20] [Netty Local Client IO #1/DEBUG] [FML/]:   Next: DONE
+[19:36:20] [Netty Local Client IO #1/INFO] [FML/]: [Netty Local Client IO #1] Client side modded connection established
+[19:36:20] [Netty Server IO #3/DEBUG] [FML/]: FMLHandshakeServerState: $HandshakeAck:{5}->FMLHandshakeServerState$5:DONE
+[19:36:20] [Netty Server IO #3/DEBUG] [FML/]:   Next: DONE
+[19:36:20] [Server thread/INFO] [FML/]: [Server thread] Server side modded connection established
+[19:36:20] [Client thread/DEBUG] [FML/]: Overriding dimension: using 5
+[19:36:21] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:37:34] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:37:40] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:37:59] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:38:04] [Server thread/DEBUG] [FML/]: The world dd7290c (New World) may have leaked: first encounter (5 occurrences).
+
+[19:38:04] [Server thread/DEBUG] [FML/]: The world 1566da4 (New World) may have leaked: first encounter (5 occurrences).
+
+[19:38:35] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:38:40] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:41:20] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:52:57] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:53:07] [Server thread/DEBUG] [FML/]: The world dd7290c (New World) may have leaked: seen 10 times.
+
+[19:53:07] [Server thread/DEBUG] [FML/]: The world 1566da4 (New World) may have leaked: seen 10 times.
+
+[19:53:42] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:53:44] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:53:45] [Server thread/TRACE] [mcp/mcp]: Sending event FMLServerStoppingEvent to mod mcp
+[19:53:45] [Server thread/TRACE] [mcp/mcp]: Sent event FMLServerStoppingEvent to mod mcp
+[19:53:45] [Server thread/DEBUG] [FML/]: Bar Step: ServerStopping - Minecraft Coder Pack took 0.000s
+[19:53:45] [Server thread/TRACE] [FML/FML]: Sending event FMLServerStoppingEvent to mod FML
+[19:53:45] [Server thread/TRACE] [FML/FML]: Sent event FMLServerStoppingEvent to mod FML
+[19:53:45] [Server thread/DEBUG] [FML/]: Bar Step: ServerStopping - Forge Mod Loader took 0.000s
+[19:53:45] [Server thread/TRACE] [Forge/Forge]: Sending event FMLServerStoppingEvent to mod Forge
+[19:53:45] [Server thread/TRACE] [Forge/Forge]: Sent event FMLServerStoppingEvent to mod Forge
+[19:53:45] [Server thread/DEBUG] [FML/]: Bar Step: ServerStopping - Minecraft Forge took 0.000s
+[19:53:45] [Server thread/TRACE] [circuitsmod/circuitsmod]: Sending event FMLServerStoppingEvent to mod circuitsmod
+[19:53:45] [Server thread/TRACE] [circuitsmod/circuitsmod]: Sent event FMLServerStoppingEvent to mod circuitsmod
+[19:53:45] [Server thread/DEBUG] [FML/]: Bar Step: ServerStopping - circuitsmod took 0.000s
+[19:53:45] [Server thread/DEBUG] [FML/]: Bar Finished: ServerStopping took 0.001s
+[19:53:45] [Server thread/DEBUG] [FML/]: Gathering id map for writing to world save New World
+[19:54:02] [Server thread/INFO] [FML/]: Unloading dimension 0
+[19:54:02] [Server thread/INFO] [FML/]: Unloading dimension -1
+[19:54:02] [Server thread/INFO] [FML/]: Unloading dimension 1
+[19:54:02] [Server thread/INFO] [FML/]: Unloading dimension 5
+[19:54:02] [Server thread/DEBUG] [FML/]: Reverting to frozen data state.
+[19:54:02] [Server thread/TRACE] [mcp/mcp]: Sending event FMLModIdMappingEvent to mod mcp
+[19:54:02] [Server thread/TRACE] [mcp/mcp]: Sent event FMLModIdMappingEvent to mod mcp
+[19:54:02] [Server thread/DEBUG] [FML/]: Bar Step: ModIdMapping - Minecraft Coder Pack took 0.000s
+[19:54:02] [Server thread/TRACE] [FML/FML]: Sending event FMLModIdMappingEvent to mod FML
+[19:54:02] [Server thread/TRACE] [FML/FML]: Sent event FMLModIdMappingEvent to mod FML
+[19:54:02] [Server thread/DEBUG] [FML/]: Bar Step: ModIdMapping - Forge Mod Loader took 0.000s
+[19:54:02] [Server thread/TRACE] [Forge/Forge]: Sending event FMLModIdMappingEvent to mod Forge
+[19:54:02] [Server thread/TRACE] [Forge/Forge]: Sent event FMLModIdMappingEvent to mod Forge
+[19:54:02] [Server thread/DEBUG] [FML/]: Bar Step: ModIdMapping - Minecraft Forge took 0.025s
+[19:54:02] [Server thread/TRACE] [circuitsmod/circuitsmod]: Sending event FMLModIdMappingEvent to mod circuitsmod
+[19:54:02] [Server thread/TRACE] [circuitsmod/circuitsmod]: Sent event FMLModIdMappingEvent to mod circuitsmod
+[19:54:02] [Server thread/DEBUG] [FML/]: Bar Step: ModIdMapping - circuitsmod took 0.000s
+[19:54:02] [Server thread/DEBUG] [FML/]: Bar Finished: ModIdMapping took 0.026s
+[19:54:02] [Server thread/INFO] [FML/]: Applying holder lookups
+[19:54:02] [Server thread/INFO] [FML/]: Holder lookups applied
+[19:54:02] [Server thread/DEBUG] [FML/]: Frozen state restored.
+[19:54:02] [Server thread/TRACE] [mcp/mcp]: Sending event FMLServerStoppedEvent to mod mcp
+[19:54:02] [Server thread/TRACE] [mcp/mcp]: Sent event FMLServerStoppedEvent to mod mcp
+[19:54:02] [Server thread/DEBUG] [FML/]: Bar Step: ServerStopped - Minecraft Coder Pack took 0.000s
+[19:54:02] [Server thread/TRACE] [FML/FML]: Sending event FMLServerStoppedEvent to mod FML
+[19:54:02] [Server thread/TRACE] [FML/FML]: Sent event FMLServerStoppedEvent to mod FML
+[19:54:02] [Server thread/DEBUG] [FML/]: Bar Step: ServerStopped - Forge Mod Loader took 0.000s
+[19:54:02] [Server thread/TRACE] [Forge/Forge]: Sending event FMLServerStoppedEvent to mod Forge
+[19:54:02] [Server thread/TRACE] [Forge/Forge]: Sent event FMLServerStoppedEvent to mod Forge
+[19:54:02] [Server thread/DEBUG] [FML/]: Bar Step: ServerStopped - Minecraft Forge took 0.000s
+[19:54:02] [Server thread/TRACE] [circuitsmod/circuitsmod]: Sending event FMLServerStoppedEvent to mod circuitsmod
+[19:54:02] [Server thread/TRACE] [circuitsmod/circuitsmod]: Sent event FMLServerStoppedEvent to mod circuitsmod
+[19:54:02] [Server thread/DEBUG] [FML/]: Bar Step: ServerStopped - circuitsmod took 0.000s
+[19:54:02] [Server thread/DEBUG] [FML/]: Bar Finished: ServerStopped took 0.001s

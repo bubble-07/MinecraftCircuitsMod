@@ -1,0 +1,12 @@
+1477521417575	Rename type 'NormalTerrainGenerator'
+1477522993548	Delete element
+1477523584498	Rename type 'ModDimensions'
+1477523612496	Delete element
+1477523628230	Rename type 'CustomTeleporter'
+1477525140303	Rename type 'PuzzleTeleporter'
+1477526787318	Delete element
+1477527519583	Rename type 'TutorialTeleporter'
+1477686957400	Rename field 'GUIID_MBE_30'
+1477772109552	Rename type 'PuzzleTeleportCommand'
+1477772123417	Rename type 'TeleportCommand'
+1477774738444	Rename compilation unit 'PuzzlePortalActivator.java'

@@ -1,0 +1,74 @@
+package com.circuits.circuitsmod.testingclasses;
+import com.circuits.circuitsmod.busblock.BusSegment;
+import com.circuits.circuitsmod.common.BlockFace;
+import com.circuits.circuitsmod.common.BusData;
+import com.circuits.circuitsmod.testblock.TileEntityTesting;
+
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
+
+public class TestBusInverter implements PuzzleTest {
+
+	//int testCounter = 1;
+	BlockFace inputFace;
+	BusSegment emmitterSeg;
+	BusSegment dummySeg;
+
+	@Override
+	public TestTickResult test(World worldIn, TileEntityTesting testEntity) {
+		System.out.println("Testing");
+		TestTickResult testResult = new TestTickResult();
+		
+		switch (testEntity.testCounter) {
+		case 1:
+			checkIfStillSucceeding(testEntity, testResult, false);
+			break;
+		case 2:
+			checkIfStillSucceeding(testEntity, testResult, false); 
+			break;
+		case 3:
+			checkIfStillSucceeding(testEntity, testResult, false);
+			break;
+		case 4:
+			checkIfStillSucceeding(testEntity, testResult, true);
+			break;
+		}
+		if (testEntity.testCounter >= 4) {
+			testResult.setAtEndOfTest(true);
+		}
+		return testResult;
+	}
+
+
+	public void createInputData(TileEntityTesting testEntity) {
+		emmitterSeg = testEntity.getEmitterSegment();
+		inputFace = testEntity.getInputFace();
+		dummySeg = testEntity.getDummySeg();
+		emmitterSeg.addInput(inputFace);
+	}
+
+
+	public void checkIfStillSucceeding(TileEntityTesting testEntity, TestTickResult testResult, boolean isSuccessPowered) {
+		if (isSuccessPowered) {
+			if (TileEntityTesting.isSidePowered(testEntity, inputFace.getFacing())) {
+				testResult.setCurrentlySucceeding(true);
+			} else{
+				testResult.setCurrentlySucceeding(false);
+			}
+		} else {
+			if (!TileEntityTesting.isSidePowered(testEntity, inputFace.getFacing())) {
+				testResult.setCurrentlySucceeding(true);
+			} else {
+				testResult.setCurrentlySucceeding(false);
+			}
+		}
+	}
+
+	public void setAndOutputData(World worldIn, int index) {
+		BusData testingData;
+		testingData = new BusData(2, index);
+		emmitterSeg.accumulate(worldIn, inputFace, testingData);
+		emmitterSeg.forceUpdate(worldIn);
+	}
+
+}

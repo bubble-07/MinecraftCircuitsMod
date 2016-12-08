@@ -1,0 +1,20 @@
+package com.circuits.circuitsmod.testingclasses;
+
+import com.circuits.circuitsmod.testblock.TileEntityTesting;
+
+public class TestingUtilityMethods {
+	public static void checkIfStillSucceeding(TileEntityTesting testEntity, TestTickResult testResult, boolean expectedAnswer) {
+		if (expectedAnswer) {
+			if (TileEntityTesting.isSidePowered(testEntity, testEntity.getInputFace().getFacing())) {
+				testResult.setCurrentlySucceeding(true);
+			} else{
+				testResult.setCurrentlySucceeding(false);
+			}
+		} else {
+			if (!TileEntityTesting.isSidePowered(testEntity, testEntity.getInputFace().getFacing())) {
+				testResult.setCurrentlySucceeding(true);
+			} else {
+				testResult.setCurrentlySucceeding(false);
+			}
+		}
+	}

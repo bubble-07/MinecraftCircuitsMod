@@ -1,0 +1,7 @@
+{
+  "parent": "circuitsmod:item/busblock",
+                  "textures" : {
+                    "sidetex" : "circuitsmod:blocks/16bitbusside",
+                    "endtex" : "circuitsmod:blocks/16bitbusend"
+                }
+}

@@ -1,0 +1,15 @@
+package com.circuits.circuitsmod.testingclasses;
+
+import com.circuits.circuitsmod.testblock.TileEntityTesting;
+
+import net.minecraft.world.World;
+
+public class TestOr implements PuzzleTest {
+
+	@Override
+	public TestTickResult test(World worldIn, TileEntityTesting testEntity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

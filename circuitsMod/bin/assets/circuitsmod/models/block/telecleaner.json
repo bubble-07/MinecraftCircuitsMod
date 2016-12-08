@@ -1,0 +1,12 @@
+{
+    "parent": "block/cube",
+    "textures": {
+        "down": "circuitsmod:blocks/telecleaner",
+        "up": "circuitsmod:blocks/telecleaner",
+        "north": "circuitsmod:blocks/telecleaner",
+        "east": "circuitsmod:blocks/telecleaner",
+        "south": "circuitsmod:blocks/telecleaner",
+        "west": "circuitsmod:blocks/telecleaner",
+        "particle": "blocks/lapis_block"
+    }
+}

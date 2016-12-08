@@ -1,0 +1,67 @@
+{
+    "forge_marker" : 1,
+    "defaults": {
+        "model": "circuitsmod:busblock",
+        "textures" : {
+              "sidetex" : "circuitsmod:blocks/2bitbusside",
+              "endtex" : "circuitsmod:blocks/2bitbusend"
+        }
+    },
+    "variants": {
+        "facing": {
+            "northsouth" : {
+                "model" : "circuitsmod:busblock",
+                "x" : 180,
+                "y" : 90
+            },
+            "eastwest" : {
+                "model" : "circuitsmod:busblock",
+                "x" : 180
+            },
+            "updown" : {
+                "model" : "circuitsmod:busblock_cap"
+            },
+            "cap" : {
+                "model" : "circuitsmod:busblock_cap"
+            }
+        },
+        "bitwidth" : {
+            "twobit" : {
+                "textures" : {
+                    "sidetex" : "circuitsmod:blocks/2bitbusside",
+                    "endtex" : "circuitsmod:blocks/2bitbusend"
+                }
+            },
+            "fourbit" : {
+                "textures" : {
+                    "sidetex" : "circuitsmod:blocks/4bitbusside",
+                    "endtex" : "circuitsmod:blocks/4bitbusend"
+                }
+            },
+            "eightbit" : {
+                "textures" : {
+                    "sidetex" : "circuitsmod:blocks/8bitbusside",
+                    "endtex" : "circuitsmod:blocks/8bitbusend"
+                }
+            },
+            "sixteenbit" : {
+                "textures" : {
+                    "sidetex" : "circuitsmod:blocks/16bitbusside",
+                    "endtex" : "circuitsmod:blocks/16bitbusend"
+                }
+            },
+            "thirtytwobit" : {
+                "textures" : {
+                    "sidetex" : "circuitsmod:blocks/32bitbusside",
+                    "endtex" : "circuitsmod:blocks/32bitbusend"
+                }
+            },
+            "sixtyfourbit" : {
+                "textures" : {
+                    "sidetex" : "circuitsmod:blocks/64bitbusside",
+                    "endtex" : "circuitsmod:blocks/64bitbusend"
+                }
+            }
+        }
+    }
+}
