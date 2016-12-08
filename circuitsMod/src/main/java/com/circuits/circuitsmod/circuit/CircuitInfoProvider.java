@@ -137,6 +137,7 @@ public class CircuitInfoProvider {
     	PersistentCircuitUIDs.MUX_CIRCUIT = 14;
     	PersistentCircuitUIDs.INVERTER_CIRCUIT = 13;
     	PersistentCircuitUIDs.OR_CIRCUIT = 23;
+    	PersistentCircuitUIDs.XOR_CIRCUIT = 1;
     	
     	for (int i = 0; i < toRegister.length; i++) {
     		folderToUIDMap.put(toRegister[i], CircuitUID.fromInteger(i));

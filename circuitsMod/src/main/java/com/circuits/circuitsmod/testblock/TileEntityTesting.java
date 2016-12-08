@@ -85,6 +85,9 @@ public class TileEntityTesting extends TileEntity implements ITickable {
 		testMap.put(1, new CircuitTest(PersistentCircuitUIDs.INVERTER_CIRCUIT, new CircuitConfigOptions(2)));
 		testMap.put(2, new CircuitTest(PersistentCircuitUIDs.OR_CIRCUIT, new CircuitConfigOptions(1)));
 		testMap.put(3, new CircuitTest(PersistentCircuitUIDs.MUX_CIRCUIT, new CircuitConfigOptions(1)));
+		testMap.put(4, new CircuitTest(PersistentCircuitUIDs.DEMUX_CIRCUIT, new CircuitConfigOptions(1)));
+		testMap.put(5, new CircuitTest(PersistentCircuitUIDs.AND_CIRCUIT, new CircuitConfigOptions(1)));
+		testMap.put(6, new CircuitTest(PersistentCircuitUIDs.XOR_CIRCUIT, new CircuitConfigOptions(1)));
 	}
 
 	public int getLevelID() {
