@@ -2,14 +2,12 @@ package com.circuits.circuitsmod.tester;
 
 import java.util.Optional;
 
-import net.minecraft.block.Block;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextComponentTranslation;
 
 import com.circuits.circuitsmod.circuit.SpecializedCircuitInfo;
-import com.circuits.circuitsmod.frameblock.StartupCommonFrame;
 import com.circuits.circuitsmod.testblock.TileEntityTesting;
 
 public class PuzzleBlockTester extends Tester<TileEntityTesting> {

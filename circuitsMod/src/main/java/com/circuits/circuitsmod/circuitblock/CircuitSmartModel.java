@@ -1,6 +1,6 @@
 package com.circuits.circuitsmod.circuitblock;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -88,7 +88,7 @@ public class CircuitSmartModel implements IBakedModel {
 			long rand) {
 		
 		if (circuitUID == null) {
-			return Collections.EMPTY_LIST;
+			return new ArrayList<BakedQuad>();
 		}
 		
 		//Uses the same technique as the one found here:
@@ -174,7 +174,7 @@ public class CircuitSmartModel implements IBakedModel {
 			buf.begin(oldMode, oldFormat);
 			
 		}
-		return Collections.EMPTY_LIST;
+		return new ArrayList<>();
 	}
 
 	@Override

@@ -1,1 +1,0 @@
-AND circuit with two 1-bit inputs and a single 1-bit output

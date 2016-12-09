@@ -158,7 +158,7 @@ public class BusBlock extends Block implements IBusConnectable, IMetaBlockName {
 	protected static IProperty<BitWidth> WIDTH = PropertyEnum.create(widthTag, BitWidth.class);
 
 	@Override
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, List list) {
+	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
 		for (int i = 0; i < busWidths.length; i++) {
 			list.add(new ItemStack(itemIn, 1, i));
 		}

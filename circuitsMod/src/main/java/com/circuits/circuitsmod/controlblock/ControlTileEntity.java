@@ -19,8 +19,6 @@ import com.circuits.circuitsmod.recipes.RecipeUtils;
 import com.circuits.circuitsmod.tester.ControlBlockTester;
 import com.circuits.circuitsmod.tester.TestConfig;
 import com.circuits.circuitsmod.tester.TestState;
-import com.circuits.circuitsmod.tester.Tester;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;

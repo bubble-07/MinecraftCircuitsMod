@@ -1,8 +1,0 @@
-Inverter Circuit:
-
-The inverter has a configurable bitwidth n.
-There is one n-bit input and one n-bit output.
-
-The inverter simply flips the bits of the input and outputs them.
-
-For a single redstone line, a redstone torch can serve as an inverter.  

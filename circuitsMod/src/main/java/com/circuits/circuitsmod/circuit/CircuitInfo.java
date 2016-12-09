@@ -6,18 +6,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Optional;
 
 import javax.imageio.ImageIO;
-
-import net.minecraft.item.ItemStack;
 
 import com.circuits.circuitsmod.circuitblock.WireDirectionMapper;
 import com.circuits.circuitsmod.circuitblock.WireDirectionMapper.WireDirectionGenerator;
 import com.circuits.circuitsmod.common.FileUtils;
 import com.circuits.circuitsmod.common.Log;
-import com.circuits.circuitsmod.common.SerializableItemStack;
 import com.circuits.circuitsmod.reflective.ChipImpl;
 
 /**

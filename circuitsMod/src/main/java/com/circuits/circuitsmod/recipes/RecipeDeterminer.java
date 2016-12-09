@@ -18,6 +18,7 @@ import com.circuits.circuitsmod.tester.Tester;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 
 public class RecipeDeterminer {
 	
@@ -57,7 +58,7 @@ public class RecipeDeterminer {
 		return (int) (double) Config.circuitCostCurve.costComputation.apply((double) qty);
 	}
 	
-	public static void determineRecipe(final Tester test) {
+	public static <T extends TileEntity> void determineRecipe(final Tester<T> test) {
 		
 		final RecipeGraph.CostList cost = new RecipeGraph.CostList();
 		

@@ -1,9 +1,0 @@
-Pulse Lengthener:
-
-This circuit has a configurable value for its multiplier.
-
-This cirucit has one 1-bit input and one 1-bit output.
-
-When this circuit recieves a pulse, it multiplies the length of the pulse
-by the specified multipler.
-The result is that a longer pulse is sent along the output.

@@ -2,11 +2,6 @@ package com.circuits.circuitsmod.controlblock.gui.model;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
-import java.util.List;
-import java.util.Optional;
-
-import net.minecraft.item.ItemStack;
-
 import com.circuits.circuitsmod.circuit.CircuitInfo;
 import com.circuits.circuitsmod.circuit.CircuitUID;
 import com.circuits.circuitsmod.circuitblock.WireDirectionMapper.WireDirectionGenerator;

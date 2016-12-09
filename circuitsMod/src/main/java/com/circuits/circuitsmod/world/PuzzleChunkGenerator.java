@@ -21,29 +21,19 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.chunk.storage.AnvilChunkLoader;
-import net.minecraft.world.gen.MapGenBase;
-import net.minecraft.world.gen.MapGenCaves;
-import net.minecraftforge.event.terraingen.InitMapGenEvent.EventType;
-import net.minecraftforge.event.terraingen.TerrainGen;
 
 public class PuzzleChunkGenerator implements IChunkGenerator {
 
     private final World worldObj;
     private Random random;
-    private Biome[] biomesForGeneration;
 
     private List<Biome.SpawnListEntry> mobs = Lists.newArrayList();
-    private MapGenBase caveGenerator = new MapGenCaves();
-    private PuzzleTerrainGenerator terraingen = new PuzzleTerrainGenerator();
     //private File chunkLocation;
     
     public PuzzleChunkGenerator(World worldObj) {
         this.worldObj = worldObj;
         long seed = worldObj.getSeed();
         this.random = new Random((seed + 516) * 314);
-        terraingen.setup(worldObj, random);
-        caveGenerator = TerrainGen.getModdedMapGen(caveGenerator, EventType.CAVE);
-        //chunkLocation = new File(PuzzleChunkGenerator.getMcDir(worldObj).toString() + "\\config\\world");
     }
     
     public static File getMcDir(World worldObj) {
@@ -55,7 +45,6 @@ public class PuzzleChunkGenerator implements IChunkGenerator {
 
     @Override
     public Chunk provideChunk(int x, int z) {
-        ChunkPrimer chunkprimer = new ChunkPrimer(); //instead of the ChunkPrimer, use an existing map.  
         //I would load the world file from the mod directory, not the world directory.
         //If it works, it would save into the saves.  
         //The version identifier could probably just be 0

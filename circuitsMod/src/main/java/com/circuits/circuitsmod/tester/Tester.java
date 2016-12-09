@@ -8,7 +8,6 @@ import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.busblock.BusSegment;
 import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
 import com.circuits.circuitsmod.circuit.PersistentCircuitUIDs;
@@ -16,31 +15,19 @@ import com.circuits.circuitsmod.circuit.SpecializedCircuitInfo;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.circuitblock.CircuitBlock;
 import com.circuits.circuitsmod.circuitblock.CircuitTileEntity;
-import com.circuits.circuitsmod.circuitblock.StartupCommonCircuitBlock;
 import com.circuits.circuitsmod.common.BlockFace;
 import com.circuits.circuitsmod.common.BusData;
 import com.circuits.circuitsmod.common.PosUtils;
-import com.circuits.circuitsmod.common.StreamUtils;
-import com.circuits.circuitsmod.controlblock.ControlTileEntity;
-import com.circuits.circuitsmod.controlblock.tester.net.TestStateUpdate;
-import com.circuits.circuitsmod.frameblock.StartupCommonFrame;
-import com.circuits.circuitsmod.recipes.RecipeDeterminer;
 import com.circuits.circuitsmod.reflective.ChipInvoker;
 import com.circuits.circuitsmod.reflective.Invoker;
 import com.circuits.circuitsmod.reflective.SpecializedChipImpl;
 import com.circuits.circuitsmod.reflective.TestGenerator;
 import com.google.common.collect.Lists;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 
 public abstract class Tester<TEType extends TileEntity> {

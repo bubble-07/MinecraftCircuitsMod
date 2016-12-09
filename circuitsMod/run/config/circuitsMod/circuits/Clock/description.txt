@@ -1,9 +1,0 @@
-CLOCK circuit
-
-This circuit has 1 reset input and 1 clock output.
-The circuit can be configured to set how long the clock cycle is.
-
-This circuit alternates between high and low depending on the current tick.
-At the end of the clock cycle, the circuit will switch from high to low and
-back again.  
-If the reset input is high, the clock will always reset to low.  

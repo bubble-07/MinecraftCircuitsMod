@@ -22,7 +22,7 @@ public class PuzzleTeleporter extends Teleporter{
 	
 	private final WorldServer worldServerInstance;
     private final Random random;
-    private final Long2ObjectMap<Teleporter.PortalPosition> destinationCoordinateCache = new Long2ObjectOpenHashMap(4096);
+    private final Long2ObjectMap<Teleporter.PortalPosition> destinationCoordinateCache = new Long2ObjectOpenHashMap<Teleporter.PortalPosition>(4096);
 	
 	public PuzzleTeleporter(WorldServer worldIn) {
 		super(worldIn);
@@ -46,8 +46,6 @@ public class PuzzleTeleporter extends Teleporter{
             int i = MathHelper.floor_double(entityIn.posX);
             int j = MathHelper.floor_double(entityIn.posY) - 1;
             int k = MathHelper.floor_double(entityIn.posZ);
-            int l = 1;
-            int i1 = 0;
 
             for (int j1 = -2; j1 <= 2; ++j1)
             {
@@ -217,7 +215,6 @@ public class PuzzleTeleporter extends Teleporter{
 	@Override
 	public boolean makePortal(Entity entityIn)
     {
-        int i = 16;
         double d0 = -1.0D;
         int j = MathHelper.floor_double(entityIn.posX);
         int k = MathHelper.floor_double(entityIn.posY);

@@ -18,7 +18,6 @@ import com.circuits.circuitsmod.recipes.RecipeGraph;
 
 import java.util.logging.Logger;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.util.IThreadListener;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Mod;
