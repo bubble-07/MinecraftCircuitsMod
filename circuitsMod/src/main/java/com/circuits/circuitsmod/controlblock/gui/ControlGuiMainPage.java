@@ -1,12 +1,8 @@
 package com.circuits.circuitsmod.controlblock.gui;
 
-import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
-
-import net.minecraft.item.ItemStack;
 
 public class ControlGuiMainPage extends ControlGuiPage {
 	
