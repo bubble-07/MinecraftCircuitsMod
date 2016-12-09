@@ -1,36 +1,70 @@
-9/30: 
-This week my goal was to learn Minecraft Forge and start working on designing basic blocks, the FrameBlock and the ControlBlock.  As I was working, I found an
+﻿9/30: 
+
+This week my goal was to learn Minecraft Forge and start working on designing basic blocks, the FrameBlock and the ControlBlock.  
+As I was working, I found an
 example repository that had examples to aid in learning the utility.
-Even with the use of these examples, I was able to place blocks in the game world, but not load the textures properly.  I have not yet learned how the texture loading
-is handled, but when I ran the sample by itself it seemed to work just fine.  I feel that I did not make as much progress as I should, especially since I was suppoed
+Even with the use of these examples, 
+I was able to place blocks in the game world, but not load the textures properly.  I have not yet learned how the texture loading
+is handled, 
+but when I ran the sample by itself it seemed to work just fine.  I feel that I did not make as much progress as I should, especially since 
+I was suppoed
 to have made a portal using the FrameBlocks, even though it has nowhere to go yet.  
 
+
+
 10/13/16:
-Progress had been delayed, largely because I was still learning the programs associated with modding minecraft.  In particular, I was chasing around a texture
-rendering issue that I just found out yesterday was a simple, easily fixed typo. But now I have a system for rendering blocks in the world, which is an
+
+Progress had been delayed, largely because I was still learning the programs associated with modding minecraft.  
+In particular, I was chasing around a texture
+rendering issue that I just found out yesterday was a simple, easily fixed typo. 
+But now I have a system for rendering blocks in the world, which is an
 essential part of the project.  
-It also didn't help anything that the partition of my hard drive containing the program decided to stop booting properly.  While I was able to fix it, I was
-unable to commit as much as I would have liked to a week ago.  I was able to fix the problem and then continue committing as planned.  
-I also learned that the most recent version of minecraft, 1.10, is only about 4 months old.  Because of that, documentation pertaining to this version in particular
-has been rather scarce.  Continued research has paid off, however, and I have found tutorials that allowed me to create a foundational structure for a portal.  Now, 
+It also didn't help anything that the partition of my hard drive containing the program decided to stop booting properly.  
+While I was able to fix it, I was
+unable to commit as much as I would have liked to a week ago.  
+I was able to fix the problem and then continue committing as planned.  
+I
+ also learned that the most recent version of minecraft, 1.10, is only about 4 months old.  
+Because of that, documentation pertaining to this version in particular
+has been rather scarce.  
+Continued research has paid off, however, and I have found tutorials that allowed me to create a foundational structure for a portal.  
+Now, 
 since the portal has nowhere to go yet, I cannot fully complete it, but the structure is there now, and this will help down the road.
 
+
+
 10/21/16
+
 Circuit implementation has continued, and I noticed that there is a flaw in the documentation for this project.  In particular, 
-when writing the ABBA circuit, I did not make note of what m and n meant in the mathematical expressions for time.  In addition,
-I have yet to acquire full understanding of the interface, which I should do in order to ensure correct manipulation of the numbers/booleans
-that come into the circuit.  
+when writing the ABBA circuit, 
+I did not make note of what m and n meant in the mathematical expressions for time.  
+In addition, 
+I have yet to acquire full understanding of the interface, which I should do in order to ensure correct manipulation 
+of the numbers/booleans
+ that come into the circuit.  
+
+
 
 10/28/16
+
 I've continued to investigate portals and I actually found a lead I can use.  While still untested, I can confirm that as of today I have a buildable implementation,
+
 AND a backdoor in the form of a custom command that can be used to enter the dimension at will.  
+
 I don't know why, but I seem to be struggling on the circuits implementation.  I've read the interface over, but I'm still not sure how I should be approaching this.
+
 At this stage, I think it would help if the two of us both sat down to look at it.
 
+
+
 11/11/2016
+
 This week the goal was to rig the dimension generator so we could load the same surroundings each time, an important step in getting our puzzle dimension to work. 
+
 I played with it for a while and made an attempt at a solution through manipulation of the AnvilChunkLoader, a Minecraft class that loads data from files generated
+
 by the game.  It took a couple of meetings to actually fully understand it, and even then, while it was my task to solve the problem, Alex ultimately solved it.  
+
 It feels good that this got done, but at the same time I wish I had a thorough enough understanding of the Minecraft technology that I could have solved the problem.
 Next, I believe the goal is to actually get the framework for the dimension working.  
 
@@ -42,14 +76,36 @@ like a thing I should do today.  Other things I learned how to do include gettin
 and warp you to a fixed position.  What surprises me is that when th project begain, it took me two weeks to properly render a block, and now I can do it in less than
 an hour.  I suppose that means that I'm learning the technology finally.  
 
+
+
 11/23/2016
-I started building the framework for puzzles in the puzzle dimension.  I managed
-to build puzzle frameworks for most combinatorial circuits.  I plan to expand the puzzles
-once we are 100% sure of what the objective of each one will be.
-I'm getting kind of tired of working separately on this project.  I feel like if we're going to
+
+I started building the framework for puzzles in the puzzle dimension.  
+I managed 
+to build puzzle frameworks for most combinatorial circuits.  
+I plan to expand the puzzles 
+once we are 100% sure of what the objective of each one will be. 
+
+I'm getting kind of tired of working separately on this project.  
+I feel like if we're going to
 get it done well at this point, we need to be working jointly on this project, in the same room,
 for multiple hours.  
 
+
+
 11/29/2016
-I created a new branch to ease debugging issues we seemed to be having.  I named it debugging.  I worry for the
-state of the project and am not sure if we will finish.
+I created a new branch to ease debugging issues we seemed to be having.  I named it debugging.  
+I worry for the
+ state of the project and am not sure if we will finish.
+
+12/8/2016
+All branches have since been merged back into the singular master branch.  
+We made it.  We managed not only to finish the implementation, but also build a world that contains a sampling of puzzles in order to demonstrate the capacity of the
+project.  I'm writing about it here because I was the one who did most of the physical world building.  This included spawning and placing circuit blocks, arranging them to
+form a solvable puzzle, writing books and signs to convey instructions and knowledge, and finally performing miscellaneous building in order to create more interesting
+puzzle applications.  I built and rebuilt the puzzles multiple times as updates were made to the testing framework, and the physical puzzles I built lead to the 
+discovery and fixing of multiple gamebreaking bugs in the testing framework.  We crafted about 7 puzzles in this manner, before deeming it fit to make a demo out of.
+I find it remarkable that it used to take me two weeks to spawn a block properly, and now I can do it in under an hour.  This whole project has been remarkable for me.
+
+
+
