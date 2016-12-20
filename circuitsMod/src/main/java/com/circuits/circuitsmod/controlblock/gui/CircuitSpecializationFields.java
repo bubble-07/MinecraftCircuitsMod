@@ -113,6 +113,15 @@ public class CircuitSpecializationFields extends UIElement {
 		
 		//Draw the label at the top if we have a valid configuration, otherwise draw "Invalid config"
 		String label = this.configName == null ? "Invalid Config" : this.configName;
+		
+		if (parent.getFontRenderer().getStringWidth(label) > ControlGuiPage.screenWidth) {
+			//Truncate the label to omit the stuff before the opening paren
+			int ind = label.indexOf("(");
+			if (ind != -1) {
+				label = label.substring(ind, label.length());
+			}
+		}
+		
 		parent.getFontRenderer().drawString(label, this.x, this.y, ControlGuiPage.elementColor);
 		
 		for (IntEntryBox entryBox : entryBoxes) {

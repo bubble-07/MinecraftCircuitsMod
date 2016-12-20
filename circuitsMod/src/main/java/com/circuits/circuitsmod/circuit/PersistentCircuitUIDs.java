@@ -7,6 +7,9 @@ public class PersistentCircuitUIDs {
 	public static int DEMUX_CIRCUIT = 15;
 	public static int INVERTER_CIRCUIT = 13;
 	public static int OR_CIRCUIT = 23;
+	public static int INPUT_SELECT_CIRCUIT = 24;
+	public static int OUTPUT_SELECT_CIRCUIT = 25;
+	public static int DELAY_CIRCUIT = 26;
 	public static int SPLITTER_CIRCUIT = 2;
 	public static int COMBINER_CIRCUIT = 3;
 	public static int INPUT_CIRCUIT = 21;

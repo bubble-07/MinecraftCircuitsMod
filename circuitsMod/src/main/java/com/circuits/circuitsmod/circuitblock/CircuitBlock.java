@@ -43,7 +43,7 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 
 		this.isBlockContainer = false;
 		setUnlocalizedName(CircuitsMod.MODID + "_" + name);
-		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+		setCreativeTab(null);
 		setHardness(0.5F);
 		this.setSoundType(SoundType.METAL);
 	}

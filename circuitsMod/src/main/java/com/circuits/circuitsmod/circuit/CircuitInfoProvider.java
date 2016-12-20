@@ -127,7 +127,7 @@ public class CircuitInfoProvider {
     			               "HalfAdder", "Emitter", "RisingEdgeDetector", "PulseLengthener",
     			               "DigitalToAnalog", "AnalogToDigital", "Clock", "Inverter",
     			               "Multiplexer", "Demultiplexer", "FullAdder", "NBitDLatch", "Implies", "ABBA", "Dummy",
-    			               "Input", "Output", "Or"};
+    			               "Input", "Output", "Or", "InputBitSelect", "OutputBitSelect", "Delay"};
     	
     	for (int i = 0; i < toRegister.length; i++) {
     		folderToUIDMap.put(toRegister[i], CircuitUID.fromInteger(i));
@@ -149,6 +149,7 @@ public class CircuitInfoProvider {
     	//After loading it into the map, make sure that lastID of circuitUID is set right
     	OptionalInt maxId = folderToUIDMap.values().stream().mapToInt((uid) -> uid.toInteger()).max();
     	CircuitUID.bumpLastUID(maxId.getAsInt());
+    	saveUIDMapToFile();
     }
     
     public static void saveUIDMapToFile() {

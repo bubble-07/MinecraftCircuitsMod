@@ -58,10 +58,13 @@ public class RecipeUtils {
 	static {
 		addCost(PersistentCircuitUIDs.INPUT_CIRCUIT, new ItemStack(Items.REDSTONE, 1), new ItemStack(Blocks.STONE, 1));
 		addCost(PersistentCircuitUIDs.OUTPUT_CIRCUIT, new ItemStack(Items.REDSTONE, 1), new ItemStack(Blocks.STONE, 1));
-		addCost(PersistentCircuitUIDs.ADC_CIRCUIT, new ItemStack(Items.REDSTONE, 4), new ItemStack(Blocks.QUARTZ_ORE, 1));
-		addCost(PersistentCircuitUIDs.DAC_CIRCUIT, new ItemStack(Items.REDSTONE, 4), new ItemStack(Blocks.QUARTZ_ORE, 1));
+		addCost(PersistentCircuitUIDs.ADC_CIRCUIT, new ItemStack(Items.REDSTONE, 4), new ItemStack(Items.QUARTZ, 1), new ItemStack(Blocks.STONE, 4));
+		addCost(PersistentCircuitUIDs.DAC_CIRCUIT, new ItemStack(Items.REDSTONE, 4), new ItemStack(Items.QUARTZ, 1), new ItemStack(Blocks.STONE, 4));
 		addCost(PersistentCircuitUIDs.SPLITTER_CIRCUIT, new ItemStack(Items.REDSTONE, 3));
 		addCost(PersistentCircuitUIDs.COMBINER_CIRCUIT, new ItemStack(Items.REDSTONE, 3));
+		addCost(PersistentCircuitUIDs.INPUT_SELECT_CIRCUIT, new ItemStack(Items.REDSTONE, 2));
+		addCost(PersistentCircuitUIDs.OUTPUT_SELECT_CIRCUIT, new ItemStack(Items.REDSTONE, 2));
+		addCost(PersistentCircuitUIDs.DELAY_CIRCUIT, new ItemStack(Items.REPEATER, 2));
 	}
 	
 	private static void addCost(Integer id, ItemStack... cost) {
@@ -73,7 +76,7 @@ public class RecipeUtils {
 	public static Optional<List<ItemStack>> getRecipeFor(World worldIn, UUID playerID, CircuitUID uid) {
 		
 		if (persistentCosts.containsKey(uid)) {
-			return Optional.of(persistentCosts.get(uid));
+			return Optional.of(SerializableItemStack.copyOf(persistentCosts.get(uid)));
 		}
 		
 		try {

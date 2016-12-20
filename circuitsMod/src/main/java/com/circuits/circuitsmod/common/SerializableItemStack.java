@@ -41,6 +41,10 @@ public class SerializableItemStack implements Serializable {
 		return itemStacksFromNBT(CompressedStreamTools.read(file));
 	}
 	
+	public static List<ItemStack> copyOf(List<ItemStack> stacks) {
+		return deserializeItemStacks(serializeItemStacks(stacks));
+	}
+	
 	public static List<ItemStack> itemStacksFromNBT(NBTTagCompound cpd) {
 		List<ItemStack> result = new ArrayList<>();
 
