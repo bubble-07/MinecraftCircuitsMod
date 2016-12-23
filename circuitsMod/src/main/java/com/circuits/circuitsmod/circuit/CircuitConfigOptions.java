@@ -26,6 +26,16 @@ public class CircuitConfigOptions implements Serializable {
 	public int[] asInts() {
 		return opts;
 	}
+	
+	public String getRawDispString() {
+		String result = "";
+		for (int i = 0; i < opts.length; i++) {
+			result += opts[i];
+			result += " ";
+		}
+		return result;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

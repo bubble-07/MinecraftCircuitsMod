@@ -8,7 +8,9 @@ import org.lwjgl.opengl.GL11;
 import com.circuits.circuitsmod.busblock.BusSegment;
 import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
+import com.circuits.circuitsmod.controlblock.gui.ControlGuiPage;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -125,7 +127,19 @@ public class CircuitEntitySpecialRenderer extends TileEntitySpecialRenderer<Circ
 				buf.pos(xzcoords[j][0], 0, xzcoords[j][1]).color(0.0f, 0.0f, 0.0f, 1.0f).endVertex();
 			}
 			tessellator.draw();
+			
 			GlStateManager.enableTexture2D();
+			
+			GlStateManager.pushMatrix();
+			GlStateManager.rotate(90, 1, 0, 0);
+			GlStateManager.translate(0, 0.0, -height - 0.01);
+			GlStateManager.scale(0.01, 0.01, 0.01);
+			
+			
+
+			Minecraft.getMinecraft().fontRendererObj.drawString(uid.getOptions().getRawDispString(), 0, 0, 0, false);
+			GL11.glPopMatrix();
+			
 			
 			GL11.glPopAttrib();
 			GL11.glPopMatrix();

@@ -1,0 +1,9 @@
+InputBitSelect(k, n) circuit:
+
+A circuit which takes a single redstone input, 
+and sets the kth bit of an n-bit output bus to high
+where the 0th position is the low-order bit
+and the (n-1)th position is the high-order bit
+
+A reversed version of this circuit is provided by
+OutputBitSelect(k, n)

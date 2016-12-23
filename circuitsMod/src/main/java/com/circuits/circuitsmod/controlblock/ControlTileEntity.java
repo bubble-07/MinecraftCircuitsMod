@@ -15,10 +15,12 @@ import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.SerialUtils;
 import com.circuits.circuitsmod.controlblock.gui.net.ServerGuiMessage;
 import com.circuits.circuitsmod.frameblock.StartupCommonFrame;
+import com.circuits.circuitsmod.recipes.RecipeDeterminer;
 import com.circuits.circuitsmod.recipes.RecipeUtils;
 import com.circuits.circuitsmod.tester.ControlBlockTester;
 import com.circuits.circuitsmod.tester.TestConfig;
 import com.circuits.circuitsmod.tester.TestState;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -175,7 +177,7 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 	}
 	
 	private Optional<List<ItemStack>> getCost(UUID craftingPlayer, SpecializedCircuitUID uid) {
-		return RecipeUtils.getRecipeFor(getWorld(), craftingPlayer, uid.getUID());
+		return RecipeDeterminer.getRecipeFor(getWorld(), craftingPlayer, uid.getUID());
 	}
 	
 	public void updateState(TestState newState) {

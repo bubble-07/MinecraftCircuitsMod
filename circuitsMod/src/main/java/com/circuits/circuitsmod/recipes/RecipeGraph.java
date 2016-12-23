@@ -15,8 +15,14 @@ import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
-//TODO: Expand the "ItemData" here to incorporate circuits with given ids
-//TODO: Un-reify this, so that you can account for the difference in circuit costs between players.
+/**
+ * Represents the graph of Item + Metadata pairs with an edge for every
+ * crafting recipe dependency. For ores, the Item is taken to be the first
+ * Item found in the ore dictionary, which means that if you use this,
+ * you should probably make account for ores manually!
+ * @author bubble-07
+ *
+ */
 public class RecipeGraph {
 	
 	//Item, metadata pair
@@ -63,39 +69,33 @@ public class RecipeGraph {
 		
 	}
 	
-	
-	HashMap<ItemData, RecipeNode> itemMap = new HashMap<>();
+	HashMap<ItemData, Node> itemMap = new HashMap<>();
 	
 	//Gets a node, or creates if needed
-	private RecipeNode getNode(ItemData in) {
-		RecipeNode result = itemMap.get(in);
-		if (result == null) {
-			result = new RecipeNode(in);
-			itemMap.put(in, result);
-			//System.out.println(in.item.getUnlocalizedName());
-		}
-		return result;
+	private Node getNode(ItemData in) {
+		itemMap.putIfAbsent(in, new Node(in));
+		return itemMap.get(in);
 	}
 	
 	private void constructHelper(ItemStack output, Collection<ItemStack> inputs) {
 
-		RecipeNode source = getNode(new ItemData(output));
+		Node source = getNode(new ItemData(output));
 		
 		List<ItemStack> summedCost = (new CostList().addItemStacks(inputs, 1.0f)).extractItemStack();
 
 		for (ItemStack input : summedCost) {
 			if (input != null && input.stackSize > 0) {
-				RecipeNode dest = getNode(new ItemData(input));
+				Node dest = getNode(new ItemData(input));
 				float edgeWeight = ((float) input.stackSize) / ((float) output.stackSize);
 				source.indegree++;
-				source.addEdge(new RecipeEdge(edgeWeight, dest));
+				source.addEdge(new Edge(edgeWeight, dest));
 			}
 		}
 	}
 	
 	public RecipeGraph() {
 		//Construct the recipe graph
-		List<IRecipe> recipes = CraftingManager.getInstance().getRecipeList();
+		List<IRecipe> recipes = CraftingManager.getInstance().getRecipeList();		
 		
 		for (IRecipe recipe : recipes) {
 			if (recipe instanceof ShapedRecipes) {
@@ -122,8 +122,7 @@ public class RecipeGraph {
 			}
 		}
 	}
-	
-	//TODO: Allow ore substitutions in your crafting interface!
+
 	private static List<ItemStack> fromOreRecipeInput(Collection<Object> inputs) {
 		List<ItemStack> stacks = new ArrayList<>();
 		for (Object input : inputs) {
@@ -132,8 +131,7 @@ public class RecipeGraph {
 					stacks.add((ItemStack) input);
 				}
 				else if (input instanceof List) {
-					//Just add the first ore in the ore list
-					//TODO: Maybe less suckage?
+					//Just add the first ore in the ore list as the representative for the ore group
 					List<ItemStack> in = (List<ItemStack>) input;
 					stacks.add(in.get(0));
 				}
@@ -194,15 +192,12 @@ public class RecipeGraph {
 	}
 	
 	//Does a depth-first traversal to determine the cost of a recipe node
-	public CostList getCost(RecipeNode node, float preMult) {
+	public CostList getCost(Node node, float preMult) {
 		CostList ret = new CostList();
 		
 		if (node == null) {
 			return ret;
 		}
-		
-		//System.out.println(node.item.item.getUnlocalizedName());
-		//System.out.println(node.edges.size());
 		
 		node.visited = true;
 		
@@ -216,7 +211,7 @@ public class RecipeGraph {
 			ret.addItem(node.item, preMult);
 		}
 		else {		
-			for (RecipeEdge edge : node.edges) {
+			for (Edge edge : node.edges) {
 				if (edge.dest.visited == true) {
 					//Must be exploring a cycle!
 					//To resolve it, pick the one with the higher indegree
@@ -245,20 +240,20 @@ public class RecipeGraph {
 		return ret;
 	}
 	
-	public static class RecipeNode {
+	private static class Node {
 		ItemData item;
-		ArrayList<RecipeEdge> edges;
+		ArrayList<Edge> edges;
 		int indegree = 0;
 		public boolean visited;
-		private RecipeNode(ItemData item, ArrayList<RecipeEdge> edges) {
+		private Node(ItemData item, ArrayList<Edge> edges) {
 			this.item = item;
 			this.edges = edges;
 			this.visited = false;
 		}
-		public RecipeNode(ItemData item) {
+		public Node(ItemData item) {
 			this(item, new ArrayList<>());
 		}
-		public RecipeNode addEdge(RecipeEdge toAdd) {
+		public Node addEdge(Edge toAdd) {
 			this.edges.add(toAdd);
 			return this;
 		}
@@ -277,7 +272,7 @@ public class RecipeGraph {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			RecipeNode other = (RecipeNode) obj;
+			Node other = (Node) obj;
 			if (item == null) {
 				if (other.item != null)
 					return false;
@@ -288,10 +283,10 @@ public class RecipeGraph {
 		
 	}
 	
-	public static class RecipeEdge {
+	private static class Edge {
 		float numRequired;
-		RecipeNode dest;
-		public RecipeEdge(float numRequired, RecipeNode dest) {
+		Node dest;
+		public Edge(float numRequired, Node dest) {
 			this.numRequired = numRequired;
 			this.dest = dest;
 		}

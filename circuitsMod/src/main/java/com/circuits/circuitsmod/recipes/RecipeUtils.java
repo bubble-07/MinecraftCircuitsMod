@@ -6,10 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -33,7 +36,7 @@ public class RecipeUtils {
 	 * @param cost
 	 * @throws IOException
 	 */
-	public static void writeRecipeOut(EntityPlayer player, CircuitUID uid, List<ItemStack> cost) throws IOException {
+	public static void writeRawRecipeOut(EntityPlayer player, CircuitUID uid, List<ItemStack> cost) throws IOException {
 		File recipeFile = getRecipeFileFor(player, uid);
 		SerializableItemStack.itemStacksToFile(cost, recipeFile);
 	}
@@ -73,7 +76,16 @@ public class RecipeUtils {
 	}
 	
 	
-	public static Optional<List<ItemStack>> getRecipeFor(World worldIn, UUID playerID, CircuitUID uid) {
+	/**
+	 * Gets the "raw" recipe for a circuit -- that is, the recipe as if we set the config options for
+	 * a linear scale with multiplier 1 (recursive sum of all circuit component costs at the time of serialization)
+	 * @param worldIn
+	 * @param playerID
+	 * @param uid
+	 * @return
+	 */
+	public static Optional<List<ItemStack>> getRawRecipeFor(World worldIn, UUID playerID, CircuitUID uid) {
+		//TODO: Should the persistent costs be affected by any of this?
 		
 		if (persistentCosts.containsKey(uid)) {
 			return Optional.of(SerializableItemStack.copyOf(persistentCosts.get(uid)));
@@ -98,6 +110,20 @@ public class RecipeUtils {
 			
 			return Optional.empty();
 		}
+	}
+
+	public static Item itemFromState(IBlockState in) {
+		return Optional.ofNullable(Item.getItemFromBlock(in.getBlock()))
+	             .orElseGet(() -> in.getBlock().getItemDropped(in, ThreadLocalRandom.current(), 0));
+	}
+	
+	public static Optional<ItemStack> unitItemStackFromState(IBlockState in) {
+		Item item = itemFromState(in);
+		if (item != null) {
+			int meta = in.getBlock().getMetaFromState(in);
+			return Optional.of(new ItemStack(item, 1, meta));
+		}
+		return Optional.empty();
 	}
 
 }

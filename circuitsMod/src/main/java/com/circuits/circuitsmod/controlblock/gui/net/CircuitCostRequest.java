@@ -17,6 +17,7 @@ import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.SerialUtils;
 import com.circuits.circuitsmod.controlblock.ControlBlock;
 import com.circuits.circuitsmod.controlblock.ControlTileEntity;
+import com.circuits.circuitsmod.recipes.RecipeDeterminer;
 import com.circuits.circuitsmod.recipes.RecipeUtils;
 
 //Request from the client to the server to send the cost of a circuit
@@ -43,7 +44,7 @@ public class CircuitCostRequest implements Serializable {
 			Log.internalError("Attempting to get circuit cost for " + in.getPos() +  " but no control TE present!");
 			return;
 		}
-		Optional<List<ItemStack>> stack = RecipeUtils.getRecipeFor(worldIn, in.player, in.uid);
+		Optional<List<ItemStack>> stack = RecipeDeterminer.getRecipeFor(worldIn, in.player, in.uid);
 		
 		CircuitCosts costs = new CircuitCosts(stack);
 		

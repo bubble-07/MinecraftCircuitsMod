@@ -41,17 +41,19 @@ public class PosUtils {
 		return GraphUtils.generalSearch(init, (p) -> neighbors(p).filter(safe), success);
 	}
 	
-	public static void forBlockIn(World worldIn, AxisAlignedBB box, Consumer<IBlockState> f) {	
+	public static void forBlockPosIn(World worldIn, AxisAlignedBB box, Consumer<BlockPos> f) {
 		for (int x = (int) box.minX; x <= (int) box.maxX; x++) {
 			for (int y = (int) box.minY; y <= (int) box.maxY; y++) {
 				for (int z = (int) box.minZ; z <= (int) box.maxZ; z++) {
 					
 					BlockPos pos = new BlockPos(x, y, z);
-					
-					IBlockState state = worldIn.getBlockState(pos);
-					f.accept(state);
+					f.accept(pos);
 				}
 			}
 		}
+	}
+	
+	public static void forBlockIn(World worldIn, AxisAlignedBB box, Consumer<IBlockState> f) {	
+		forBlockPosIn(worldIn, box, (pos) -> f.accept(worldIn.getBlockState(pos)));
 	}
 }

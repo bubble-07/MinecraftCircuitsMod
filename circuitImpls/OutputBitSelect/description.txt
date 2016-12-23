@@ -1,0 +1,9 @@
+OutputBitSelect(k, n) circuit:
+
+A circuit which takes a single n-bit input, 
+and returns the kth bit of the input,
+where the 0th position is the low-order bit
+and the (n-1)th position is the high-order bit
+
+A reversed version of this circuit is provided by
+InputBitSelect(k, n)

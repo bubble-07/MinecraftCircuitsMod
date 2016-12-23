@@ -1,0 +1,4 @@
+Delay(T,N) circuit
+
+This circuit has a single N-bit input and a single N-bit output,
+with the output set as the input delayed by T redstone ticks.
