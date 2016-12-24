@@ -4,15 +4,18 @@ import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.controlblock.gui.ControlGuiHandler;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 
 public class StartupCommonControl
 {
-	public static Block controlBlock;  // this holds the unique instance of your block
-	public static ItemBlock itemControlBlock; // and the corresponding item form that block
+	public static Block controlBlock; 
+	public static ItemBlock itemControlBlock; 
 
 	public static void preInitCommon()
 	{
@@ -20,12 +23,10 @@ public class StartupCommonControl
 		controlBlock.setUnlocalizedName("controlblock");
 		GameRegistry.register(controlBlock);
 
-		// same but for the associated item
 		itemControlBlock = new ItemBlock(controlBlock);
 		itemControlBlock.setRegistryName(controlBlock.getRegistryName());
 		GameRegistry.register(itemControlBlock);
 
-		// register the tile entity associated with the inventory block
 		GameRegistry.registerTileEntity(ControlTileEntity.class, "controlblock");
 
         NetworkRegistry.INSTANCE.registerGuiHandler(CircuitsMod.instance, new ControlGuiHandler());
@@ -33,6 +34,11 @@ public class StartupCommonControl
 
 	public static void initCommon()
 	{
+	      GameRegistry.addRecipe(new ItemStack(controlBlock, 1), "xyx", "yzy", "xyx", 
+	    		                 'x', new ItemStack(Blocks.OBSIDIAN), 
+	    		                 'y', new ItemStack(Items.DIAMOND),
+	    		                 'z', new ItemStack(Items.REDSTONE));
+
 	}
 
 	public static void postInitCommon()

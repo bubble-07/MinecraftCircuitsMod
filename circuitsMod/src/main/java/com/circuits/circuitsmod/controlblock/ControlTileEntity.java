@@ -16,7 +16,6 @@ import com.circuits.circuitsmod.common.SerialUtils;
 import com.circuits.circuitsmod.controlblock.gui.net.ServerGuiMessage;
 import com.circuits.circuitsmod.frameblock.StartupCommonFrame;
 import com.circuits.circuitsmod.recipes.RecipeDeterminer;
-import com.circuits.circuitsmod.recipes.RecipeUtils;
 import com.circuits.circuitsmod.tester.ControlBlockTester;
 import com.circuits.circuitsmod.tester.TestConfig;
 import com.circuits.circuitsmod.tester.TestState;

@@ -11,20 +11,15 @@ import java.util.stream.Collectors;
 
 
 
-import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.Config;
 import com.circuits.circuitsmod.circuit.CircuitUID;
 import com.circuits.circuitsmod.common.ItemUtils;
 import com.circuits.circuitsmod.common.PosUtils;
-import com.circuits.circuitsmod.frameblock.StartupCommonFrame;
 import com.circuits.circuitsmod.tester.Tester;
 
 
 
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;

@@ -6,7 +6,6 @@ import java.util.Random;
 
 import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.busblock.BusSegment;
-import com.circuits.circuitsmod.busblock.IBusConnectable;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.common.BlockFace;
 import com.circuits.circuitsmod.common.Log;
@@ -20,7 +19,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -31,7 +29,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class CircuitBlock extends BlockDirectional implements ITileEntityProvider, IBusConnectable {
+public class CircuitBlock extends BlockDirectional implements ITileEntityProvider {
 
 	private static final String name = "circuitBlock";
 	//TODO: Give this thing side/bottom textures!

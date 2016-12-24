@@ -18,7 +18,6 @@ import com.circuits.circuitsmod.common.SerialUtils;
 import com.circuits.circuitsmod.controlblock.ControlBlock;
 import com.circuits.circuitsmod.controlblock.ControlTileEntity;
 import com.circuits.circuitsmod.recipes.RecipeDeterminer;
-import com.circuits.circuitsmod.recipes.RecipeUtils;
 
 //Request from the client to the server to send the cost of a circuit
 public class CircuitCostRequest implements Serializable {

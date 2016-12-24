@@ -53,10 +53,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * The other two bits will be used to store the type of the bus -- this means that there are in fact __two__ different bus blocks
  */
 
-public class BusBlock extends Block implements IBusConnectable, IMetaBlockName {
+public class BusBlock extends Block implements IMetaBlockName {
 	public BusBlock()
 	{
 		super(Material.ROCK);
+		setHardness(0.5F);
 		this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);   // the block will appear on the Blocks tab in creative
 		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, BusFacing.CAP)
 				.withProperty(WIDTH, WIDTH.getAllowedValues().iterator().next()));
@@ -205,7 +206,7 @@ public class BusBlock extends Block implements IBusConnectable, IMetaBlockName {
 			Optional<BusSegment> seg = CircuitBlock.getBusSegmentAt(worldIn, face.otherSide());
 			return seg.isPresent() && seg.get().getWidth() == busWidths[meta].getWidth();
 		}
-		return (neighborState.getBlock() instanceof IBusConnectable);
+		return false;
 	}
 
 	/**

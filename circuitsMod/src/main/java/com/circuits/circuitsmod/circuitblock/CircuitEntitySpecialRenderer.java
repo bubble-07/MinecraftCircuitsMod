@@ -8,8 +8,6 @@ import org.lwjgl.opengl.GL11;
 import com.circuits.circuitsmod.busblock.BusSegment;
 import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
-import com.circuits.circuitsmod.controlblock.gui.ControlGuiPage;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;

@@ -34,7 +34,8 @@ public class RecipeGraph {
 			this.data = data;
 		}
 		public ItemData(ItemStack in) {
-			this(in.getItem(), in.getMetadata());
+			this.item = in.getItem();
+			this.data = in.getMetadata();
 		}
 		public ItemStack toStack(int num) {
 			return new ItemStack(this.item, num, this.data);
