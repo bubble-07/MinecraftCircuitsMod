@@ -5,11 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.BiPredicate;
 
 import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitInfo;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.circuitblock.CircuitItem;
+import com.circuits.circuitsmod.circuitblock.StartupCommonCircuitBlock;
 import com.circuits.circuitsmod.common.ItemUtils;
 import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.SerialUtils;
@@ -35,6 +37,7 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class ControlTileEntity extends TileEntity implements IInventory, ITickable {
 	public ItemStack[] inv;
@@ -106,7 +109,6 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 	public void updateCraftingGrid() {
 		if (craftingCell != null) {
 			int numCraftable = numCraftable();
-			//TODO: Set this to work with chips
 			if (numCraftable != 0 && (inv[7] == null || inv[7].getItem() == Item.getItemFromBlock(StartupCommonFrame.frameBlock))) {
 				inv[7] = getCircuitStack(craftingCell, numCraftable);
 			}
@@ -117,7 +119,7 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 	private int getNumTimesIngredient(ItemStack stack) {
 		float accum = 0;
 		for (int i = 0; i < 5; i++) {
-			if (inv[i] != null && inv[i].getItem() == stack.getItem()) {
+			if (stackItemsMatch(inv[i], stack)) {
 				accum += ((float)inv[i].stackSize) / ((float)stack.stackSize);
 			}
 		}
@@ -139,15 +141,39 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 		return numCraftable;
 	}
 	
+	private static boolean stackItemsMatch(ItemStack one, ItemStack two) {
+		if ((one == null) || two == null) {
+			return false;
+		}
+		if ((one.getItem() instanceof CircuitItem) && (two.getItem() instanceof CircuitItem)) {
+			return CircuitItem.getUIDFromStack(one).equals(CircuitItem.getUIDFromStack(two));
+		}
+		int[] oneOres = OreDictionary.getOreIDs(one);
+		int[] twoOres = OreDictionary.getOreIDs(two);
+		if (oneOres.length != twoOres.length) {
+			return false;
+		}
+		if (oneOres.length == 0) {
+			return one.getItem() == two.getItem();
+		}
+		//TODO: should we check for a non-empty intersection instead?
+		//is it common to register something to multiple ores?
+		for (int i = 0; i < oneOres.length; i++) {
+			if (oneOres[i] != twoOres[i]) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public void craftingSlotPickedUp(int numCrafted) {
-		//TODO: Make this __also__ use the item metadata, not just the item
 		
 		inv[7] = null;
 		if (craftingCell != null) {
 			List<ItemStack> totalCost = ItemUtils.mapOverQty(getCost(craftingPlayer, craftingCell).get(), (qty) -> (qty * numCrafted));
 			for (ItemStack cost : totalCost) {
 				for (int i = 0; i < 5; i++) {
-					if (inv[i] != null && cost != null && cost.getItem() == inv[i].getItem()) {
+					if (stackItemsMatch(inv[i], cost)) {
 						int sub = Math.min(inv[i].stackSize, cost.stackSize);
 						cost.stackSize -= sub;
 						inv[i].stackSize -= sub;
@@ -158,17 +184,15 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 				}
 			}
 			
-			//TODO: Get rid of this stupid, ugly hack. I don't want to deal with overriding slot, tho
-			//TODO: Maybe a better way would be to send the player requesting?
+			//TODO: Override Slot
 			
-			List<EntityPlayer> playersInRange = getWorld().getPlayers(EntityPlayer.class, (Object p) -> (
-					((EntityPlayer) p).getDistanceSq(getPos()) < 25));
-			playersInRange.sort((one, two) ->
-				(int)((one).getDistanceSq(getPos()) - ((two).getDistanceSq(getPos()))));
-			EntityPlayer player = playersInRange.get(0);
+			List<EntityPlayer> craftingPlayers = getWorld().getPlayers(EntityPlayer.class, (Object p) -> (
+					((EntityPlayer) p).getUniqueID().equals(craftingPlayer)));
 			
-			
-			player.inventory.addItemStackToInventory(getCircuitStack(craftingCell, numCrafted));
+			if (craftingPlayers.size() == 1) {
+				EntityPlayer player = craftingPlayers.get(0);
+				player.inventory.addItemStackToInventory(getCircuitStack(craftingCell, numCrafted));
+			}
 		}
 	}
 	

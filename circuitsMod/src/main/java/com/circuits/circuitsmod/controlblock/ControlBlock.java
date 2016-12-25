@@ -13,6 +13,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -54,17 +55,10 @@ public class ControlBlock extends BlockContainer
 	private void dropItems(World world, BlockPos pos) {
 		TileEntity tileEntity = world.getTileEntity(pos);
 		IInventory inventory = (IInventory) tileEntity;
-		for (int i = 0; i < inventory.getSizeInventory(); i++) {
-			ItemStack item = inventory.getStackInSlot(i);
-			if (item != null && item.stackSize > 0) {
-				EntityItem entityItem = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ());
-				if (item.hasTagCompound()) {
-					entityItem.getEntityItem().setTagCompound((NBTTagCompound) item.getTagCompound().copy());
-				}
-				world.spawnEntityInWorld(entityItem);
-				item.stackSize = 0;
-			}
-		}
+		//Clear the crafting slot
+		inventory.setInventorySlotContents(7, null);
+		InventoryHelper.dropInventoryItems(world, pos, inventory);
+		world.updateComparatorOutputLevel(pos, this);
 	}
 	@Override
 	public TileEntity createNewTileEntity(World world, int ignored) {
