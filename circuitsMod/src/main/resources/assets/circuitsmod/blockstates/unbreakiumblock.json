@@ -1,0 +1,12 @@
+{
+    "forge_marker" : 1,
+    "defaults" : {
+        "model" : "circuitsmod:unbreakiumblock"
+    },
+    "variants": {
+        "framemimic": {
+            "false" : { "model": "circuitsmod:unbreakiumblock" },
+            "true" : { "model": "circuitsmod:frameblock" }
+        }
+    }
+}

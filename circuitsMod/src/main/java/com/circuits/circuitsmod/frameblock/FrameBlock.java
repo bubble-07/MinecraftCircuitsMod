@@ -15,7 +15,7 @@ public class FrameBlock extends Block
   public FrameBlock()
   {
     super(Material.ROCK);
-    this.setHardness(9999);
+    this.setHardness(0.5f);
     this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);   // the block will appear on the Blocks tab in creative
   }
 

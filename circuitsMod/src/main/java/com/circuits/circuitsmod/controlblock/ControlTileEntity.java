@@ -84,6 +84,9 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 		return false;
 	}
 	public void stopTest() {
+		if (tester != null) {
+			tester.cleanup();
+		}
 		tester = null;
 		state = null;
 	}

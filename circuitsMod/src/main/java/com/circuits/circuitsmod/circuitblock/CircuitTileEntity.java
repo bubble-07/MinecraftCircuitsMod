@@ -17,6 +17,7 @@ import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.circuitblock.WireDirectionMapper.WireDirectionGenerator;
 import com.circuits.circuitsmod.common.BlockFace;
 import com.circuits.circuitsmod.common.BusData;
+import com.circuits.circuitsmod.common.RedstoneUtils;
 import com.circuits.circuitsmod.reflective.ChipInvoker;
 import com.circuits.circuitsmod.reflective.Invoker;
 import com.google.common.collect.Lists;
@@ -131,18 +132,11 @@ public class CircuitTileEntity extends TileEntity {
 	}
 	
 	int getSidePower(EnumFacing side) {
-		BlockPos pos = getPos().offset(side);
-		if (getWorld().getRedstonePower(pos, side) > 0) {
-			return getWorld().getRedstonePower(pos, side);
-		}
-		else {
-			IBlockState iblockstate1 = getWorld().getBlockState(pos);
-			return iblockstate1.getBlock() == Blocks.REDSTONE_WIRE ? ((Integer)iblockstate1.getValue(BlockRedstoneWire.POWER)).intValue() : 0;
-		}
+		return RedstoneUtils.getSidePower(getWorld(), getPos(), side);
 	}
 	
 	boolean isSidePowered(EnumFacing side) {
-		return getSidePower(side) > 0;
+		return RedstoneUtils.isSidePowered(getWorld(), getPos(), side);
 	}
 	
 	private void notifyNeighbor(EnumFacing side) {

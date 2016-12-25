@@ -35,6 +35,7 @@ public abstract class CommonProxy {
 	  com.circuits.circuitsmod.testblock.StartupCommonTesting.preInitCommon();
 	  //com.circuits.circuitsmod.portalitem.StartupCommonActivator.preInitCommon();
   	  com.circuits.circuitsmod.circuitblock.StartupCommonCircuitBlock.preInitCommon();
+  	  com.circuits.circuitsmod.unbreakium.StartupCommonUnbreakium.preInitCommon();
   	  Config.readConfig();
   }
   /**
@@ -51,6 +52,8 @@ public abstract class CommonProxy {
 	  com.circuits.circuitsmod.testblock.StartupCommonTesting.initCommon();
 	  //com.circuits.circuitsmod.portalitem.StartupCommonActivator.initCommon();
 	  com.circuits.circuitsmod.circuitblock.StartupCommonCircuitBlock.initCommon();
+  	  com.circuits.circuitsmod.unbreakium.StartupCommonUnbreakium.initCommon();
+
 	  
 	  PuzzleDimensions.init();
   }
@@ -67,6 +70,8 @@ public abstract class CommonProxy {
 	  com.circuits.circuitsmod.telecleaner.StartupCommonCleaner.postInitCommon();
 	  com.circuits.circuitsmod.testblock.StartupCommonTesting.postInitCommon();
 	  com.circuits.circuitsmod.circuitblock.StartupCommonCircuitBlock.postInitCommon();
+  	  com.circuits.circuitsmod.unbreakium.StartupCommonUnbreakium.postInitCommon();
+
 	  
 	  //com.circuits.circuitsmod.portalitem.StartupCommonActivator.postInitCommon();
   }

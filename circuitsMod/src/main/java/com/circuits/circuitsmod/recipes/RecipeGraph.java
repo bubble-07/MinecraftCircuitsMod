@@ -6,6 +6,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.circuits.circuitsmod.controlblock.StartupCommonControl;
+import com.circuits.circuitsmod.frameblock.StartupCommonFrame;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
@@ -197,6 +201,11 @@ public class RecipeGraph {
 		CostList ret = new CostList();
 		
 		if (node == null) {
+			return ret;
+		}
+		
+		if (node.item.item == StartupCommonFrame.itemFrameBlock || node.item.item == StartupCommonControl.itemControlBlock) {
+			//Ignore the costs of frame and control blocks.
 			return ret;
 		}
 		

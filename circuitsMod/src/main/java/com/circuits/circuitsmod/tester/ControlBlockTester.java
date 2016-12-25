@@ -1,27 +1,92 @@
 package com.circuits.circuitsmod.tester;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 
 import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitInfo;
+import com.circuits.circuitsmod.common.PosUtils;
+import com.circuits.circuitsmod.controlblock.ControlBlock;
 import com.circuits.circuitsmod.controlblock.ControlTileEntity;
+import com.circuits.circuitsmod.controlblock.StartupCommonControl;
 import com.circuits.circuitsmod.controlblock.tester.net.TestStateUpdate;
 import com.circuits.circuitsmod.frameblock.StartupCommonFrame;
 import com.circuits.circuitsmod.recipes.RecipeDeterminer;
+import com.circuits.circuitsmod.unbreakium.StartupCommonUnbreakium;
+import com.circuits.circuitsmod.unbreakium.UnbreakiumBlock;
 
 public class ControlBlockTester extends Tester<ControlTileEntity> {
 
 	public ControlBlockTester(EntityPlayer player, ControlTileEntity parent,
 			SpecializedCircuitInfo circuit, TestConfig config) {
 		super(player, parent, circuit, config);
+		setupUnbreakiumCage();
+	}
+	
+	private Stream<BlockPos> unbreakiumCageBottomStream() {
+		AxisAlignedBB bottomTestFace = PosUtils.getBBoxFacet(testbbox, EnumFacing.DOWN);
+		
+		Stream<AxisAlignedBB> bottomSides = Stream.of(EnumFacing.EAST, EnumFacing.WEST, EnumFacing.SOUTH, EnumFacing.NORTH)
+		      .map((f) -> PosUtils.getBBoxFacet(bottomTestFace, f).offset(0.0, -1.0, 0.0));
+		
+		AxisAlignedBB bottomFace = bottomTestFace.offset(0.0, -2.0, 0.0);
+		
+		return Stream.concat(Stream.of(bottomFace), bottomSides).flatMap((bb) -> PosUtils.streamBlockPosIn(bb));
+	}
+	
+	private Stream<BlockPos> unbreakiumFrameStream() {
+		return PosUtils.extremalPosIn(testbbox).filter((pos) -> parent.getWorld().getBlockState(pos).getBlock() != StartupCommonControl.controlBlock);
+	}
+	
+	private Stream<BlockPos> unbreakiumCageSidesStream() {
+		
+
+		
+		Stream<AxisAlignedBB> otherSides = Stream.of(EnumFacing.values()).filter((f) -> !f.equals(EnumFacing.DOWN))
+		                                         .map((f) -> PosUtils.shrinkBBox(PosUtils.getBBoxFacet(testbbox, f), 1.0));
+		
+		return otherSides.flatMap((bb) -> PosUtils.streamBlockPosIn(bb));
+	}
+	
+	private Stream<BlockPos> unbreakiumCageStream() {
+		return Stream.concat(unbreakiumCageBottomStream(), unbreakiumCageSidesStream());
+	}
+	
+	private void setupUnbreakiumCage() {
+		unbreakiumCageStream().forEach((pos) -> this.parent.getWorld().setBlockState(pos, StartupCommonUnbreakium.unbreakiumBlock.getDefaultState(), 3));
+		unbreakiumFrameStream().forEach((pos) -> this.parent.getWorld().setBlockState(pos, 
+				                                 StartupCommonUnbreakium.unbreakiumBlock.getDefaultState().withProperty(UnbreakiumBlock.FRAMEMIMIC, true), 3));
+		
+	}
+	
+	private void tearDownUnbreakiumCage() {
+		unbreakiumCageSidesStream().forEach((pos) -> {
+			this.parent.getWorld().setBlockToAir(pos);
+		});
+		unbreakiumCageBottomStream().forEach((pos) -> {
+			this.parent.getWorld().setBlockState(pos, Blocks.STONE.getDefaultState(), 3);
+		});
+		unbreakiumFrameStream().forEach((pos) -> {
+			this.parent.getWorld().setBlockState(pos, StartupCommonFrame.frameBlock.getDefaultState(), 3);
+		});
+	}
+	
+	public void cleanup() {
+		tearDownUnbreakiumCage();
 	}
 	
 	@Override
 	public void successAction() {
+		tearDownUnbreakiumCage();
 		RecipeDeterminer.determineRecipe(this);
 	}
 	
@@ -31,6 +96,17 @@ public class ControlBlockTester extends Tester<ControlTileEntity> {
 		if (!parent.getWorld().isRemote) {
 			CircuitsMod.network.sendToAll(new TestStateUpdate.Message(this.getState(), parent.getPos()));
 		}
+	}
+	
+	@Override
+	protected boolean checkForCheating() {
+		List<EntityLivingBase> entities = this.getWorld().getEntitiesWithinAABB(EntityLivingBase.class, this.testbbox);
+		return !entities.isEmpty();
+	}
+	
+	@Override
+	protected int timeToNextCheatCheck() {
+		return 20;
 	}
 	
 	@Override
@@ -73,7 +149,7 @@ public class ControlBlockTester extends Tester<ControlTileEntity> {
 
 	@Override
 	public void failureAction() {
-		System.out.println("Unimplemented");
+		tearDownUnbreakiumCage();
 	}
 
 }

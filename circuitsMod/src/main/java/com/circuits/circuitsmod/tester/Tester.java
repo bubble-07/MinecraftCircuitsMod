@@ -51,6 +51,10 @@ public abstract class Tester<TEType extends TileEntity> {
 	 * Time remaining before starting the next test
 	 */
 	int testWait = 0;
+	/**
+	 * Time remaining before checking for cheating again
+	 */
+	int cheatCheckWait = 0;
 	
 	SpecializedCircuitUID circuitUID;
 	
@@ -125,7 +129,36 @@ public abstract class Tester<TEType extends TileEntity> {
 		}
 	}
 	
+	/**
+	 * @return true if "cheating" was detected
+	 */
+	protected boolean checkForCheating() {
+		return false;
+	}
+	
+	protected int timeToNextCheatCheck() {
+		return 1000;
+	}
+	
+	
+	
 	public void update() {
+		if (!this.finished) {
+			if (cheatCheckWait == 0) {
+				cheatCheckWait = timeToNextCheatCheck();
+				if (checkForCheating()) {
+					this.finished = true;
+					this.success = false;
+					removeBusSegFaces();
+					failureAction();
+					this.stateUpdateAction();
+				}
+			}
+			else {
+				cheatCheckWait--;
+			}
+		}
+		
 		if (!this.finished) {
 			if (testWait == 0) {
 				testWait = config.tickDelay;

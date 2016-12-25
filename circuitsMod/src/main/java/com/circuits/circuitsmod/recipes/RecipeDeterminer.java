@@ -85,7 +85,7 @@ public class RecipeDeterminer {
 		
 		final RecipeGraph.CostList cost = new RecipeGraph.CostList();
 		
-		PosUtils.forBlockPosIn(test.getWorld(), test.getBBox(), (pos) -> {
+		PosUtils.forBlockPosIn(test.getBBox(), (pos) -> {
 			Optional<List<ItemStack>> stacks = RecipeCrawler.getCostFor(test.getWorld(), pos, test.getInvokingPlayer().getUniqueID());
 			if (stacks.isPresent()) {
 				cost.addItemStacks(stacks.get(), 1.0f);

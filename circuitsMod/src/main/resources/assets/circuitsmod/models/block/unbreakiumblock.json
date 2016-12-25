@@ -1,0 +1,12 @@
+{
+    "parent": "block/cube",
+    "textures": {
+        "down": "circuitsmod:blocks/unbreakiumblock",
+        "up": "circuitsmod:blocks/unbreakiumblock",
+        "north": "circuitsmod:blocks/unbreakiumblock",
+        "east": "circuitsmod:blocks/unbreakiumblock",
+        "south": "circuitsmod:blocks/unbreakiumblock",
+        "west": "circuitsmod:blocks/unbreakiumblock",
+        "particle": "blocks/lapis_block"
+    }
+}
