@@ -11,6 +11,7 @@ import com.circuits.circuitsmod.controlblock.ControlBlock;
 import com.circuits.circuitsmod.controlblock.ControlTileEntity;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -43,10 +44,8 @@ public class CraftingRequest implements Serializable {
 			Log.internalError("Crafting request failed. No control TE at " + in.getPos());
 		}
 		
-		//The server should never have the crafting cell set for too long
 		entity.get().setCraftingCell(in.player, in.circuitUID);
 		entity.get().craftingSlotPickedUp(in.numCrafted);
-		entity.get().unsetCraftingCell();
 	}
 	
 	public static class Message implements IMessage {

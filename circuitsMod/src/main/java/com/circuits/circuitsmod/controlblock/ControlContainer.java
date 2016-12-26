@@ -3,6 +3,8 @@ package com.circuits.circuitsmod.controlblock;
 
 import java.util.Optional;
 
+import javax.annotation.Nullable;
+
 import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.circuitblock.CircuitItem;
@@ -10,6 +12,7 @@ import com.circuits.circuitsmod.controlblock.tester.net.CraftingRequest;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -36,10 +39,38 @@ public class ControlContainer extends Container {
 			}
 		});
 		
-		addSlotToContainer(new Slot(tileEntity, 7, 145, 10));
+		addSlotToContainer(new Slot(tileEntity, 7, 145, 10) {
+			
+		    public boolean isItemValid(@Nullable ItemStack stack)
+		    {
+		        return false;
+		    }
+			
+			@Override
+		    public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack) {
+				//Special handling! Need to remove from the other slots
+				Optional<SpecializedCircuitUID> craftingCell = CircuitItem.getUIDFromStack(stack);
+				if (craftingCell.isPresent()) {
+						CircuitsMod.network.sendToServer(new CraftingRequest.Message(playerIn.getUniqueID(), tileEntity.getPos(), stack.stackSize, 
+								craftingCell.get()));
+				}
+			}
+		});
 		
 		bindPlayerInventory(inventoryPlayer);
 		
+	}
+	
+	@Override
+	//TODO: Fix taking half an item stack from the crafting slot. Dunno why, but it consumes __all__ cost items
+	//For now, we just override to go straight to 
+	public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player) {
+		if (slotId == 7 && clickTypeIn == ClickType.PICKUP && dragType != 0) {
+			return super.slotClick(7, 0, ClickType.PICKUP, player);
+		}
+		else {
+			return super.slotClick(slotId, dragType, clickTypeIn, player);
+		}
 	}
 	
 	@Override
@@ -64,8 +95,10 @@ public class ControlContainer extends Container {
 		
 		//null checks and checks if the item can be stacked (maxStackSize > 1)
 		if (slotObject != null && slotObject.getHasStack()) {
+			
 			ItemStack stackInSlot = slotObject.getStack();
 			stack = stackInSlot.copy(); 
+			
 			if (slot < tileEntity.getSizeInventory()) {
 				if (!this.mergeItemStack(stackInSlot, tileEntity.getSizeInventory(), 
 						36+tileEntity.getSizeInventory(), true)) {
@@ -86,16 +119,7 @@ public class ControlContainer extends Container {
 				return null;
 			}
 			slotObject.onPickupFromSlot(player, stackInSlot);
-			if (slot == 7) {
-				//Special handling! Need to remove from the other slots
-				Optional<SpecializedCircuitUID> craftingCell = CircuitItem.getUIDFromStack(stack);
-				if (craftingCell.isPresent()) {
-					CircuitsMod.network.sendToServer(new CraftingRequest.Message(player.getUniqueID(), tileEntity.getPos(), stack.stackSize, 
-							craftingCell.get()));
-					//tileEntity.craftingSlotPickedUp(stack.stackSize);
-					slotObject.onSlotChanged();
-				}
-			}
+
 		}
 		return stack;
 	}

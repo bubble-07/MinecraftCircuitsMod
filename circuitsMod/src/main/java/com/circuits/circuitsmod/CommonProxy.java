@@ -3,10 +3,12 @@ package com.circuits.circuitsmod;
 import java.io.File;
 
 import com.circuits.circuitsmod.common.FileUtils;
+import com.circuits.circuitsmod.controlblock.gui.ControlGuiHandler;
 import com.circuits.circuitsmod.world.PuzzleDimensions;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 /**
  * CommonProxy is used to set up the mod and start it running.  It contains all the code that should run on both the
@@ -37,6 +39,9 @@ public abstract class CommonProxy {
   	  com.circuits.circuitsmod.circuitblock.StartupCommonCircuitBlock.preInitCommon();
   	  com.circuits.circuitsmod.unbreakium.StartupCommonUnbreakium.preInitCommon();
   	  Config.readConfig();
+  	  
+	  NetworkRegistry.INSTANCE.registerGuiHandler(CircuitsMod.instance, 
+		      new ControlGuiHandler());  
   }
   /**
    * Do your mod setup. Build whatever data structures you care about. Register recipes,
@@ -56,6 +61,7 @@ public abstract class CommonProxy {
 
 	  
 	  PuzzleDimensions.init();
+	  
   }
 
   /**

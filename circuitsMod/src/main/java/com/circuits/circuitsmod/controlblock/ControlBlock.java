@@ -42,7 +42,9 @@ public class ControlBlock extends BlockContainer
 		if (tileEntity == null) {
 			return false;
 		}
-		player.openGui(CircuitsMod.instance, 0, worldIn, pos.getX(), pos.getY(), pos.getZ());
+		if (!worldIn.isRemote) {
+			player.openGui(CircuitsMod.instance, 0, worldIn, pos.getX(), pos.getY(), pos.getZ());
+		}
 		
 		return true;
 	}

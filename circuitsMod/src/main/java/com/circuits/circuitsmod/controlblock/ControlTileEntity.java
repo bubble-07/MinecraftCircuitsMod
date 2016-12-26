@@ -24,6 +24,8 @@ import com.circuits.circuitsmod.tester.TestState;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -34,6 +36,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
@@ -107,13 +110,14 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 	}
 	
 	public void updateCraftingGrid() {
+		inv[7] = null;
 		if (craftingCell != null) {
 			int numCraftable = numCraftable();
-			if (numCraftable != 0 && (inv[7] == null || inv[7].getItem() == Item.getItemFromBlock(StartupCommonFrame.frameBlock))) {
+			if (numCraftable != 0) {
 				inv[7] = getCircuitStack(craftingCell, numCraftable);
 			}
-			this.markDirty();
 		}
+		this.markDirty();
 	}
 	
 	private int getNumTimesIngredient(ItemStack stack) {
@@ -168,7 +172,6 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 	
 	public void craftingSlotPickedUp(int numCrafted) {
 		
-		inv[7] = null;
 		if (craftingCell != null) {
 			List<ItemStack> totalCost = ItemUtils.mapOverQty(getCost(craftingPlayer, craftingCell).get(), (qty) -> (qty * numCrafted));
 			for (ItemStack cost : totalCost) {
@@ -176,24 +179,25 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 					if (stackItemsMatch(inv[i], cost)) {
 						int sub = Math.min(inv[i].stackSize, cost.stackSize);
 						cost.stackSize -= sub;
-						inv[i].stackSize -= sub;
-						if (inv[i].stackSize == 0) {
+						this.decrStackSize(i, sub);
+						if (inv[i] != null && inv[i].stackSize == 0 ) {
 							inv[i] = null;
 						}
 					}
 				}
 			}
 			
-			//TODO: Override Slot
 			
 			List<EntityPlayer> craftingPlayers = getWorld().getPlayers(EntityPlayer.class, (Object p) -> (
 					((EntityPlayer) p).getUniqueID().equals(craftingPlayer)));
 			
 			if (craftingPlayers.size() == 1) {
 				EntityPlayer player = craftingPlayers.get(0);
-				player.inventory.addItemStackToInventory(getCircuitStack(craftingCell, numCrafted));
+				player.openContainer.detectAndSendChanges();
 			}
 		}
+		this.markDirty();
+
 	}
 	
 	private static ItemStack getCircuitStack(SpecializedCircuitUID uid, int numCrafted) {
@@ -262,6 +266,7 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 		if (stack != null && stack.stackSize > getInventoryStackLimit()) {
 			stack.stackSize = getInventoryStackLimit();
 		}
+		this.markDirty();
 	}
 	
 	@Override
@@ -406,6 +411,13 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 	public String getName() {
 		return name;
 	}
+	
+	@Override
+    public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
+    {
+        return oldState.getBlock() != newState.getBlock();
+    }
+	
 	@Override
 	public ITextComponent getDisplayName() {
 		return new TextComponentString("Control");
