@@ -34,10 +34,9 @@ public class StartupCommonControl
 
 	public static void initCommon()
 	{
-	      GameRegistry.addRecipe(new ItemStack(controlBlock, 1), "xyx", "yzy", "xyx", 
-	    		                 'x', new ItemStack(Blocks.OBSIDIAN), 
-	    		                 'y', new ItemStack(Items.DIAMOND),
-	    		                 'z', new ItemStack(Items.REDSTONE));
+	      GameRegistry.addRecipe(new ItemStack(controlBlock, 1), "xyx", "yyy", "xyx", 
+	    		                 'x', new ItemStack(Blocks.STONE), 
+	    		                 'y', new ItemStack(Items.DIAMOND));
 
 	}
 

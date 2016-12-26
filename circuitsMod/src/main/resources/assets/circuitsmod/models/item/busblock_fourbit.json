@@ -2,6 +2,10 @@
   "parent": "circuitsmod:item/busblock",
                   "textures" : {
                     "sidetex" : "circuitsmod:blocks/4bitbusside",
-                    "endtex" : "circuitsmod:blocks/4bitbusend"
+                    "endtex" : "circuitsmod:blocks/4bitbusend",
+                    "toptex" : "circuitsmod:blocks/4bitbustop",
+                    "fullendtex" : "circuitsmod:blocks/4bitbusfullend",
+                    "intersectiontex" : "circuitsmod:blocks/4bitbusintersection",
+                    "topverttex" : "circuitsmod:blocks/4bitbustopvert"
                 }
 }

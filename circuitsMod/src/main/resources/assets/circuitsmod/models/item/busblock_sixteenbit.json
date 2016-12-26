@@ -2,6 +2,10 @@
   "parent": "circuitsmod:item/busblock",
                   "textures" : {
                     "sidetex" : "circuitsmod:blocks/16bitbusside",
-                    "endtex" : "circuitsmod:blocks/16bitbusend"
+                    "endtex" : "circuitsmod:blocks/16bitbusend",
+                    "toptex" : "circuitsmod:blocks/16bitbustop",
+                    "fullendtex" : "circuitsmod:blocks/16bitbusfullend",
+                    "intersectiontex" : "circuitsmod:blocks/16bitbusintersection",
+                    "topverttex" : "circuitsmod:blocks/16bitbustopvert"
                 }
 }

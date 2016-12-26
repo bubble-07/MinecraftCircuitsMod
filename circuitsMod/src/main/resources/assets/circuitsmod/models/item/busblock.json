@@ -1,5 +1,5 @@
 {
-  "parent": "circuitsmod:block/busblock",
+  "parent": "circuitsmod:block/busblock_horiz",
   "display": {
     "thirdperson_righthand": {
       "rotation": [ 0, 0, 0 ],

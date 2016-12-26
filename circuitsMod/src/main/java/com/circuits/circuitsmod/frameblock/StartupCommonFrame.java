@@ -26,9 +26,10 @@ public class StartupCommonFrame
 
   public static void initCommon()
   {
-	  GameRegistry.addRecipe(new ItemStack(frameBlock, 64), "yxx", "yyy", "xxy", 
-              'x', new ItemStack(Blocks.OBSIDIAN), 
-              'y', new ItemStack(Items.DYE, 1, EnumDyeColor.GREEN.getDyeDamage()));
+	  
+	  GameRegistry.addRecipe(new ItemStack(frameBlock, 1), "x", "y", 
+              'x', new ItemStack(Items.REDSTONE), 
+              'y', new ItemStack(Blocks.STONE));
   }
 
   public static void postInitCommon()

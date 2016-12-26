@@ -47,7 +47,7 @@ public class CircuitEntitySpecialRenderer extends TileEntitySpecialRenderer<Circ
 			case 16:
 				return new float[]{0.0f, 0.0f, 1.0f};
 			case 32:
-				return new float[]{1.0f, 0.0f, 1.0f};
+				return new float[]{1.0f, 0.73f, 0.94f};
 			case 64:
 				return new float[]{0.9f, 0.9f, 0.9f};
 			}

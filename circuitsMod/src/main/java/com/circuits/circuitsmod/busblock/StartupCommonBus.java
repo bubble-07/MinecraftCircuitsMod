@@ -26,19 +26,21 @@ public class StartupCommonBus
 
   public static void initCommon()
   {
-	  //2-bit bus recipe
-      GameRegistry.addRecipe(new ItemStack(busBlock, 8, 0), "xxx", "xyx", "xxx", 'x', new ItemStack(Blocks.STONE), 'y', new ItemStack(Items.REDSTONE));
-      //4-bit bus recipe
-      GameRegistry.addRecipe(new ItemStack(busBlock, 8, 1), "xxx", "xyx", "xxx", 'x', new ItemStack(Blocks.STONE), 'y', new ItemStack(Items.GOLD_NUGGET));
-      //8-bit bus recipe
-      GameRegistry.addRecipe(new ItemStack(busBlock, 8, 2), "xxx", "xyx", "xxx", 'x', new ItemStack(Blocks.STONE), 'y', new ItemStack(Items.DYE, 1, EnumDyeColor.GREEN.getDyeDamage()));
-      //16-bit bus recipe
-      GameRegistry.addRecipe(new ItemStack(busBlock, 8, 3), "xxx", "xyx", "xxx", 'x', new ItemStack(Blocks.STONE), 'y', new ItemStack(Items.DYE, 1, EnumDyeColor.BLUE.getDyeDamage()));
-      //32-bit bus recipe
-      GameRegistry.addRecipe(new ItemStack(busBlock, 8, 4), "xxx", "xyx", "xxx", 'x', new ItemStack(Blocks.GLASS), 'y', new ItemStack(Items.DYE, 1, EnumDyeColor.BLUE.getDyeDamage()));
-      //64-bit bus recipe
-      GameRegistry.addRecipe(new ItemStack(busBlock, 16, 5), "xxx", "xyx", "xxx", 'x', new ItemStack(Blocks.GLASS), 'y', new ItemStack(Items.DIAMOND));
-
+	  //2-bit bus creation recipe
+      GameRegistry.addRecipe(new ItemStack(busBlock, 1, 0), "xx", 'x', new ItemStack(Items.REDSTONE));
+      
+      //Other-bit bus creation recipes
+      for (int i = 1; i < BusBlock.busWidths.length; i++) {
+          GameRegistry.addRecipe(new ItemStack(busBlock, 2, i), "xxx", 'x', new ItemStack(busBlock, 1, i - 1));
+      }
+      
+      //2-bit bus deconstruction recipe
+      GameRegistry.addRecipe(new ItemStack(Items.REDSTONE, 2), "x", 'x', new ItemStack(busBlock, 1, 0));
+      
+      //Other-bit bus deconstruction recipes
+      for (int i = 1; i < BusBlock.busWidths.length; i++) {
+          GameRegistry.addRecipe(new ItemStack(busBlock, 3, i - 1), "xx", 'x', new ItemStack(busBlock, 1, i));
+      }
 
   }
 
