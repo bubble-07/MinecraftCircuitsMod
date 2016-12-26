@@ -204,7 +204,7 @@ public abstract class Invoker {
 	 * Given BusData, return the (boxed) Java object representation.
 	 * @return
 	 */
-	protected static Object unBus(BusData data) {
+	public static Object unBus(BusData data) {
 		switch (data.getWidth()) {
 			case 64:
 				return ((long) data.getData());
@@ -241,7 +241,7 @@ public abstract class Invoker {
 	/**
 	 * Given a (boxed) Java object, return BusData
 	 */
-	protected static BusData bus(Object obj) {
+	public static BusData bus(Object obj) {
 		if (obj instanceof Long) {
 			return new BusData(64, (Long) obj);
 		}

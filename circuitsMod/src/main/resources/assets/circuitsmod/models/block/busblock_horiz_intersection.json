@@ -1,0 +1,24 @@
+{
+	"textures": {
+		"toptex" : "circuitsmod:blocks/2bitbustop",
+        "sidetex" : "circuitsmod:blocks/2bitbusside",
+        "endtex" : "circuitsmod:blocks/2bitbusend",
+        "fullendtex" : "circuitsmod:blocks/2bitbusfullend",
+        "intersectiontex" : "circuitsmod:blocks/2bitbusintersection",
+        "topverttex" : "circuitsmod:blocks/2bitbustopvert"
+        
+    },
+    "elements": [
+        {   "from": [ 0, 0, 0 ],
+            "to": [ 16, 8, 16 ],
+            "faces": {
+                "down":  { "texture": "#intersectiontex", "cullface": "down" },
+                "up":    { "texture": "#intersectiontex", "cullface": "up" },
+                "north": { "texture": "#endtex", "cullface" : "north" },
+                "south": { "texture": "#endtex", "cullface" : "south"},
+                "west":  { "texture": "#endtex", "cullface" : "west"},
+                "east":  { "texture": "#endtex", "cullface" : "east"}
+            }
+        }
+    ]
+}

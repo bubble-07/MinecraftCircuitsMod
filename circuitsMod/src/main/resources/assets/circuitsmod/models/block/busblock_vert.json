@@ -1,0 +1,18 @@
+{
+    "parent": "circuitsmod:block/busblock_common",
+    "textures": {
+    	"sidetex" : "circuitsmod:blocks/2bitbusside",
+        "endtex" : "circuitsmod:blocks/2bitbusend",
+        "toptex" : "circuitsmod:blocks/2bitbusend",
+        "fullendtex" : "circuitsmod:blocks/2bitbusfullend",
+        "intersectiontex" : "circuitsmod:blocks/2bitbusintersection",
+        "topverttex" : "circuitsmod:blocks/2bitbustopvert",
+        "down": "#fullendtex",
+        "up": "#fullendtex",
+        "north": "#topverttex",
+        "east": "#topverttex",
+        "south": "#topverttex",
+        "west": "#topverttex",
+        "particle": "blocks/lapis_block"
+    }
+}

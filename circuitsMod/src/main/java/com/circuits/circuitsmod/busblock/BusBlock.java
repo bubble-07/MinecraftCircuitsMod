@@ -77,7 +77,9 @@ public class BusBlock extends Block implements IMetaBlockName {
 		NORTHSOUTH("northsouth", 0),
 		EASTWEST("eastwest", 1),
 		UPDOWN("updown", 2),
-		CAP("cap", 3);
+		CAP("cap", 3),
+		INTERSECTION("intersection", 4),
+		TOPCAP("topcap", 4);
 
 		private final String name;
 		private final int meta;
@@ -104,6 +106,10 @@ public class BusBlock extends Block implements IMetaBlockName {
 				return BusFacing.UPDOWN;
 			case 3:
 				return BusFacing.CAP;
+			case 4:
+				return BusFacing.INTERSECTION;
+			case 5:
+				return BusFacing.TOPCAP;
 			}
 			return null;
 		}
@@ -215,31 +221,29 @@ public class BusBlock extends Block implements IMetaBlockName {
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
 	{
 		BiPredicate<BlockFace, BlockFace> connectable = (f1, f2) -> canConnect(worldIn, state, f1) || canConnect(worldIn, state, f2);
+
 		
-		//First, determine if any neighbors are buses of different widths, in which case this thing should be a cap
-		boolean capoverride = PosUtils.neighbors(pos).anyMatch((nbPos) -> {
-			IBlockState neighborState = worldIn.getBlockState(nbPos);
-			if (neighborState.getBlock() instanceof BusBlock) {
-				return this.getMetaFromState(neighborState) != this.getMetaFromState(state);
-			}
-			return false;
-		});
-		
-		boolean updown = connectable.test(BlockFace.up(pos), BlockFace.down(pos));
+		boolean up = canConnect(worldIn, state, BlockFace.up(pos));
+		boolean down = canConnect(worldIn, state, BlockFace.down(pos));
+		boolean updown = up || down;
 		boolean northsouth = connectable.test(BlockFace.north(pos), BlockFace.south(pos));
 		boolean eastwest = connectable.test(BlockFace.east(pos), BlockFace.west(pos));
 
 		BusFacing facing = BusFacing.CAP;
-		if (!capoverride) {
-			if (updown && !northsouth && !eastwest) {
-				facing = BusFacing.UPDOWN;
-			}
-			else if (!updown && northsouth && !eastwest) {
-				facing = BusFacing.NORTHSOUTH;
-			}
-			else if (!updown && !northsouth && eastwest) {
-				facing = BusFacing.EASTWEST;
-			}
+		if (!up && down && (northsouth || eastwest)) {
+			facing = BusFacing.TOPCAP;
+		}
+		else if (updown && !northsouth && !eastwest) {
+			facing = BusFacing.UPDOWN;
+		}
+		else if (!updown && northsouth && !eastwest) {
+			facing = BusFacing.NORTHSOUTH;
+		}
+		else if (!updown && !northsouth && eastwest) {
+			facing = BusFacing.EASTWEST;
+		}
+		else if (!updown && eastwest && northsouth) {
+			facing = BusFacing.INTERSECTION;
 		}
 		return state.withProperty(FACING, facing);
 	}
@@ -356,13 +360,14 @@ public class BusBlock extends Block implements IMetaBlockName {
 	{
 		return BlockRenderLayer.SOLID;
 	}
+	//TODO: Intelligently cull faces here.
 	@Override
 	public boolean isOpaqueCube(IBlockState iBlockState) {
-		return true;
+		return false;
 	}
 	@Override
 	public boolean isFullCube(IBlockState iBlockState) {
-		return true;
+		return false;
 	}
 
 	@Override

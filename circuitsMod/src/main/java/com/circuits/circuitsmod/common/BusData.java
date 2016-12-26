@@ -1,7 +1,9 @@
 package com.circuits.circuitsmod.common;
 
 import java.io.Serializable;
+import java.nio.ByteBuffer;
 import java.util.HashMap;
+import java.util.Optional;
 
 /**
  * Represents data traveling down a bus
@@ -73,6 +75,19 @@ public class BusData implements Serializable {
 		assert(this.width == other.width);
 		assert(this.width != 64);
 		return new BusData(width * 2, (this.data << this.width) + other.data);
+	}
+	
+	public byte[] toBytes() {
+		return ByteBuffer.allocate(12).putInt(width).putLong(data).array();
+	}
+	public static Optional<BusData> fromBytes(byte[] bytes) {
+		if (bytes.length != 12) {
+			return Optional.empty();
+		}
+		ByteBuffer buf = ByteBuffer.wrap(bytes);
+		int width = buf.getInt();
+		long data = buf.getLong();
+		return Optional.of(new BusData(width, data));
 	}
 	
 	public String toString() {
