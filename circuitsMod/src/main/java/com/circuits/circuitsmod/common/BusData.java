@@ -3,7 +3,14 @@ package com.circuits.circuitsmod.common;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.apache.commons.lang3.ArrayUtils;
+
+import com.google.common.collect.Lists;
 
 /**
  * Represents data traveling down a bus
@@ -36,7 +43,7 @@ public class BusData implements Serializable {
 	
 	public BusData(int width, long data) {
 		this.width = width;
-		assert(ArrayUtils.inArray(this.width, allowed));
+		assert(com.circuits.circuitsmod.common.ArrayUtils.inArray(this.width, allowed));
 		
 		this.data = maskMap.get(width) & data;
 
@@ -88,6 +95,25 @@ public class BusData implements Serializable {
 		int width = buf.getInt();
 		long data = buf.getLong();
 		return Optional.of(new BusData(width, data));
+	}
+	
+	public static Optional<List<BusData>> listFromBytes(byte[] bytes) {
+		if (bytes.length % 12 != 0) {
+			return Optional.empty();
+		}
+		List<byte[]> chunked = Lists.newArrayList();
+		ByteBuffer buf = ByteBuffer.wrap(bytes);
+		while (buf.hasRemaining()) {
+			byte[] toAdd = new byte[12];
+			buf = buf.get(toAdd);
+			chunked.add(toAdd);
+		}
+		return Optional.of(chunked.stream().map(BusData::fromBytes).map(Optional::get).collect(Collectors.toList()));
+	}
+	
+	public static byte[] listToBytes(List<BusData> in) {
+		Byte[] result = in.stream().flatMap(b -> Stream.of(ArrayUtils.toObject(b.toBytes()))).toArray(Byte[]::new);
+		return ArrayUtils.toPrimitive(result);
 	}
 	
 	public String toString() {

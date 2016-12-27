@@ -12,7 +12,6 @@ import com.circuits.circuitsmod.circuitblock.CircuitTileEntity;
 import com.circuits.circuitsmod.common.BlockFace;
 import com.circuits.circuitsmod.common.IMetaBlockName;
 import com.circuits.circuitsmod.common.Log;
-import com.circuits.circuitsmod.common.PosUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;

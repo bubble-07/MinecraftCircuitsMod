@@ -1,13 +1,10 @@
 package com.circuits.circuitsmod.reflective;
 
 import java.lang.reflect.Field;
-import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import org.apache.commons.lang3.ArrayUtils;
 
 import com.circuits.circuitsmod.common.BusData;
 import com.circuits.circuitsmod.common.StreamUtils;
@@ -30,7 +27,6 @@ public class BasicSerializer {
 		List<Field> fields = getSortedFieldsOf(o);
 		
 		for (Field f : fields) {
-			f.setAccessible(true);
 			try {
 				Object val = f.get(o);
 				vals.add(val);
@@ -39,35 +35,41 @@ public class BasicSerializer {
 				return Optional.empty();
 			}
 		}
-		Byte[] result = StreamUtils.optionalMap(vals.stream(), val -> Optional.ofNullable(Invoker.bus(val)))
-		           .flatMap(b -> Stream.of(ArrayUtils.toObject(b.toBytes()))).toArray(Byte[]::new);
-		return Optional.of(ArrayUtils.toPrimitive(result));
-		
+		List<BusData> busDatas = StreamUtils.optionalMap(vals.stream(), val -> Optional.ofNullable(Invoker.bus(val))).collect(Collectors.toList());
+		return Optional.of(BusData.listToBytes(busDatas));
 	}
 	
 	private static List<Field> getSortedFieldsOf(Object o) {
 		Class<?> clazz = o.getClass();
 		//First, sort the fields by name
 		List<Field> fields = Stream.of(clazz.getDeclaredFields()).sorted((f1, f2) -> f1.getName().compareTo(f2.getName())).collect(Collectors.toList());
+		fields.forEach((f) -> f.setAccessible(true));
 		return fields;
 	}
 	
 	
-	public static <T> Optional<T> deserialize(T instance, byte[] fields) {
-		if (fields.length % 12 != 0) {
+	public static <T> Optional<T> deserialize(T instance, byte[] bytes) {
+		Optional<List<BusData>> busdatas = BusData.listFromBytes(bytes);
+		if (!busdatas.isPresent()) {
 			return Optional.empty();
 		}
-		List<byte[]> chunked = Lists.newArrayList();
-		ByteBuffer buf = ByteBuffer.wrap(fields);
-		while (buf.hasRemaining()) {
-			byte[] toAdd = new byte[12];
-			buf = buf.get(toAdd);
-			chunked.add(toAdd);
-		}
-		List<Optional<Object>> objs = chunked.stream().map(BusData::fromBytes)
-				                              .map((busData) -> busData.flatMap((data) -> Optional.ofNullable(Invoker.unBus(data)))).collect(Collectors.toList());
 		
-		ByteBuffer.wrap(fields).get(new byte[12]);
+		List<Object> objs = StreamUtils.optionalMap(busdatas.get().stream(), 
+				                                    (data) -> Optional.ofNullable(Invoker.unBus(data))).collect(Collectors.toList());
+		
+		List<Field> fields = getSortedFieldsOf(instance);
+		int i = 0;
+		for (Field f : fields) {
+			if (Invoker.getTypeWidth(f.getType()) != 0) {
+				try {
+					f.set(instance, objs.get(i));
+				} catch (IllegalArgumentException | IllegalAccessException | IndexOutOfBoundsException e) {
+					return Optional.empty();
+				}
+				i++;
+			}
+		}
+		return Optional.of(instance);
 	}
 		
 }

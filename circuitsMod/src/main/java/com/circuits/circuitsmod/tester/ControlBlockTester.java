@@ -15,7 +15,6 @@ import net.minecraft.util.math.BlockPos;
 import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitInfo;
 import com.circuits.circuitsmod.common.PosUtils;
-import com.circuits.circuitsmod.controlblock.ControlBlock;
 import com.circuits.circuitsmod.controlblock.ControlTileEntity;
 import com.circuits.circuitsmod.controlblock.StartupCommonControl;
 import com.circuits.circuitsmod.controlblock.tester.net.TestStateUpdate;

@@ -41,6 +41,9 @@ import com.google.common.collect.Lists;
  * (boolean isSequential(););
  * (boolean[] analogInputs(););
  * (boolean[] analogOutputs(););
+ * (String config(int i0, ... int in));
+ * (byte[] serialize())
+ * (boolean deserialize(byte[] in))
  * 
  * Where T0, T1, T2, I0, I1, and I2 are each one of {boolean, byte, short, int, long},
  * and anything enclosed in parentheses is optional. 
@@ -66,7 +69,16 @@ import com.google.common.collect.Lists;
  * implementation. Any input/output position declared to be analog must have a 4-bit width (byte datatype)
  * 
  * "inputWidths", "outputWidths", and "isSequential" are all required to be idempotent
- *
+ * 
+ * In addition, the user may specify one or more __configuration options__ as arguments to the config method,
+ * which will be called immediately after constructing the circuit. The method can/should set instance variables
+ * on the object, and should return a name for the configuration from the method, with a "null" value indicating
+ * an invalid configuration.
+ * 
+ * Finally, the internal states of combinational circuits are not saved on game save, but sequential circuits
+ * may need to explicitly save their state. By default, all fields with valid bus-like types {boolean, byte, short, int, long},
+ * will be automagically serialized, but if this is not sufficient, both "serialize" and "deserialize" should be specified
+ * to perform explicit serialization/deserialization to/from byte arrays. "deserialize" should return "true" iff deserialization succeeds.
  * 
  * @author bubble-07
  *
@@ -78,6 +90,16 @@ public class ChipInvoker extends Invoker {
 	 * Stores the "tick" method
 	 */
 	private final Method tickMethod;
+	
+	/**
+	 * Stores the "deserialize" method (if present)
+	 */
+	private final Optional<Method> deserializeMethod;
+	
+	/**
+	 * Stores the "serialize" method (if present)
+	 */
+	private final Optional<Method> serializeMethod;
 	
 	/**
 	 * List of output methods
@@ -125,7 +147,7 @@ public class ChipInvoker extends Invoker {
 	private ChipInvoker(Class<?> implClass, Method tickMethod,
 			List<Method> outputMethods, boolean isSequential,
 			int[] outputWidths, int[] inputWidths, boolean[] analogInputs, boolean[] analogOutputs,
-			CircuitConfigOptions configOpts, String configName) {
+			CircuitConfigOptions configOpts, String configName, Optional<Method> serializeMethod, Optional<Method> deserializeMethod) {
 		super(implClass, configOpts, configName);
 		this.tickMethod = tickMethod;
 		this.outputMethods = outputMethods;
@@ -134,6 +156,8 @@ public class ChipInvoker extends Invoker {
 		this.inputWidths = inputWidths;
 		this.analogInputs = analogInputs;
 		this.analogOutputs = analogOutputs;
+		this.serializeMethod = serializeMethod;
+		this.deserializeMethod = deserializeMethod;
 		
 		BiFunction<int[], boolean[], int[]> redstoneIndices = (widths, analog) -> {
 			return ArrayUtils.unbox(
@@ -170,6 +194,20 @@ public class ChipInvoker extends Invoker {
 		if (!outputMethods.isPresent()) {
 			return Optional.empty();
 		}
+		
+		
+		Optional<Method> serializeMethod = ReflectiveUtils.getMethodFromName(implClass, "serialize");
+		Optional<Method> deserializeMethod = ReflectiveUtils.getMethodFromName(implClass, "deserialize");
+		
+		if (serializeMethod.isPresent() || 
+				deserializeMethod.isPresent()) {
+			if (! (serializeMethod.isPresent() && 
+					deserializeMethod.isPresent())) {
+				error.accept("only defines one of serialize/deserialize");
+				return Optional.empty();
+			}
+		}
+		
 		
 		if (ReflectiveUtils.getMethodFromName(implClass, "value3").isPresent()) {
 			error.accept("has more than three output faces");
@@ -295,7 +333,7 @@ public class ChipInvoker extends Invoker {
 		return Optional.of(new ChipInvoker(implClass, tickMethod.get(),
 				                          outputMethods.get(), isSequential,
 				                          outputWidths, inputWidths, analogInputs, analogOutputs,
-				                          configs, configName.get()));
+				                          configs, configName.get(), serializeMethod, deserializeMethod));
 		
 	}
 	
@@ -348,6 +386,44 @@ public class ChipInvoker extends Invoker {
 	
 	public int[] getRedstoneOutputs() {
 		return this.redstoneOutputs;
+	}
+	
+	public Optional<Invoker.State> deserializeState(Invoker.State dest, byte[] vals) {
+		boolean result = false;
+		if (this.deserializeMethod.isPresent()) {
+			Object[] args = new Object[1];
+			args[0] = vals;
+			try {
+				result = (Boolean) this.deserializeMethod.get().invoke(dest.getWrapped(), args);
+			}
+			catch (Exception e) {
+				Log.userError("Error while calling deserialize " + e.toString() + " " + this.toString());
+				return Optional.empty();
+			}
+		}
+		else {
+			Optional<Object> obj = BasicSerializer.deserialize(dest.getWrapped(), vals);
+			result = obj.isPresent();
+		}
+		if (result) {
+			return Optional.of(dest);
+		}
+		return Optional.empty();
+	}
+	
+	public Optional<byte[]> serializeState(Invoker.State state) {
+		if (this.serializeMethod.isPresent()) {
+			try {
+				return Optional.of((byte[]) this.serializeMethod.get().invoke(state.getWrapped()));
+			}
+			catch (Exception e) {
+				Log.userError("Error while calling serialize " + e.toString() + " " + this.toString());
+				return Optional.empty();
+			}
+		}
+		else {
+			return BasicSerializer.serialize(state.getWrapped());
+		}
 	}
 	
 	

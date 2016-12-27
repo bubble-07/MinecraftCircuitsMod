@@ -180,7 +180,7 @@ public abstract class Invoker {
 	 * @param clazz
 	 * @return
 	 */
-	protected static int getTypeWidth(Class<?> clazz) {
+	public static int getTypeWidth(Class<?> clazz) {
 		if (int.class.isAssignableFrom(clazz) || Integer.class.isAssignableFrom(clazz)) {
 			return 32;
 		}
@@ -196,7 +196,6 @@ public abstract class Invoker {
 		else if (boolean.class.isAssignableFrom(clazz) || Boolean.class.isAssignableFrom(clazz)) {
 			return 1;
 		}
-		Log.internalError("Cannot determine the width of type: " + clazz);
 		return 0;
 	}
 	

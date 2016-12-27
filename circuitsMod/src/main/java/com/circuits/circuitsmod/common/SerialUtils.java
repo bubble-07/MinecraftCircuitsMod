@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.EOFException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -16,6 +17,9 @@ public class SerialUtils {
 			ret = objstream.readObject();
 			instream.close();
 			objstream.close();
+		}
+		catch (EOFException e) {
+			return null;
 		}
 		catch (Exception e) { System.err.println(e);}
 		return ret;

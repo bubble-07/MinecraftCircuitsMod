@@ -85,12 +85,8 @@ public class ControlGui extends GuiContainer {
 		if (button != 0) {
 			return;
 		}
-		
-		//TODO: Make this more robust in full-screen
-		
-		//Convert to more useful coordinates
-		mouseX -= 125;
-		mouseY -= 18;
+		mouseX -= this.guiLeft;
+		mouseY -= this.guiTop;
 		
 		if (mouseX > ControlGuiPage.screenX && 
 				mouseX < ControlGuiPage.screenX + ControlGuiPage.screenWidth + ControlGuiPage.scrollBarWidth &&

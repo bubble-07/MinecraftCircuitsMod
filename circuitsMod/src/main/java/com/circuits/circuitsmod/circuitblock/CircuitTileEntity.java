@@ -24,9 +24,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.block.BlockDirectional;
-import net.minecraft.block.BlockRedstoneWire;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -87,6 +85,8 @@ public class CircuitTileEntity extends TileEntity {
 	 * as passed by bus networks
 	 */
 	private List<BusData> inputData = null;
+	
+	private NBTTagCompound loadingFromFile = null;
 	
 	public void receiveInput(EnumFacing face, BusData data) {
 		Optional<Integer> inputIndex = wireMapper.getInputIndexOf(face);
@@ -275,6 +275,11 @@ public class CircuitTileEntity extends TileEntity {
 
 						initWireDirAndBuses();
 						this.connectBuses();
+						
+						if (this.loadingFromFile != null) {
+							this.readFromNBT(this.loadingFromFile);
+							this.loadingFromFile = null;
+						}
 					}
 				}
 				else {
@@ -348,6 +353,39 @@ public class CircuitTileEntity extends TileEntity {
         return oldState.getBlock() != newState.getBlock();
     }
 	
+	private NBTTagCompound getCircuitStateCompound() {
+		NBTTagCompound result = new NBTTagCompound();
+		
+		if (this.impl != null && this.impl.isSequential()) {
+			Optional<byte[]> payload = this.impl.serializeState(this.state);
+			if (payload.isPresent()) {
+				result.setByteArray("InternalCircuitState", payload.get());
+			}
+		}
+		result.setByteArray("CircuitInputState", BusData.listToBytes(this.inputData));
+		return result;
+	}
+	
+	private void setCircuitStateFromCompound(NBTTagCompound compound) {
+		Optional<List<BusData>> inputDatas = BusData.listFromBytes(compound.getByteArray("CircuitInputState"));
+		if (inputDatas.isPresent()) {
+			this.inputData = inputDatas.get();
+			if (this.inputData.size() == 0) {
+				this.clearInputs();
+			}
+		}
+		if (this.impl != null && this.impl.isSequential()) {
+			byte[] serialized = compound.getByteArray("InternalCircuitState");
+			Optional<Invoker.State> newState = this.impl.deserializeState(this.state, serialized);
+			if (newState.isPresent()) {
+				this.state = newState.get();
+			}
+			else {
+				this.state = this.impl.initState();
+			}
+		}
+	}
+	
 	private NBTTagCompound getUIDTagCompound() {
         NBTTagCompound TEData = new NBTTagCompound();
         TEData.setInteger("CircuitUID", this.circuitUID.getUID().toInteger());
@@ -366,6 +404,12 @@ public class CircuitTileEntity extends TileEntity {
     {
     	super.readFromNBT(compound);
     	NBTTagCompound TEData = compound.getCompoundTag("CircuitTileEntity");
+    	if (getWorld() == null) {
+    		this.loadingFromFile = compound;
+    	}
+    	else if (!getWorld().isRemote) {
+    		this.setCircuitStateFromCompound(compound.getCompoundTag("CircuitState"));
+    	}
     	setUIDFromCompound(TEData);
     }
 
@@ -373,6 +417,7 @@ public class CircuitTileEntity extends TileEntity {
     {
         NBTTagCompound result = super.writeToNBT(compound);
         result.setTag("CircuitTileEntity", getUIDTagCompound());
+        result.setTag("CircuitState", getCircuitStateCompound());
         return result;
     }
     

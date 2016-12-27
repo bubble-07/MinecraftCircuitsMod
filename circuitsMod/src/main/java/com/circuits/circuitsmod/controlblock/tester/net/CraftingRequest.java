@@ -11,7 +11,6 @@ import com.circuits.circuitsmod.controlblock.ControlBlock;
 import com.circuits.circuitsmod.controlblock.ControlTileEntity;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;

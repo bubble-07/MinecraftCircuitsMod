@@ -1,9 +1,7 @@
 package com.circuits.circuitsmod.busblock;
 
 import com.circuits.circuitsmod.common.ItemBlockMeta;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
