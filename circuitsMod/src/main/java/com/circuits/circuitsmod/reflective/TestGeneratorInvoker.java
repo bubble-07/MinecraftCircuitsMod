@@ -42,8 +42,7 @@ import com.google.common.collect.Lists;
  * slower -- that is, some integer multiple of the in-game redstone ticks, for 
  * the purposes of the test. 
  * 
- * [int numTests()] : method which returns the total number of tests that will be ran on the circuit,
- * or -1 if the number of runnable tests cannot be determined a priori. Default return value is -1.
+ * [int numTests()] : method which returns the total number of tests that will be ran on the circuit.
  * Defining this method is necessary to yield a progress bar in the control tile entity tests
  * 
  * 

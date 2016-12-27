@@ -128,9 +128,6 @@ public abstract class Invoker {
 		
 		try {
 			Object instance = implClass.getConstructors()[0].newInstance();
-			//TODO: Implement your own serialization routines/force the user to!
-			//We can't just cast to Serializable, because we're dealing with a different classloader!
-			//return Optional.of((Serializable) instance);
 			return Optional.of(instance);
 		}
 		catch (ClassCastException e) {

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
 import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitInfo;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
@@ -33,6 +34,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class ControlTileEntity extends TileEntity implements IInventory, ITickable {
@@ -309,6 +311,10 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 		
 		this.craftingCell = (SpecializedCircuitUID) SerialUtils.fromByteArray(getTileData().getByteArray("CraftingCell"));
 		this.craftingPlayer = (UUID) SerialUtils.fromByteArray(getTileData().getByteArray("CraftingPlayer"));
+		
+		if (getWorld() == null) {
+			this.unsetCraftingCell();
+		}
 		
 		NBTTagList tagList = tagCompound.getTagList("Inventory", 10);
 		for (int i = 0; i < tagList.tagCount(); i++) {
