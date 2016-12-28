@@ -314,6 +314,9 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 		
 		if (getWorld() == null) {
 			this.unsetCraftingCell();
+			//On game load, we don't care about what the prior GUI state was
+			this.state = null;
+			this.pendingGuiMessages = new HashMap<>();
 		}
 		
 		NBTTagList tagList = tagCompound.getTagList("Inventory", 10);

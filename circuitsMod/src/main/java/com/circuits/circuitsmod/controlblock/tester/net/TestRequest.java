@@ -41,13 +41,14 @@ public class TestRequest implements Serializable {
 	}
 	
 	public static void handleTestRequest(TestRequest in, World worldIn) {
-		Optional<ControlTileEntity> entity = ControlBlock.getControlTileEntityAt(worldIn, in.getPos());
-		if (!entity.isPresent()) {
-			Log.internalError("Attempting to handle test request at " + in.getPos() + " but no control TE present!");
-			return;
-		}
-		entity.get().startTest(in.playerId, in.uid, in.config);
-		
+		worldIn.getMinecraftServer().addScheduledTask(() -> {
+			Optional<ControlTileEntity> entity = ControlBlock.getControlTileEntityAt(worldIn, in.getPos());
+			if (!entity.isPresent()) {
+				Log.internalError("Attempting to handle test request at " + in.getPos() + " but no control TE present!");
+				return;
+			}
+			entity.get().startTest(in.playerId, in.uid, in.config);
+		});
 	}
 	
 	public static class Message implements IMessage {

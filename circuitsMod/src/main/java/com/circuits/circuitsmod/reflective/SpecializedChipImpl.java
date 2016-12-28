@@ -38,7 +38,7 @@ public class SpecializedChipImpl {
 			this.testGen = testInvoker.get();
 		}
 		else {
-			this.testGen = new DefaultTestGenerator(invoker.inputWidths());
+			this.testGen = new DefaultTestGenerator(invoker);
 		}
 		this.oldImpl = oldImpl;
 	}

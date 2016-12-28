@@ -26,6 +26,9 @@ public class Implementation implements Serializable {
             this.delayLen = delayLen;
             this.bitWidth = bitWidth;
             this.vals = new long[delayLen + 1];
+            if (delayLen < 1) {
+                return null;
+            }
             return "delay=" + delayLen + ",width=" + bitWidth;
         }
 

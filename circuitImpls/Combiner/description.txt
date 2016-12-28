@@ -1,6 +1,6 @@
 COMBINER Circuit
 
-A combiner has a configurable bitwidth, n.  It has two n/2 bit inputs and 1
-n bit output.  The output is the combination of the two n/2 bit inputs.
+A combiner has a configurable bitwidth, n.  It has two n bit inputs and 1
+2n-bit output.  The output is the combination of the two n bit inputs.
 
 This is the opposite of a Splitter.

@@ -25,10 +25,13 @@ public class DefaultTestGenerator implements TestGenerator {
 	
 	int totalTests;
 	int[] inputWidths;
+	ChipInvoker invoker;
 	
-	public DefaultTestGenerator(int[] inputWidths) {
+	public DefaultTestGenerator(ChipInvoker invoker) {
+		int[] inputWidths = invoker.inputWidths();
 		this.totalTests = (int) Math.min(DefaultTestGenerator.getProductSize(inputWidths), MAX_TESTS);
 		this.inputWidths = inputWidths;
+		this.invoker = invoker;
 	}
 	
 	public DefaultTestGenerator.State initState() {
@@ -41,6 +44,7 @@ public class DefaultTestGenerator implements TestGenerator {
 		private int[] inputWidths;
 		boolean randomized = false;
 		long testNum = 0;
+		List<BusData> currentInputCase;
 		
 		public State(int[] inputWidths) {
 			this.inputWidths = inputWidths;
@@ -103,17 +107,14 @@ public class DefaultTestGenerator implements TestGenerator {
 		return (long) Math.pow(2, totalWidth);
 	}
 	
-	public Optional<List<BusData>> invoke(State state) {
-		if (state.testNum >= this.totalTests) {
-			//Done testing
-			return Optional.empty();
-		}
-		List<BusData> datas = state.getTestForIndex(state.testNum);
+	public List<BusData> generate(State state) {
+		
+		state.currentInputCase = state.getTestForIndex(state.testNum);
 		
 		//Move the state along to the next test
 		state.testNum++;
 		
-		return Optional.of(datas);
+		return state.currentInputCase;
 	}
 
 	@Override
@@ -127,8 +128,17 @@ public class DefaultTestGenerator implements TestGenerator {
 	}
 
 	@Override
-	public Optional<List<BusData>> invoke(Serializable state) {
+	public List<BusData> generate(Serializable state) {
 		//TODO: plz help, static typing gods.
-		return invoke((State) state);
+		return generate((State) state);
+	}
+
+	@Override
+	public boolean test(Serializable state, List<BusData> outputs) {
+		
+		//We can't hope for this to work at all on sequential circuits.
+		List<BusData> expectedOutputs = invoker.invoke(invoker.initState(), ((State) state).currentInputCase);
+		
+		return outputs.equals(expectedOutputs);
 	}
 }

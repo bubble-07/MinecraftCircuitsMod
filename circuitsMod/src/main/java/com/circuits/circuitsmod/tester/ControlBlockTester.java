@@ -2,9 +2,11 @@ package com.circuits.circuitsmod.tester;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -115,30 +117,31 @@ public class ControlBlockTester extends Tester<ControlTileEntity> {
 		
 		Block frameBlock = StartupCommonFrame.frameBlock;
 		
+		Predicate<BlockPos> isFrame = (pos) -> {
+			IBlockState state = parent.getWorld().getBlockState(pos);
+			return (state.getBlock() == StartupCommonFrame.frameBlock) || 
+					(state.getBlock() == StartupCommonUnbreakium.unbreakiumBlock && state.getValue(UnbreakiumBlock.FRAMEMIMIC));
+		};
+		
 		//Get the vertical extent
 		int vertExtent = 0;
-		while (parent.getWorld().getBlockState(parent.getPos().up(vertExtent + 1)).getBlock()
-				== frameBlock) {
+		while (isFrame.test(parent.getPos().up(vertExtent + 1))) {
 			vertExtent++;
 		}
 		int pos_x_extent = 0;
-		while (parent.getWorld().getBlockState(parent.getPos().add(pos_x_extent + 1, 0, 0)).getBlock()
-				== frameBlock) {
+		while (isFrame.test(parent.getPos().add(pos_x_extent + 1, 0, 0))) {
 			pos_x_extent++;
 		}
 		int neg_x_extent = 0;
-		while (parent.getWorld().getBlockState(parent.getPos().add(-neg_x_extent - 1, 0, 0)).getBlock()
-				== frameBlock) {
+		while (isFrame.test(parent.getPos().add(-neg_x_extent - 1, 0, 0))) {
 			neg_x_extent++;
 		}
 		int pos_z_extent = 0;
-		while (parent.getWorld().getBlockState(parent.getPos().add(0, 0, pos_z_extent + 1)).getBlock()
-				== frameBlock) {
+		while (isFrame.test(parent.getPos().add(0, 0, pos_z_extent + 1))) {
 			pos_z_extent++;
 		}
 		int neg_z_extent = 0;
-		while (parent.getWorld().getBlockState(parent.getPos().add(0, 0, -neg_z_extent - 1)).getBlock()
-				== frameBlock) {
+		while (isFrame.test(parent.getPos().add(0, 0, -neg_z_extent - 1))) {
 			neg_z_extent++;
 		}
 				

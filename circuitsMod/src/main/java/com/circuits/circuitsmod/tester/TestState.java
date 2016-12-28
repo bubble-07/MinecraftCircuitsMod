@@ -20,21 +20,21 @@ public class TestState implements Serializable {
 	public boolean success;
 	List<BusData> inputCase;
 	
-	Serializable internalState;
-	
 	public TestState(SpecializedCircuitUID circuitUID, int testindex, int numTests, boolean finished, boolean success, TestConfig config,
-			         Serializable internalState, List<BusData> inputCase) {
+			         List<BusData> inputCase) {
 		this.circuitUID = circuitUID;
 		this.testindex = testindex;
 		this.numTests = numTests;
 		this.config = config;
 		this.finished = finished;
 		this.success = success;
-		this.internalState = internalState;
 		this.inputCase = inputCase;
 	}
 	
 	public List<BusData> getInputCase() {
 		return this.inputCase;
+	}
+	public int getTick() {
+		return this.testindex;
 	}
 }

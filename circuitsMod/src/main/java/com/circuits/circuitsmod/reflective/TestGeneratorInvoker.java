@@ -24,8 +24,9 @@ import com.google.common.collect.Lists;
  * (used to initialize the test case generator for a newly-initialized circuit state)
  * with the following methods:
  * 
- * boolean tick() : update the state of the Test Case Generator for
- * a new redstone tick. Return true if there are more ticks left in the testing sequence.
+ * boolean test(long o0, long o1, ... long oN) : update the state of the Test Case Generator for
+ * a new redstone tick, and return true if the test is still passing at the current tick,
+ * given that the tick yielded outputs o0 ... oN (all cast to long)
  * 
  * T0 input0();
  * [T1 input1()];
@@ -37,13 +38,13 @@ import com.google.common.collect.Lists;
  * 
  * In the above, each TN is one of the primitive Java types accepted in the Circuits API
  * 
+ * 
+ * int numTests() : method which returns the total number of tests (test ticks) that will be ran on the circuit.
+ * 
  * [boolean slowable()] : Optional method [default: assume returns true] which specifies whether
  * or not the ticks as used in the testing method can be taken to occur
  * slower -- that is, some integer multiple of the in-game redstone ticks, for 
  * the purposes of the test. 
- * 
- * [int numTests()] : method which returns the total number of tests that will be ran on the circuit.
- * Defining this method is necessary to yield a progress bar in the control tile entity tests
  * 
  * 
  * @author bubble-07
@@ -52,9 +53,9 @@ import com.google.common.collect.Lists;
 public class TestGeneratorInvoker extends Invoker implements TestGenerator {
 	
 	/**
-	 * Stores the "tick" method
+	 * Stores the "test" method
 	 */
-	private final Method tickMethod;
+	private final Method testMethod;
 	
 	/**
 	 * List of input methods
@@ -65,10 +66,10 @@ public class TestGeneratorInvoker extends Invoker implements TestGenerator {
 	
 	int numTests;
 
-	private TestGeneratorInvoker(Class<?> implClass, Method tickMethod,
+	private TestGeneratorInvoker(Class<?> implClass, Method testMethod,
 			List<Method> inputMethods, boolean slowable, int numTests, CircuitConfigOptions configOpts, String configName) {
 		super(implClass, configOpts, configName);
-		this.tickMethod = tickMethod;
+		this.testMethod = testMethod;
 		this.inputMethods = inputMethods;
 		this.numTests = numTests;
 		this.slowable = slowable;
@@ -114,7 +115,7 @@ public class TestGeneratorInvoker extends Invoker implements TestGenerator {
 		boolean slowable = true;
 		if (slowableMethod.isPresent()) {
 			try {
-				slowable = (boolean) slowableMethod.get().invoke(instance);
+				slowable = (boolean) slowableMethod.get().invoke(instance.get());
 			}
 			catch (Exception e) {
 				error.accept("has an override to the slowable attribute, but the method is not formatted correctly");
@@ -126,7 +127,7 @@ public class TestGeneratorInvoker extends Invoker implements TestGenerator {
 		int numTests = -1;
 		if (numTestsMethod.isPresent()) {
 			try {
-				numTests = (int) numTestsMethod.get().invoke(instance);
+				numTests = (int) numTestsMethod.get().invoke(instance.get());
 			}
 			catch (Exception e) {
 				error.accept("has an override to the numTests attribute, but the method is not formatted correctly");
@@ -139,45 +140,14 @@ public class TestGeneratorInvoker extends Invoker implements TestGenerator {
 		if (!inputMethods.isPresent()) {
 			return Optional.empty();
 		}
-		Optional<Method> tickMethod = ReflectiveUtils.getMethodFromName(implClass, "tick");
-		if (!tickMethod.isPresent()) {
-			error.accept("has no tick method!");
+		Optional<Method> testMethod = ReflectiveUtils.getMethodFromName(implClass, "test");
+		if (!testMethod.isPresent()) {
+			error.accept("has no test method!");
 			return Optional.empty();
 		}
-		return Optional.of(new TestGeneratorInvoker(implClass, tickMethod.get(), 
+		return Optional.of(new TestGeneratorInvoker(implClass, testMethod.get(), 
 				                                    inputMethods.get(), slowable, numTests,
 				                                    configOpts, configName.get()));
-	}
-	
-	/**
-	 * Given the state of a test generator, return a list of BusData inputs for the current 
-	 * logical tick. Otherwise, if there are no ticks remaining, return Optional.empty().
-	 * Flawed tests will just return Optional.empty(), but a message will be added to the log
-	 * -- then the test's dev has to deal with it!
-	 *
-	 * @param state
-	 * @return
-	 */
-	public Optional<List<BusData>> invoke(Invoker.State state) {
-		try {
-			Object instance = state.getWrapped();
-			boolean moreTicks = (boolean) this.tickMethod.invoke(instance);
-			if (!moreTicks) {
-				return Optional.empty(); //Done testing
-			}
-			List<BusData> result = Lists.newArrayList();
-			for (int i = 0; i < this.inputMethods.size(); i++) {
-				Method valMethod = this.inputMethods.get(i);
-				//No need to truncate. Why? We won't care, because we'll
-				//just be feeding it to a native Java version anyway.
-				result.add(bus(valMethod.invoke(instance)));
-			}
-			return Optional.of(result);
-		}
-		catch (Exception e) {
-			Log.userError("Class: " + implClass + " does not have well-defined testing methods");
-			return Optional.empty();
-		}
 	}
 
 	@Override
@@ -191,8 +161,37 @@ public class TestGeneratorInvoker extends Invoker implements TestGenerator {
 	}
 
 	@Override
-	public Optional<List<BusData>> invoke(Serializable state) {
-		return invoke((State) state);
+	public List<BusData> generate(Serializable state) {
+		Object instance = ((Invoker.State)state).getWrapped();
+		try {
+
+			List<BusData> result = Lists.newArrayList();
+			for (int i = 0; i < this.inputMethods.size(); i++) {
+				Method valMethod = this.inputMethods.get(i);
+				//No need to truncate. Why? We won't care, because we'll
+				//just be feeding it to a native Java version anyway.
+				result.add(bus(valMethod.invoke(instance)));
+			}
+			return result;
+		}
+		catch (Exception e) {
+			Log.userError("Class: " + implClass + " does not have well-defined input-generating methods");
+		}
+		return Lists.newArrayList();
+	}
+
+	@Override
+	public boolean test(Serializable state, List<BusData> outputs) {
+		Object instance = ((Invoker.State)state).getWrapped();
+		try {
+			Object[] unBused = outputs.stream().map((b) -> b.getData()).toArray();
+			
+			return (boolean) this.testMethod.invoke(instance, unBused);
+		}
+		catch (Exception e) {
+			Log.userError("Class: " + implClass + " does not have a well-defined test method");
+			return false;
+		}
 	}
 
 }

@@ -36,7 +36,6 @@ public abstract class Tester<TEType extends TileEntity> {
 	public SpecializedCircuitInfo testing = null;
 	public SpecializedChipImpl internalImpls;
 	Serializable internalTestState;
-	Invoker.State internalCircuitState;
 	
 	EntityPlayer invokingPlayer;
 	
@@ -98,7 +97,7 @@ public abstract class Tester<TEType extends TileEntity> {
 	
 	public TestState getState() {
 		return new TestState(circuitUID, testindex, this.internalImpls.getTestGenerator().totalTests(), 
-				             this.finished, this.success, this.config, this.internalTestState, this.currentInputCase);
+				             this.finished, this.success, this.config, this.currentInputCase);
 	}
 	
 	public EntityPlayer getInvokingPlayer() {
@@ -198,13 +197,11 @@ public abstract class Tester<TEType extends TileEntity> {
 	 */
 	private boolean setupNewTest() {
 		TestGenerator testGen = this.internalImpls.getTestGenerator();
-		Optional<List<BusData>> testData = testGen.invoke(this.internalTestState);
-		if (testData.isPresent()) {
-			this.currentInputCase = testData.get();
-			return true;
+		if (this.testindex >= testGen.totalTests()) {
+			return false;
 		}
-		testWait = config.tickDelay;
-		return false;
+		this.currentInputCase = testGen.generate(this.internalTestState);
+		return true;
 	}
 	
 	private void deliverTestInputs() {
@@ -221,8 +218,8 @@ public abstract class Tester<TEType extends TileEntity> {
 	
 	private boolean getResultOfTest() {
 		
-		List<BusData> expected = internalImpls.getInvoker().invoke(this.internalCircuitState, this.currentInputCase);
-		
+		int[] outputWidths = this.internalImpls.getInvoker().outputWidths();
+				
 		List<BusData> actual = Lists.newArrayList();
 		for (int i = 0; i < outputFaces.size(); i++) {
 			BlockFace face = outputFaces.get(i);
@@ -233,10 +230,11 @@ public abstract class Tester<TEType extends TileEntity> {
 			if (segToRead.isPresent()) {
 				segToRead.get().forceUpdate(getWorld());
 				long reading = segToRead.get().getCurrentVal().getData();
-				actual.add(new BusData(expected.get(i).getWidth(), reading));
+				actual.add(new BusData(outputWidths[i], reading));
 			}
 		}
-		return actual.equals(expected);
+		
+		return this.internalImpls.getTestGenerator().test(this.internalTestState, actual);
 	}
 	
 	private static Stream<BlockPos> forPosIn(AxisAlignedBB box) {
@@ -315,6 +313,5 @@ public abstract class Tester<TEType extends TileEntity> {
 		this.addBusSegFaces();
 		
 		this.internalTestState = this.internalImpls.getTestGenerator().initState();
-		this.internalCircuitState = this.internalImpls.getInvoker().initState();
 	}
 }
