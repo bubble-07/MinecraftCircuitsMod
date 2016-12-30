@@ -1,4 +1,10 @@
 {
+    "defaults": {
+        "model": "circuitsmod:controlblock",
+        "textures" : {
+        	"particle" : "circuitsmod:blocks/controlblock"
+        }
+    },
     "variants": {
         "normal": { "model": "circuitsmod:controlblock" }
     }

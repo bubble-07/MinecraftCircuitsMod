@@ -16,6 +16,7 @@ public class Config {
 	public static boolean isCircuitsProgressWorldGlobal = false;
 	public static double circuitCostMultiplier = 1.0;
 	public static CostCurve circuitCostCurve = CostCurve.LOG;
+	public static boolean shouldRenderTextOnCircuit = true;
 
     public static void readConfig() {
         Configuration cfg = CommonProxy.config;
@@ -48,6 +49,8 @@ public class Config {
         circuitCostCurve = Arrays.stream(CostCurve.values())
         		                 .filter((c) -> c.getName().equalsIgnoreCase(costCurve))
         		                 .findFirst().orElse(circuitCostCurve);
+        shouldRenderTextOnCircuit = cfg.getBoolean("RenderTextOnCircuit", CATEGORY_GENERAL, shouldRenderTextOnCircuit,
+        		        "Set this to false if you do not want to render the circuit config text on circuits placed in the world");
     }
 
     private static void initDimensionConfig(Configuration cfg) {

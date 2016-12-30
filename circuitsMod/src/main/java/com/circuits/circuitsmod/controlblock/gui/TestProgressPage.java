@@ -50,8 +50,14 @@ public class TestProgressPage extends ControlGuiPage {
 				toDisplay = "Failure";
 				//Display information about the failed test case
 				List<BusData> inputCase = state.getInputCase();
-				String failedCaseDisplay = inputCase.stream().map((data) -> "" + data.getData()).reduce((s1, s2) -> s1 + " " + s2).orElse("");
-				failedCaseDisplay = "Failed on Input: " + failedCaseDisplay;
+				String failedCaseDisplay;
+				if (state.getInputCase() == null) {
+					failedCaseDisplay = "Invalid Test Area";
+				}
+				else {
+					failedCaseDisplay = "Failed on Input: ";
+					failedCaseDisplay += inputCase.stream().map((data) -> "" + data.getData()).reduce((s1, s2) -> s1 + " " + s2).orElse("");
+				}
 				parent.getFontRenderer().drawString(failedCaseDisplay, screenX, (screenHeight / 5), ControlGuiPage.elementColor);
 				parent.getFontRenderer().drawString("on test tick: " + state.getTick(), screenX, (screenHeight / 5) + ControlGuiPage.shortLabelHeight, 
 						                            ControlGuiPage.elementColor);

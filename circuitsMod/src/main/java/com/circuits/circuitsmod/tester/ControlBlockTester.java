@@ -63,6 +63,9 @@ public class ControlBlockTester extends Tester<ControlTileEntity> {
 	}
 	
 	private void setupUnbreakiumCage() {
+		if (this.testbbox == null) {
+			return;
+		}
 		unbreakiumCageStream().forEach((pos) -> this.parent.getWorld().setBlockState(pos, StartupCommonUnbreakium.unbreakiumBlock.getDefaultState(), 3));
 		unbreakiumFrameStream().forEach((pos) -> this.parent.getWorld().setBlockState(pos, 
 				                                 StartupCommonUnbreakium.unbreakiumBlock.getDefaultState().withProperty(UnbreakiumBlock.FRAMEMIMIC, true), 3));
@@ -70,6 +73,9 @@ public class ControlBlockTester extends Tester<ControlTileEntity> {
 	}
 	
 	private void tearDownUnbreakiumCage() {
+		if (this.testbbox == null) {
+			return;
+		}
 		unbreakiumCageSidesStream().forEach((pos) -> {
 			this.parent.getWorld().setBlockToAir(pos);
 		});
@@ -77,7 +83,10 @@ public class ControlBlockTester extends Tester<ControlTileEntity> {
 			this.parent.getWorld().setBlockState(pos, Blocks.STONE.getDefaultState(), 3);
 		});
 		unbreakiumFrameStream().forEach((pos) -> {
-			this.parent.getWorld().setBlockState(pos, StartupCommonFrame.frameBlock.getDefaultState(), 3);
+			//Replace frame mimics with real frame blocks again
+			if (this.isFrame(pos)) {
+				this.parent.getWorld().setBlockState(pos, StartupCommonFrame.frameBlock.getDefaultState(), 3);
+			}
 		});
 	}
 	
@@ -110,43 +119,58 @@ public class ControlBlockTester extends Tester<ControlTileEntity> {
 		return 20;
 	}
 	
+	/**
+	 * Returns true if the block is a frame or an unbreakable frame mimic
+	 * @param pos
+	 * @return
+	 */
+	public boolean isFrame(BlockPos pos) {
+		IBlockState state = parent.getWorld().getBlockState(pos);
+		return (state.getBlock() == StartupCommonFrame.frameBlock) || 
+				(state.getBlock() == StartupCommonUnbreakium.unbreakiumBlock && state.getValue(UnbreakiumBlock.FRAMEMIMIC));
+	}
+	
 	@Override
 	public Optional<AxisAlignedBB> getTestingBox() {
 		//For now, must be placed in a bottom-most corner
 		//TODO: Also check for transparent blocks extending in a 1 block shell!
 		
-		Block frameBlock = StartupCommonFrame.frameBlock;
-		
-		Predicate<BlockPos> isFrame = (pos) -> {
-			IBlockState state = parent.getWorld().getBlockState(pos);
-			return (state.getBlock() == StartupCommonFrame.frameBlock) || 
-					(state.getBlock() == StartupCommonUnbreakium.unbreakiumBlock && state.getValue(UnbreakiumBlock.FRAMEMIMIC));
-		};
-		
 		//Get the vertical extent
 		int vertExtent = 0;
-		while (isFrame.test(parent.getPos().up(vertExtent + 1))) {
+		while (isFrame(parent.getPos().up(vertExtent + 1))) {
 			vertExtent++;
 		}
 		int pos_x_extent = 0;
-		while (isFrame.test(parent.getPos().add(pos_x_extent + 1, 0, 0))) {
+		while (isFrame(parent.getPos().add(pos_x_extent + 1, 0, 0))) {
 			pos_x_extent++;
 		}
 		int neg_x_extent = 0;
-		while (isFrame.test(parent.getPos().add(-neg_x_extent - 1, 0, 0))) {
+		while (isFrame(parent.getPos().add(-neg_x_extent - 1, 0, 0))) {
 			neg_x_extent++;
 		}
 		int pos_z_extent = 0;
-		while (isFrame.test(parent.getPos().add(0, 0, pos_z_extent + 1))) {
+		while (isFrame(parent.getPos().add(0, 0, pos_z_extent + 1))) {
 			pos_z_extent++;
 		}
 		int neg_z_extent = 0;
-		while (isFrame.test(parent.getPos().add(0, 0, -neg_z_extent - 1))) {
+		while (isFrame(parent.getPos().add(0, 0, -neg_z_extent - 1))) {
 			neg_z_extent++;
 		}
-				
-		return Optional.of(new AxisAlignedBB(parent.getPos().add(-neg_x_extent, 0, -neg_z_extent), 
-			     parent.getPos().add(pos_x_extent, vertExtent, pos_z_extent)));
+		
+		AxisAlignedBB bbox = new AxisAlignedBB(parent.getPos().add(-neg_x_extent, 0, -neg_z_extent), 
+			     parent.getPos().add(pos_x_extent, vertExtent, pos_z_extent));
+		//If the box ain't big enough, fail.
+		if (bbox.maxX - bbox.minX < 2 || bbox.maxY - bbox.minY < 2 || bbox.maxZ - bbox.minZ < 2) {
+			return Optional.empty();
+		}
+		//The above was just a quick determination of extents. Make sure they actually built a frame
+		this.testbbox = bbox;
+		if (!unbreakiumFrameStream().allMatch(this::isFrame)) {
+			this.testbbox = null;
+			return Optional.empty();
+		}
+		
+		return Optional.of(bbox);
 	}
 
 	@Override

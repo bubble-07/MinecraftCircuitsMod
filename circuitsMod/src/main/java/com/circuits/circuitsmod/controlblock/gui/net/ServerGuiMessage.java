@@ -27,4 +27,19 @@ public class ServerGuiMessage implements Serializable {
 	public enum GuiMessageKind implements Serializable {
 		GUI_SPECIALIZATON_INFO, GUI_CIRCUIT_COSTS
 	};
+	public static class SpecializationInfo implements Serializable {
+		private static final long serialVersionUID = 1L;
+		private String specializedName;
+		private boolean isSlowable;
+		public SpecializationInfo(String specializedName, boolean isSlowable) {
+			this.specializedName = specializedName;
+			this.isSlowable = isSlowable;
+		}
+		public String getName() {
+			return this.specializedName;
+		}
+		public boolean isSlowable() {
+			return this.isSlowable;
+		}
+	}
 }

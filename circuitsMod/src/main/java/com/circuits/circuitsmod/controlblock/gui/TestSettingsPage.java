@@ -30,8 +30,7 @@ public class TestSettingsPage extends ControlGuiPage {
 		final TestSettingsPage thiz = this;
 		
 		delayBox = new TextEntryBox.IntEntryBox(parent, screenX, screenY + (screenHeight / 2) + shortLabelHeight, 
-				shortLabelWidth, shortLabelHeight, 20);
-		addElement(delayBox);
+				shortLabelWidth, shortLabelHeight, 1);
 		
 		circuitFields = new CircuitSpecializationFields(parent, screenX, screenY + (screenHeight / 2) - 2 * shortLabelHeight,
 				                                        screenWidth, shortLabelHeight * 2, cell);
@@ -81,10 +80,15 @@ public class TestSettingsPage extends ControlGuiPage {
 	}
 	
 	public void draw() {
+		this.removeElement(delayBox);
+		if (this.circuitFields.getSpecializationInfo().map((i) -> i.isSlowable()).orElse(false)) {
+			this.addElement(delayBox);
+			parent.getFontRenderer().drawString("Delay (Ticks)", screenX, 
+					screenY + (screenHeight / 2) + 4, ControlGuiPage.elementColor);
+		}
+		
 		//Render the header
 		parent.getFontRenderer().drawString(cell.getName(), screenX, screenY, elementColor);
 		parent.drawHorizontalLine(screenX, screenX + screenWidth, screenY + 10, elementColor);
-		parent.getFontRenderer().drawString("Delay (Ticks)", screenX, 
-											screenY + (screenHeight / 2) + 4, ControlGuiPage.elementColor);
 	}
 }

@@ -8,7 +8,8 @@
               "toptex" : "circuitsmod:blocks/2bitbustop",
               "fullendtex" : "circuitsmod:blocks/2bitbusfullend",
               "intersectiontex" : "circuitsmod:blocks/2bitbusintersection",
-              "topverttex" : "circuitsmod:blocks/2bitbustopvert"
+              "topverttex" : "circuitsmod:blocks/2bitbustopvert",
+              "particle" : "circuitsmod:blocks/2bitbustop"
         }
     },
     "variants": {
@@ -43,7 +44,8 @@
                     "toptex" : "circuitsmod:blocks/2bitbustop",
                     "fullendtex" : "circuitsmod:blocks/2bitbusfullend",
                     "intersectiontex" : "circuitsmod:blocks/2bitbusintersection",
-                    "topverttex" : "circuitsmod:blocks/2bitbustopvert"
+                    "topverttex" : "circuitsmod:blocks/2bitbustopvert",
+                    "particle" : "circuitsmod:blocks/2bitbustop"
                 }
             },
             "fourbit" : {
@@ -53,7 +55,8 @@
                     "toptex" : "circuitsmod:blocks/4bitbustop",
                     "fullendtex" : "circuitsmod:blocks/4bitbusfullend",
                     "intersectiontex" : "circuitsmod:blocks/4bitbusintersection",
-                    "topverttex" : "circuitsmod:blocks/4bitbustopvert"
+                    "topverttex" : "circuitsmod:blocks/4bitbustopvert",
+                    "particle" : "circuitsmod:blocks/4bitbustop"
                 }
             },
             "eightbit" : {
@@ -63,7 +66,8 @@
                     "toptex" : "circuitsmod:blocks/8bitbustop",
                     "fullendtex" : "circuitsmod:blocks/8bitbusfullend",
                     "intersectiontex" : "circuitsmod:blocks/8bitbusintersection",
-                    "topverttex" : "circuitsmod:blocks/8bitbustopvert"
+                    "topverttex" : "circuitsmod:blocks/8bitbustopvert",
+                    "particle" : "circuitsmod:blocks/8bitbustop"
                 }
             },
             "sixteenbit" : {
@@ -73,7 +77,8 @@
                     "toptex" : "circuitsmod:blocks/16bitbustop",
                     "fullendtex" : "circuitsmod:blocks/16bitbusfullend",
                     "intersectiontex" : "circuitsmod:blocks/16bitbusintersection",
-                    "topverttex" : "circuitsmod:blocks/16bitbustopvert"
+                    "topverttex" : "circuitsmod:blocks/16bitbustopvert",
+                    "particle" : "circuitsmod:blocks/16bitbustop"
                     
                 }
             },
@@ -84,7 +89,8 @@
                     "toptex" : "circuitsmod:blocks/32bitbustop",
                     "fullendtex" : "circuitsmod:blocks/32bitbusfullend",
                     "intersectiontex" : "circuitsmod:blocks/32bitbusintersection",
-                    "topverttex" : "circuitsmod:blocks/32bitbustopvert"
+                    "topverttex" : "circuitsmod:blocks/32bitbustopvert",
+                    "particle" : "circuitsmod:blocks/32bitbustop"
                 }
             },
             "sixtyfourbit" : {
@@ -94,7 +100,8 @@
                     "toptex" : "circuitsmod:blocks/64bitbustop",
                     "fullendtex" : "circuitsmod:blocks/64bitbusfullend",
                     "intersectiontex" : "circuitsmod:blocks/64bitbusintersection",
-                    "topverttex" : "circuitsmod:blocks/64bitbustopvert"
+                    "topverttex" : "circuitsmod:blocks/64bitbustopvert",
+                    "particle" : "circuitsmod:blocks/64bitbustop"
                 }
             }
         }

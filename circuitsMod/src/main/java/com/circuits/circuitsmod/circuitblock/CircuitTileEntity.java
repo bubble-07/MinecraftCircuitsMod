@@ -270,7 +270,14 @@ public class CircuitTileEntity extends TileEntity {
 			else if (getWorld() != null && !getWorld().isRemote) {
 				if (CircuitInfoProvider.isServerModelInit()) {
 					if (CircuitInfoProvider.hasImplOn(circuitUID.getUID())) {
-						this.impl = CircuitInfoProvider.getInvoker(circuitUID);
+						Optional<ChipInvoker> optInvoker = CircuitInfoProvider.getInvoker(circuitUID);
+						if (!optInvoker.isPresent()) {
+							//Must be trying to instantiate a circuit with an invalid configuration or missing implementation.
+							//Keep the tile entity around (in case the server admin dun goofed), since a warning log message
+							//has already been printed, but do not attempt to initialize the tile entity.
+							return;
+						}
+						this.impl = optInvoker.get();
 						this.state = this.impl.initState();
 
 						initWireDirAndBuses();

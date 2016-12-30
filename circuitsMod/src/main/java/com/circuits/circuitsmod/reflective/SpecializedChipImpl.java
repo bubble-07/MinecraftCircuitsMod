@@ -29,6 +29,12 @@ public class SpecializedChipImpl {
 		if (!chipInvoker.isPresent()) {
 			return Optional.empty();
 		}
+		if (chipInvoker.get().isSequential() && !testInvoker.isPresent()) {
+			com.circuits.circuitsmod.common.Log.userError("Tried to get a chip with configs " + chipInvoker.get().getConfigName()
+					                                      + " which is sequential, but does not define a custom Tests.class");
+			return Optional.empty();
+		}
+		
 		return Optional.of(new SpecializedChipImpl(chipInvoker.get(), testInvoker, impl));
 	}
 	

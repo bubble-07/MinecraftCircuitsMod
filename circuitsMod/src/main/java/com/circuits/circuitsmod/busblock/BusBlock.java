@@ -7,11 +7,14 @@ import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nullable;
+
 import com.circuits.circuitsmod.circuitblock.CircuitBlock;
 import com.circuits.circuitsmod.circuitblock.CircuitTileEntity;
 import com.circuits.circuitsmod.common.BlockFace;
 import com.circuits.circuitsmod.common.IMetaBlockName;
 import com.circuits.circuitsmod.common.Log;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -19,6 +22,7 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -26,6 +30,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
@@ -56,7 +61,7 @@ public class BusBlock extends Block implements IMetaBlockName {
 	public BusBlock()
 	{
 		super(Material.ROCK);
-		setHardness(0.5F);
+		setHardness(0.0F);
 		this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);   // the block will appear on the Blocks tab in creative
 		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, BusFacing.CAP)
 				.withProperty(WIDTH, WIDTH.getAllowedValues().iterator().next()));
@@ -73,19 +78,21 @@ public class BusBlock extends Block implements IMetaBlockName {
 	 *
 	 */
 	public enum BusFacing implements IStringSerializable {
-		NORTHSOUTH("northsouth", 0),
-		EASTWEST("eastwest", 1),
-		UPDOWN("updown", 2),
-		CAP("cap", 3),
-		INTERSECTION("intersection", 4),
-		TOPCAP("topcap", 4);
+		NORTHSOUTH("northsouth", 0, false),
+		EASTWEST("eastwest", 1, false),
+		UPDOWN("updown", 2, true),
+		CAP("cap", 3, true),
+		INTERSECTION("intersection", 4, false),
+		TOPCAP("topcap", 4, false);
 
 		private final String name;
 		private final int meta;
+		private final boolean full;
 
-		BusFacing(String name, int meta) {
+		BusFacing(String name, int meta, boolean full) {
 			this.name = name;
 			this.meta = meta;
+			this.full = full;
 		}
 		public String getName() {
 			return this.name;
@@ -93,6 +100,9 @@ public class BusBlock extends Block implements IMetaBlockName {
 
 		public int getMeta() {
 			return this.meta;
+		}
+		public boolean isFullBlock() {
+			return this.full;
 		}
 
 		public static BusFacing fromMeta(int value) {
@@ -368,6 +378,33 @@ public class BusBlock extends Block implements IMetaBlockName {
 	public boolean isFullCube(IBlockState iBlockState) {
 		return false;
 	}
+	@Override
+	public boolean isFullyOpaque(IBlockState iBlockState) {
+		return false;
+	}
+	
+	@Override
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+    {
+    	if (getActualState(state, source, pos).getValue(BusBlock.FACING).isFullBlock()) {
+    		return Block.FULL_BLOCK_AABB;
+    	}
+        return new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D);
+    }
+	
+    @Override
+    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn)
+    {
+        addCollisionBoxToList(pos, entityBox, collidingBoxes, getBoundingBox(state, worldIn, pos));
+    }
+    
+    @SideOnly(Side.CLIENT)
+    @Override
+    public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos)
+    {
+        return this.getBoundingBox(state, worldIn, pos).offset(pos);
+    }
+
 
 	@Override
 	public String getSpecialName(ItemStack stack) {

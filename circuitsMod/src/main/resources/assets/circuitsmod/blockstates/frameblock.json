@@ -1,4 +1,10 @@
 {
+    "defaults": {
+        "model": "circuitsmod:frameblock",
+        "textures" : {
+        	"particle" : "circuitsmod:blocks/frameblock"
+        }
+    },
     "variants": {
         "normal": { "model": "circuitsmod:frameblock" }
     }

@@ -5,9 +5,11 @@ import java.util.Optional;
 
 import org.lwjgl.opengl.GL11;
 
+import com.circuits.circuitsmod.Config;
 import com.circuits.circuitsmod.busblock.BusSegment;
 import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -128,15 +130,18 @@ public class CircuitEntitySpecialRenderer extends TileEntitySpecialRenderer<Circ
 			
 			GlStateManager.enableTexture2D();
 			
-			GlStateManager.pushMatrix();
-			GlStateManager.rotate(90, 1, 0, 0);
-			GlStateManager.translate(0, 0.0, -height - 0.01);
-			GlStateManager.scale(0.01, 0.01, 0.01);
-			
-			
-
-			Minecraft.getMinecraft().fontRendererObj.drawString(uid.getOptions().getRawDispString(), 0, 0, 0, false);
-			GL11.glPopMatrix();
+			if (Config.shouldRenderTextOnCircuit) {
+				
+				GlStateManager.pushMatrix();
+				GlStateManager.rotate(90, 1, 0, 0);
+				GlStateManager.translate(0, 0.0, -height - 0.01);
+				GlStateManager.scale(0.01, 0.01, 0.01);
+				
+				
+	
+				Minecraft.getMinecraft().fontRendererObj.drawString(uid.getOptions().getRawDispString(), 0, 0, 0, false);
+				GL11.glPopMatrix();
+			}
 			
 			
 			GL11.glPopAttrib();

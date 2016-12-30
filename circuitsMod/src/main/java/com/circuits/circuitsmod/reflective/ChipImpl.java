@@ -24,7 +24,6 @@ public class ChipImpl {
 		Optional<ChipInvoker.Provider> invoker = ChipInvoker.Provider.getProvider(implFile);
 		Optional<TestGeneratorInvoker.Provider> testGen = Optional.empty();
 		
-		//TODO: Warn if the circuit is sequential, but we don't define a tests file
 		if (testsFile.exists()) {
 			testGen = TestGeneratorInvoker.Provider.getProvider(testsFile);
 		}

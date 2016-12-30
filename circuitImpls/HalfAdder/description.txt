@@ -3,7 +3,7 @@ Half-Adder
 This circuit is not configurable.
 This circuit has two 1-bit inputs and two 1-bit outputs.
 
-The circuit takes in 1-bit input and 1 carry-in input and adds them together
+The circuit takes in 1-bit main input and 1 carry-in input and adds them together
 to produce results on output.  One output carries the result, and the carry-out
 output will be on if a bit was carried out of the result.
 

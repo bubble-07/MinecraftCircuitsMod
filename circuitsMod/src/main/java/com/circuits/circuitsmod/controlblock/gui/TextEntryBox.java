@@ -3,7 +3,7 @@ package com.circuits.circuitsmod.controlblock.gui;
 import java.util.Optional;
 
 
-public class TextEntryBox extends UIElement {
+public class TextEntryBox extends UIElement implements UIFocusable {
 	
 	boolean hasFocus = false;
 	String text = "";
@@ -26,6 +26,13 @@ public class TextEntryBox extends UIElement {
 	
 	public void requestFocus() {
 		hasFocus = true;
+	}
+	public void unFocus() {
+		hasFocus = false;
+	}
+	
+	public boolean hasFocus() {
+		return hasFocus;
 	}
 	
 	@Override

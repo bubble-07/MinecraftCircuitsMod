@@ -46,6 +46,15 @@ public abstract class ControlGuiPage {
 	public boolean handleElementClicks(int mouseX, int mouseY) {		
 		for (UIElement element : elements) {
 			if (element.handleClick(mouseX, mouseY)) {
+				if (element.isClickIn(mouseX, mouseY) && element instanceof UIFocusable) {
+					((UIFocusable) element).requestFocus();
+					//Cool! now unfocus all of the others
+					for (UIElement other : elements) {
+						if (other != element && other instanceof UIFocusable) {
+							((UIFocusable) other).unFocus();
+						}
+					}
+				}
 				return true;
 			}
 		}

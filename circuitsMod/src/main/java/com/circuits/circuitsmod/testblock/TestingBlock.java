@@ -25,11 +25,18 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * Tester block for puzzle dimension puzzles
+ * @author spm61
+ *
+ */
 public class TestingBlock extends BlockDirectional implements ITileEntityProvider {
 //IUpdatePlayerListBox
 	public TestingBlock() {
 		super(Material.IRON);
-		this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+	    //bubble-07: Puzzle dimension features delayed for future release. It's more important to get the overworld functionality out there for now,
+	    //fix bugs, and solicit feedback from redstoners to achieve a good degree of polish while the puzzle dimension levels are completed.
+		//this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 	}
 
 	@Override

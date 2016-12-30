@@ -21,6 +21,11 @@ public class SpecializedCircuitInfo implements Serializable {
 	private boolean[] analogOutputs;
 	private String configName;
 	private SpecializedCircuitUID uid;
+	private boolean testSlowable;
+	
+	public boolean isTestSlowable() {
+		return this.testSlowable;
+	}
 	
 	public CircuitInfo getInfo() {
 		return this.info;
@@ -69,5 +74,6 @@ public class SpecializedCircuitInfo implements Serializable {
 		this.outputWidths = impl.getInvoker().outputWidths();	
 		this.analogInputs = impl.getInvoker().analogInputs();
 		this.analogOutputs = impl.getInvoker().analogOutputs();
+		this.testSlowable = impl.getTestGenerator().slowable();
 	}
 }

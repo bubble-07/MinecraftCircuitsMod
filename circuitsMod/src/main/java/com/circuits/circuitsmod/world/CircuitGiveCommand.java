@@ -17,6 +17,7 @@ import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.circuit.CircuitConfigOptions;
 import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
 import com.circuits.circuitsmod.circuit.CircuitUID;
+import com.circuits.circuitsmod.circuit.SpecializedCircuitInfo;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.circuitblock.CircuitItem;
 import com.google.common.collect.Lists;
@@ -85,11 +86,16 @@ public class CircuitGiveCommand extends CommandBase {
         
         SpecializedCircuitUID finalUid = new SpecializedCircuitUID(uid.get(), configs);
         
-        CircuitInfoProvider.getSpecializedInfoFor(finalUid);
-
-        if (sender instanceof EntityPlayer) {
-            ((EntityPlayer) sender).inventory.addItemStackToInventory(CircuitItem.getStackFromUID(finalUid));
+        Optional<SpecializedCircuitInfo> info = CircuitInfoProvider.getSpecializedInfoFor(finalUid);
+        if (!info.isPresent() && false) {
+        	sender.addChatMessage(new TextComponentString(TextFormatting.RED + "A circuit with that name and set of config options doesn't exist!"));
         }
+        else {
+            if (sender instanceof EntityPlayer) {
+                ((EntityPlayer) sender).inventory.addItemStackToInventory(CircuitItem.getStackFromUID(finalUid));
+            }
+        }
+
     }
 
     @Override

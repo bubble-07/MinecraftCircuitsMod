@@ -1,7 +1,10 @@
 {
 	"forge_marker": 1,
     "defaults": {
-        "model": "circuitsmod:frameblock"
+        "model": "circuitsmod:frameblock",
+        "textures" : {
+        	"particle" : "circuitsmod:blocks/frameblock"
+        }
     },
     "variants": {
     	"facing": {

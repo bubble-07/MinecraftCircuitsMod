@@ -13,6 +13,7 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
+import net.minecraft.block.BlockSlab;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -25,6 +26,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -32,17 +34,15 @@ import net.minecraft.world.World;
 public class CircuitBlock extends BlockDirectional implements ITileEntityProvider {
 
 	private static final String name = "circuitBlock";
-	//TODO: Give this thing side/bottom textures!
 
 	public CircuitBlock()
 	{
-		super(Material.IRON);
-		//this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.DOWN));
+		super(Material.CIRCUITS);
 
 		this.isBlockContainer = false;
 		setUnlocalizedName(CircuitsMod.MODID + "_" + name);
 		setCreativeTab(null);
-		setHardness(0.5F);
+		setHardness(0.0F);
 		this.setSoundType(SoundType.METAL);
 	}
 	
@@ -98,6 +98,10 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 	
 	@Override
     public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+		Optional<CircuitTileEntity> te = CircuitBlock.getCircuitTileEntityAt(world, pos);
+		if (te.isPresent()) {
+			return te.get().getBusSegment(side.getOpposite()).map((seg) -> seg.getWidth() == 1).orElse(false);
+		}
 		return true;
 	}
 
@@ -219,7 +223,19 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, new IProperty[]{FACING});
 	}
-	
+    
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+    {
+        return new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D);
+    }
+
+    /**
+     * Checks if an IBlockState represents a block that is opaque and a full cube.
+     */
+    public boolean isFullyOpaque(IBlockState state)
+    {
+        return false;
+    }
 	@Override
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;

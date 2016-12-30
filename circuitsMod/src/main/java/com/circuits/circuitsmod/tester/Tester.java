@@ -68,7 +68,8 @@ public abstract class Tester<TEType extends TileEntity> {
 		this.invokingPlayer = player;
 		this.testing = circuit;
 		
-		this.internalImpls = CircuitInfoProvider.getSpecializedImpl(circuitUID);
+		//If we're able to get into a state with an invalid implementation here, we have bigger problems.
+		this.internalImpls = CircuitInfoProvider.getSpecializedImpl(circuitUID).get();
 		
 		initTesting();
 		setupNewTest();
@@ -142,6 +143,13 @@ public abstract class Tester<TEType extends TileEntity> {
 	
 	
 	public void update() {
+		if (this.testbbox == null) {
+			this.finished = true;
+			this.success = false;
+			failureAction();
+			this.stateUpdateAction();
+		}
+		
 		if (!this.finished) {
 			if (cheatCheckWait == 0) {
 				cheatCheckWait = timeToNextCheatCheck();
@@ -160,7 +168,6 @@ public abstract class Tester<TEType extends TileEntity> {
 		
 		if (!this.finished) {
 			if (testWait == 0) {
-				testWait = config.tickDelay;
 				if (!getResultOfTest()) {
 					//Test failed
 					this.finished = true;
@@ -196,6 +203,11 @@ public abstract class Tester<TEType extends TileEntity> {
 	 * @return true if we were able to set up a new test, false if there are no more tests
 	 */
 	private boolean setupNewTest() {
+		if (this.testbbox == null) {
+			return true;
+		}
+		this.testWait = config.tickDelay;
+		
 		TestGenerator testGen = this.internalImpls.getTestGenerator();
 		if (this.testindex >= testGen.totalTests()) {
 			return false;
@@ -290,14 +302,15 @@ public abstract class Tester<TEType extends TileEntity> {
 	private void initTesting() {
 		testindex = 0;
 		
-		//TODO: Warn the user if no testing bounding box was found!
-		this.testbbox = getTestingBox().get();
+		this.testbbox = getTestingBox().orElse(null);
 		
-		//TODO: Bring optional named inputs into circuit configs
+		if (this.testbbox == null) {
+			return;
+		}
+		
 		ChipInvoker invoker = this.internalImpls.getInvoker();
 		
 		for (int i = 0; i < invoker.numInputs(); i++) {
-			//TODO: Should we warn if we can't find a formally-defined input?
 			Optional<BlockFace> face = getInputFace(i, testbbox);
 			if (face.isPresent()) {
 				this.inputFaces.add(face.get());

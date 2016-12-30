@@ -11,15 +11,17 @@ import com.circuits.circuitsmod.controlblock.gui.TextEntryBox.IntEntryBox;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
 import com.circuits.circuitsmod.controlblock.gui.net.ServerGuiMessage;
 import com.circuits.circuitsmod.controlblock.gui.net.ServerGuiMessage.GuiMessageKind;
+import com.circuits.circuitsmod.controlblock.gui.net.ServerGuiMessage.SpecializationInfo;
 import com.circuits.circuitsmod.controlblock.gui.net.SpecializationValidationRequest;
 import com.google.common.collect.Lists;
 
 /**
  * Represents a gui widget to configure a circuit specialization (list of integer fields)
+ * and obtain information back from the server about the circuit
  * @author bubble-07
  *
  */
-public class CircuitSpecializationFields extends UIElement {
+public class CircuitSpecializationFields extends UIElement implements UIFocusable {
 	
 	List<IntEntryBox> entryBoxes = Lists.newArrayList();
 	CircuitCell cell;
@@ -27,6 +29,7 @@ public class CircuitSpecializationFields extends UIElement {
 	private static final int BOX_WIDTH = 20;
 	private static final int BOX_SPACING = 2;
 	String configName = null;
+	SpecializationInfo infos = null;
 	
 	Optional<int[]> oldOptions = Optional.empty();
 
@@ -45,6 +48,10 @@ public class CircuitSpecializationFields extends UIElement {
 			entryBoxes.add(entryBox);
 		}
 		serverValidateInfo();
+	}
+	
+	public Optional<SpecializationInfo> getSpecializationInfo() {
+		return Optional.ofNullable(infos);
 	}
 	
 	private void serverValidateInfo() {
@@ -100,8 +107,10 @@ public class CircuitSpecializationFields extends UIElement {
 		Optional<ServerGuiMessage> msg = parent.tileEntity.getGuiMessage(this.parent.user.getUniqueID());
 		if (msg.isPresent()) {
 			if (msg.get().getMessageKind().equals(GuiMessageKind.GUI_SPECIALIZATON_INFO)) {
-				String name = (String) msg.get().getData();
+				SpecializationInfo info = (ServerGuiMessage.SpecializationInfo) msg.get().getData();
+				String name = info.getName();
 				this.configName = name;
+				this.infos = info;
 			}
 		}
 	}
@@ -136,8 +145,36 @@ public class CircuitSpecializationFields extends UIElement {
 	}
 	@Override
 	public void handleKey(char typed, int keyCode) {
-		for (IntEntryBox box : entryBoxes) {
-			box.handleKey(typed, keyCode);
+		if (keyCode == 15) {
+			for (int i = 0; i < entryBoxes.size(); i++) {
+				if (entryBoxes.get(i).hasFocus()) {
+					entryBoxes.get(i).unFocus();
+					entryBoxes.get((i + 1) % entryBoxes.size()).requestFocus();
+					break;
+				}
+			}
 		}
+		else {
+			for (IntEntryBox box : entryBoxes) {
+				box.handleKey(typed, keyCode);
+			}
+		}
+	}
+
+	@Override
+	public void requestFocus() {
+		//Do nothing, we handle this with other boxes
+	}
+
+	@Override
+	public void unFocus() {
+		for (int i = 0; i < entryBoxes.size(); i++) {
+			entryBoxes.get(i).unFocus();
+		}
+	}
+
+	@Override
+	public boolean hasFocus() {
+		return entryBoxes.stream().anyMatch(IntEntryBox::hasFocus);
 	}
 }

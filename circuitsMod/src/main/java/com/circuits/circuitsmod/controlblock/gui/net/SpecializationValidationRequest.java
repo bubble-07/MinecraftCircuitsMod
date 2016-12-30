@@ -41,9 +41,10 @@ public class SpecializationValidationRequest implements Serializable {
 			return;
 		}
 		Optional<SpecializedCircuitInfo> info = CircuitInfoProvider.getSpecializedInfoFor(in.uid);
+		Boolean isSlowable = info.map((i) -> i.isTestSlowable()).orElse(true);
 		String specialName = info.flatMap((i) -> Optional.of(i.getFullDisplayName())).orElse(null);
 		entity.get().postGuiMessage(in.player, 
-				new ServerGuiMessage(ServerGuiMessage.GuiMessageKind.GUI_SPECIALIZATON_INFO, specialName));
+				new ServerGuiMessage(ServerGuiMessage.GuiMessageKind.GUI_SPECIALIZATON_INFO, new ServerGuiMessage.SpecializationInfo(specialName, isSlowable)));
 
 	}
 	public static class Message implements IMessage {

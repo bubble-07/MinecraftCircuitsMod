@@ -306,7 +306,6 @@ public class CircuitInfoProvider {
 	private static void createSpecializedInfoFor(SpecializedCircuitUID uid) {
 		if (!infoCache.containsKey(uid)) {
 			Optional<SpecializedChipImpl> impl = SpecializedChipImpl.of(implMap.get(uid.getUID()), uid.getOptions());
-			//TODO: should the specialized chip impl be cached on the server?
 			if (impl.isPresent()) {
 				SpecializedCircuitInfo info = new SpecializedCircuitInfo(uid, infoMap.get(uid.getUID()), impl.get());
 				infoCache.put(uid, info);
@@ -328,7 +327,7 @@ public class CircuitInfoProvider {
 	/**
 	 * Meant to be called from the server only
 	 */
-	public static SpecializedChipImpl getSpecializedImpl(SpecializedCircuitUID uid) {
+	public static Optional<SpecializedChipImpl> getSpecializedImpl(SpecializedCircuitUID uid) {
 		createSpecializedInfoFor(uid);
 		
 		ChipImpl impl = implMap.get(uid.getUID());
@@ -337,7 +336,7 @@ public class CircuitInfoProvider {
 		if (!specialized.isPresent()) {
 			Log.userError("Failed to instantiate specialized circuit for " + uid);
 		}
-		return specialized.get();
+		return specialized;
 	}
 	
 	/**
@@ -345,8 +344,8 @@ public class CircuitInfoProvider {
 	 * @param uid
 	 * @return
 	 */
-	public static ChipInvoker getInvoker(SpecializedCircuitUID uid) {
-		return getSpecializedImpl(uid).getInvoker();
+	public static Optional<ChipInvoker> getInvoker(SpecializedCircuitUID uid) {
+		return getSpecializedImpl(uid).map(impl -> impl.getInvoker());
 	}
 	public static WireDirectionGenerator getWireDirectionGenerator(CircuitUID uid) {
 		return infoMap.get(uid).getWireDirectionGenerator();

@@ -10,6 +10,8 @@ import java.util.Map;
 import com.circuits.circuitsmod.controlblock.StartupCommonControl;
 import com.circuits.circuitsmod.frameblock.StartupCommonFrame;
 
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
@@ -196,6 +198,27 @@ public class RecipeGraph {
 		return getCost(itemMap.get(item), 1.0f);
 	}
 	
+	private boolean isSpecialCase(Node node) {
+		return Arrays.asList(new String[]{"tile.cloth", "tile.clay", "item.redstone", "tile.notGate"}).contains(
+				node.item.item.getUnlocalizedName());
+	}
+	public CostList getSpecialCost(Node node, float preMult) {
+		CostList ret = new CostList();
+		
+		if (node.item.item.getUnlocalizedName().equals("tile.notGate")) {
+			//For some reason, this one gets messed up (observable even from crafting recipes in other things)
+			Node redstoneNode = itemMap.get(new ItemData(new ItemStack(Items.REDSTONE)));
+			Node stickNode = itemMap.get(new ItemData(new ItemStack(Items.STICK)));
+			ret.mergeCost(getCost(redstoneNode, preMult));
+			ret.mergeCost(getCost(stickNode, preMult));
+		}
+		else {
+			ret.addItem(node.item, preMult);
+		}
+		return ret;
+
+	}
+	
 	//Does a depth-first traversal to determine the cost of a recipe node
 	public CostList getCost(Node node, float preMult) {
 		CostList ret = new CostList();
@@ -211,13 +234,11 @@ public class RecipeGraph {
 		
 		node.visited = true;
 		
-		if (node.edges.size() == 0) {
-			//Must be a base item
-			ret.addItem(node.item, preMult);
+		if (isSpecialCase(node)) {
+			ret.mergeCost(getSpecialCost(node, preMult));
 		}
-		else if (Arrays.asList(new String[]{"tile.cloth", "tile.clay", "item.redstone"}).contains(
-				node.item.item.getUnlocalizedName())) {
-			//Do not recurse! Bad things happen with dyed cloth/clay and redstone!
+		else if (node.edges.size() == 0) {
+			//Must be a base item
 			ret.addItem(node.item, preMult);
 		}
 		else {		

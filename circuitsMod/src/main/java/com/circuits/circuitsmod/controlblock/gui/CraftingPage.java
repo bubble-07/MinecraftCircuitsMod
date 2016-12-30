@@ -2,7 +2,10 @@ package com.circuits.circuitsmod.controlblock.gui;
 
 import java.util.Optional;
 
+import net.minecraft.item.ItemStack;
+
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
+import com.circuits.circuitsmod.common.ItemUtils;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
 import com.circuits.circuitsmod.controlblock.gui.net.CircuitCosts;
 
@@ -30,6 +33,7 @@ public class CraftingPage extends ControlGuiPage {
 		}));
 		this.addElement(specialFields);
 	}
+	
 	@Override
 	public void draw() {
 		Optional<String> configName = specialFields.getConfigName();
@@ -47,8 +51,11 @@ public class CraftingPage extends ControlGuiPage {
 		costs.getCost().ifPresent((cost) -> {
 			for (int i = 0; i < cost.size(); i++) {
 				int x = screenX + 20*i;
-				parent.renderItemStack(cost.get(i), x, screenY + screenHeight / 2 + shortLabelHeight);
-				parent.getFontRenderer().drawString("" + cost.get(i).stackSize, x, screenY + screenHeight / 2 + 4, elementColor);
+				
+				ItemStack toRender = ItemUtils.getRenderableItemStack(cost.get(i));
+				
+				parent.renderItemStack(toRender, x, screenY + screenHeight / 2 + shortLabelHeight);
+				parent.getFontRenderer().drawString("" + toRender.stackSize, x, screenY + screenHeight / 2 + 4, elementColor);
 			}
 		});
 	}

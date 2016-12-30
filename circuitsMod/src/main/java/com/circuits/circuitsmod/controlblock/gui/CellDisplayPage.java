@@ -3,7 +3,10 @@ package com.circuits.circuitsmod.controlblock.gui;
 import java.util.List;
 import java.util.Optional;
 
+import net.minecraft.item.ItemStack;
+
 import com.circuits.circuitsmod.CircuitsMod;
+import com.circuits.circuitsmod.common.ItemUtils;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
 import com.circuits.circuitsmod.controlblock.gui.net.CircuitCostRequest;
 import com.circuits.circuitsmod.controlblock.gui.net.CircuitCosts;
@@ -82,7 +85,8 @@ public class CellDisplayPage extends ControlGuiPage {
 			this.addElement(craftButton);
 			costs.getCost().ifPresent((cost) -> {
 				for (int i = 0; i < cost.size(); i++) {
-					parent.renderItemStack(cost.get(i), screenX + screenWidth - 2*shortLabelWidth - 10*i, screenY);
+					ItemStack toRender = ItemUtils.getRenderableItemStack(cost.get(i));
+					parent.renderItemStack(toRender, screenX + screenWidth - 2*shortLabelWidth - 10*i, screenY);
 				}
 			});
 		}

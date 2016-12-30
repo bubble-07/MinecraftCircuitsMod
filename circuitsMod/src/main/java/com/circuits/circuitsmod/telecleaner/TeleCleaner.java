@@ -16,14 +16,20 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-
+/**
+ * Teleporter [next puzzle]/inventory cleaner for the puzzle dimension
+ * @author spm61
+ *
+ */
 public class TeleCleaner extends Block
 {
   public TeleCleaner()
   {
     super(Material.ROCK);
     this.setHardness(9999);
-    this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);   // the block will appear on the Blocks tab in creative
+    //bubble-07: Puzzle dimension features delayed for future release. It's more important to get the overworld functionality out there for now,
+    //fix bugs, and solicit feedback from redstoners to achieve a good degree of polish while the puzzle dimension levels are completed.
+    //this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);   // the block will appear on the Blocks tab in creative
   }
 
   @Override

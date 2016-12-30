@@ -37,6 +37,11 @@ import com.circuits.circuitsmod.Config;
 import com.circuits.circuitsmod.frameblock.StartupCommonFrame;
 import com.google.common.cache.LoadingCache;
 
+/**
+ * Portal to the puzzle dimension
+ * @author spm61
+ *
+ */
 public class BlockPortalPuzzle extends BlockBreakable {
 	
 	public static final PropertyEnum<EnumFacing.Axis> AXIS = PropertyEnum.<EnumFacing.Axis> create("axis", EnumFacing.Axis.class,new EnumFacing.Axis[]{EnumFacing.Axis.X, EnumFacing.Axis.Z});
@@ -50,7 +55,9 @@ public class BlockPortalPuzzle extends BlockBreakable {
 		this.setUnlocalizedName("portal_puzzle_block");
 		this.setDefaultState(this.blockState.getBaseState().withProperty(AXIS, EnumFacing.Axis.Z));
 		this.setTickRandomly(true);
-		this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+	    //bubble-07: Puzzle dimension features delayed for future release. It's more important to get the overworld functionality out there for now,
+	    //fix bugs, and solicit feedback from redstoners to achieve a good degree of polish while the puzzle dimension levels are completed.
+		//this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 	}
 	
 	@Nullable
