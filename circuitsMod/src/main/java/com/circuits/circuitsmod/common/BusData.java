@@ -112,6 +112,9 @@ public class BusData implements Serializable {
 	}
 	
 	public static byte[] listToBytes(List<BusData> in) {
+		if (in == null) {
+			return new byte[0];
+		}
 		Byte[] result = in.stream().flatMap(b -> Stream.of(ArrayUtils.toObject(b.toBytes()))).toArray(Byte[]::new);
 		return ArrayUtils.toPrimitive(result);
 	}

@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import com.circuits.circuitsmod.busblock.BusBlock;
 import com.circuits.circuitsmod.busblock.BusSegment;
@@ -25,6 +26,7 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -85,6 +87,13 @@ public class CircuitTileEntity extends TileEntity {
 	 * as passed by bus networks
 	 */
 	private List<BusData> inputData = null;
+	
+	/**
+	 * List of inputs to this CircuitTileEntity from the previous redstone tick.
+	 * These are used to compute the actual outputs of a circuit at a given tick
+	 */
+	private List<BusData> oldInputData = null;
+	
 	
 	private NBTTagCompound loadingFromFile = null;
 	
@@ -148,12 +157,15 @@ public class CircuitTileEntity extends TileEntity {
 	}
 	
 	/**
-	 * Clears any impending inputs from this circuit tile entity.
+	 * Clears any impending inputs from this circuit tile entity,
+	 * and the old input states as well.
 	 */
 	private void clearInputs() {
 		this.inputData = Lists.newArrayList();
+		this.oldInputData = Lists.newArrayList();
 		for (int width : CircuitInfoProvider.getInputWidths(circuitUID)) {
 			this.inputData.add(new BusData(width, 0));
+			this.oldInputData.add(new BusData(width, 0));
 		}
 	}
 	
@@ -260,6 +272,9 @@ public class CircuitTileEntity extends TileEntity {
 			return;
 		}
 		
+		if (circuitUID == null) {
+			return; //Something's __really__ messed up about this block. Leave it there, but let the user remove it.
+		}
 		
 		if (impl == null) {
 			//If we're on the client, don't care about updating, we're just here
@@ -303,6 +318,8 @@ public class CircuitTileEntity extends TileEntity {
 			//Okay, so first, find all of the input faces with a declared
 			//input width of 1 or are analog, and fill the bus data values
 			//with actual redstone signals coming into this block
+			//We schedule this to use "oldInputData" so it will be immediately processed on this tick.
+			//TODO: is this the right thing to do?
 			for (int redstoneIndex : this.impl.getRedstoneInputs()) {
 				EnumFacing redstoneFace = this.wireMapper.getInputFace(redstoneIndex);
 				if (this.impl.analogInputs()[redstoneIndex]) {
@@ -317,7 +334,7 @@ public class CircuitTileEntity extends TileEntity {
 			
 			//Okay, now that in theory, we have a complete input list, generate the output list
 			//using the wrapped circuit implementation
-			List<BusData> outputs = this.impl.invoke(this.state, this.inputData);
+			List<BusData> outputs = this.impl.invoke(this.state, this.oldInputData);
 						
 			//Okay, now we need to deliver any and all redstone output signals
 			for (int redstoneIndex : this.impl.getRedstoneOutputs()) {
@@ -352,6 +369,8 @@ public class CircuitTileEntity extends TileEntity {
 			getWorld().notifyBlockOfStateChange(getPos(), StartupCommonCircuitBlock.circuitBlock);
 			
 			getWorld().notifyNeighborsOfStateChange(getPos(), StartupCommonCircuitBlock.circuitBlock);
+			
+			this.oldInputData = this.inputData.stream().map((data) -> data.copy()).collect(Collectors.toList());
 		}
 	}
 	@Override
@@ -370,6 +389,7 @@ public class CircuitTileEntity extends TileEntity {
 			}
 		}
 		result.setByteArray("CircuitInputState", BusData.listToBytes(this.inputData));
+		result.setByteArray("OldCircuitInputState", BusData.listToBytes(this.oldInputData));
 		return result;
 	}
 	
@@ -377,10 +397,15 @@ public class CircuitTileEntity extends TileEntity {
 		Optional<List<BusData>> inputDatas = BusData.listFromBytes(compound.getByteArray("CircuitInputState"));
 		if (inputDatas.isPresent()) {
 			this.inputData = inputDatas.get();
-			if (this.inputData.size() == 0) {
-				this.clearInputs();
-			}
 		}
+		Optional<List<BusData>> oldinputDatas = BusData.listFromBytes(compound.getByteArray("OldCircuitInputState"));
+		if (oldinputDatas.isPresent()) {
+			this.oldInputData = oldinputDatas.get();
+		}
+		if (this.inputData.size() == 0 || this.oldInputData.size() == 0) {
+			this.clearInputs();
+		}
+		
 		if (this.impl != null && this.impl.isSequential()) {
 			byte[] serialized = compound.getByteArray("InternalCircuitState");
 			Optional<Invoker.State> newState = this.impl.deserializeState(this.state, serialized);
@@ -395,8 +420,10 @@ public class CircuitTileEntity extends TileEntity {
 	
 	private NBTTagCompound getUIDTagCompound() {
         NBTTagCompound TEData = new NBTTagCompound();
-        TEData.setInteger("CircuitUID", this.circuitUID.getUID().toInteger());
-        TEData.setIntArray("ConfigOptions", this.circuitUID.getOptions().asInts());
+        if (this.circuitUID != null) {
+        	TEData.setInteger("CircuitUID", this.circuitUID.getUID().toInteger());
+            TEData.setIntArray("ConfigOptions", this.circuitUID.getOptions().asInts());
+        }
         return TEData;
 	}
 	private void setUIDFromCompound(NBTTagCompound compound) {

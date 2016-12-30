@@ -87,7 +87,7 @@ public class CircuitGiveCommand extends CommandBase {
         SpecializedCircuitUID finalUid = new SpecializedCircuitUID(uid.get(), configs);
         
         Optional<SpecializedCircuitInfo> info = CircuitInfoProvider.getSpecializedInfoFor(finalUid);
-        if (!info.isPresent() && false) {
+        if (!info.isPresent()) {
         	sender.addChatMessage(new TextComponentString(TextFormatting.RED + "A circuit with that name and set of config options doesn't exist!"));
         }
         else {
