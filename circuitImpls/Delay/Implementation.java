@@ -25,7 +25,7 @@ public class Implementation implements Serializable {
         public String config(int delayLen, int bitWidth) {
             this.delayLen = delayLen;
             this.bitWidth = bitWidth;
-            this.vals = new long[delayLen + 1];
+            this.vals = new long[delayLen];
             if (delayLen < 1) {
                 return null;
             }

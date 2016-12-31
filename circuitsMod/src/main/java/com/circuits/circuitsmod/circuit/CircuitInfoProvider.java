@@ -188,6 +188,13 @@ public class CircuitInfoProvider {
 			return null;
 		}
 	}
+	
+	public static void copyDefaultCircuitsFromJar() {
+		ResourceLocation jarZip = new ResourceLocation(CircuitsMod.MODID, "circuits:defaults.zip");
+		File defaultCircuitsZip = new File(FileUtils.getConfigRootDir().toString() + "/defaultCircuits.zip");
+		FileUtils.copyResourceToFile(jarZip, defaultCircuitsZip);
+		FileUtils.unzip(defaultCircuitsZip, FileUtils.getCircuitDefinitionsDir());
+	}
     
 	public static void ensureServerModelInit() { 
 		if (implMap != null) {
@@ -196,7 +203,11 @@ public class CircuitInfoProvider {
 		File circuitsDir = FileUtils.getCircuitDefinitionsDir();
 		
 		if (!circuitsDir.exists()) {
-			circuitsDir.mkdirs();
+			copyDefaultCircuitsFromJar();
+			if (!circuitsDir.exists()) {
+				//Fallback, leave 'em with an empty directory
+				circuitsDir.mkdirs();
+			}
 		}
 		
 		implMap = new HashMap<>();

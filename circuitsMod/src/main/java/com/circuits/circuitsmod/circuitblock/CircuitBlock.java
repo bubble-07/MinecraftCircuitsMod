@@ -77,6 +77,7 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 	{
 		//Whenever a circuit tile entity comes online (operational, with a loaded implementation),
 		//then we will perform the appropriate logic for initializing bus segments on all valid input/output faces.
+		worldIn.scheduleUpdate(pos, this, 1);
 		return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing());
 	}
 	
@@ -89,6 +90,7 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 			Optional<SpecializedCircuitUID> uid = CircuitItem.getUIDFromStack(stack);
 			if (uid.isPresent()) {
 				tileEntity.init(worldIn, uid.get());
+				worldIn.scheduleUpdate(pos, this, 1);
 			}
 			else {
 				Log.internalError("Circuit UID does not exist for item stack " + stack);
@@ -98,6 +100,10 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 	
 	@Override
     public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+		if (side == null) {
+			return false;
+		}
+		
 		Optional<CircuitTileEntity> te = CircuitBlock.getCircuitTileEntityAt(world, pos);
 		if (te.isPresent()) {
 			return te.get().getBusSegment(side.getOpposite()).map((seg) -> seg.getWidth() == 1).orElse(false);
@@ -107,15 +113,31 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 
 	@Override
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
-		worldIn.scheduleUpdate(pos, this, 1);
+		this.update(worldIn, pos, state, true);
+	}
+	
+	private void updateTEIfNecessary(CircuitTileEntity TE, IBlockState state, boolean forceSync) {
+		if (TE.getWorld().getWorldTime() % 2 != 0) {
+			TE.getWorld().scheduleUpdate(TE.getPos(), StartupCommonCircuitBlock.circuitBlock, 1);
+			return;
+		}
+		TE.getWorld().scheduleUpdate(TE.getPos(), StartupCommonCircuitBlock.circuitBlock, 2);
+		if (!TE.hasUpdatedThisTick()) {
+			TE.update(state);
+			TE.getWorld().notifyNeighborsOfStateChange(TE.getPos(), StartupCommonCircuitBlock.circuitBlock);
+		}
+	}
+	
+	public void update(World worldIn, BlockPos pos, IBlockState state, boolean forceSync) {
+		CircuitTileEntity tileEntity = (CircuitTileEntity) worldIn.getTileEntity(pos);
+		if (tileEntity != null) {
+			updateTEIfNecessary(tileEntity, state, forceSync);
+		}
 	}
 
 	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-		CircuitTileEntity tileEntity = (CircuitTileEntity) worldIn.getTileEntity(pos);
-		if (tileEntity != null) {
-			tileEntity.update(state);
-		}
+		update(worldIn, pos, state, false);
 	}
 
 	@Override

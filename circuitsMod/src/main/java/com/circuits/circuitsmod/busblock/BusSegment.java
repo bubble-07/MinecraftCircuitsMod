@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 
 import com.circuits.circuitsmod.circuitblock.CircuitBlock;
 import com.circuits.circuitsmod.circuitblock.CircuitTileEntity;
+import com.circuits.circuitsmod.circuitblock.StartupCommonCircuitBlock;
 import com.circuits.circuitsmod.common.BlockFace;
 import com.circuits.circuitsmod.common.BusData;
 import com.circuits.circuitsmod.common.Log;
@@ -169,7 +170,7 @@ public class BusSegment {
 		}
 		
 		this.inputData.put(inputFace, newInputVal);
-		updateIfChanged(worldIn);
+		forceUpdate(worldIn);
 
 	}
 	

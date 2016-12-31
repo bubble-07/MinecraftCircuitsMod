@@ -123,7 +123,7 @@ public class CircuitEntitySpecialRenderer extends TileEntitySpecialRenderer<Circ
 				buf.pos(xzcoords[(ind + 1) % 4][0], 0, xzcoords[(ind + 1) % 4][1]).color(r, g, b, 1.0f).endVertex();
 			}
 			//Draw the bottom face
-			for (int j = 3; j >= 0; j--) {
+			for (int j = 0; j < 4; j++) {
 				buf.pos(xzcoords[j][0], 0, xzcoords[j][1]).color(0.0f, 0.0f, 0.0f, 1.0f).endVertex();
 			}
 			tessellator.draw();

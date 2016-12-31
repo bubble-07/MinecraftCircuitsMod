@@ -4,14 +4,21 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
+import java.util.Enumeration;
 import java.util.Optional;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.DimensionManager;
 
+import org.apache.commons.compress.utils.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
 public class FileUtils {
@@ -45,6 +52,18 @@ public class FileUtils {
 		
 	}
 	
+	public static void copyResourceToFile(ResourceLocation rsc, File dest) {
+		try {
+			FileOutputStream outStream = new FileOutputStream(dest);
+			InputStream is = Minecraft.getMinecraft().getResourceManager().getResource(rsc).getInputStream();
+			IOUtils.copy(is, outStream);
+			outStream.close();
+		}
+		catch (IOException e) {
+			Log.internalError("Could not copy resource file from " + rsc + " to " + dest);
+		}
+	}
+	
 	public static String stringFromFile(File in) {
 		try {
 			return StringUtils.join(Files.readAllLines(in.toPath()), '\n');
@@ -76,4 +95,36 @@ public class FileUtils {
 		}
 		return saveDir;
 	}
+	
+	//Kind of a pain that Java's standard library doesn't have a built-in method
+	//for unzipping a directory. Props to Geoffrey de Smet
+	//http://stackoverflow.com/questions/9324933/what-is-a-good-java-library-to-zip-unzip-files
+	//for putting together something decently clean, as below
+	public static void unzip(File inputFile, File outputDirectory) {
+		java.util.zip.ZipFile zipFile = null;
+		try {
+			zipFile = new ZipFile(inputFile);
+			Enumeration<? extends ZipEntry> entries = zipFile.entries();
+			while (entries.hasMoreElements()) {
+				ZipEntry entry = entries.nextElement();
+				File entryDestination = new File(outputDirectory.getAbsolutePath(), entry.getName());
+				if (entry.isDirectory()) {
+					entryDestination.mkdirs();
+				} else {
+					entryDestination.getParentFile().mkdirs();
+					InputStream in = zipFile.getInputStream(entry);
+					OutputStream out = new FileOutputStream(entryDestination);
+					IOUtils.copy(in, out);
+					IOUtils.closeQuietly(in);
+					out.close();
+				}
+			}
+			zipFile.close();
+		}
+		catch (IOException e) {
+			Log.internalError("Failed to unzip " + inputFile + " into " + outputDirectory);
+		}
+	}
+	
+	
 }

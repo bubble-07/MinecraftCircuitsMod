@@ -94,10 +94,18 @@ public class CircuitTileEntity extends TileEntity {
 	 */
 	private List<BusData> oldInputData = null;
 	
+	/**
+	 * Something that flips between true/false on each update so we don't update twice on the same tick!
+	 */
+	private boolean worldTime = false;
+	
 	
 	private NBTTagCompound loadingFromFile = null;
 	
 	public void receiveInput(EnumFacing face, BusData data) {
+		if (wireMapper == null) {
+			return;
+		}
 		Optional<Integer> inputIndex = wireMapper.getInputIndexOf(face);
 		if (inputIndex.isPresent()) {
 			inputData.set(inputIndex.get(), data);
@@ -264,6 +272,10 @@ public class CircuitTileEntity extends TileEntity {
 		}
 	}
 	
+	public boolean hasUpdatedThisTick() {
+		return this.worldTime == ((getWorld().getWorldTime() % 4) == 2);
+	}
+	
 	public void update(IBlockState state) {
 		//This was a really weird bug -- apparently, blocks can decide not to initialize themselves with their default state
 		//on load, so we test for a block having its default facing (DOWN) and break if it is
@@ -271,6 +283,7 @@ public class CircuitTileEntity extends TileEntity {
 			getWorld().scheduleBlockUpdate(getPos(), StartupCommonCircuitBlock.circuitBlock, 2, 0);
 			return;
 		}
+		this.worldTime = (getWorld().getWorldTime() % 4) == 2;
 		
 		if (circuitUID == null) {
 			return; //Something's __really__ messed up about this block. Leave it there, but let the user remove it.
@@ -323,10 +336,10 @@ public class CircuitTileEntity extends TileEntity {
 			for (int redstoneIndex : this.impl.getRedstoneInputs()) {
 				EnumFacing redstoneFace = this.wireMapper.getInputFace(redstoneIndex);
 				if (this.impl.analogInputs()[redstoneIndex]) {
-					this.inputData.set(redstoneIndex, new BusData(4, getSidePower(redstoneFace)));
+					this.oldInputData.set(redstoneIndex, new BusData(4, getSidePower(redstoneFace)));
 				}
 				else {
-					this.inputData.set(redstoneIndex, new BusData(1, isSidePowered(redstoneFace) ? 1 : 0));
+					this.oldInputData.set(redstoneIndex, new BusData(1, isSidePowered(redstoneFace) ? 1 : 0));
 				}
 			}
 			
@@ -364,12 +377,7 @@ public class CircuitTileEntity extends TileEntity {
 					notifyNeighbor(side);
 				}
 			}
-			
-			getWorld().scheduleBlockUpdate(getPos(), StartupCommonCircuitBlock.circuitBlock, 2, 0);
-			getWorld().notifyBlockOfStateChange(getPos(), StartupCommonCircuitBlock.circuitBlock);
-			
-			getWorld().notifyNeighborsOfStateChange(getPos(), StartupCommonCircuitBlock.circuitBlock);
-			
+									
 			this.oldInputData = this.inputData.stream().map((data) -> data.copy()).collect(Collectors.toList());
 		}
 	}
@@ -390,10 +398,12 @@ public class CircuitTileEntity extends TileEntity {
 		}
 		result.setByteArray("CircuitInputState", BusData.listToBytes(this.inputData));
 		result.setByteArray("OldCircuitInputState", BusData.listToBytes(this.oldInputData));
+		result.setBoolean("CircuitLastUpdateTime", this.worldTime);
 		return result;
 	}
 	
 	private void setCircuitStateFromCompound(NBTTagCompound compound) {
+		this.worldTime = compound.getBoolean("CircuitLastUpdateTime");
 		Optional<List<BusData>> inputDatas = BusData.listFromBytes(compound.getByteArray("CircuitInputState"));
 		if (inputDatas.isPresent()) {
 			this.inputData = inputDatas.get();
