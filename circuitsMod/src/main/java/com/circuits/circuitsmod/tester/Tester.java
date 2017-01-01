@@ -15,6 +15,7 @@ import com.circuits.circuitsmod.circuit.SpecializedCircuitInfo;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.circuitblock.CircuitBlock;
 import com.circuits.circuitsmod.circuitblock.CircuitTileEntity;
+import com.circuits.circuitsmod.circuitblock.StartupCommonCircuitBlock;
 import com.circuits.circuitsmod.common.BlockFace;
 import com.circuits.circuitsmod.common.BusData;
 import com.circuits.circuitsmod.common.PosUtils;
@@ -150,8 +151,11 @@ public abstract class Tester<TEType extends TileEntity> {
 			this.stateUpdateAction();
 		}
 		
+		cheatCheckWait--;
+		testWait--;
+		
 		if (!this.finished) {
-			if (cheatCheckWait == 0) {
+			if (cheatCheckWait <= 0) {
 				cheatCheckWait = timeToNextCheatCheck();
 				if (checkForCheating()) {
 					this.finished = true;
@@ -161,13 +165,10 @@ public abstract class Tester<TEType extends TileEntity> {
 					this.stateUpdateAction();
 				}
 			}
-			else {
-				cheatCheckWait--;
-			}
 		}
 		
 		if (!this.finished) {
-			if (testWait == 0) {
+			if (testWait <= 0) {
 				if (!getResultOfTest()) {
 					//Test failed
 					this.finished = true;
@@ -189,9 +190,6 @@ public abstract class Tester<TEType extends TileEntity> {
 					}
 				}
 				this.stateUpdateAction();
-			}
-			else {
-				testWait--;
 			}
 		}
 	}
@@ -223,9 +221,15 @@ public abstract class Tester<TEType extends TileEntity> {
 			Optional<BusSegment> segToPush = CircuitBlock.getBusSegmentAt(getWorld(), face);
 			if (segToPush.isPresent()) {
 				segToPush.get().accumulate(getWorld(), face, new BusData(64, toPush));
-				segToPush.get().forceUpdate(getWorld());
+				forceTEUpdateAt(face);
 			}
 		}
+	}
+	
+	private void forceTEUpdateAt(BlockFace face) {
+		CircuitBlock.getCircuitTileEntityAt(getWorld(), face.getPos()).ifPresent((te) -> {
+			te.forceImmediateUpdate();
+		});
 	}
 	
 	private boolean getResultOfTest() {
@@ -235,12 +239,9 @@ public abstract class Tester<TEType extends TileEntity> {
 		List<BusData> actual = Lists.newArrayList();
 		for (int i = 0; i < outputFaces.size(); i++) {
 			BlockFace face = outputFaces.get(i);
-			CircuitBlock.getCircuitTileEntityAt(getWorld(), face.getPos()).ifPresent((te) -> {
-				te.update(getWorld().getBlockState(face.getPos()));
-			});
+			forceTEUpdateAt(face);
 			Optional<BusSegment> segToRead = CircuitBlock.getBusSegmentAt(getWorld(), face);
 			if (segToRead.isPresent()) {
-				segToRead.get().forceUpdate(getWorld());
 				long reading = segToRead.get().getCurrentVal().getData();
 				actual.add(new BusData(outputWidths[i], reading));
 			}

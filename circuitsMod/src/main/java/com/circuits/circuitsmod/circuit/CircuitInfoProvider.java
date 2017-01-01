@@ -190,7 +190,7 @@ public class CircuitInfoProvider {
 	}
 	
 	public static void copyDefaultCircuitsFromJar() {
-		ResourceLocation jarZip = new ResourceLocation(CircuitsMod.MODID, "circuits:defaults.zip");
+		ResourceLocation jarZip = new ResourceLocation(CircuitsMod.MODID, "circuits/defaults.zip");
 		File defaultCircuitsZip = new File(FileUtils.getConfigRootDir().toString() + "/defaultCircuits.zip");
 		FileUtils.copyResourceToFile(jarZip, defaultCircuitsZip);
 		FileUtils.unzip(defaultCircuitsZip, FileUtils.getCircuitDefinitionsDir());

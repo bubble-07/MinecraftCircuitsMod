@@ -99,7 +99,7 @@ public class FileUtils {
 	//Kind of a pain that Java's standard library doesn't have a built-in method
 	//for unzipping a directory. Props to Geoffrey de Smet
 	//http://stackoverflow.com/questions/9324933/what-is-a-good-java-library-to-zip-unzip-files
-	//for putting together something decently clean, as below
+	//for putting together something decently clean, adapted below
 	public static void unzip(File inputFile, File outputDirectory) {
 		java.util.zip.ZipFile zipFile = null;
 		try {
@@ -107,6 +107,9 @@ public class FileUtils {
 			Enumeration<? extends ZipEntry> entries = zipFile.entries();
 			while (entries.hasMoreElements()) {
 				ZipEntry entry = entries.nextElement();
+				if (entry.getName().contains("MACOSX")) {
+					continue;
+				}
 				File entryDestination = new File(outputDirectory.getAbsolutePath(), entry.getName());
 				if (entry.isDirectory()) {
 					entryDestination.mkdirs();

@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import com.circuits.circuitsmod.busblock.BusBlock;
 import com.circuits.circuitsmod.busblock.BusSegment;
@@ -82,6 +84,8 @@ public class CircuitTileEntity extends TileEntity {
 	 */
 	private int[] redstoneOutputs = new int[EnumFacing.values().length];
 	
+	private int[] oldRedstoneOutputs = new int[EnumFacing.values().length];
+		
 	/**
 	 * List of current impending inputs to this CircuitTileEntity,
 	 * as passed by bus networks
@@ -94,10 +98,14 @@ public class CircuitTileEntity extends TileEntity {
 	 */
 	private List<BusData> oldInputData = null;
 	
+	private int pendingInputs = 0;
+	
 	/**
 	 * Something that flips between true/false on each update so we don't update twice on the same tick!
 	 */
 	private boolean worldTime = false;
+	
+	private long worldTick = -1;
 	
 	
 	private NBTTagCompound loadingFromFile = null;
@@ -109,6 +117,17 @@ public class CircuitTileEntity extends TileEntity {
 		Optional<Integer> inputIndex = wireMapper.getInputIndexOf(face);
 		if (inputIndex.isPresent()) {
 			inputData.set(inputIndex.get(), data);
+		}
+		pendingInputs--;
+		if (pendingInputs <= 0) {
+			this.pendingInputs = CircuitInfoProvider.getNumInputs(circuitUID);
+			finalizeInputs();
+		}
+	}
+	
+	public void finalizeInputs() {
+		if (this.hasUpdatedThisTick()) {
+			this.oldInputData = this.inputData.stream().map((data) -> data.copy()).collect(Collectors.toList());
 		}
 	}
 	
@@ -175,6 +194,7 @@ public class CircuitTileEntity extends TileEntity {
 			this.inputData.add(new BusData(width, 0));
 			this.oldInputData.add(new BusData(width, 0));
 		}
+		this.pendingInputs = CircuitInfoProvider.getNumInputs(circuitUID);
 	}
 	
 	/**
@@ -276,13 +296,15 @@ public class CircuitTileEntity extends TileEntity {
 		return this.worldTime == ((getWorld().getWorldTime() % 4) == 2);
 	}
 	
+	public void forceImmediateUpdate() {
+		this.oldInputData = this.inputData.stream().map((data) -> data.copy()).collect(Collectors.toList());
+		update(getWorld().getBlockState(getPos()));
+	}
+	
 	public void update(IBlockState state) {
-		//This was a really weird bug -- apparently, blocks can decide not to initialize themselves with their default state
-		//on load, so we test for a block having its default facing (DOWN) and break if it is
-		if (this.getParentFacing().equals(EnumFacing.DOWN)) {
-			getWorld().scheduleBlockUpdate(getPos(), StartupCommonCircuitBlock.circuitBlock, 2, 0);
-			return;
-		}
+		
+		this.worldTick = getWorld().getWorldTime();
+		
 		this.worldTime = (getWorld().getWorldTime() % 4) == 2;
 		
 		if (circuitUID == null) {
@@ -343,12 +365,16 @@ public class CircuitTileEntity extends TileEntity {
 				}
 			}
 			
+			this.oldRedstoneOutputs = IntStream.of(this.redstoneOutputs).toArray();
+			
 			clearOutputs();
 			
 			//Okay, now that in theory, we have a complete input list, generate the output list
 			//using the wrapped circuit implementation
 			List<BusData> outputs = this.impl.invoke(this.state, this.oldInputData);
-						
+			
+			this.oldInputData = this.inputData.stream().map((data) -> data.copy()).collect(Collectors.toList());
+									
 			//Okay, now we need to deliver any and all redstone output signals
 			for (int redstoneIndex : this.impl.getRedstoneOutputs()) {
 				EnumFacing face = this.wireMapper.getOutputFace(redstoneIndex);
@@ -366,19 +392,21 @@ public class CircuitTileEntity extends TileEntity {
 				
 				EnumFacing side = wireMapper.getOutputFace(i);
 				
-				Optional<BusSegment> busSeg = this.getBusSegment(side);
 				BusData data = outputs.get(i);
+				
+				//If we get a redstone signal, tell the next block over to update, and skip this
+				if (data.getWidth() == 1 || this.isAnalog(side)) {
+					notifyNeighbor(side);
+					notifyNeighbor(side.getOpposite());
+					continue;
+				}
+				
+				Optional<BusSegment> busSeg = this.getBusSegment(side);
 				if (busSeg.isPresent()) {
 					busSeg.get().accumulate(getWorld(), new BlockFace(getPos(), side), data);
 				}
-				
-				//If instead, we sent a redstone signal, just make sure to notify the next block over to update
-				if (data.getWidth() == 1) {
-					notifyNeighbor(side);
-				}
+
 			}
-									
-			this.oldInputData = this.inputData.stream().map((data) -> data.copy()).collect(Collectors.toList());
 		}
 	}
 	@Override
@@ -476,7 +504,10 @@ public class CircuitTileEntity extends TileEntity {
 
 	public int isProvidingWeakPower(IBlockState state, EnumFacing side) {
 		if (impl != null) {
-			return redstoneOutputs[side.getIndex()];
+			if (this.worldTick != getWorld().getWorldTime()) {
+				return redstoneOutputs[side.getIndex()];
+			}
+			return oldRedstoneOutputs[side.getIndex()];
 		}
 		
 		return 0;

@@ -238,7 +238,9 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 	public void update() {
 
 		if (tester != null) {
-			tester.update();
+			if (getWorld().getWorldTime() % 2 == 0) {
+				tester.update();
+			}
 		}
 		updateCraftingGrid();
 		if (worldObj.isRemote) return;

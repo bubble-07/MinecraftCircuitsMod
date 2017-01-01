@@ -21,7 +21,8 @@ import com.circuits.circuitsmod.common.Log;
 public class BusSegment {
 	private Set<BlockFace> inputs = new HashSet<BlockFace>();
 	private Set<BlockFace> outputs = new HashSet<BlockFace>();
-	private HashMap<BlockFace, BusData> inputData = new HashMap<>();
+	private HashMap<BlockFace, BusData> receivedInputData = new HashMap<>();
+	private long operatingTick = -1;
 	private BusData currentVal;
 	private int busWidth;
 	
@@ -56,9 +57,11 @@ public class BusSegment {
 			}
 		}
 		result.currentVal = this.currentVal.copy();
-		result.inputData = new HashMap<>();
+		result.receivedInputData = new HashMap<>();
 		for (BlockFace inputFace : result.inputs) {
-			result.inputData.put(inputFace, this.inputData.get(inputFace));
+			if (this.receivedInputData.containsKey(inputFace)) {
+				result.receivedInputData.put(inputFace, this.receivedInputData.get(inputFace));
+			}
 		}
 		return result;
 	}
@@ -78,8 +81,8 @@ public class BusSegment {
 	public void unifyWith(World worldIn, BusSegment other) {
 		inputs.addAll(other.inputs);
 		outputs.addAll(other.outputs);
-		for (Entry<BlockFace, BusData> otherData : other.inputData.entrySet()) {
-			this.inputData.put(otherData.getKey(), otherData.getValue());
+		for (Entry<BlockFace, BusData> otherData : other.receivedInputData.entrySet()) {
+			this.receivedInputData.put(otherData.getKey(), otherData.getValue());
 		}
 		
 		for (BlockFace inFace : other.inputs) {
@@ -102,18 +105,10 @@ public class BusSegment {
 	
 	private BusData computeOutput() {
 		BusData result = new BusData(busWidth, 0L);
-		for (BusData input : this.inputData.values()) {
+		for (BusData input : this.receivedInputData.values()) {
 			result = result.or(input);
 		}
 		return result;
-	}
-	
-	private void updateIfChanged(IBlockAccess worldIn) {
-		BusData newVal = computeOutput();
-		if (!newVal.equals(currentVal)) {
-			this.currentVal = newVal;
-			pushOutputSignals(worldIn);
-		}
 	}
 	
 	public void forceUpdate(IBlockAccess worldIn) {
@@ -124,19 +119,19 @@ public class BusSegment {
 	public void removeAllAt(BlockPos pos) {
 		this.inputs.removeIf((f) -> f.getPos().equals(pos));
 		this.outputs.removeIf((f) -> f.getPos().equals(pos));
-		Set<BlockFace> datasToRemove = this.inputData.keySet().stream().filter((f) -> f.getPos().equals(pos)).collect(Collectors.toSet());
+		Set<BlockFace> datasToRemove = this.receivedInputData.keySet().stream().filter((f) -> f.getPos().equals(pos)).collect(Collectors.toSet());
 		for (BlockFace face : datasToRemove) {
-			this.inputData.remove(face);
+			this.receivedInputData.remove(face);
 		}
 	}
 	
 	public void addInput(BlockFace inputFace) {
 		inputs.add(inputFace);
-		this.inputData.put(inputFace, new BusData(busWidth, 0L));
+		this.receivedInputData.put(inputFace, new BusData(busWidth, 0L));
 	}
 	public void removeInput(BlockFace inputFace) {
 		inputs.remove(inputFace);
-		this.inputData.remove(inputFace);
+		this.receivedInputData.remove(inputFace);
 	}
 	public void addOutput(BlockFace outputFace) {
 		outputs.add(outputFace);
@@ -158,20 +153,24 @@ public class BusSegment {
 					          " in BusSegment " + this.toString());
 			return;
 		}
-		if (!inputData.containsKey(inputFace)) {
+		if (!inputs.contains(inputFace)) {
 			Log.internalError("WARN: Attempting to accumulate a value from a face we're not expecting");
 			return;
 		}
 		
-		BusData oldInputVal = this.inputData.get(inputFace);
-		if (oldInputVal.equals(newInputVal)) {
-			//Do nothing!
-			return;
+		if (worldIn.getWorldTime() > this.operatingTick) {
+			//Force an update (before an accumulation) if we happened to have missed a tick on this bus
+			//somehow.
+			this.operatingTick = worldIn.getWorldTime();
+			forceUpdate(worldIn);
 		}
 		
-		this.inputData.put(inputFace, newInputVal);
-		forceUpdate(worldIn);
-
+		this.receivedInputData.put(inputFace, newInputVal);
+		if (this.receivedInputData.size() == this.inputs.size()) {
+			this.operatingTick = worldIn.getWorldTime() + 2;
+			forceUpdate(worldIn);
+			this.receivedInputData.clear();
+		}
 	}
 	
 	

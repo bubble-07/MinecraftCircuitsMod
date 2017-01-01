@@ -110,13 +110,8 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 		}
 		return true;
 	}
-
-	@Override
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
-		this.update(worldIn, pos, state, true);
-	}
 	
-	private void updateTEIfNecessary(CircuitTileEntity TE, IBlockState state, boolean forceSync) {
+	private void updateTEIfNecessary(CircuitTileEntity TE, IBlockState state) {
 		if (TE.getWorld().getWorldTime() % 2 != 0) {
 			TE.getWorld().scheduleUpdate(TE.getPos(), StartupCommonCircuitBlock.circuitBlock, 1);
 			return;
@@ -128,16 +123,16 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 		}
 	}
 	
-	public void update(World worldIn, BlockPos pos, IBlockState state, boolean forceSync) {
+	public void update(World worldIn, BlockPos pos, IBlockState state) {
 		CircuitTileEntity tileEntity = (CircuitTileEntity) worldIn.getTileEntity(pos);
 		if (tileEntity != null) {
-			updateTEIfNecessary(tileEntity, state, forceSync);
+			updateTEIfNecessary(tileEntity, state);
 		}
 	}
 
 	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-		update(worldIn, pos, state, false);
+		update(worldIn, pos, state);
 	}
 
 	@Override
