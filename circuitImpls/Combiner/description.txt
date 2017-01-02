@@ -1,6 +1,7 @@
-COMBINER Circuit
+Combiner(n):
 
-A combiner has a configurable bitwidth, n.  It has two n bit inputs and 1
-2n-bit output.  The output is the combination of the two n bit inputs.
+This circuit takes two n-bit inputs and combines them into a single 2n-bit bus.
 
-This is the opposite of a Splitter.
+This is done according to the usual convention -- the n lowest-order bits (those with a small place value) in the output come from input on the right, and the n highest-order bits (those with a large place value) in the output come from the input on the left.
+
+See Splitter(2n), which performs the opposite operation

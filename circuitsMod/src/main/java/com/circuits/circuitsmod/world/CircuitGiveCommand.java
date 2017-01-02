@@ -95,11 +95,10 @@ public class CircuitGiveCommand extends CommandBase {
                 ((EntityPlayer) sender).inventory.addItemStackToInventory(CircuitItem.getStackFromUID(finalUid));
             }
         }
-
     }
-
     @Override
-    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-        return true;
+    public int getRequiredPermissionLevel()
+    {
+        return 2;
     }
 }

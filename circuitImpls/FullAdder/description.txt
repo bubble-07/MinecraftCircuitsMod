@@ -1,12 +1,19 @@
-Full Adder
+FullAdder(n):
 
-This circuit has configurable bitwidth of n.
-This circuit has one 1-bit carry-in input, 1-bit carry-out output, two n-bit
-inputs and 1 n-bit output.
+This circuit has a "carry-in" redstone input on its right, a redstone "carry-out" output on its left, a 2n-bit input on its back, and an n-bit output on its front.
 
-This adder's job is to add the two n-bit inputs and the carry-in to produce 
-a result on the output.  The n-bit output carries the sum, and the carry-out
-output is on if the adder had to carry-out the leading bit.
+Given a 2n-bit input where the high-order bits represent a number A, and the low-order bits represent a number B, and the numerical value C (0 or 1) of the carry-in input, this circuit computes A + B + C = Sum in binary arithmetic. If "Sum" is too big to fit in a n-bit bus, "carry-out" will output a high signal, and the n-bit output will contain the lowest-order n bits of the sum. Otherwise, the n-bit output will simply contain the sum.
 
-A carry-out occurs if the leading bits in the sum evaluate to 2 or more, which
-is the same as being greater than 10 in binary.  
+Example [FullAdder(2)]:
+
+Input: 1110
+Carry-in: 1
+
+A: 11
+B: 10
+C:  1
+_____
+Sum: 110 (= Carry out| Output)
+
+Output: 10
+Carry out: 1

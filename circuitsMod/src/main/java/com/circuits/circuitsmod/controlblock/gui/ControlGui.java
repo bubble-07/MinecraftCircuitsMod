@@ -79,6 +79,18 @@ public class ControlGui extends GuiContainer {
 	}
 	
 	@Override
+	public void handleMouseInput() throws IOException {
+		super.handleMouseInput();
+		int scroll = org.lwjgl.input.Mouse.getEventDWheel();
+		if (scroll > 0) {
+			currentPage.handleScrollUp();
+		}
+		if (scroll < 0) {
+			currentPage.handleScrollDown();
+		}
+	}
+	
+	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int button) throws IOException {
 		super.mouseClicked(mouseX, mouseY, button);
 		

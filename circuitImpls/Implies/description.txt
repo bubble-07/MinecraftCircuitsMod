@@ -1,16 +1,14 @@
-Implies circuit:
+Implies(n):
 
-This circuit has a configurable bitwidth n.
-This circuit takes in two n-bit inputs and has 1 n-bit output.
+Given two n-bit inputs A and B (left and right, respectively), this computes the bitwise implies of A and B. 
 
-This circuit will perform bitwise implies operations on the inputs.
+Example [Implies(1)]:
+Truth-table:
 
-Example:
-For a 1-bit implies circuit with two inputs A and B and an output O, 
-the truth table is:
+A B  Output
+0 0  1
+0 1  1
+1 0  0
+1 1  1
 
-A 1 0 1 0
-B 0 0 1 1
-O 0 1 1 1
-
-This circuit can also be written as Not-A OR B.  
+Note that the result is only false (low signal) if "A" was true, but "B" was false. One interpretation of this is that we only have evidence that A doesn't imply B if we can observe a case where A is true, but B is not. 

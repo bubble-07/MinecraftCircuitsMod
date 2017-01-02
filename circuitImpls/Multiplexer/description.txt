@@ -1,9 +1,22 @@
-Multiplexer:
+Multiplexer(n):
 
-This circuit has a configurable bitwidth n.
-this circuit has two n-bit inputs on its left and right, 
-one 1-bit input, and 1 n-bit output.
+This circuit has two n-bit inputs on its left and back faces, a "switch" redstone input on its right face, and an n-bit output on its front face.
 
-A multiplexer decides which input to send to the output based on its switching
-input.  If the switching input is high, the left input will be forwarded,
-and if the switch is low, the right output will be forwarded.
+This circuit decides which input to forward to the output based on the switch. If the switch is high, the left input will be forwarded, and if the switch is low, the right input will be forwarded. 
+
+Example [Multiplexer(1)]:
+
+Truth table:
+L B S  O
+0 0 0  0
+0 0 1  0
+0 1 0  1
+0 1 1  0
+1 0 0  0
+1 0 1  1
+1 1 0  1
+1 1 1  1
+
+where "L" <-> Left input, "B" <-> Back input, "S" <-> Switch, and "O" <-> Output.
+
+See Demultiplexer(n) for a circuit which allows redirecting a single input to one of multiple outputs based on a switch.

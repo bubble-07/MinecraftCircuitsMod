@@ -1,1 +1,12 @@
-Implies circuit with two 1-bit inputs and a single 1-bit output
+Output(i, n):
+
+This "circuit" is used as a marker for where to output a signal for circuit testing. Upon starting a circuit test, the control block here will search within its testing frame for as many output blocks as there are outputs to the circuit under test.
+
+The first configuration option represents the (0-indexed) index of the tested circuit's array of outputs. Under the conventions of the mod, the leftmost output corresponds to the 0th output, with indices increasing to the right. 
+
+The second configuration option represents the bus width of the tested circuit's ith output.
+
+Throughout a test, this control block will read values from such output blocks in its testing frame, and will interpret the values as corresponding to the ith output of the circuit under test. Tests for circuits may be simple consistency checks against their internal representations, or they may incorporate more complex checks. Whatever the case, circuits utilizing the API of this mod should be designed so that the circuit implementation passes its own test cases, at a minimum.
+
+See also:
+Output(i, n)

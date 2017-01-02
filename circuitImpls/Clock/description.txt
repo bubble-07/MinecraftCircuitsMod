@@ -1,9 +1,31 @@
-CLOCK circuit
+Clock(len):
 
-This circuit has 1 reset input and 1 clock output.
-The circuit can be configured to set how long the clock cycle is.
+This circuit outputs a redstone signal which alternates between off and on every "len" redstone ticks, with a single "reset" input. 
 
-This circuit alternates between high and low depending on the current tick.
-At the end of the clock cycle, the circuit will switch from high to low and
-back again.  
-If the reset input is high, the clock will always reset to low.  
+When this circuit receives a pulse on the "reset" input, the clock will reset its state to one where the output signal will be off for "len" more redstone ticks. 
+
+Examples [Clock(2)]:
+
+Reset low:
+
+____________ Reset
+__~~__~~__~~ Output
+
+With reset:
+
+Example 1:
+
+_____~______ Reset
+__~~____~~__ Output
+
+Example 2:
+
+______~_____ Reset
+
+__~~__~__~~_ Output
+
+------------->
+Redstone ticks
+
+where '~' denotes a high signal
+and '_' denotes a low signal

@@ -1,14 +1,21 @@
-ABBA Circuit:
+ABBA(aLen, bLen):
 
-This circuit has configuration options:
-How long Output A is on
-How long Output B is on while A is on.
+When this circuit recieves an on-pulse, output A will activate and remain on for "aLen" redstone ticks.
+ 
+Then, both outputs, A and B, will be active for "bLen" ticks.
 
-An ABBA Circuit has one 1-bit input and two 1-bit outputs, A and B.
-When the circuit detects a pulse, ouput A will activate and remain on for the
-set length of time.  During this time, B will activate and remain on for the
-specified time.  
+Finally, output B will turn off, and output A will remain on for "aLen" more redstone ticks.
 
-The trick to this circuit is to remember that B CANNOT be On while A is Off.
+The most common use of this circuit is to actuate double-extending pistons.
 
+Example [ABBA(2, 3)] :
 
+__~_________ Input
+___~~~~~~~__ A
+_____~~~____ B
+
+------------->
+Redstone ticks
+
+where '~' denotes a high signal
+and '_' denotes a low signal

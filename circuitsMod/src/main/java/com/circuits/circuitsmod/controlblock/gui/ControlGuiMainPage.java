@@ -2,6 +2,9 @@ package com.circuits.circuitsmod.controlblock.gui;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.circuits.circuitsmod.circuit.CircuitConfigOptions;
+import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
+import com.circuits.circuitsmod.circuitblock.CircuitItem;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
 
 public class ControlGuiMainPage extends ControlGuiPage {
@@ -25,21 +28,10 @@ public class ControlGuiMainPage extends ControlGuiPage {
 	private void renderCell(CircuitCell cell, int cell_y, int cell_height) {
 		int nameWidth = screenWidth;
 		String displayName = parent.getFontRenderer().trimStringToWidth(cell.getName(), nameWidth);
-		parent.getFontRenderer().drawString(displayName, screenX, cell_y, elementColor);
+		parent.getFontRenderer().drawString(displayName, screenX + 20, cell_y, elementColor);
 		parent.drawHorizontalLine(screenX, screenX + screenWidth, cell_y - 2, elementColor);
 		
-		//TODO: Make it __visually apparent__ whether something has been unlocked,
-		//but don't display the cost -- too cramped!
-		/*
-		if (cell.isUnlocked()) {
-			//Special stuff to draw (materials cost) if the cell has been unlocked
-			List<ItemStack> materials = cell.getCost().get();
-			int currentX = screenX + nameWidth;
-			for (ItemStack material : materials) {
-				currentX += 10;
-				parent.renderItemStack(material, currentX, cell_y);
-			}
-		}*/
+		parent.renderItemStack(CircuitItem.getStackFromUID(new SpecializedCircuitUID(cell.getUid(), new CircuitConfigOptions())), screenX, cell_y - 2);
 	}
 	
 	private void scrollToChar(char character) {

@@ -1,7 +1,15 @@
-N-Bit D-Latch
+NBitDLatch(n):
 
-An N-Bit D-latch has a configurable bitwidth n.
-There is 1 n-bit input, one 1-bit control input, and 1 n-bit output.
+A D-latch with an n-bit "Data" input and a 1-bit "Control" input. While the "Control" input is low, the output of this circuit is just its input. After the "Control" input hits a rising edge, this circuit maintains its output value so long as the "Control" value is high, regardless of its input.
 
-If the 1-bit input is low, the circuit will set its output to match the input.
-If the 1-bit input is high, the circuit will retain its current output value.
+Example [NBitDLatch(1)]:
+
+~_~_~~~~____ Data
+_____~~~~_~~ Control
+_~_~_~~~~~__ Output
+
+------------->
+Redstone ticks
+
+where '~' denotes a high signal
+and '_' denotes a low signal

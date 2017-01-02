@@ -6,8 +6,9 @@ import com.circuits.circuitsmod.world.PuzzleTeleportCommand;
 import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
 import com.circuits.circuitsmod.controlblock.gui.net.CircuitCostRequest;
+import com.circuits.circuitsmod.controlblock.gui.net.CraftingRequest;
+import com.circuits.circuitsmod.controlblock.gui.net.SetCraftingCellRequest;
 import com.circuits.circuitsmod.controlblock.gui.net.SpecializationValidationRequest;
-import com.circuits.circuitsmod.controlblock.tester.net.CraftingRequest;
 import com.circuits.circuitsmod.controlblock.tester.net.TestRequest;
 import com.circuits.circuitsmod.controlblock.tester.net.TestStateUpdate;
 import com.circuits.circuitsmod.controlblock.tester.net.TestStopRequest;
@@ -122,6 +123,17 @@ public class CircuitsMod
 			return null;
 		}
 	}
+	
+	public static class ServerSetCraftingCellHandler implements IMessageHandler<SetCraftingCellRequest.Message, IMessage> {
+		@Override
+		public IMessage onMessage(SetCraftingCellRequest.Message msg, MessageContext ctxt) {
+			World world =  ctxt.getServerHandler().playerEntity.worldObj;
+			((IThreadListener) world).addScheduledTask(() -> {
+				SetCraftingCellRequest.handleSetCraftingCellRequest(msg.message, world);
+			});
+			return null;
+		}
+	}
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -136,6 +148,8 @@ public class CircuitsMod
     	network.registerMessage(ServerTestStopHandler.class, TestStopRequest.Message.class, 5, Side.SERVER);
     	network.registerMessage(SpecializationValidationHandler.class, SpecializationValidationRequest.Message.class, 6, Side.SERVER);
     	network.registerMessage(CircuitCostHandler.class, CircuitCostRequest.Message.class, 7, Side.SERVER);
+    	network.registerMessage(ServerSetCraftingCellHandler.class, SetCraftingCellRequest.Message.class, 8, Side.SERVER);
+
 
     	
       proxy.preInit();

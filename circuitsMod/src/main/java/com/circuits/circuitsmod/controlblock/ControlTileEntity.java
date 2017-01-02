@@ -238,7 +238,7 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 	public void update() {
 
 		if (tester != null) {
-			if (getWorld().getWorldTime() % 2 == 0) {
+			if (getWorld().getTotalWorldTime() % 2 == 0) {
 				tester.update();
 			}
 		}

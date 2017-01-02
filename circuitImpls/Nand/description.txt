@@ -1,15 +1,17 @@
-NAND circuit
+Nand(n):
 
-The config option for this circuit is its bitwidth, n.
-This circuit has two n-bit inputs and one n-bit output.
+Computes the bitwise NAND of its two n-bit inputs, meaning that a bit at a given position in the output bus will be low only if the same bit is high in both of its inputs. This is equivalent to the result of passing the output of an And(n) circuit to an Inverter(n) circuit, but faster by one redstone tick.
 
-This circuit performs bitwise AND on the two inputs, then inverts the result.
+Example [Nand(1)]:
 
-Example:
-For two 1-bit inputs A and B and output O, the truth table is:
+Truth table:
 
-A 1 0 1 0
-B 0 0 1 1
-O 1 1 0 1
+A B  Output
+0 0  1
+0 1  1
+1 0  1
+1 1  0
 
-where 1 is high and 0 is low.
+Note:
+NAND is universal as a Boolean logic gate, meaning that any other logic gate (AND/OR/NOT/NOR/IMPLIES/etc.) may be built using only NAND gates.
+

@@ -112,7 +112,7 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 	}
 	
 	private void updateTEIfNecessary(CircuitTileEntity TE, IBlockState state) {
-		if (TE.getWorld().getWorldTime() % 2 != 0) {
+		if (TE.getWorld().getTotalWorldTime() % 2 != 0) {
 			TE.getWorld().scheduleUpdate(TE.getPos(), StartupCommonCircuitBlock.circuitBlock, 1);
 			return;
 		}
@@ -140,7 +140,7 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 		CircuitTileEntity tileEntity = (CircuitTileEntity) worldIn.getTileEntity(pos);
 		if (tileEntity != null) {
 			//TODO: I really don't get why redstone inputs in particular are backwards. 
-			return tileEntity.isProvidingWeakPower(state, side.getOpposite());
+			return tileEntity.getWeakPower(state, side.getOpposite());
 		}
 		return 0;
 	}

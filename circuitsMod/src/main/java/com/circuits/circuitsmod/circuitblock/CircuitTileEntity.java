@@ -88,22 +88,25 @@ public class CircuitTileEntity extends TileEntity {
 		
 	/**
 	 * List of current impending inputs to this CircuitTileEntity,
-	 * as passed by bus networks
+	 * as passed by bus networks. This is allowed to be in a dirty state,
+	 * but is only copied over to the inputData field once we
+	 * have been notified (from input bus segments) that all inputs have been finalized
+	 * and that we've already processed the input for the current tick
 	 */
-	private List<BusData> inputData = null;
+	private List<BusData> pendingInputData = null;
 	
 	/**
 	 * List of inputs to this CircuitTileEntity from the previous redstone tick.
 	 * These are used to compute the actual outputs of a circuit at a given tick
 	 */
-	private List<BusData> oldInputData = null;
+	private List<BusData> inputData = null;
 	
 	private int pendingInputs = 0;
 	
 	/**
 	 * Something that flips between true/false on each update so we don't update twice on the same tick!
 	 */
-	private boolean worldTime = false;
+	private boolean updateStamp = false;
 	
 	private long worldTick = -1;
 	
@@ -116,7 +119,7 @@ public class CircuitTileEntity extends TileEntity {
 		}
 		Optional<Integer> inputIndex = wireMapper.getInputIndexOf(face);
 		if (inputIndex.isPresent()) {
-			inputData.set(inputIndex.get(), data);
+			pendingInputData.set(inputIndex.get(), data);
 		}
 		pendingInputs--;
 		if (pendingInputs <= 0) {
@@ -127,7 +130,7 @@ public class CircuitTileEntity extends TileEntity {
 	
 	public void finalizeInputs() {
 		if (this.hasUpdatedThisTick()) {
-			this.oldInputData = this.inputData.stream().map((data) -> data.copy()).collect(Collectors.toList());
+			this.inputData = this.pendingInputData.stream().map((data) -> data.copy()).collect(Collectors.toList());
 		}
 	}
 	
@@ -188,11 +191,11 @@ public class CircuitTileEntity extends TileEntity {
 	 * and the old input states as well.
 	 */
 	private void clearInputs() {
+		this.pendingInputData = Lists.newArrayList();
 		this.inputData = Lists.newArrayList();
-		this.oldInputData = Lists.newArrayList();
 		for (int width : CircuitInfoProvider.getInputWidths(circuitUID)) {
+			this.pendingInputData.add(new BusData(width, 0));
 			this.inputData.add(new BusData(width, 0));
-			this.oldInputData.add(new BusData(width, 0));
 		}
 		this.pendingInputs = CircuitInfoProvider.getNumInputs(circuitUID);
 	}
@@ -293,19 +296,19 @@ public class CircuitTileEntity extends TileEntity {
 	}
 	
 	public boolean hasUpdatedThisTick() {
-		return this.worldTime == ((getWorld().getWorldTime() % 4) == 2);
+		return this.updateStamp == ((getWorld().getTotalWorldTime() % 4) == 2);
 	}
 	
 	public void forceImmediateUpdate() {
-		this.oldInputData = this.inputData.stream().map((data) -> data.copy()).collect(Collectors.toList());
+		this.inputData = this.pendingInputData.stream().map((data) -> data.copy()).collect(Collectors.toList());
 		update(getWorld().getBlockState(getPos()));
 	}
 	
 	public void update(IBlockState state) {
 		
-		this.worldTick = getWorld().getWorldTime();
+		this.worldTick = getWorld().getTotalWorldTime();
 		
-		this.worldTime = (getWorld().getWorldTime() % 4) == 2;
+		this.updateStamp = (getWorld().getTotalWorldTime() % 4) == 2;
 		
 		if (circuitUID == null) {
 			return; //Something's __really__ messed up about this block. Leave it there, but let the user remove it.
@@ -353,15 +356,13 @@ public class CircuitTileEntity extends TileEntity {
 			//Okay, so first, find all of the input faces with a declared
 			//input width of 1 or are analog, and fill the bus data values
 			//with actual redstone signals coming into this block
-			//We schedule this to use "oldInputData" so it will be immediately processed on this tick.
-			//TODO: is this the right thing to do?
 			for (int redstoneIndex : this.impl.getRedstoneInputs()) {
 				EnumFacing redstoneFace = this.wireMapper.getInputFace(redstoneIndex);
 				if (this.impl.analogInputs()[redstoneIndex]) {
-					this.oldInputData.set(redstoneIndex, new BusData(4, getSidePower(redstoneFace)));
+					this.inputData.set(redstoneIndex, new BusData(4, getSidePower(redstoneFace)));
 				}
 				else {
-					this.oldInputData.set(redstoneIndex, new BusData(1, isSidePowered(redstoneFace) ? 1 : 0));
+					this.inputData.set(redstoneIndex, new BusData(1, isSidePowered(redstoneFace) ? 1 : 0));
 				}
 			}
 			
@@ -371,9 +372,9 @@ public class CircuitTileEntity extends TileEntity {
 			
 			//Okay, now that in theory, we have a complete input list, generate the output list
 			//using the wrapped circuit implementation
-			List<BusData> outputs = this.impl.invoke(this.state, this.oldInputData);
+			List<BusData> outputs = this.impl.invoke(this.state, this.inputData);
 			
-			this.oldInputData = this.inputData.stream().map((data) -> data.copy()).collect(Collectors.toList());
+			this.inputData = this.pendingInputData.stream().map((data) -> data.copy()).collect(Collectors.toList());
 									
 			//Okay, now we need to deliver any and all redstone output signals
 			for (int redstoneIndex : this.impl.getRedstoneOutputs()) {
@@ -424,23 +425,37 @@ public class CircuitTileEntity extends TileEntity {
 				result.setByteArray("InternalCircuitState", payload.get());
 			}
 		}
+		result.setByteArray("PendingCircuitInputState", BusData.listToBytes(this.pendingInputData));
 		result.setByteArray("CircuitInputState", BusData.listToBytes(this.inputData));
-		result.setByteArray("OldCircuitInputState", BusData.listToBytes(this.oldInputData));
-		result.setBoolean("CircuitLastUpdateTime", this.worldTime);
+		result.setBoolean("CircuitUpdateStamp", this.updateStamp);
+		result.setLong("CircuitWorldTick", this.worldTick);
+		
+		result.setIntArray("CircuitRedstoneOutputs", redstoneOutputs);
+		result.setIntArray("OldCircuitRedstoneOutputs", oldRedstoneOutputs);
+		
 		return result;
 	}
 	
 	private void setCircuitStateFromCompound(NBTTagCompound compound) {
-		this.worldTime = compound.getBoolean("CircuitLastUpdateTime");
+		this.updateStamp = compound.getBoolean("CircuitUpdateStamp");
+		this.worldTick = compound.getLong("CircuitWorldTick");
+		
+		int[] redstoneOutputs = compound.getIntArray("CircuitRedstoneOutputs");
+		int[] oldRedstoneOutputs = compound.getIntArray("OldCircuitRedstoneOutputs");
+		if (redstoneOutputs.length != 0 && oldRedstoneOutputs.length != 0) {
+			this.redstoneOutputs = redstoneOutputs;
+			this.oldRedstoneOutputs = oldRedstoneOutputs;
+		}
+		
+		Optional<List<BusData>> pendingInputDatas = BusData.listFromBytes(compound.getByteArray("PendingCircuitInputState"));
+		if (pendingInputDatas.isPresent()) {
+			this.pendingInputData = pendingInputDatas.get();
+		}
 		Optional<List<BusData>> inputDatas = BusData.listFromBytes(compound.getByteArray("CircuitInputState"));
 		if (inputDatas.isPresent()) {
 			this.inputData = inputDatas.get();
 		}
-		Optional<List<BusData>> oldinputDatas = BusData.listFromBytes(compound.getByteArray("OldCircuitInputState"));
-		if (oldinputDatas.isPresent()) {
-			this.oldInputData = oldinputDatas.get();
-		}
-		if (this.inputData.size() == 0 || this.oldInputData.size() == 0) {
+		if (this.pendingInputData.size() == 0 || this.inputData.size() == 0) {
 			this.clearInputs();
 		}
 		
@@ -502,9 +517,9 @@ public class CircuitTileEntity extends TileEntity {
     	readFromNBT(compound);
     }
 
-	public int isProvidingWeakPower(IBlockState state, EnumFacing side) {
+	public int getWeakPower(IBlockState state, EnumFacing side) {
 		if (impl != null) {
-			if (this.worldTick != getWorld().getWorldTime()) {
+			if (this.worldTick != getWorld().getTotalWorldTime()) {
 				return redstoneOutputs[side.getIndex()];
 			}
 			return oldRedstoneOutputs[side.getIndex()];

@@ -2,3 +2,14 @@ Delay(T,N) circuit
 
 This circuit has a single N-bit input and a single N-bit output,
 with the output set as the input delayed by T redstone ticks.
+
+Example [Delay(3, 1)]:
+
+___~_~_~_____ Input
+______~_~_~__ Output
+
+------------->
+Redstone ticks
+
+where '~' denotes a high signal
+and '_' denotes a low signal

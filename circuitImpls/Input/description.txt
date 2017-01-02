@@ -1,1 +1,12 @@
-Implies circuit with two 1-bit inputs and a single 1-bit output
+Input(i, n):
+
+This "circuit" is used as a marker for where to input a signal for circuit testing. Upon starting a circuit test, the control block here will search within its testing frame for as many input blocks as there are inputs to the circuit under test. 
+
+The first configuration option represents the (0-indexed) index of the tested circuit's array of inputs. Under the conventions of the mod, the leftmost input corresponds to the 0th input, with indices increasing to the right. 
+
+The second configuration option represents the bus width of the tested circuit's ith input.
+
+Throughout a test, this circuit continually delivers n-bit outputs representing the input in the ith index of the current test. This is done wirelessly and instantaneously under the command of this control block.
+
+See also:
+Output(i, n)

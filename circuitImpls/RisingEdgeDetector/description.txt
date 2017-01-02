@@ -1,8 +1,15 @@
-Rising Edge detector:
+RisingEdgeDetector():
 
-This circuit is not configurable.
-This circuit has one 1-bit input and has 1-bit output.
-
-When this circuit detects a rising edge in the input, it will output a pulse.
-
+When this circuit detects a rising edge in its input, it will output a 1-tick pulse.
 A rising edge is when an input changes from low to high.
+
+Example:
+
+___~~~~__~__ Input
+____~_____~_ Output
+
+------------->
+Redstone ticks
+
+where '~' denotes a high signal
+and '_' denotes a low signal

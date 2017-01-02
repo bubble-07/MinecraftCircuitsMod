@@ -1,19 +1,16 @@
-NOR circuit
+Nor(n):
 
-The config option for this circuit is its bitwidth, n.
-This circuit has two n-bit inputs and one n-bit output.
+Computes the bitwise NOR of its two n-bit inputs, meaning that a bit at a given position in the output bus will be high only if neither bit is high in both of its inputs. This is equivalent to the result of passing the output of a Nor(n) circuit to an Inverter(n) circuit, but faster by one redstone tick.
 
-This circuit performs bitwise OR on the two inputs, then inverts the result.
+Example [Nor(1)]:
 
-Example:
-For two 1-bit inputs A and B and output O, the truth table is:
+Truth table:
 
-A 1 0 1 0
-B 0 0 1 1
-O 0 1 0 0
+A B  Output
+0 0  1
+0 1  0
+1 0  0
+1 1  0
 
-where 1 is high and 0 is low.
-
-NOTE: You might notice there is no block for an OR circuit.  This is because
-Simply crossing two redstone lines or putting two busses together functions
-as an OR.  
+Note:
+NOR is universal as a Boolean logic gate, meaning that any other logic gate (AND/OR/NOT/NAND/IMPLIES/etc.) may be built using only NOR gates.

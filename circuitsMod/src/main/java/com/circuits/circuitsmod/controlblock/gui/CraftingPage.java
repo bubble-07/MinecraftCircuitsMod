@@ -4,10 +4,12 @@ import java.util.Optional;
 
 import net.minecraft.item.ItemStack;
 
+import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.common.ItemUtils;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
 import com.circuits.circuitsmod.controlblock.gui.net.CircuitCosts;
+import com.circuits.circuitsmod.controlblock.gui.net.SetCraftingCellRequest;
 
 
 public class CraftingPage extends ControlGuiPage {
@@ -42,6 +44,7 @@ public class CraftingPage extends ControlGuiPage {
 			if (uid.isPresent()) {
 				parent.tileEntity.setCraftingCell(parent.user.getUniqueID(), uid.get());
 				parent.tileEntity.updateCraftingGrid();
+				CircuitsMod.network.sendToServer(new SetCraftingCellRequest.Message(parent.user.getUniqueID(), uid.get(), parent.tileEntity.getPos()));
 			}
 		}
 		

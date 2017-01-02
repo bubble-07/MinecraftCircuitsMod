@@ -62,7 +62,7 @@ public class PuzzleTeleportCommand extends CommandBase {
 
     @Override
     public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-        return true;
+        return false;
     }
 
 }

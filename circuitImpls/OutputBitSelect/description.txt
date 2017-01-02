@@ -1,9 +1,5 @@
-OutputBitSelect(k, n) circuit:
+OutputBitSelect(i, n):
 
-A circuit which takes a single n-bit input, 
-and returns the kth bit of the input,
-where the 0th position is the low-order bit
-and the (n-1)th position is the high-order bit
+A circuit which takes a single n-bit input and outputs the ith bit of the input, where the 0th position is the lowest-order bit (smallest place value) and the (n-1)th position is the highest-order bit (largest place value)
 
-A reversed version of this circuit is provided by
-InputBitSelect(k, n)
+See InputBitSelect(i, n), which does the opposite and inserts a bit into the ith position of a n-bit bus. 

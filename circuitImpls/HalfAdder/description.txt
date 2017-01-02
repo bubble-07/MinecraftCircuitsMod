@@ -1,11 +1,12 @@
-Half-Adder
+HalfAdder():
 
-This circuit is not configurable.
-This circuit has two 1-bit inputs and two 1-bit outputs.
+This circuit has a redstone "A" input on its back and a redstone "B" input on its right, with two redstone outputs "C" and "S" on its left and front, respectively.
 
-The circuit takes in 1-bit main input and 1 carry-in input and adds them together
-to produce results on output.  One output carries the result, and the carry-out
-output will be on if a bit was carried out of the result.
+If "a" and "b" are the numerical values (0 or 1) of the inputs on A and B, this circuit computes Sum = a + b. C ("carry-out") is then set to the high-order bit of the sum, and S ("sum") is set to the low-order bit of the sum.
 
-A carry out occurs if both inputs are on, since 1 + 1 = 10 in binary, so 1 bit
-will be carried out.
+Truth table:
+A B  C S
+0 0  0 0
+0 1  0 1
+1 0  0 1
+1 1  1 0

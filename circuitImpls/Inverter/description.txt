@@ -1,8 +1,11 @@
-Inverter Circuit:
+Inverter(n):
 
-The inverter has a configurable bitwidth n.
-There is one n-bit input and one n-bit output.
+Given an n-bit input, this circuit inverts all of the bits of its input to compute its output (bitwise NOT operation).
 
-The inverter simply flips the bits of the input and outputs them.
+Example [Inverter(1)]:
 
-For a single redstone line, a redstone torch can serve as an inverter.  
+Truth table:
+
+I  O
+1  0
+0  1

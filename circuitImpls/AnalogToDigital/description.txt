@@ -1,15 +1,12 @@
-Analog to Digital Converter:
+AnalogToDigital():
 
-This circuit is not configurable.
-It takes in four 1-bit inputs and has 1 four bit output.  
+This circuit takes a redstone signal as input and outputs the power level (0-15) of the input signal in binary on its 4-bit output. 
 
-The circuit will output the signal value corresponding to the 4-bit binary
-value of the signal passed in.  
+Examples:
+Full-strength redstone signal -> 1111 on output
 
-Example:
-Suppose you set all four inputs to be on.  The circuit will send out a signal
-value of 15, since 1111 is 15 in binary.
+Strength 7 redstone signal -> 0111 on output
 
-Or, suppose you set the second input high and all the rest low.  The output
-value will be 2, since 0010 is 2 in binary.  
+No redstone signal -> 0000 on output
 
+See DigitalToAnalog() for a circuit which does the opposite

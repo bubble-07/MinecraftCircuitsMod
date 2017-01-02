@@ -1,16 +1,12 @@
-Digital to Analog Converter:
+DigitalToAnalog():
 
-This circuit is not configurable.
-It takes in one 4-bit input and has four 1-bit outputs.  
+This circuit takes a 4-bit bused input and outputs a redstone signal with strength (0-15) equal to the numerical value of the input. 
 
-This circuit reads the value of the input and it 
-sets the 1-bit outputs accordingly.
+Examples:
+1111 on input -> full-strength redstone signal on output
 
-Redstone values range from 0-15, which fits perfectly within a 4 bit range.
+0101 on input -> strength 5 redstone signal on output
 
-Example:
-Given an input value of 15, this circuit would set all four outputs to high,
-representing 15 in binary, or 1111.
+0000 on input -> no redstone signal on output
 
-Another example: if the input value is 2, the second output will be the only
-one lit, as 2 is 10 in binary.  
+See AnalogToDigital() for a circuit which does the opposite

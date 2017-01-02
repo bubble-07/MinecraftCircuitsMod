@@ -1,4 +1,4 @@
-package com.circuits.circuitsmod.controlblock.tester.net;
+package com.circuits.circuitsmod.controlblock.gui.net;
 
 import java.io.Serializable;
 import java.util.Optional;

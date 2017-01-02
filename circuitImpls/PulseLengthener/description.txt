@@ -1,9 +1,14 @@
-Pulse Lengthener:
+PulseLengthener(len):
 
-This circuit has a configurable value for its multiplier.
+Given a 1-tick pulse, this circuit outputs a "len"-tick pulse. In general, this circuit extends a "high" signal pulse by (len - 1) redstone ticks.
 
-This cirucit has one 1-bit input and one 1-bit output.
+Example [PulseLengthener(2)]:
 
-When this circuit recieves a pulse, it multiplies the length of the pulse
-by the specified multipler.
-The result is that a longer pulse is sent along the output.
+_~___~~____ Input
+__~~__~~~__ Output
+
+------------->
+Redstone ticks
+
+where '~' denotes a high signal
+and '_' denotes a low signal

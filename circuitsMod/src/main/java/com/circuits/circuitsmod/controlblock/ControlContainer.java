@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.circuitblock.CircuitItem;
-import com.circuits.circuitsmod.controlblock.tester.net.CraftingRequest;
+import com.circuits.circuitsmod.controlblock.gui.net.CraftingRequest;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

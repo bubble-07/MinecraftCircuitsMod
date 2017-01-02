@@ -58,11 +58,15 @@ public class BusSegment {
 		}
 		result.currentVal = this.currentVal.copy();
 		result.receivedInputData = new HashMap<>();
+		/*
+		 * TODO: (don't need to for now, just results in blinkenlights whenever buses are split) Restore this and do the right thing.
+		 * Was removed originally to force bus segment values to zero on delete, because there's a bug where no-input buses keep their values
+		 * after delete.
 		for (BlockFace inputFace : result.inputs) {
 			if (this.receivedInputData.containsKey(inputFace)) {
 				result.receivedInputData.put(inputFace, this.receivedInputData.get(inputFace));
 			}
-		}
+		}*/
 		return result;
 	}
 	
@@ -158,16 +162,16 @@ public class BusSegment {
 			return;
 		}
 		
-		if (worldIn.getWorldTime() > this.operatingTick) {
+		if (worldIn.getTotalWorldTime() > this.operatingTick) {
 			//Force an update (before an accumulation) if we happened to have missed a tick on this bus
 			//somehow.
-			this.operatingTick = worldIn.getWorldTime();
+			this.operatingTick = worldIn.getTotalWorldTime();
 			forceUpdate(worldIn);
 		}
 		
 		this.receivedInputData.put(inputFace, newInputVal);
 		if (this.receivedInputData.size() == this.inputs.size()) {
-			this.operatingTick = worldIn.getWorldTime() + 2;
+			this.operatingTick = worldIn.getTotalWorldTime() + 2;
 			forceUpdate(worldIn);
 			this.receivedInputData.clear();
 		}

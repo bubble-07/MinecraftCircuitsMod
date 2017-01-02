@@ -1,8 +1,18 @@
-Demultiplexer
+Demultiplexer(n):
 
-This circuit has a configurable bitwidth n.
-This circuit has 1 n-bit input, one 1-bit input, and 2 n-bit outputs.
+This circuit has two n-bit outputs on its front and left faces, a "switch" redstone input on its right face, and an n-bit input on its back face.
 
-This circuit decides which output to forward the input to based on the switch.
-If the switch is high, the left output is used, and if the switch is low,
-the right output is used.
+This circuit decides which output to forward the input to based on the switch. If the switch is high, the left output is used, and if the switch is low, the right output is used.
+
+Example [Demultiplexer(1)]:
+
+Truth table:
+I S  L R
+0 0  0 0
+0 1  0 0
+1 0  0 1
+1 1  1 0
+
+where "I" <-> Input, "S" <-> Switch, "L" <-> Left Output, and "R" <-> Right Output
+
+See Multiplexer(n) for a circuit which allows switching between multiple inputs instead of multiple outputs, like this one.

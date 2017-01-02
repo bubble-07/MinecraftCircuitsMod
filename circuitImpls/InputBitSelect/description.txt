@@ -1,9 +1,7 @@
-InputBitSelect(k, n) circuit:
+InputBitSelect(i, n) circuit:
 
-A circuit which takes a single redstone input, 
-and sets the kth bit of an n-bit output bus to high
-where the 0th position is the low-order bit
-and the (n-1)th position is the high-order bit
+A circuit which takes a single redstone input and sets the ith bit of an n-bit output bus to the logical or of its existing value in the bus with this circuit's redstone input. 
 
-A reversed version of this circuit is provided by
-OutputBitSelect(k, n)
+Following the usual convention, the 0th position is the lowest-order bit (smallest place value), and the (n-1)th position is the highest-order bit (largest place value)
+
+See OutputBitSelect(i, n), which does the opposite and reads a bit in the ith position from an n-bit bus.

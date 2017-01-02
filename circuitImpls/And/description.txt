@@ -1,14 +1,13 @@
-This block is an And circuit. 
+And(n):
 
-The first configuration option for And is the bitwidth of the circuit, n.
-An And gate has two n-bit inputs and one n-bit output.
-The output is the bitwise And of the two inputs.  
+Computes the bitwise AND of its two n-bit inputs, meaning that a bit at a given position in the output bus will be high only if the same bit is high in both of its inputs.
 
-Example:
-For two 1-bit inputs A and B and output O, the truth table is:
+Example [And(1)]:
 
-A 1 0 1 0
-B 0 0 1 1
-O 0 0 1 0
+Truth table:
 
-where 1 is high and 0 is low.
+A B  Output
+0 0  0
+0 1  0
+1 0  0
+1 1  1

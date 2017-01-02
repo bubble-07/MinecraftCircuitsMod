@@ -1,10 +1,7 @@
-SPLITTER circuit:
+Splitter(n):
 
-A splitter has a configurable bitwidth, n.
-A splitter has one n-bit input and two n/2-bit outputs.
-It takes the n-bit input and splits it among the two outputs.
+This circuit takes a single n-bit input and splits it into two (n/2)-bit outputs.
 
-The high bits go to the left side of the splitter and the low bits go to the
-right side.
+This is done according to the usual convention -- the n lowest-order bits (those with a small place value) in the input are passed right of the fork, and the n highest-order bits (those with a large place value) in the input are passed left of the fork. 
 
-This is the opposite of a Combiner.
+See Combiner((n/2)), which performs the opposite operation
