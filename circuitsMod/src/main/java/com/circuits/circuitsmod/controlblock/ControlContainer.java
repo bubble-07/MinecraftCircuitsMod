@@ -49,28 +49,18 @@ public class ControlContainer extends Container {
 			@Override
 		    public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack) {
 				//Special handling! Need to remove from the other slots
-				Optional<SpecializedCircuitUID> craftingCell = CircuitItem.getUIDFromStack(stack);
-				if (craftingCell.isPresent()) {
+				if (playerIn.worldObj.isRemote) {
+					Optional<SpecializedCircuitUID> craftingCell = CircuitItem.getUIDFromStack(stack);
+					if (craftingCell.isPresent()) {
 						CircuitsMod.network.sendToServer(new CraftingRequest.Message(playerIn.getUniqueID(), tileEntity.getPos(), stack.stackSize, 
 								craftingCell.get()));
+					}
 				}
 			}
 		});
 		
 		bindPlayerInventory(inventoryPlayer);
 		
-	}
-	
-	@Override
-	//TODO: Fix taking half an item stack from the crafting slot. Dunno why, but it consumes __all__ cost items
-	//For now, we just override to go straight to 
-	public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player) {
-		if (slotId == 7 && clickTypeIn == ClickType.PICKUP && dragType != 0) {
-			return super.slotClick(7, 0, ClickType.PICKUP, player);
-		}
-		else {
-			return super.slotClick(slotId, dragType, clickTypeIn, player);
-		}
 	}
 	
 	@Override

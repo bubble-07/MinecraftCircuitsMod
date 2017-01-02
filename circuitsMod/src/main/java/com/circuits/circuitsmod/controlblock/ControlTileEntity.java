@@ -168,7 +168,15 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 	public void craftingSlotPickedUp(int numCrafted) {
 		
 		if (craftingCell != null) {
-			List<ItemStack> totalCost = ItemUtils.mapOverQty(getCost(craftingPlayer, craftingCell).get(), (qty) -> (qty * numCrafted));
+			
+			if (numCrafted == 0) {
+				//Special case: we must be trying to pick up the whole stack of circuit items
+				numCrafted = numCraftable();
+			}
+			
+			int effNumCrafted = Math.min(numCrafted, numCraftable());
+			
+			List<ItemStack> totalCost = ItemUtils.mapOverQty(getCost(craftingPlayer, craftingCell).get(), (qty) -> (qty * effNumCrafted));
 			for (ItemStack cost : totalCost) {
 				for (int i = 0; i < 5; i++) {
 					if (stackItemsMatch(inv[i], cost)) {
