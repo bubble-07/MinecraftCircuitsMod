@@ -19,7 +19,11 @@ import com.google.common.collect.Lists;
  */
 public class BusData implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private static final int[] allowed = {1, 2, 4, 8, 16, 32, 64};
+	private static final int[] allowedWidths = {1, 2, 4, 8, 16, 32, 64};
+	
+	public static boolean isWidthAllowed(int width) {
+		return Stream.of(ArrayUtils.toObject(allowedWidths)).anyMatch((w) -> w.equals((Integer) width));
+	}
 	
 	public static HashMap<Integer, Long> maskMap = new HashMap<Integer, Long>();
 	static {
@@ -43,7 +47,7 @@ public class BusData implements Serializable {
 	
 	public BusData(int width, long data) {
 		this.width = width;
-		assert(com.circuits.circuitsmod.common.ArrayUtils.inArray(this.width, allowed));
+		assert(com.circuits.circuitsmod.common.ArrayUtils.inArray(this.width, allowedWidths));
 		
 		this.data = maskMap.get(width) & data;
 

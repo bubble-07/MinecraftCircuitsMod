@@ -23,10 +23,15 @@ public class Implementation implements Serializable {
 	}
 
         public String config(int delayLen, int bitWidth) {
+            if (!Utils.isValidBusWidth(bitWidth)) {
+                return null;
+            }
             this.delayLen = delayLen;
             this.bitWidth = bitWidth;
             this.vals = new long[delayLen];
-            if (delayLen < 1) {
+            //The delay is capped at 32, because otherwise, 
+            //you would need to download more RAM or somethin'
+            if (delayLen < 1 || delayLen > 32) {
                 return null;
             }
             return "delay=" + delayLen + ",width=" + bitWidth;

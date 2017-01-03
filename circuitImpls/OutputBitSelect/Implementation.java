@@ -8,6 +8,9 @@ public class Implementation implements Serializable {
 	}
 
         public String config(int bitSelect, int bitWidth) {
+            if (!Utils.isValidBitPos(bitSelect, bitWidth)) {
+                return null;
+            }
             this.bitWidth = bitWidth;
             this.bitSelect = bitSelect;
             return "select=" + bitSelect + "width=" + bitWidth;

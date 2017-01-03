@@ -20,6 +20,9 @@ public class Implementation implements Serializable {
            return (this.tick >= clockLen);
 	}
         public String config(int clockLen) {
+            if (clockLen < 1) {
+                return null;
+            }
             this.clockLen = clockLen;
             return "" + clockLen;
         }

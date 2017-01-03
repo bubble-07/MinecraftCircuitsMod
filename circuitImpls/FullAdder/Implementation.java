@@ -15,6 +15,9 @@ public class Implementation implements Serializable {
         }
 
         public String config(int bitWidth) {
+            if (bitWidth == 64 || !Utils.isValidBusWidth(bitWidth)) {
+                return null;
+            }
             this.bitWidth = bitWidth;
             return "" + bitWidth;
         }

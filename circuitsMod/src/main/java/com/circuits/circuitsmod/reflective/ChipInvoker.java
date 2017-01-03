@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -283,6 +284,16 @@ public class ChipInvoker extends Invoker {
 		
 		outputWidths = widthOverride.apply("outputWidths", outputWidths);
 		inputWidths = widthOverride.apply("inputWidths", inputWidths);
+		
+		Predicate<int[]> widthsAllAllowed = (arr) -> Stream.of(ArrayUtils.box(arr)).allMatch((w) -> BusData.isWidthAllowed(w));
+		if (!widthsAllAllowed.test(inputWidths)) {
+			error.accept("has an unsupported input width!");
+			return Optional.empty();
+		}
+		if (!widthsAllAllowed.test(outputWidths)) {
+			error.accept("has an unsupported output width!");
+			return Optional.empty();
+		}
 		
 		//Cool, now determine whether or not any of the input/outputs are analog
 		

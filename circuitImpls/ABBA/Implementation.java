@@ -25,6 +25,9 @@ public class Implementation implements Serializable {
         }
 
         public String config(int aAlone, int bInterval) {
+            if (aAlone < 1 || bInterval < 1) {
+                return null;
+            }
             this.aAlone = aAlone;
             this.bInterval = bInterval;
             this.tick = 2 * aAlone + bInterval + 1;

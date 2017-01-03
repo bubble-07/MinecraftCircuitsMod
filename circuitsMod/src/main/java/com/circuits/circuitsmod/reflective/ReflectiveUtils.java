@@ -14,7 +14,7 @@ public class ReflectiveUtils {
 	public static Optional<Class<?>> loadClassFile(File classFile, File libDir, String classname) {
 		try {	
 			
-			URL[] urls = new URL[]{classFile.getParentFile().toURI().toURL(), libDir.toURI().toURL()};
+			URL[] urls = new URL[]{classFile.getParentFile().toURI().toURL(), libDir.toURI().toURL(), new File(libDir.toPath() + "/Utils.class").toURI().toURL()};
 			
 			ClassLoader cl = new URLClassLoader(urls);
 			

@@ -18,6 +18,9 @@ public class Implementation implements Serializable {
             return ticksSinceLast <= length;
 	}
         public String config(int length) {
+            if (length < 1) {
+                return null;
+            }
             this.length = length;
             this.ticksSinceLast = length + 1;
             return "" + length;
