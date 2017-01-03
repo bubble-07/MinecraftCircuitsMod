@@ -19,6 +19,10 @@ public class CircuitUID implements Serializable {
 		this.idNum = id;
 	}
 	
+	public static void clearState() {
+		CircuitUID.lastUIDNum = -1;
+	}
+	
 	public static void bumpLastUID(int id) {
 		lastUIDNum = Math.max(lastUIDNum, id);
 	}

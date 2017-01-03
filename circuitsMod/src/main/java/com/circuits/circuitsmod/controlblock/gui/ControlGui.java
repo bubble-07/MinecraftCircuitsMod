@@ -8,7 +8,7 @@ import org.lwjgl.opengl.GL11;
 import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
 import com.circuits.circuitsmod.controlblock.ControlContainer;
 import com.circuits.circuitsmod.controlblock.ControlTileEntity;
-import com.circuits.circuitsmod.controlblock.gui.model.CircuitListModel;
+import com.circuits.circuitsmod.controlblock.gui.model.CircuitTreeModel;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -20,7 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 public class ControlGui extends GuiContainer {
-	public CircuitListModel model;
+	public CircuitTreeModel model;
 	ControlTileEntity tileEntity;
 	ControlGuiPage currentPage;
 	EntityPlayer user;

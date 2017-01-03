@@ -77,14 +77,31 @@ public class FileUtils {
 	public static File getConfigRootDir() {
 		return new File(Minecraft.getMinecraft().mcDataDir.toString() + "/config/circuitsMod");
 	}
-
-	
-	public static File getCircuitDefinitionsDir() {
-		return new File(getConfigRootDir().toString() + "/circuits");
-	}
 	
 	public static File getCircuitLibDir() {
 		return new File(getConfigRootDir().toString() + "/circuitsCommon");
+	}
+
+	
+	/**
+	 * @return The mod-global (not world-specific) circuit definitions directory.
+	 * The contents of this folder are copied to every world's circuit definition directory
+	 * to make it so players can both maintain a preferred configuration and easily share
+	 * save files
+	 */
+	public static File getGlobalCircuitDefinitionsDir() {
+		return new File(getConfigRootDir().toString() + "/circuits");
+	}
+	
+	/**
+	 * @return The world-specific circuit definitions directory
+	 */
+	public static File getWorldCircuitDefinitionsDir() {
+		return new File(getWorldSaveDir().getPath() + "/circuits");
+	}
+	
+	public static File getWorldRecipesDir() {
+		return new File(getWorldSaveDir().getPath() + "/recipes");
 	}
 	
 	public static File getWorldSaveDir() {

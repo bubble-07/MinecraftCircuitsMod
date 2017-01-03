@@ -4,10 +4,12 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.lang.reflect.Method;
 
+import com.circuits.circuitsmod.TickEvents;
 import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
 import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.reflective.ReflectiveUtils;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.IBlockAccess;
 
 public class ServerHandlers {
@@ -20,12 +22,16 @@ public class ServerHandlers {
 					Log.internalError("Server dispatch: Handler not present for " + clazz);
 					return;
 				}
-				try {
-					handleMethod.get().invoke(null, clazz.cast(msg.getWrappedObject()), worldIn);
-				}
-				catch (Exception e) {
-					Log.internalError("Server dispatch: Failed to dispatch handler method for " + clazz);
-				}
+				TickEvents.instance().addAction(() -> {
+					try {
+
+						handleMethod.get().invoke(null, clazz.cast(msg.getWrappedObject()), worldIn);
+					}
+					catch (Exception e) {
+						Log.internalError("Server dispatch: Failed to dispatch handler method for " + clazz);
+					}
+				});
+
 			}
 			}
 		};

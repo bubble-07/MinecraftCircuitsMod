@@ -27,7 +27,7 @@ public class CellDisplayPage extends ControlGuiPage {
 		super(parent);
 		this.cell = cell;
 		this.addElement(new TextButton(parent, "Back", screenX + screenWidth - shortLabelWidth, screenY, () -> {
-				parent.setDisplayPage(new ControlGuiMainPage(parent));
+				parent.setDisplayPage(new ControlGuiDirectoryPage(parent, cell.getParent().get()));
 		}));
 		
 		this.addElement(new TextButton(parent, "Test", screenX + screenWidth - shortLabelWidth, screenY + screenHeight - shortLabelHeight, () -> {

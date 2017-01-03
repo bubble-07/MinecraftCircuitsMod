@@ -23,7 +23,9 @@ public class TypedMessage implements IMessage {
 		@SuppressWarnings("unchecked")
 		public TaggedObject(T val) {
 			this.wrapped = val;
-			this.clazz = (Class<T>) val.getClass();
+			if (val != null) {
+				this.clazz = (Class<T>) val.getClass();
+			}
 		}
 	}
 	

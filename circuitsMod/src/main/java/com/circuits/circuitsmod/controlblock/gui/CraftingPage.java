@@ -29,7 +29,7 @@ public class CraftingPage extends ControlGuiPage {
 		parent.tileEntity.unsetCraftingCell();
 		this.addElement(new TextButton(parent, "Back", screenX + screenWidth - shortLabelWidth, screenY, new Runnable() {
 			@Override public void run() {
-				parent.setDisplayPage(new ControlGuiMainPage(parent)); 
+				parent.setDisplayPage(new ControlGuiDirectoryPage(parent, cell.getParent().get())); 
 				parent.tileEntity.unsetCraftingCell();
 			}
 		}));

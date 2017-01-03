@@ -29,7 +29,7 @@ public class ServerWaitPage extends ControlGuiPage {
 			parent.setDisplayPage(new TestProgressPage(settingsPage));
 		}
 		else {
-			parent.setDisplayPage(new ControlGuiMainPage(parent));
+			parent.setDisplayPage(new ControlGuiDirectoryPage(parent, parent.model.getRootDirectory()));
 		}
 	}
 	

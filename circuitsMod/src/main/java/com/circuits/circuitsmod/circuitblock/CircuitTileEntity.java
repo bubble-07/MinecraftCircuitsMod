@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import com.circuits.circuitsmod.TickEvents;
 import com.circuits.circuitsmod.busblock.BusBlock;
 import com.circuits.circuitsmod.busblock.BusSegment;
 import com.circuits.circuitsmod.busblock.StartupCommonBus;
@@ -283,7 +284,7 @@ public class CircuitTileEntity extends TileEntity {
 	}
 	
 	public boolean isClientInit() {
-		return this.wireMapper != null;
+		return this.wireMapper != null || !CircuitInfoProvider.hasSpecializedInfoOn(circuitUID);
 	}
 	public void tryInitClient() {
 		if (CircuitInfoProvider.isClientModelInit() && CircuitInfoProvider.hasSpecializedInfoOn(circuitUID)) {
@@ -314,7 +315,7 @@ public class CircuitTileEntity extends TileEntity {
 			return; //Something's __really__ messed up about this block. Leave it there, but let the user remove it.
 		}
 		
-		if (impl == null) {
+		if (impl == null || !CircuitInfoProvider.hasSpecializedInfoOn(circuitUID)) {
 			//If we're on the client, don't care about updating, we're just here
 			//to look pretty
 			if (getWorld() != null && getWorld().isRemote && !isClientInit()) {
@@ -323,6 +324,9 @@ public class CircuitTileEntity extends TileEntity {
 			else if (getWorld() != null && !getWorld().isRemote) {
 				if (CircuitInfoProvider.isServerModelInit()) {
 					if (CircuitInfoProvider.hasImplOn(circuitUID.getUID())) {
+						
+						CircuitInfoProvider.createSpecializedInfoFor(circuitUID);
+						
 						Optional<ChipInvoker> optInvoker = CircuitInfoProvider.getInvoker(circuitUID);
 						if (!optInvoker.isPresent()) {
 							//Must be trying to instantiate a circuit with an invalid configuration or missing implementation.
@@ -347,8 +351,9 @@ public class CircuitTileEntity extends TileEntity {
 				}
 			}
 		}
+		
 		//Do not change this to an "else" -- this ensures the circuit updates immediately after initialization!
-		if (impl != null) {
+		if (impl != null && CircuitInfoProvider.hasSpecializedInfoOn(circuitUID)) {
 			
 			//By this point, we should already have received any incoming inputs from incident
 			//bus segments, so we only need (for now) to deal explicitly with redstone inputs

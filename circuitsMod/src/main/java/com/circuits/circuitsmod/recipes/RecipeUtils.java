@@ -42,7 +42,7 @@ public class RecipeUtils {
 	}
 	
 	private static File getRecipeFileFor(EntityPlayer player, CircuitUID uid) throws IOException {
-		File worldSavesDir = FileUtils.getWorldSaveDir();
+		File worldSavesDir = FileUtils.getWorldRecipesDir();
 		File destFile = null;
 		if (Config.isCircuitsProgressWorldGlobal) {
 			destFile = new File(worldSavesDir + "/" + uid.toInteger() + "materials.nbt");
@@ -67,7 +67,7 @@ public class RecipeUtils {
 		addCost(PersistentCircuitUIDs.COMBINER_CIRCUIT, new ItemStack(Items.REDSTONE, 3));
 		addCost(PersistentCircuitUIDs.INPUT_SELECT_CIRCUIT, new ItemStack(Items.REDSTONE, 2));
 		addCost(PersistentCircuitUIDs.OUTPUT_SELECT_CIRCUIT, new ItemStack(Items.REDSTONE, 2));
-		addCost(PersistentCircuitUIDs.DELAY_CIRCUIT, new ItemStack(Items.REPEATER, 2));
+		addCost(PersistentCircuitUIDs.DELAY_CIRCUIT, new ItemStack(Items.REDSTONE, 3), new ItemStack(Blocks.STONE, 3));
 	}
 	
 	private static void addCost(Integer id, ItemStack... cost) {

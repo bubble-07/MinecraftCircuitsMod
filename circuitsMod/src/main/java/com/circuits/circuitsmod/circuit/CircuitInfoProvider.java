@@ -1,19 +1,24 @@
 package com.circuits.circuitsmod.circuit;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalInt;
+import java.util.stream.Stream;
 
 import com.circuits.circuitsmod.CircuitsMod;
+import com.circuits.circuitsmod.TickEvents;
 import com.circuits.circuitsmod.circuitblock.WireDirectionMapper.WireDirectionGenerator;
 import com.circuits.circuitsmod.common.FileUtils;
 import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.Pair;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
-import com.circuits.circuitsmod.controlblock.gui.model.CircuitListModel;
+import com.circuits.circuitsmod.controlblock.gui.model.CircuitDirectory;
+import com.circuits.circuitsmod.controlblock.gui.model.CircuitTreeModel;
+import com.circuits.circuitsmod.controlblock.gui.model.CircuitTreeNode;
 import com.circuits.circuitsmod.network.TypedMessage;
 import com.circuits.circuitsmod.reflective.ChipImpl;
 import com.circuits.circuitsmod.reflective.ChipInvoker;
@@ -29,7 +34,7 @@ public class CircuitInfoProvider {
 	
 	//These will be populated on both the client and the server
 	private static HashMap<CircuitUID, CircuitInfo> infoMap;
-	private static CircuitListModel circuitList;
+	private static CircuitTreeModel circuitTree;
 	
 	//These will only be populated on the server
 	private static HashMap<CircuitUID, ChipImpl> implMap;
@@ -44,6 +49,17 @@ public class CircuitInfoProvider {
     //which is also maintained in a file in the configs directory for the whole mod,
     //which will keep track of the folder name/circuitUID associations
     private static HashMap<String, CircuitUID> folderToUIDMap;
+    
+    public static void clearState() {
+    	infoCache = new HashMap<>();
+    	texMap = new HashMap<>();
+    	infoMap = null;
+    	circuitTree = null;
+    	folderToUIDMap = null;
+    	implMap = null;
+    	CircuitUID.clearState();
+    }
+    
     
     public static class SpecializedInfoRequestFromClient implements Serializable {
 		private static final long serialVersionUID = 1L; 
@@ -75,28 +91,40 @@ public class CircuitInfoProvider {
     	
     }
     
+    public static class ClientModelContainer implements Serializable {
+		private static final long serialVersionUID = 1L;
+		
+		public HashMap<CircuitUID, CircuitInfo> infoMap;
+    	public CircuitTreeModel circuitTree;
+    	
+    	public ClientModelContainer(HashMap<CircuitUID, CircuitInfo> infoMap, CircuitTreeModel circuitTree) {
+    		this.infoMap = infoMap;
+    		this.circuitTree = circuitTree;
+    	}
+    }
+    
     public static class ModelRequestFromClient implements Serializable {
 		private static final long serialVersionUID = 1L; 
 		public static void handle(ModelRequestFromClient req, World worldIn) {
 			ensureServerModelInit();
-			CircuitsMod.network.sendToAll(new TypedMessage(infoMap));
+			CircuitsMod.network.sendToAll(new TypedMessage(new ClientModelContainer(infoMap, circuitTree)));
 		}
     }
     
     public static class ModelResponseFromServer implements Serializable {
 		private static final long serialVersionUID = 1L;
-		private HashMap<CircuitUID, CircuitInfo> infoMap;
-    	public ModelResponseFromServer(HashMap<CircuitUID, CircuitInfo> infoMap) {
-    		this.infoMap = infoMap;
+		private ClientModelContainer modelContainer;
+    	public ModelResponseFromServer(ClientModelContainer modelContainer) {
+    		this.modelContainer = modelContainer;
     	}
 		public static void handle(ModelResponseFromServer response) {
-			CircuitInfoProvider.infoMap = response.infoMap;
-			CircuitInfoProvider.circuitList = new CircuitListModel(response.infoMap);
+			CircuitInfoProvider.infoMap = response.modelContainer.infoMap;
+			CircuitInfoProvider.circuitTree = response.modelContainer.circuitTree;
 		}
     }
     
     private static File getUIDMapFile() {
-    	return new File(FileUtils.getConfigRootDir().toString() + "/uidmap");
+    	return new File(FileUtils.getWorldSaveDir().getPath() + "/uidmap");
     }
     
     public static Optional<CircuitUID> getUIDFromFolderName(String name) {
@@ -134,13 +162,16 @@ public class CircuitInfoProvider {
     	}
     }
     
-    public static CircuitListModel getCircuitListModel() {
-    	return circuitList;
+    public static CircuitTreeModel getCircuitListModel() {
+    	return circuitTree;
     }
     
     public static void loadUIDMapFromFile() {
     	folderToUIDMap = new HashMap<String, CircuitUID>();
-    	Optional<Object> uidMap = FileUtils.objectFromFile(getUIDMapFile());
+    	Optional<Object> uidMap = Optional.empty();
+    	if (getUIDMapFile().exists()) {
+    		uidMap = FileUtils.objectFromFile(getUIDMapFile());
+    	}
     	if (uidMap.isPresent()) {
     		folderToUIDMap = (HashMap<String, CircuitUID>) uidMap.get();
     	}
@@ -155,18 +186,45 @@ public class CircuitInfoProvider {
     public static void saveUIDMapToFile() {
     	FileUtils.objectToFile(getUIDMapFile(), folderToUIDMap);
     }
+    
+    private static Runnable clientModelInitRunnable = () -> {
+    	CircuitsMod.network.sendToServer(new TypedMessage(new ModelRequestFromClient()));
+    };
 
 	public static void ensureClientModelInit() {
-    	CircuitsMod.network.sendToServer(new TypedMessage(new ModelRequestFromClient()));
+		TickEvents.instance().addAction(clientModelInitRunnable);
 	}
 	
 	public static boolean isClientModelInit() {
 		return infoMap != null;
 	}
 	
+	private static class SpecializedInfoRequestRunnable implements Runnable {
+		private SpecializedCircuitUID uid;
+		public SpecializedInfoRequestRunnable(SpecializedCircuitUID uid) {
+			this.uid = uid;
+		}
+		@Override
+		public void run() {
+			CircuitsMod.network.sendToServer(new TypedMessage(uid));
+		}
+		@Override
+		public int hashCode() {
+			return uid.hashCode();
+		}
+		@Override
+		public boolean equals(Object other) {
+			if (other instanceof SpecializedInfoRequestRunnable) {
+				return this.uid.equals(((SpecializedInfoRequestRunnable) other).uid);
+			}
+			return false;
+		}
+		
+	}
+	
 	public static void requestSpecializedClientInfoFor(SpecializedCircuitUID uid) {
 		if (uid != null) {
-			CircuitsMod.network.sendToServer(new TypedMessage(uid));
+			TickEvents.instance().addAction(new SpecializedInfoRequestRunnable(uid));
 		}
 	}
 	
@@ -189,36 +247,64 @@ public class CircuitInfoProvider {
 		}
 	}
 	
+	/**
+	 * Copies the default circuits from the mod jar to the mod-global config/circuits folder
+	 */
 	public static void copyDefaultCircuitsFromJar() {
 		ResourceLocation jarZip = new ResourceLocation(CircuitsMod.MODID, "circuits/defaults.zip");
 		File defaultCircuitsZip = new File(FileUtils.getConfigRootDir().toString() + "/defaultCircuits.zip");
 		FileUtils.copyResourceToFile(jarZip, defaultCircuitsZip);
-		FileUtils.unzip(defaultCircuitsZip, FileUtils.getCircuitDefinitionsDir());
+		FileUtils.unzip(defaultCircuitsZip, FileUtils.getGlobalCircuitDefinitionsDir());
 	}
     
 	public static void ensureServerModelInit() { 
 		if (implMap != null) {
 			return;
 		}
-		File circuitsDir = FileUtils.getCircuitDefinitionsDir();
+		File globalCircuitsDir = FileUtils.getGlobalCircuitDefinitionsDir();
 		
-		if (!circuitsDir.exists()) {
+		if (!globalCircuitsDir.exists()) {
 			copyDefaultCircuitsFromJar();
-			if (!circuitsDir.exists()) {
+			if (!globalCircuitsDir.exists()) {
 				//Fallback, leave 'em with an empty directory
-				circuitsDir.mkdirs();
+				globalCircuitsDir.mkdirs();
 			}
 		}
+		//Okay, the above was just for initializing the mod-global circuit definitions directory.
+		//Now, we copy its contents into the world-specific circuit definitions directory,
+		//with the config-global settings taking precedence
+		File circuitsDir = FileUtils.getWorldCircuitDefinitionsDir();
+		if (!circuitsDir.exists()) {
+			circuitsDir.mkdirs();
+		}
+		try {
+			org.apache.commons.io.FileUtils.copyDirectory(globalCircuitsDir, circuitsDir, (f) -> !f.getName().startsWith("."));
+		}
+		catch (IOException e) {
+			Log.internalError("Failed to copy global circuit configs to world configs " + e.getMessage());
+		}
+		
 		
 		implMap = new HashMap<>();
 		infoMap = new HashMap<>();
 		
-		for (File subDir : circuitsDir.listFiles()) {
+		CircuitDirectory rootDir = new CircuitDirectory("circuits");
+		
+		ensureServerModelInitHelper(rootDir, circuitsDir);
+		
+		circuitTree = new CircuitTreeModel(rootDir);
+	}
+	
+	private static void ensureServerModelInitHelper(CircuitDirectory parentNode, File dir) {
+		for (File subDir : dir.listFiles()) {
 			if (!subDir.isDirectory()) {
 				continue;
 			}
-			if (!subDir.getName().startsWith(".")) {
-				
+			if (subDir.getName().startsWith(".")) {
+				continue;
+			}
+			
+			if (isCircuitDirectory(subDir)) {
 				CircuitUID uid = getUIDForDir(subDir);
 				Optional<CircuitInfo> entry = CircuitInfo.fromFolder(subDir);
 				Optional<ChipImpl> impl = ChipImpl.fromCircuitDirectory(subDir);
@@ -227,11 +313,33 @@ public class CircuitInfoProvider {
 					continue;
 				}
 				entry.get().fillImplInfo(impl.get());
+				
+				if (infoMap.containsKey(uid)) {
+					Log.info("Duplicate circuit in directory " + subDir + ". Ignored.");
+					continue;
+				}
+				
 				infoMap.put(uid, entry.get());
 				implMap.put(uid, impl.get());
+				
+				parentNode.addChild(new CircuitCell(parentNode, uid, entry.get()));
+			}
+			else {
+				CircuitDirectory child = new CircuitDirectory(parentNode, subDir.getName());
+				ensureServerModelInitHelper(child, subDir);
+				parentNode.addChild(child);
 			}
 		}
-		circuitList = new CircuitListModel(infoMap);
+	}
+	
+	/**
+	 * @return True if the File is a directory, and contains a circuit implementation
+	 */
+	public static boolean isCircuitDirectory(File dir) {
+		if (!dir.isDirectory()) {
+			return false;
+		}
+		return Stream.of(dir.listFiles()).anyMatch((f) -> f.getName().equalsIgnoreCase("Implementation.class"));
 	}
 	
 	public static boolean isServerModelInit() {
@@ -260,10 +368,7 @@ public class CircuitInfoProvider {
 	}
 	
 	public static Optional<CircuitCell> getCellFor(CircuitUID uid) {
-		if (infoMap.containsKey(uid)) {
-			return Optional.of(new CircuitCell(uid, infoMap.get(uid)));
-		}
-		return Optional.empty();
+		return circuitTree.getRootDirectory().locateCellForUID(uid);
 	}
 	
 	/**
@@ -314,7 +419,7 @@ public class CircuitInfoProvider {
 	 * To be called on the server
 	 * @param uid
 	 */
-	private static void createSpecializedInfoFor(SpecializedCircuitUID uid) {
+	public static void createSpecializedInfoFor(SpecializedCircuitUID uid) {
 		if (!infoCache.containsKey(uid)) {
 			Optional<SpecializedChipImpl> impl = SpecializedChipImpl.of(implMap.get(uid.getUID()), uid.getOptions());
 			if (impl.isPresent()) {

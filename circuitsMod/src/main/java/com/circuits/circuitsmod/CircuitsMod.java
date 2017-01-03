@@ -21,6 +21,9 @@ import java.util.logging.Logger;
 
 import net.minecraft.util.IThreadListener;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -28,6 +31,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -159,6 +163,9 @@ public class CircuitsMod
     public void init(FMLInitializationEvent event)
     {
       proxy.init();
+      MinecraftForge.EVENT_BUS.register(new WorldEvents());
+      MinecraftForge.EVENT_BUS.register(new GlobalNetworkEventHandler());
+      MinecraftForge.EVENT_BUS.register(TickEvents.instance());
     }
 
     @EventHandler
@@ -174,9 +181,6 @@ public class CircuitsMod
     public void serverLoad(FMLServerStartingEvent event) {
         event.registerServerCommand(new PuzzleTeleportCommand());
         event.registerServerCommand(new CircuitGiveCommand());
-        CircuitInfoProvider.ensureServerModelInit();
-
-
     }
 }
 

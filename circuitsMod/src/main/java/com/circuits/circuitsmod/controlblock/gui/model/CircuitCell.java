@@ -2,6 +2,10 @@ package com.circuits.circuitsmod.controlblock.gui.model;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import com.circuits.circuitsmod.circuit.CircuitInfo;
 import com.circuits.circuitsmod.circuit.CircuitUID;
 import com.circuits.circuitsmod.circuitblock.WireDirectionMapper.WireDirectionGenerator;
@@ -13,18 +17,21 @@ import com.circuits.circuitsmod.circuitblock.WireDirectionMapper.WireDirectionGe
  * @author bubble-07
  *
  */
-public class CircuitCell implements Serializable {
+public class CircuitCell implements CircuitTreeNode {
 	private static final long serialVersionUID = 1L;
 	
 	private CircuitInfo info;
 	private CircuitUID uid;
+	private CircuitDirectory parent;
+	
 	public CircuitInfo getInfo() {
 		return info;
 	}
 	public CircuitUID getUid() {
 		return uid;
 	}
-	public CircuitCell(CircuitUID uid, CircuitInfo info) {
+	public CircuitCell(CircuitDirectory parent, CircuitUID uid, CircuitInfo info) {
+		this.parent = parent;
 		this.info = info;
 		this.uid = uid;
 	}
@@ -40,5 +47,14 @@ public class CircuitCell implements Serializable {
 	}
 	public WireDirectionGenerator getWireDirectionGenerator() {
 		return info.getWireDirectionGenerator();
+	}
+	
+	@Override
+	public List<CircuitTreeNode> getChildren() {
+		return new ArrayList<>();
+	}
+	@Override
+	public Optional<CircuitDirectory> getParent() {
+		return Optional.of(parent);
 	}
 }
