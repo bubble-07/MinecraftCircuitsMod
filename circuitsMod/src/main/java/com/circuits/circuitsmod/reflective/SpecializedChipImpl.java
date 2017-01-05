@@ -3,6 +3,7 @@ package com.circuits.circuitsmod.reflective;
 import java.util.Optional;
 
 import com.circuits.circuitsmod.circuit.CircuitConfigOptions;
+import com.circuits.circuitsmod.generators.DefaultTestGenerator;
 
 /**
  * A ChipImpl after both the test generator and the implementation have been specialized by

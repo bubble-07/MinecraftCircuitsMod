@@ -12,16 +12,15 @@ import com.circuits.circuitsmod.controlblock.gui.net.CircuitCostRequest;
 import com.circuits.circuitsmod.controlblock.gui.net.CircuitCosts;
 import com.circuits.circuitsmod.controlblock.gui.net.ServerGuiMessage;
 import com.circuits.circuitsmod.controlblock.gui.net.ServerGuiMessage.GuiMessageKind;
+import com.circuits.circuitsmod.controlblock.gui.widgets.ScrollableTextDisplay;
+import com.circuits.circuitsmod.controlblock.gui.widgets.TextButton;
+import com.circuits.circuitsmod.network.TypedMessage;
 
 public class CellDisplayPage extends ControlGuiPage {
 	private final CircuitCell cell;
 	private final TextButton craftButton;
 	private CircuitCosts costs;
-	
-	private static final int MAX_DESCRIP_LINES = 6;
-	private static final int SCROLL_INCREMENT = 3;
-	
-	private int scrollY = 0;
+	private ScrollableTextDisplay descripDisplay;
 	
 	public CellDisplayPage(final ControlGui parent, final CircuitCell cell) {
 		super(parent);
@@ -41,36 +40,24 @@ public class CellDisplayPage extends ControlGuiPage {
 			}
 		});
 		
-		CircuitsMod.network.sendToServer(new CircuitCostRequest.Message(parent.user.getUniqueID(), parent.tileEntity.getPos(), cell.getUid()));
+		this.descripDisplay = new ScrollableTextDisplay(parent, cell.getDescription());
+		this.addElement(descripDisplay);
+		
+		CircuitsMod.network.sendToServer(new TypedMessage(new CircuitCostRequest(parent.user.getUniqueID(), parent.tileEntity.getPos(), cell.getUid())));
 	}
 	
 	private CircuitCosts getCosts() {
 		return this.costs;
 	}
 	
-	private String truncateToLines(String str, int begin, int end) {
-		List<String> lines = parent.getFontRenderer().listFormattedStringToWidth(str, screenWidth);
-		String result = "";
-		if (end >= lines.size()) {
-			end = lines.size() - 1;
-		}
-		if (begin < 0) {
-			begin = 0;
-		}
-		for (int i = begin; i <= end; i++) {
-			result += lines.get(i) + "\n";
-		}
-		return result;
-	}
-	
 	@Override
 	protected void handleScrollUp() {
-		this.scrollY = Math.max(0, this.scrollY - SCROLL_INCREMENT);
+		descripDisplay.handleScrollUp();
 	}
 	
 	@Override
 	protected void handleScrollDown() {
-		this.scrollY += SCROLL_INCREMENT;
+		descripDisplay.handleScrollDown();
 	}
 	
 	
@@ -97,11 +84,6 @@ public class CellDisplayPage extends ControlGuiPage {
 				this.costs = (CircuitCosts) msg.get().getData();
 			}
 		}
-		
-		String descrip = truncateToLines(cell.getDescription(), scrollY, scrollY + MAX_DESCRIP_LINES);
-
-		parent.getFontRenderer().drawSplitString(descrip, 
-				screenX, screenY + 16, screenWidth, elementColor);
 	}
 	
 }

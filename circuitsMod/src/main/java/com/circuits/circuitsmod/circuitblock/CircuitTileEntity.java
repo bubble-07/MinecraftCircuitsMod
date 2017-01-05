@@ -8,9 +8,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
-
-import com.circuits.circuitsmod.TickEvents;
 import com.circuits.circuitsmod.busblock.BusBlock;
 import com.circuits.circuitsmod.busblock.BusSegment;
 import com.circuits.circuitsmod.busblock.StartupCommonBus;
@@ -29,7 +26,6 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;

@@ -21,9 +21,9 @@ import net.minecraft.util.ResourceLocation;
 
 public class ControlGui extends GuiContainer {
 	public CircuitTreeModel model;
-	ControlTileEntity tileEntity;
-	ControlGuiPage currentPage;
-	EntityPlayer user;
+	public ControlTileEntity tileEntity;
+	public ControlGuiPage currentPage;
+	public EntityPlayer user;
 	
 	
 	public FontRenderer getFontRenderer() {
@@ -91,6 +91,32 @@ public class ControlGui extends GuiContainer {
 	}
 	
 	@Override
+	protected void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
+		super.mouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick);
+		if (clickedMouseButton != 0) {
+			return;
+		}
+		mouseX -= this.guiLeft;
+		mouseY -= this.guiTop;
+		
+		if (isClickIn(mouseX, mouseY)) {
+			currentPage.handleMouseMove(mouseX, mouseY);
+		}
+		
+	}
+	
+	protected boolean isClickIn(int mouseX, int mouseY) {
+		return mouseX > ControlGuiPage.screenX && 
+		mouseX < ControlGuiPage.screenX + ControlGuiPage.screenWidth + ControlGuiPage.scrollBarWidth &&
+		mouseY > 0 && mouseY < ControlGuiPage.screenHeight;
+	}
+	protected boolean isClickOnScrollBar(int mouseX, int mouseY) {
+		return mouseX > ControlGuiPage.screenX + ControlGuiPage.screenWidth && mouseX < ControlGuiPage.screenX + ControlGuiPage.screenWidth + 
+		ControlGuiPage.scrollBarWidth &&
+		mouseY < ControlGuiPage.screenHeight && mouseY > 0;
+	}
+	
+	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int button) throws IOException {
 		super.mouseClicked(mouseX, mouseY, button);
 		
@@ -100,14 +126,9 @@ public class ControlGui extends GuiContainer {
 		mouseX -= this.guiLeft;
 		mouseY -= this.guiTop;
 		
-		if (mouseX > ControlGuiPage.screenX && 
-				mouseX < ControlGuiPage.screenX + ControlGuiPage.screenWidth + ControlGuiPage.scrollBarWidth &&
-			mouseY > 0 && mouseY < ControlGuiPage.screenHeight) {
+		if (isClickIn(mouseX, mouseY)) {
 			
-			
-			if (mouseX > ControlGuiPage.screenX + ControlGuiPage.screenWidth && mouseX < ControlGuiPage.screenX + ControlGuiPage.screenWidth + 
-					ControlGuiPage.scrollBarWidth &&
-					mouseY < ControlGuiPage.screenHeight && mouseY > 0) {
+			if (isClickOnScrollBar(mouseX, mouseY)) {
 				//Must be tryin' to scroll
 				if (mouseY > (ControlGuiPage.screenHeight / 2)) {
 					currentPage.handleScrollDown();
@@ -125,7 +146,10 @@ public class ControlGui extends GuiContainer {
 	
 	@Override
 	protected void keyTyped(char typed, int keyCode) throws IOException {
-		super.keyTyped(typed, keyCode);
+		//Make sure we don't exit the inventory when 'e' is typed!
+		if (!this.mc.gameSettings.keyBindInventory.isActiveAndMatches(keyCode)) {
+			super.keyTyped(typed, keyCode);
+		}
 		if (keyCode == 200) {
 			currentPage.handleScrollUp();
 		}

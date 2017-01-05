@@ -1,64 +1,29 @@
 package com.circuits.circuitsmod.controlblock.gui.net;
 
-import java.io.Serializable;
-import java.util.Optional;
 import java.util.UUID;
 
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
-import com.circuits.circuitsmod.common.Log;
-import com.circuits.circuitsmod.common.SerialUtils;
-import com.circuits.circuitsmod.controlblock.ControlBlock;
-import com.circuits.circuitsmod.controlblock.ControlTileEntity;
+import com.circuits.circuitsmod.controlblock.tester.net.ControlTileEntityClientRequest;
 
-import io.netty.buffer.ByteBuf;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 
 //Request to be used when client requests a circuit be crafted
-public class CraftingRequest implements Serializable {
+public class CraftingRequest extends ControlTileEntityClientRequest {
 	private static final long serialVersionUID = 1L;
-	private Long pos;
-	int numCrafted;
-	UUID player;
-	
-	SpecializedCircuitUID circuitUID;
+	private int numCrafted;
+	private SpecializedCircuitUID circuitUID;
 	
 	public CraftingRequest(UUID player, BlockPos pos, int numCrafted, SpecializedCircuitUID uid) {
-		this.player = player;
-		this.pos = pos.toLong();
+		super(player, pos);
 		this.numCrafted = numCrafted;
 		this.circuitUID = uid;
 	}
 	
-	public BlockPos getPos() {
-		return BlockPos.fromLong(pos);
-	}
-	
-	public static void handleCraftingRequest(CraftingRequest in, World worldIn) {
-		
-		Optional<ControlTileEntity> entity = ControlBlock.getControlTileEntityAt(worldIn, in.getPos());
-		
-		if (!entity.isPresent()) {
-			Log.internalError("Crafting request failed. No control TE at " + in.getPos());
-		}
-		
-		entity.get().setCraftingCell(in.player, in.circuitUID);
-		entity.get().craftingSlotPickedUp(in.numCrafted);
-	}
-	
-	public static class Message implements IMessage {
-		public CraftingRequest message = null;
-		public Message() { }
-		public Message(UUID player, BlockPos pos, int numCrafted, SpecializedCircuitUID circuitUid) {
-			message = new CraftingRequest(player, pos, numCrafted, circuitUid);
-		}
-		@Override
-		public void fromBytes(ByteBuf in) {
-			message = (CraftingRequest) SerialUtils.fromBytes(in);
-		}
-		public void toBytes(ByteBuf in) {
-			SerialUtils.toBytes(in, message);
-		}
+	public static void handle(CraftingRequest in, World worldIn) {
+		in.performOnControlTE(worldIn, (entity) -> {
+			entity.setCraftingCell(in.getPlayerID(), in.circuitUID);
+			entity.craftingSlotPickedUp(in.numCrafted);
+		});
 	}
 }

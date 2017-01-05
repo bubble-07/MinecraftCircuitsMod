@@ -39,17 +39,8 @@ public class CircuitInfo implements Serializable {
 		CircuitInfo result = new CircuitInfo();
 		File descripFile = new File(containingFolder.toString() + "/description.txt");
 		File imageFile = new File(containingFolder.toString() + "/Icon.png");
-		File nameFile = new File(containingFolder.toString() + "/name.txt");
 		
-		try {
-			if (nameFile.exists()) {
-				result.name = FileUtils.stringFromFile(nameFile);
-			}
-			throw new Exception();
-		}
-		catch (Exception e) {
-			result.name = containingFolder.getName();		
-		}
+		result.name = containingFolder.getName();
 			
 		if (result.name.equals("")) {
 			return Optional.empty();

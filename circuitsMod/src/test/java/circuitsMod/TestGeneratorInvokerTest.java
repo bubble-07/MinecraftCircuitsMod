@@ -2,13 +2,10 @@ package circuitsMod;
 
 import static org.junit.Assert.*;
 
-import java.util.Optional;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import com.circuits.circuitsmod.circuit.CircuitConfigOptions;
-import com.circuits.circuitsmod.reflective.Invoker;
 import com.circuits.circuitsmod.reflective.TestGeneratorInvoker;
 
 /**

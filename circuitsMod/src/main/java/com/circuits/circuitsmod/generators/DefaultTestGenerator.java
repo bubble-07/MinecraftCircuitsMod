@@ -1,12 +1,11 @@
-package com.circuits.circuitsmod.reflective;
+package com.circuits.circuitsmod.generators;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-
+import com.circuits.circuitsmod.Config;
 import com.circuits.circuitsmod.common.BusData;
-import com.google.common.collect.Lists;
+import com.circuits.circuitsmod.reflective.ChipInvoker;
+import com.circuits.circuitsmod.reflective.TestGenerator;
 
 /**
  * Default test generator for combinational circuits for which
@@ -16,12 +15,7 @@ import com.google.common.collect.Lists;
  * @author bubble-07
  *
  */
-//TODO: this __probably__ doesn't belong in the reflective package, but where does it belong?
 public class DefaultTestGenerator implements TestGenerator {
-	//Maximum total number of tests we're willing to perform in any given testing
-	//sequence. This determines the cutoff between exhaustive and randomized test
-	private static int MAX_TESTS = 32;
-	//TODO: Make this configurable!
 	
 	int totalTests;
 	int[] inputWidths;
@@ -29,7 +23,7 @@ public class DefaultTestGenerator implements TestGenerator {
 	
 	public DefaultTestGenerator(ChipInvoker invoker) {
 		int[] inputWidths = invoker.inputWidths();
-		this.totalTests = (int) Math.min(DefaultTestGenerator.getProductSize(inputWidths), MAX_TESTS);
+		this.totalTests = (int) Math.min(GeneratorUtils.getProductSize(inputWidths), Config.maxAutoGenTests);
 		this.inputWidths = inputWidths;
 		this.invoker = invoker;
 	}
@@ -48,63 +42,22 @@ public class DefaultTestGenerator implements TestGenerator {
 		
 		public State(int[] inputWidths) {
 			this.inputWidths = inputWidths;
-			long numExhaustive = getProductSize(inputWidths);
-			if (numExhaustive > MAX_TESTS) {
+			long numExhaustive = GeneratorUtils.getProductSize(inputWidths);
+			if (numExhaustive > Config.maxAutoGenTests) {
 				this.randomized = true;
 			}
-		}
-		
-		/**
-		 * Partitions the given integer along the input widths
-		 * @param val
-		 * @return
-		 */
-		private long[] partitionLong(long val) {
-			long[] result = new long[inputWidths.length];
-			for (int i = 0 ; i < result.length; i++) {
-				long old = val;
-				val = val >> inputWidths[i];
-				long lowBits = old - (val << inputWidths[i]);
-				result[i] = lowBits;
-			}
-			return result;
-		}
-		
-		/**
-		 * Returns an array of random longs, each of which
-		 * fits within the widths specified by inputWidths
-		 * @param ind
-		 * @return
-		 */
-		private long[] randomizeLong() {
-			long[] result = new long[inputWidths.length];
-			for (int i = 0; i < result.length; i++) {
-				long maxValForCurrent = (long) Math.pow(2, inputWidths[i]);
-				long val = (long) (Math.random() * (maxValForCurrent - 1));
-				result[i] = val;
- 			}
-			return result;
 		}
 		
 		public List<BusData> getTestForIndex(long ind) {
 			long[] toDeliver;
 			if (this.randomized) {
-				toDeliver = randomizeLong();
+				toDeliver = GeneratorUtils.randomizeLong(inputWidths);
 			}
 			else {
-				toDeliver = partitionLong(ind);
+				toDeliver = GeneratorUtils.partitionLong(ind, inputWidths);
 			}
-			List<BusData> result = Lists.newArrayList();
-			for (int i = 0; i < toDeliver.length; i++) {
-				result.add(new BusData(inputWidths[i], toDeliver[i]));
-			}
-			return result;
+			return GeneratorUtils.busLongs(toDeliver, inputWidths);
 		}
-	}
-	
-	private static long getProductSize(int[] widthArr) {
-		int totalWidth = Arrays.stream(widthArr).sum();
-		return (long) Math.pow(2, totalWidth);
 	}
 	
 	public List<BusData> generate(State state) {

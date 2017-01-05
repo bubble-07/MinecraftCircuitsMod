@@ -10,7 +10,6 @@ import java.util.Map;
 import com.circuits.circuitsmod.controlblock.StartupCommonControl;
 import com.circuits.circuitsmod.frameblock.StartupCommonFrame;
 
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

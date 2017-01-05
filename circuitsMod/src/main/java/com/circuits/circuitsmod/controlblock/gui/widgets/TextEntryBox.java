@@ -1,12 +1,23 @@
-package com.circuits.circuitsmod.controlblock.gui;
+package com.circuits.circuitsmod.controlblock.gui.widgets;
 
 import java.util.Optional;
+
+import com.circuits.circuitsmod.controlblock.gui.ControlGui;
+import com.circuits.circuitsmod.controlblock.gui.ControlGuiPage;
 
 
 public class TextEntryBox extends UIElement implements UIFocusable {
 	
-	boolean hasFocus = false;
-	String text = "";
+	protected boolean hasFocus = false;
+	protected String text = "";
+	
+	public void setText(String text) {
+		this.text = text;
+	}
+	
+	public String getText() {
+		return this.text;
+	}
 	
 	public TextEntryBox(ControlGui parent, int x, int y, int width, int height, String init) {
 		super(parent, x, y, width, height);

@@ -1,4 +1,4 @@
-package com.circuits.circuitsmod.controlblock.gui;
+package com.circuits.circuitsmod.controlblock.gui.widgets;
 
 public interface UIFocusable {
 	public void requestFocus();

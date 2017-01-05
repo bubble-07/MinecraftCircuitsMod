@@ -10,6 +10,9 @@ import com.circuits.circuitsmod.common.ItemUtils;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
 import com.circuits.circuitsmod.controlblock.gui.net.CircuitCosts;
 import com.circuits.circuitsmod.controlblock.gui.net.SetCraftingCellRequest;
+import com.circuits.circuitsmod.controlblock.gui.widgets.CircuitSpecializationFields;
+import com.circuits.circuitsmod.controlblock.gui.widgets.TextButton;
+import com.circuits.circuitsmod.network.TypedMessage;
 
 
 public class CraftingPage extends ControlGuiPage {
@@ -44,7 +47,7 @@ public class CraftingPage extends ControlGuiPage {
 			if (uid.isPresent()) {
 				parent.tileEntity.setCraftingCell(parent.user.getUniqueID(), uid.get());
 				parent.tileEntity.updateCraftingGrid();
-				CircuitsMod.network.sendToServer(new SetCraftingCellRequest.Message(parent.user.getUniqueID(), uid.get(), parent.tileEntity.getPos()));
+				CircuitsMod.network.sendToServer(new TypedMessage(new SetCraftingCellRequest(parent.user.getUniqueID(), uid.get(), parent.tileEntity.getPos())));
 			}
 		}
 		

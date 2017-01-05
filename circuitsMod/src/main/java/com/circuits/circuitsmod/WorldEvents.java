@@ -2,7 +2,6 @@ package com.circuits.circuitsmod;
 
 import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.world.WorldEvent;

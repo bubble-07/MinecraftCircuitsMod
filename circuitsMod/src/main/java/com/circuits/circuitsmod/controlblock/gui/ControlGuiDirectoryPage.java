@@ -8,6 +8,7 @@ import com.circuits.circuitsmod.circuitblock.CircuitItem;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitDirectory;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitTreeNode;
+import com.circuits.circuitsmod.controlblock.gui.widgets.TextButton;
 
 public class ControlGuiDirectoryPage extends ControlGuiPage {
 	
@@ -16,6 +17,7 @@ public class ControlGuiDirectoryPage extends ControlGuiPage {
 	
 	private final CircuitDirectory directory;
 	private TextButton backButton;
+	private TextButton customButton;
 	
 	public ControlGuiDirectoryPage(ControlGui parent, CircuitDirectory directory) {
 		super(parent);
@@ -27,7 +29,28 @@ public class ControlGuiDirectoryPage extends ControlGuiPage {
 			});
 			this.addElement(backButton);
 		}
+		if (this.directory.getName().equalsIgnoreCase("custom")) {
+			this.customButton = new TextButton(parent, "Make", screenX + screenWidth - shortLabelWidth, screenY + screenHeight - shortLabelHeight, () -> {
+				parent.setDisplayPage(new ControlCustomCircuitMainPage(parent, directory));
+			});
+			this.addElement(customButton);
+		}
 	}
+	
+	public ControlGuiPage getChildPage(String name) {
+		for (CircuitTreeNode node : this.directory.getChildren()) {
+			if (node.getName().equalsIgnoreCase(name)) {
+				if (node instanceof CircuitCell) {
+					return new CellDisplayPage(parent, (CircuitCell) node);
+				}
+				else if (node instanceof CircuitDirectory) {
+					return new ControlGuiDirectoryPage(parent, (CircuitDirectory) node);
+				}
+			}
+		}
+		return this;
+	}
+	
 	public void draw() {
 		int y_incr = screenHeight / maxToDisplay;
 		int current_y = screenY;

@@ -1,4 +1,4 @@
-package com.circuits.circuitsmod.controlblock.gui;
+package com.circuits.circuitsmod.controlblock.gui.widgets;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,12 +7,15 @@ import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.circuit.CircuitConfigOptions;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.common.Log;
-import com.circuits.circuitsmod.controlblock.gui.TextEntryBox.IntEntryBox;
+import com.circuits.circuitsmod.controlblock.gui.ControlGui;
+import com.circuits.circuitsmod.controlblock.gui.ControlGuiPage;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
 import com.circuits.circuitsmod.controlblock.gui.net.ServerGuiMessage;
 import com.circuits.circuitsmod.controlblock.gui.net.ServerGuiMessage.GuiMessageKind;
 import com.circuits.circuitsmod.controlblock.gui.net.ServerGuiMessage.SpecializationInfo;
 import com.circuits.circuitsmod.controlblock.gui.net.SpecializationValidationRequest;
+import com.circuits.circuitsmod.controlblock.gui.widgets.TextEntryBox.IntEntryBox;
+import com.circuits.circuitsmod.network.TypedMessage;
 import com.google.common.collect.Lists;
 
 /**
@@ -61,8 +64,8 @@ public class CircuitSpecializationFields extends UIElement implements UIFocusabl
 			return;
 		}
 		SpecializedCircuitUID uid = new SpecializedCircuitUID(this.cell.getUid(), new CircuitConfigOptions(opts.get()));
-		CircuitsMod.network.sendToServer(
-				new SpecializationValidationRequest.Message(parent.user.getUniqueID(), parent.tileEntity.getPos(), uid));
+		CircuitsMod.network.sendToServer(new TypedMessage(
+				new SpecializationValidationRequest(parent.user.getUniqueID(), parent.tileEntity.getPos(), uid)));
 	}
 	
 	public Optional<String> getConfigName() {

@@ -3,18 +3,21 @@ package com.circuits.circuitsmod.controlblock.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.circuits.circuitsmod.controlblock.gui.widgets.UIElement;
+import com.circuits.circuitsmod.controlblock.gui.widgets.UIFocusable;
+
 public abstract class ControlGuiPage {
 	
 	final ControlGui parent;
-	final static int screenX = 6;
-	final static int screenY = 6;
-	final static int screenWidth = 120;
-	final static int screenHeight = 100;
-	final static int scrollBarWidth = 6;
-	final static int elementColor = 65280;
+	public final static int screenX = 6;
+	public final static int screenY = 6;
+	public final static int screenWidth = 120;
+	public final static int screenHeight = 100;
+	public final static int scrollBarWidth = 6;
+	public final static int elementColor = 65280;
 	
-	final static int shortLabelWidth = 25;
-	final static int shortLabelHeight = 16;
+	public final static int shortLabelWidth = 25;
+	public final static int shortLabelHeight = 16;
 	
 	private List<UIElement> elements = new ArrayList<>();
 	
@@ -28,6 +31,9 @@ public abstract class ControlGuiPage {
 	}
 	protected void handleScrollUp() {
 		
+	}
+	
+	protected void handleMouseMove(int mouseX, int mouseY) {
 	}
 	
 	protected void handleClick(int mouseX, int mouseY) {

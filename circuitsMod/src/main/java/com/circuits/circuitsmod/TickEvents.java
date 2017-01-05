@@ -1,7 +1,6 @@
 package com.circuits.circuitsmod;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -19,18 +18,40 @@ public class TickEvents {
 		return TickEvents.instance;
 	}
 	
-	private Set<Runnable> actions = Collections.newSetFromMap(new ConcurrentHashMap<>());
+	private boolean tickFlag = false;
 	
-	public void addAction(Runnable action) {
-		actions.add(action);
+	private Set<Runnable> actionsOne = Collections.newSetFromMap(new ConcurrentHashMap<>());
+	private Set<Runnable> actionsTwo = Collections.newSetFromMap(new ConcurrentHashMap<>());
+
+	private Set<Runnable> nextSet() {
+		if (tickFlag) {
+			return actionsTwo;
+		}
+		return actionsOne;
+	}
+	
+	private Set<Runnable> currentSet() {
+		if (tickFlag) {
+			return actionsOne;
+		}
+		return actionsTwo;
+	}
+	
+	public void addImmediateAction(Runnable action) {
+		currentSet().add(action);
+	}
+	
+	public void addDelayedAction(Runnable action) {
+		nextSet().add(action);
 	}
 	
 	
 	@SubscribeEvent
 	public void handleTick(WorldTickEvent e) {
-		for (Runnable action : actions) {
+		for (Runnable action : currentSet()) {
 			action.run();
 		}
-		actions.clear();
+		currentSet().clear();
+		tickFlag = !tickFlag;
 	}
 }

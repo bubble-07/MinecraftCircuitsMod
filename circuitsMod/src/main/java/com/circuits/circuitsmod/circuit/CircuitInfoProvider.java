@@ -18,7 +18,6 @@ import com.circuits.circuitsmod.common.Pair;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitDirectory;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitTreeModel;
-import com.circuits.circuitsmod.controlblock.gui.model.CircuitTreeNode;
 import com.circuits.circuitsmod.network.TypedMessage;
 import com.circuits.circuitsmod.reflective.ChipImpl;
 import com.circuits.circuitsmod.reflective.ChipInvoker;
@@ -73,7 +72,7 @@ public class CircuitInfoProvider {
 			ensureServerModelInit();
 			createSpecializedInfoFor(req.uid);
 			Pair<SpecializedCircuitUID, SpecializedCircuitInfo> infoToSend = Pair.of(req.uid, infoCache.get(req.uid));
-			CircuitsMod.network.sendToAll(new TypedMessage(infoToSend));
+			CircuitsMod.network.sendToAll(new TypedMessage(new SpecializedInfoResponseFromServer(infoToSend)));
 		}
     }
     
@@ -118,8 +117,11 @@ public class CircuitInfoProvider {
     		this.modelContainer = modelContainer;
     	}
 		public static void handle(ModelResponseFromServer response) {
-			CircuitInfoProvider.infoMap = response.modelContainer.infoMap;
-			CircuitInfoProvider.circuitTree = response.modelContainer.circuitTree;
+			TickEvents.instance().addImmediateAction(() -> {
+				CircuitInfoProvider.clearState();
+				CircuitInfoProvider.infoMap = response.modelContainer.infoMap;
+				CircuitInfoProvider.circuitTree = response.modelContainer.circuitTree;
+			});
 		}
     }
     
@@ -192,7 +194,10 @@ public class CircuitInfoProvider {
     };
 
 	public static void ensureClientModelInit() {
-		TickEvents.instance().addAction(clientModelInitRunnable);
+		if (isClientModelInit()) {
+			return;
+		}
+		TickEvents.instance().addImmediateAction(clientModelInitRunnable);
 	}
 	
 	public static boolean isClientModelInit() {
@@ -224,7 +229,7 @@ public class CircuitInfoProvider {
 	
 	public static void requestSpecializedClientInfoFor(SpecializedCircuitUID uid) {
 		if (uid != null) {
-			TickEvents.instance().addAction(new SpecializedInfoRequestRunnable(uid));
+			TickEvents.instance().addImmediateAction(new SpecializedInfoRequestRunnable(uid));
 		}
 	}
 	
@@ -274,9 +279,11 @@ public class CircuitInfoProvider {
 		//Now, we copy its contents into the world-specific circuit definitions directory,
 		//with the config-global settings taking precedence
 		File circuitsDir = FileUtils.getWorldCircuitDefinitionsDir();
-		if (!circuitsDir.exists()) {
-			circuitsDir.mkdirs();
+		
+		if (!FileUtils.getWorldCustomCircuitsDir().exists()) {
+			FileUtils.getWorldCustomCircuitsDir().mkdirs();
 		}
+		
 		try {
 			org.apache.commons.io.FileUtils.copyDirectory(globalCircuitsDir, circuitsDir, (f) -> !f.getName().startsWith("."));
 		}
@@ -291,6 +298,8 @@ public class CircuitInfoProvider {
 		CircuitDirectory rootDir = new CircuitDirectory("circuits");
 		
 		ensureServerModelInitHelper(rootDir, circuitsDir);
+		
+		rootDir.populateSearchIndex();
 		
 		circuitTree = new CircuitTreeModel(rootDir);
 	}
@@ -330,6 +339,12 @@ public class CircuitInfoProvider {
 				parentNode.addChild(child);
 			}
 		}
+	}
+	
+	public static void refreshServerInfoAndSendToClient() {
+		CircuitInfoProvider.clearState();
+		CircuitInfoProvider.ensureServerModelInit();
+		CircuitsMod.network.sendToAll(new TypedMessage(new ClientModelContainer(infoMap, circuitTree)));
 	}
 	
 	/**

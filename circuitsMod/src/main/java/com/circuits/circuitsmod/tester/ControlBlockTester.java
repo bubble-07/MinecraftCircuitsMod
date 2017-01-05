@@ -2,101 +2,36 @@ package com.circuits.circuitsmod.tester;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
 
 import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitInfo;
-import com.circuits.circuitsmod.common.PosUtils;
 import com.circuits.circuitsmod.controlblock.ControlTileEntity;
-import com.circuits.circuitsmod.controlblock.StartupCommonControl;
-import com.circuits.circuitsmod.controlblock.tester.net.TestStateUpdate;
-import com.circuits.circuitsmod.frameblock.StartupCommonFrame;
+import com.circuits.circuitsmod.controlblock.tester.net.SequenceReaderStateUpdate;
 import com.circuits.circuitsmod.recipes.RecipeDeterminer;
-import com.circuits.circuitsmod.unbreakium.StartupCommonUnbreakium;
-import com.circuits.circuitsmod.unbreakium.UnbreakiumBlock;
 
 public class ControlBlockTester extends Tester<ControlTileEntity> {
+	
+	UnbreakiumCageManager<ControlTileEntity> cageManager;
 
 	public ControlBlockTester(EntityPlayer player, ControlTileEntity parent,
 			SpecializedCircuitInfo circuit, TestConfig config) {
 		super(player, parent, circuit, config);
-		setupUnbreakiumCage();
+		this.cageManager = new UnbreakiumCageManager<>(this);
+		init();
+		cageManager.setupUnbreakiumCage();
 	}
 	
-	private Stream<BlockPos> unbreakiumCageBottomStream() {
-		AxisAlignedBB bottomTestFace = PosUtils.getBBoxFacet(testbbox, EnumFacing.DOWN);
-		
-		Stream<AxisAlignedBB> bottomSides = Stream.of(EnumFacing.EAST, EnumFacing.WEST, EnumFacing.SOUTH, EnumFacing.NORTH)
-		      .map((f) -> PosUtils.getBBoxFacet(bottomTestFace, f).offset(0.0, -1.0, 0.0));
-		
-		AxisAlignedBB bottomFace = bottomTestFace.offset(0.0, -2.0, 0.0);
-		
-		return Stream.concat(Stream.of(bottomFace), bottomSides).flatMap((bb) -> PosUtils.streamBlockPosIn(bb));
-	}
-	
-	private Stream<BlockPos> unbreakiumFrameStream() {
-		return PosUtils.extremalPosIn(testbbox).filter((pos) -> parent.getWorld().getBlockState(pos).getBlock() != StartupCommonControl.controlBlock);
-	}
-	
-	private Stream<BlockPos> unbreakiumCageSidesStream() {
-		
-
-		
-		Stream<AxisAlignedBB> otherSides = Stream.of(EnumFacing.values()).filter((f) -> !f.equals(EnumFacing.DOWN))
-		                                         .map((f) -> PosUtils.shrinkBBox(PosUtils.getBBoxFacet(testbbox, f), 1.0));
-		
-		return otherSides.flatMap((bb) -> PosUtils.streamBlockPosIn(bb));
-	}
-	
-	private Stream<BlockPos> unbreakiumCageStream() {
-		return Stream.concat(unbreakiumCageBottomStream(), unbreakiumCageSidesStream());
-	}
-	
-	private void setupUnbreakiumCage() {
-		if (this.testbbox == null) {
-			return;
-		}
-		unbreakiumCageStream().forEach((pos) -> this.parent.getWorld().setBlockState(pos, StartupCommonUnbreakium.unbreakiumBlock.getDefaultState(), 3));
-		unbreakiumFrameStream().forEach((pos) -> this.parent.getWorld().setBlockState(pos, 
-				                                 StartupCommonUnbreakium.unbreakiumBlock.getDefaultState().withProperty(UnbreakiumBlock.FRAMEMIMIC, true), 3));
-		
-	}
-	
-	private void tearDownUnbreakiumCage() {
-		if (this.testbbox == null) {
-			return;
-		}
-		unbreakiumCageSidesStream().forEach((pos) -> {
-			this.parent.getWorld().setBlockToAir(pos);
-		});
-		unbreakiumCageBottomStream().forEach((pos) -> {
-			this.parent.getWorld().setBlockState(pos, Blocks.STONE.getDefaultState(), 3);
-		});
-		unbreakiumFrameStream().forEach((pos) -> {
-			//Replace frame mimics with real frame blocks again
-			if (this.isFrame(pos)) {
-				this.parent.getWorld().setBlockState(pos, StartupCommonFrame.frameBlock.getDefaultState(), 3);
-			}
-		});
-	}
-	
+	@Override
 	public void cleanup() {
-		tearDownUnbreakiumCage();
+		cageManager.tearDownUnbreakiumCage();
 	}
 	
 	@Override
 	public void successAction() {
-		tearDownUnbreakiumCage();
+		cageManager.tearDownUnbreakiumCage();
 		RecipeDeterminer.determineRecipe(this);
 	}
 	
@@ -104,7 +39,7 @@ public class ControlBlockTester extends Tester<ControlTileEntity> {
 	public void stateUpdateAction() {
 		parent.updateState(this.getState());
 		if (!parent.getWorld().isRemote) {
-			CircuitsMod.network.sendToAll(new TestStateUpdate.Message(this.getState(), parent.getPos()));
+			CircuitsMod.network.sendToAll(new SequenceReaderStateUpdate.Message(this.getState(), parent.getPos()));
 		}
 	}
 	
@@ -119,63 +54,14 @@ public class ControlBlockTester extends Tester<ControlTileEntity> {
 		return 20;
 	}
 	
-	/**
-	 * Returns true if the block is a frame or an unbreakable frame mimic
-	 * @param pos
-	 * @return
-	 */
-	public boolean isFrame(BlockPos pos) {
-		IBlockState state = parent.getWorld().getBlockState(pos);
-		return (state.getBlock() == StartupCommonFrame.frameBlock) || 
-				(state.getBlock() == StartupCommonUnbreakium.unbreakiumBlock && state.getValue(UnbreakiumBlock.FRAMEMIMIC));
-	}
-	
 	@Override
 	public Optional<AxisAlignedBB> getTestingBox() {
-		//For now, must be placed in a bottom-most corner
-		//TODO: Also check for transparent blocks extending in a 1 block shell!
-		
-		//Get the vertical extent
-		int vertExtent = 0;
-		while (isFrame(parent.getPos().up(vertExtent + 1))) {
-			vertExtent++;
-		}
-		int pos_x_extent = 0;
-		while (isFrame(parent.getPos().add(pos_x_extent + 1, 0, 0))) {
-			pos_x_extent++;
-		}
-		int neg_x_extent = 0;
-		while (isFrame(parent.getPos().add(-neg_x_extent - 1, 0, 0))) {
-			neg_x_extent++;
-		}
-		int pos_z_extent = 0;
-		while (isFrame(parent.getPos().add(0, 0, pos_z_extent + 1))) {
-			pos_z_extent++;
-		}
-		int neg_z_extent = 0;
-		while (isFrame(parent.getPos().add(0, 0, -neg_z_extent - 1))) {
-			neg_z_extent++;
-		}
-		
-		AxisAlignedBB bbox = new AxisAlignedBB(parent.getPos().add(-neg_x_extent, 0, -neg_z_extent), 
-			     parent.getPos().add(pos_x_extent, vertExtent, pos_z_extent));
-		//If the box ain't big enough, fail.
-		if (bbox.maxX - bbox.minX < 2 || bbox.maxY - bbox.minY < 2 || bbox.maxZ - bbox.minZ < 2) {
-			return Optional.empty();
-		}
-		//The above was just a quick determination of extents. Make sure they actually built a frame
-		this.testbbox = bbox;
-		if (!unbreakiumFrameStream().allMatch(this::isFrame)) {
-			this.testbbox = null;
-			return Optional.empty();
-		}
-		
-		return Optional.of(bbox);
+		return cageManager.getTestingBox();
 	}
 
 	@Override
 	public void failureAction() {
-		tearDownUnbreakiumCage();
+		cageManager.tearDownUnbreakiumCage();
 	}
 
 }

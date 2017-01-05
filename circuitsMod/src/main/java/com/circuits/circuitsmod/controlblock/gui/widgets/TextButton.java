@@ -1,4 +1,7 @@
-package com.circuits.circuitsmod.controlblock.gui;
+package com.circuits.circuitsmod.controlblock.gui.widgets;
+
+import com.circuits.circuitsmod.controlblock.gui.ControlGui;
+import com.circuits.circuitsmod.controlblock.gui.ControlGuiPage;
 
 public class TextButton extends UIElement {
 	Runnable onClick;

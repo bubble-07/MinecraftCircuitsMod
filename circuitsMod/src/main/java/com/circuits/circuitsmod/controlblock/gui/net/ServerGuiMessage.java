@@ -2,6 +2,8 @@ package com.circuits.circuitsmod.controlblock.gui.net;
 
 import java.io.Serializable;
 
+import com.circuits.circuitsmod.recorder.CircuitRecording;
+
 public class ServerGuiMessage implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private final ServerGuiMessage.GuiMessageKind messageKind;
@@ -25,8 +27,31 @@ public class ServerGuiMessage implements Serializable {
 	}
 	
 	public enum GuiMessageKind implements Serializable {
-		GUI_SPECIALIZATON_INFO, GUI_CIRCUIT_COSTS
+		GUI_SPECIALIZATON_INFO, GUI_CIRCUIT_COSTS, GUI_COMPILATION_RESULT, GUI_RECORDING_DATA
 	};
+	
+	public static class RecordingData implements Serializable {
+		private static final long serialVersionUID = 1L;
+		private CircuitRecording recording;
+		public RecordingData(CircuitRecording recording) {
+			this.recording = recording;
+		}
+		public CircuitRecording getRecording() {
+			return this.recording;
+		}
+	}
+	
+	public static class CompilationResult implements Serializable {
+		private static final long serialVersionUID = 1L;
+		private boolean success;
+		public CompilationResult(boolean isSuccessful) {
+			this.success = isSuccessful;
+		}
+		public boolean isSuccess() {
+			return this.success;
+		}
+	}
+	
 	public static class SpecializationInfo implements Serializable {
 		private static final long serialVersionUID = 1L;
 		private String specializedName;

@@ -17,6 +17,9 @@ public class Config {
 	public static double circuitCostMultiplier = 1.0;
 	public static CostCurve circuitCostCurve = CostCurve.LOG;
 	public static boolean shouldRenderTextOnCircuit = true;
+	
+	public static int maxAutoGenTests = 32;
+	public static int maxCircuitRecordingEntries = 32;
 
     public static void readConfig() {
         Configuration cfg = CommonProxy.config;
@@ -51,6 +54,12 @@ public class Config {
         		                 .findFirst().orElse(circuitCostCurve);
         shouldRenderTextOnCircuit = cfg.getBoolean("RenderTextOnCircuit", CATEGORY_GENERAL, shouldRenderTextOnCircuit,
         		        "Set this to false if you do not want to render the circuit config text on circuits placed in the world");
+        
+        maxAutoGenTests = cfg.getInt("MaxAutoGenTests", CATEGORY_GENERAL, maxAutoGenTests, 0, 1024, 
+        		        "The maximum number of automatically-generated test cases to run for combinational circuits");
+        
+        maxCircuitRecordingEntries = cfg.getInt("MaxCiruitRecordingEntries", CATEGORY_GENERAL, maxCircuitRecordingEntries, 0, 256, 
+        		        "The maximum number of circuit recording entries for custom circuits");
     }
 
     private static void initDimensionConfig(Configuration cfg) {

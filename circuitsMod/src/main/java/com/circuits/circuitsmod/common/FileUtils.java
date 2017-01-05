@@ -100,6 +100,13 @@ public class FileUtils {
 		return new File(getWorldSaveDir().getPath() + "/circuits");
 	}
 	
+	/**
+	 * @return The root directory for custom circuits in the world
+	 */
+	public static File getWorldCustomCircuitsDir() {
+		return new File(getWorldCircuitDefinitionsDir().toPath() + "/custom");
+	}
+	
 	public static File getWorldRecipesDir() {
 		return new File(getWorldSaveDir().getPath() + "/recipes");
 	}

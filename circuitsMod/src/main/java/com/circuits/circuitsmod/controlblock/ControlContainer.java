@@ -9,10 +9,10 @@ import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.circuit.SpecializedCircuitUID;
 import com.circuits.circuitsmod.circuitblock.CircuitItem;
 import com.circuits.circuitsmod.controlblock.gui.net.CraftingRequest;
+import com.circuits.circuitsmod.network.TypedMessage;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -52,8 +52,8 @@ public class ControlContainer extends Container {
 				if (playerIn.worldObj.isRemote) {
 					Optional<SpecializedCircuitUID> craftingCell = CircuitItem.getUIDFromStack(stack);
 					if (craftingCell.isPresent()) {
-						CircuitsMod.network.sendToServer(new CraftingRequest.Message(playerIn.getUniqueID(), tileEntity.getPos(), stack.stackSize, 
-								craftingCell.get()));
+						CircuitsMod.network.sendToServer(new TypedMessage(new CraftingRequest(playerIn.getUniqueID(), tileEntity.getPos(), stack.stackSize, 
+								craftingCell.get())));
 					}
 				}
 			}

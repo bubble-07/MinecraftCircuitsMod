@@ -123,6 +123,10 @@ public class BusData implements Serializable {
 		return ArrayUtils.toPrimitive(result);
 	}
 	
+	public static String listToDispString(List<BusData> in) {
+		return in.stream().map((data) -> "" + data.getData()).reduce((s1, s2) -> s1 + " " + s2).orElse("");
+	}
+	
 	public String toString() {
 		return getData() + " [" + getWidth() + "-bit]";
 	}

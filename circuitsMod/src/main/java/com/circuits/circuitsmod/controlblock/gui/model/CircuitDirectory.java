@@ -36,13 +36,14 @@ public class CircuitDirectory implements CircuitTreeNode {
 		return this.parent == null;
 	}
 	
+	public void populateSearchIndex() {
+		this.getRoot().applyToCellsRecursively((cell) -> {
+			this.cellMap.put(cell.getUid(), cell);
+		});
+	}
+	
 	public void addChild(CircuitTreeNode node) {
 		this.children.add(node);
-		if (this.isRoot()) {
-			node.applyToCellsRecursively((cell) -> {
-				this.cellMap.put(cell.getUid(), cell);
-			});
-		}
 	}
 	
 	public void sortBy(Comparator<CircuitTreeNode> sorter) {

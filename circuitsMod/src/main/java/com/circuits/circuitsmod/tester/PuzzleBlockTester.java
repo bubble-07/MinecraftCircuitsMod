@@ -17,6 +17,7 @@ public class PuzzleBlockTester extends Tester<TileEntityTesting> {
 	
 	public PuzzleBlockTester(TileEntityTesting parent, SpecializedCircuitInfo circuit, TestConfig config) {
 		super(null, parent, circuit, config);
+		init();
 	}
 	@Override
 	public void successAction() {

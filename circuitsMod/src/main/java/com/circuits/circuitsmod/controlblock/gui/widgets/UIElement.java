@@ -1,4 +1,6 @@
-package com.circuits.circuitsmod.controlblock.gui;
+package com.circuits.circuitsmod.controlblock.gui.widgets;
+
+import com.circuits.circuitsmod.controlblock.gui.ControlGui;
 
 public abstract class UIElement {
 	int x;
@@ -15,7 +17,7 @@ public abstract class UIElement {
 		this.height = height;
 	}
 	
-	protected boolean isClickIn(int mouseX, int mouseY) {
+	public boolean isClickIn(int mouseX, int mouseY) {
 		return (x < mouseX && x + width > mouseX && y < mouseY && y + height > mouseY);
 	}
 

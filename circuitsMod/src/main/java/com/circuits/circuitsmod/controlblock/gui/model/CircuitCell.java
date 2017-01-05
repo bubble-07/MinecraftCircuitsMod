@@ -1,7 +1,6 @@
 package com.circuits.circuitsmod.controlblock.gui.model;
 
 import java.awt.image.BufferedImage;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

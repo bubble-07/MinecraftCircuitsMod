@@ -3,12 +3,7 @@ package com.circuits.circuitsmod.controlblock.gui.model;
 import io.netty.buffer.ByteBuf;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Map;
-
-import com.circuits.circuitsmod.circuit.CircuitInfo;
-import com.circuits.circuitsmod.circuit.CircuitUID;
 import com.circuits.circuitsmod.common.SerialUtils;
 
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -39,6 +34,10 @@ public class CircuitTreeModel implements IMessage, Serializable {
 	
 	public CircuitDirectory getRootDirectory() {
 		return this.circuitRoot;
+	}
+	
+	public CircuitDirectory getCustomDirectory() {
+		return (CircuitDirectory) getRootDirectory().getChildren().stream().filter((c) -> c.getName().equalsIgnoreCase("Custom")).findFirst().get();
 	}
 	
 	@Override

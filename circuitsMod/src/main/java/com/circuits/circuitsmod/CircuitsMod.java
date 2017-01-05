@@ -4,14 +4,7 @@ import com.circuits.circuitsmod.CommonProxy;
 import com.circuits.circuitsmod.world.CircuitGiveCommand;
 import com.circuits.circuitsmod.world.PuzzleTeleportCommand;
 import com.circuits.circuitsmod.CircuitsMod;
-import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
-import com.circuits.circuitsmod.controlblock.gui.net.CircuitCostRequest;
-import com.circuits.circuitsmod.controlblock.gui.net.CraftingRequest;
-import com.circuits.circuitsmod.controlblock.gui.net.SetCraftingCellRequest;
-import com.circuits.circuitsmod.controlblock.gui.net.SpecializationValidationRequest;
-import com.circuits.circuitsmod.controlblock.tester.net.TestRequest;
-import com.circuits.circuitsmod.controlblock.tester.net.TestStateUpdate;
-import com.circuits.circuitsmod.controlblock.tester.net.TestStopRequest;
+import com.circuits.circuitsmod.controlblock.tester.net.SequenceReaderStateUpdate;
 import com.circuits.circuitsmod.network.ClientHandlers;
 import com.circuits.circuitsmod.network.ServerHandlers;
 import com.circuits.circuitsmod.network.TypedMessage;
@@ -19,11 +12,9 @@ import com.circuits.circuitsmod.recipes.RecipeGraph;
 
 import java.util.logging.Logger;
 
-import net.minecraft.util.IThreadListener;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.world.WorldEvent;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -31,7 +22,6 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -52,6 +42,9 @@ public class CircuitsMod
     
     public static RecipeGraph recipeGraph = null;
     
+    private static ServerHandlers serverHandlers = new ServerHandlers();
+    private static ClientHandlers clientHandlers = new ClientHandlers();
+    
     @Mod.Instance(CircuitsMod.MODID)
     public static CircuitsMod instance;
     
@@ -61,7 +54,7 @@ public class CircuitsMod
 	public static class ServerRequestHandler implements IMessageHandler<TypedMessage, IMessage> {
 		@Override
 		public IMessage onMessage(TypedMessage message, MessageContext ctx) {
-			ServerHandlers.dispatch(message, ctx.getServerHandler().playerEntity.worldObj);
+			serverHandlers.dispatch(message, ctx.getServerHandler().playerEntity.worldObj);
 			return null;
 		}
 	}
@@ -69,72 +62,10 @@ public class CircuitsMod
 	public static class ClientRequestHandler implements IMessageHandler<TypedMessage, IMessage> {
 		@Override
 		public IMessage onMessage(TypedMessage message, MessageContext ctx) {
-			ClientHandlers.dispatch(message);
-			return null;
-		}
-	}
-	
-    
-	//TODO: Incorporate these request from the old mod format to the newer, slicker one
-	
-	public static class ServerTestHandler implements IMessageHandler<TestRequest.Message, IMessage> {
-		@Override
-		public IMessage onMessage(TestRequest.Message msg, MessageContext ctxt) {
-			World world =  ctxt.getServerHandler().playerEntity.worldObj;
-			TestRequest.handleTestRequest(msg.message, world);
-			return null;
-		}
-	}
-	
-	public static class ServerTestStopHandler implements IMessageHandler<TestStopRequest.Message, IMessage> {
-		@Override
-		public IMessage onMessage(TestStopRequest.Message msg, MessageContext ctxt) {
-			World world =  ctxt.getServerHandler().playerEntity.worldObj;
-			TestStopRequest.handleTestStopRequest(msg.message, world);
-			return null;
-		}
-	}
-	
-	public static class ServerCraftHandler implements IMessageHandler<CraftingRequest.Message, IMessage> {
-		@Override
-		public IMessage onMessage(CraftingRequest.Message msg, MessageContext ctxt) {
-			World world =  ctxt.getServerHandler().playerEntity.worldObj;
-			((IThreadListener) world).addScheduledTask(() -> {
-				CraftingRequest.handleCraftingRequest(msg.message, world);
-			});
-			return null;
-		}
-	}
-	
-	public static class SpecializationValidationHandler implements IMessageHandler<SpecializationValidationRequest.Message, IMessage> {
-		@Override
-		public IMessage onMessage(SpecializationValidationRequest.Message msg, MessageContext ctxt) {
-			World world =  ctxt.getServerHandler().playerEntity.worldObj;
-			((IThreadListener) world).addScheduledTask(() -> {
-				SpecializationValidationRequest.handleSpecializationValidationRequest(msg.message, world);
-			});
-			return null;
-		}
-	}
-	
-	public static class CircuitCostHandler implements IMessageHandler<CircuitCostRequest.Message, IMessage> {
-		@Override
-		public IMessage onMessage(CircuitCostRequest.Message msg, MessageContext ctxt) {
-			World world =  ctxt.getServerHandler().playerEntity.worldObj;
-			((IThreadListener) world).addScheduledTask(() -> {
-				CircuitCostRequest.handleCircuitCostRequest(msg.message, world);
-			});
-			return null;
-		}
-	}
-	
-	public static class ServerSetCraftingCellHandler implements IMessageHandler<SetCraftingCellRequest.Message, IMessage> {
-		@Override
-		public IMessage onMessage(SetCraftingCellRequest.Message msg, MessageContext ctxt) {
-			World world =  ctxt.getServerHandler().playerEntity.worldObj;
-			((IThreadListener) world).addScheduledTask(() -> {
-				SetCraftingCellRequest.handleSetCraftingCellRequest(msg.message, world);
-			});
+			World worldObj = Minecraft.getMinecraft().theWorld;
+			if (worldObj != null) {
+				clientHandlers.dispatch(message, worldObj);
+			}
 			return null;
 		}
 	}
@@ -146,14 +77,7 @@ public class CircuitsMod
     	network.registerMessage(ServerRequestHandler.class, TypedMessage.class, 0, Side.SERVER);
     	network.registerMessage(ClientRequestHandler.class, TypedMessage.class, 1, Side.CLIENT);
     	
-    	network.registerMessage(ServerTestHandler.class, TestRequest.Message.class, 2, Side.SERVER);
-    	network.registerMessage(TestStateUpdate.Message.Handler.class, TestStateUpdate.Message.class, 3, Side.CLIENT);
-    	network.registerMessage(ServerCraftHandler.class, CraftingRequest.Message.class, 4, Side.SERVER);
-    	network.registerMessage(ServerTestStopHandler.class, TestStopRequest.Message.class, 5, Side.SERVER);
-    	network.registerMessage(SpecializationValidationHandler.class, SpecializationValidationRequest.Message.class, 6, Side.SERVER);
-    	network.registerMessage(CircuitCostHandler.class, CircuitCostRequest.Message.class, 7, Side.SERVER);
-    	network.registerMessage(ServerSetCraftingCellHandler.class, SetCraftingCellRequest.Message.class, 8, Side.SERVER);
-
+    	network.registerMessage(SequenceReaderStateUpdate.Message.Handler.class, SequenceReaderStateUpdate.Message.class, 3, Side.CLIENT);
 
     	
       proxy.preInit();

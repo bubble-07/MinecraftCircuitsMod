@@ -15,9 +15,12 @@ import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.SerialUtils;
 import com.circuits.circuitsmod.controlblock.gui.net.ServerGuiMessage;
 import com.circuits.circuitsmod.recipes.RecipeDeterminer;
+import com.circuits.circuitsmod.recorder.CircuitRecorder;
+import com.circuits.circuitsmod.recorder.CircuitRecording;
+import com.circuits.circuitsmod.tester.CircuitSequenceReader;
 import com.circuits.circuitsmod.tester.ControlBlockTester;
+import com.circuits.circuitsmod.tester.SequenceReaderState;
 import com.circuits.circuitsmod.tester.TestConfig;
-import com.circuits.circuitsmod.tester.TestState;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,14 +37,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class ControlTileEntity extends TileEntity implements IInventory, ITickable {
 	public ItemStack[] inv;
 	
-	ControlBlockTester tester = null;
-	TestState state = null;
+	CircuitSequenceReader<ControlTileEntity, ? extends SequenceReaderState> tester = null;
+	SequenceReaderState state = null;
 	
 	private SpecializedCircuitUID craftingCell = null;
 	private UUID craftingPlayer = null;
@@ -70,21 +72,28 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 		inv = new ItemStack[8];
 	}
 	
-	public ControlBlockTester getTester() {
+	public CircuitSequenceReader<ControlTileEntity, ?> getTester() {
 		return tester;
 	}
 	
-	public TestState getState() {
+	public Optional<CircuitRecording> getRecording() {
+		if (getTester() instanceof CircuitRecorder) {
+			return ((CircuitRecorder) getTester()).getRecording();
+		}
+		return Optional.empty();
+	}
+	
+	public SequenceReaderState getState() {
 		return this.state;
 	}
 	
-	public boolean testInProgress() {
+	public boolean sequenceInProgress() {
 		if (tester != null) {
 			return tester.testInProgress();
 		}
 		return false;
 	}
-	public void stopTest() {
+	public void stopSequence() {
 		if (tester != null) {
 			tester.cleanup();
 		}
@@ -213,7 +222,7 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 		return RecipeDeterminer.getRecipeFor(getWorld(), craftingPlayer, uid.getUID());
 	}
 	
-	public void updateState(TestState newState) {
+	public void updateState(SequenceReaderState newState) {
 		this.state = newState;
 	}
 	
@@ -221,8 +230,13 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 		return this.worldObj;
 	}
 	
+	public void startCircuitRecording(String name, TestConfig config) {
+		this.tester = new CircuitRecorder(name, this, config);
+		this.state = tester.getState();
+	}
+	
 	//Server-only
-	public void startTest(UUID playerId, SpecializedCircuitUID circuitUID, TestConfig config) {
+	public void startCircuitTest(UUID playerId, SpecializedCircuitUID circuitUID, TestConfig config) {
 		
 		EntityPlayer player = getWorld().getPlayerEntityByUUID(playerId);
 		
@@ -235,7 +249,7 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 		this.state = tester.getState();
 	}
 	
-	public float getTestProgress() {
+	public float getProgress() {
 		if (state == null) {
 			return 0;
 		}
@@ -317,7 +331,7 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 		this.pendingGuiMessages = (HashMap<UUID, ServerGuiMessage>) 
 				                 SerialUtils.fromByteArray(getTileData().getByteArray("PendingGuiMessages"));
 		
-		this.state = (TestState) SerialUtils.fromByteArray(getTileData().getByteArray("TestState"));
+		this.state = (SequenceReaderState) SerialUtils.fromByteArray(getTileData().getByteArray("TestState"));
 		
 		this.craftingCell = (SpecializedCircuitUID) SerialUtils.fromByteArray(getTileData().getByteArray("CraftingCell"));
 		this.craftingPlayer = (UUID) SerialUtils.fromByteArray(getTileData().getByteArray("CraftingPlayer"));

@@ -1,48 +1,18 @@
 package com.circuits.circuitsmod.controlblock.tester.net;
 
-import io.netty.buffer.ByteBuf;
-
-import java.io.Serializable;
-import java.util.Optional;
-
-import com.circuits.circuitsmod.common.Log;
-import com.circuits.circuitsmod.common.SerialUtils;
-import com.circuits.circuitsmod.controlblock.ControlBlock;
-import com.circuits.circuitsmod.controlblock.ControlTileEntity;
+import java.util.UUID;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 
-public class TestStopRequest implements Serializable {
+public class TestStopRequest extends ControlTileEntityClientRequest {
 	private static final long serialVersionUID = 1L;
-	private Long pos;
-	public TestStopRequest(BlockPos pos) {
-		this.pos = pos.toLong();
+	public TestStopRequest(UUID playerId, BlockPos pos) {
+		super(playerId, pos);
 	}
-	public BlockPos getPos() {
-		return BlockPos.fromLong(pos);
-	}
-	public static void handleTestStopRequest(TestStopRequest in, World worldIn) {
-		Optional<ControlTileEntity> entity = ControlBlock.getControlTileEntityAt(worldIn, in.getPos());
-		if (!entity.isPresent()) {
-			Log.internalError("Attempting to stop circuit test at position " + in.getPos() +  " but no control TE present!");
-			return;
-		}
-		entity.get().stopTest();
-	}
-	public static class Message implements IMessage {
-		public TestStopRequest message = null;
-		public Message() { }
-		public Message(BlockPos pos) {
-			message = new TestStopRequest(pos);
-		}
-		@Override
-		public void fromBytes(ByteBuf in) {
-			message = (TestStopRequest) SerialUtils.fromBytes(in);
-		}
-		public void toBytes(ByteBuf in) {
-			SerialUtils.toBytes(in, message);
-		}
+	public static void handle(TestStopRequest in, World worldIn) {
+		in.performOnControlTE(worldIn, (entity) -> {
+			entity.stopSequence();
+		});
 	}
 }

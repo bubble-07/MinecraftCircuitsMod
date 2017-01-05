@@ -19,4 +19,10 @@ public class StringUtils {
 	}
 	public static final String SECTION_SYMBOL = Character.toString((char)0x00a7);
 	public static final String NULL_SYMBOL = Character.toString((char)0xF8);
+	
+	public static String sanitizeAlphaNumeric(String str) {
+		return str.chars().filter((in) -> Character.isLetterOrDigit(in))
+				          .mapToObj((i) -> ((Character) ((char) i)).toString())
+				          .reduce((s1, s2) -> s1 + s2).orElse("");
+	}
 }
