@@ -14,6 +14,7 @@ import com.circuits.circuitsmod.controlblock.tester.net.SequenceReaderStateUpdat
 import com.circuits.circuitsmod.tester.CircuitSequenceReader;
 import com.circuits.circuitsmod.tester.TestConfig;
 import com.circuits.circuitsmod.tester.UnbreakiumCageManager;
+import com.google.common.collect.Lists;
 
 public class CircuitRecorder extends CircuitSequenceReader<ControlTileEntity, RecordingState> {
 	
@@ -80,12 +81,18 @@ public class CircuitRecorder extends CircuitSequenceReader<ControlTileEntity, Re
 
 	@Override
 	public int getNumTests() {
-		return this.recording.getNumEntries();
+		if (this.recording != null) {
+			return this.recording.getNumEntries();
+		}
+		return 1;
 	}
 
 	@Override
 	public List<BusData> getCurrentInputCase() {
-		return this.recording.currentInputCase();
+		if (this.recording != null) {
+			return this.recording.currentInputCase();
+		}
+		return Lists.newArrayList();
 	}
 
 	@Override

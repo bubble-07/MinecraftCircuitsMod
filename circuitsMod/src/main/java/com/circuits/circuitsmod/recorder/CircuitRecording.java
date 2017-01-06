@@ -78,25 +78,25 @@ public class CircuitRecording implements Serializable {
 	
 	
 	private static String tab(String in) {
-		return Stream.of(in.split("\n")).map((s) -> "    " + s).reduce((s1, s2) -> s1 + s2).orElse("");
+		return Stream.of(in.split("\n")).map((s) -> "    " + s + "\n").reduce((s1, s2) -> s1 + s2).orElse("");
 	}
 	private static String printArray(int[] arr) {
-		return "{" + Arrays.toString(arr).substring(1, arr.length - 1) + "}";
+		return Arrays.toString(arr).replace('[', '{').replace(']', '}');
 	}
 	
 	public String toJavaSource() {
 		String result = "public class Implementation { \n";
 		String body = "";
 		body += "public int[] inputWidths() { \n" 
-				+ tab("return new int[]" + printArray(inputWidths)) + ";\n"
+				+ tab("return new int[]" + printArray(inputWidths) + ";\n")
 				+ "} \n";
 		body += "public int[] outputWidths() { \n"
-				+ tab("return new int[]" + printArray(outputWidths)) + ";\n"
+				+ tab("return new int[]" + printArray(outputWidths) + ";\n")
 				+ "} \n\n";
 		
 		for (int i = 0; i < outputWidths.length; i++) {
 			body += "long output" + i + ";\n";
-			body += "public long value" + i + " {\n"
+			body += "public long value" + i + "() {\n"
 					+ tab("return output" + i + ";\n")
 				    + "}\n";
 		}
@@ -112,7 +112,7 @@ public class CircuitRecording implements Serializable {
 		String tickBody = "";
 		for (Map.Entry<List<BusData>, List<BusData>> entry : getRecorded().entrySet()) {
 			long[] key = entry.getKey().stream().mapToLong(BusData::getData).toArray();
-			long[] value = entry.getKey().stream().mapToLong(BusData::getData).toArray();
+			long[] value = entry.getValue().stream().mapToLong(BusData::getData).toArray();
 			tickBody += "if (true";
 			for (int i = 0; i < key.length; i++) {
 				tickBody += " && input" + i + " == " + key[i];

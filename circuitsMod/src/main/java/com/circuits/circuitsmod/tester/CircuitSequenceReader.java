@@ -219,6 +219,9 @@ public abstract class CircuitSequenceReader<TEType extends TileEntity, StateType
 			Optional<BusSegment> segToPush = CircuitBlock.getBusSegmentAt(getWorld(), face);
 			if (segToPush.isPresent()) {
 				segToPush.get().accumulate(getWorld(), face, new BusData(64, toPush));
+				segToPush.get().forceUpdate(getWorld());
+				segToPush.get().accumulate(getWorld(), face, new BusData(64, toPush));
+				forceTEUpdateAt(face);
 				forceTEUpdateAt(face);
 			}
 		}

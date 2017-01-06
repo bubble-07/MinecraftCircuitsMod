@@ -51,7 +51,6 @@ public class ScrollableTextDisplay extends UIElement {
 
 	@Override
 	public void draw() {
-		// TODO Auto-generated method stub
 		String descrip = truncateToLines(text, scrollY, scrollY + MAX_DESCRIP_LINES);
 
 		parent.getFontRenderer().drawSplitString(descrip, 

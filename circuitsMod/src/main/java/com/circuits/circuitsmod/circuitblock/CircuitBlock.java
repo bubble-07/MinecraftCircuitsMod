@@ -11,6 +11,7 @@ import com.circuits.circuitsmod.common.BlockFace;
 import com.circuits.circuitsmod.common.Log;
 import com.google.common.collect.Lists;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;

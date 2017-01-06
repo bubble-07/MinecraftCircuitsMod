@@ -29,22 +29,24 @@ public class CustomCircuitRecordingReceiptPage extends ControlGuiPage {
 		if (textDisplay == null) {
 			parent.getFontRenderer().drawString("Waiting for Server Data", 
 				                            screenX, screenY + (screenHeight / 2), elementColor);
-			handleServerUpdates();
 		}
 		else {
 			parent.getFontRenderer().drawString("Datasheet", 
                     screenX, screenY, elementColor);
 		}
-		
+		handleServerUpdates();
 	}
 	public void handleServerUpdates() {
 		Optional<ServerGuiMessage> msg = parent.tileEntity.getGuiMessage(this.parent.user.getUniqueID());
 		if (msg.isPresent()) {
 			if (msg.get().getMessageKind().equals(GuiMessageKind.GUI_RECORDING_DATA)) {
-				ServerGuiMessage.RecordingData info = (ServerGuiMessage.RecordingData) msg.get().getData();
-				prev.getInfo().setRecording(info.getRecording());
+				ServerGuiMessage.RecordingData infos = (ServerGuiMessage.RecordingData) msg.get().getData();
+				prev.getInfo().setRecording(infos.getRecording());
 				
-				textDisplay = new ScrollableTextDisplay(parent, info.getRecording().toTableDisplayString());
+				if (textDisplay != null) {
+					this.removeElement(textDisplay);
+				}
+				textDisplay = new ScrollableTextDisplay(parent, infos.getRecording().toTableDisplayString());
 				this.addElement(textDisplay);
 				
 				addElement(new TextButton(parent, "Back", screenX + screenWidth - shortLabelWidth, screenY, () -> {

@@ -1,10 +1,13 @@
 package com.circuits.circuitsmod.controlblock.gui;
 
+import com.circuits.circuitsmod.CircuitsMod;
 import com.circuits.circuitsmod.common.Pair;
 import com.circuits.circuitsmod.controlblock.gui.model.CustomCircuitImage;
 import com.circuits.circuitsmod.controlblock.gui.model.CustomCircuitInfo;
 import com.circuits.circuitsmod.controlblock.gui.widgets.ColorButton;
 import com.circuits.circuitsmod.controlblock.gui.widgets.TextButton;
+import com.circuits.circuitsmod.network.TypedMessage;
+import com.circuits.circuitsmod.controlblock.tester.net.CompileRecordingRequest;
 
 public class CustomCircuitIconPage extends ControlGuiPage {
 	
@@ -42,9 +45,9 @@ public class CustomCircuitIconPage extends ControlGuiPage {
 			parent.setDisplayPage(prev);
 		}));
 		
-		this.addElement(new TextButton(parent, "Next", screenX + screenWidth - shortLabelWidth, screenY + screenHeight - shortLabelHeight, () -> {
-			//TODO: Compilation progress page or something?
-			//parent.setDisplayPage(new CustomCircuitIconPage(CustomCircuitDescriptionPage.this));
+		this.addElement(new TextButton(parent, "Done", screenX + screenWidth - shortLabelWidth, screenY + screenHeight - shortLabelHeight, () -> {
+			parent.setDisplayPage(new CustomCircuitCompilationPage(CustomCircuitIconPage.this));
+			CircuitsMod.network.sendToServer(new TypedMessage(new CompileRecordingRequest(parent.user.getUniqueID(), parent.tileEntity.getPos(), getInfo())));
 		}));
 	}
 	

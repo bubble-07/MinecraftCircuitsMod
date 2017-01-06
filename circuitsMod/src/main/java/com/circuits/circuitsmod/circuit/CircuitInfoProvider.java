@@ -116,7 +116,7 @@ public class CircuitInfoProvider {
     	public ModelResponseFromServer(ClientModelContainer modelContainer) {
     		this.modelContainer = modelContainer;
     	}
-		public static void handle(ModelResponseFromServer response) {
+		public static void handle(ModelResponseFromServer response, World worldIn) {
 			TickEvents.instance().addImmediateAction(() -> {
 				CircuitInfoProvider.clearState();
 				CircuitInfoProvider.infoMap = response.modelContainer.infoMap;

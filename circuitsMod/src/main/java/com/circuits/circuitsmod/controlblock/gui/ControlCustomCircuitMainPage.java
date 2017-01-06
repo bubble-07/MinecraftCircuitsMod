@@ -82,6 +82,9 @@ public class ControlCustomCircuitMainPage extends ControlGuiPage {
 					
 					saveInfo();
 					
+					this.getInfo().setRecording(null);
+					parent.tileEntity.stopSequence();
+					
 					parent.setDisplayPage(new RecordingProgressPage(thiz));
 					//Recording, ENGAGE
 					CircuitsMod.network.sendToServer(new TypedMessage(new RecordingRequest(thiz.getName(), parent.user.getUniqueID(), 

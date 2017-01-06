@@ -175,14 +175,6 @@ public class CircuitTileEntity extends TileEntity {
 		return RedstoneUtils.isSidePowered(getWorld(), getPos(), side);
 	}
 	
-	private void notifyNeighbor(EnumFacing side) {
-        BlockPos blockpos1 = pos.offset(side);
-        if(net.minecraftforge.event.ForgeEventFactory.onNeighborNotify(getWorld(), pos, getWorld().getBlockState(pos), java.util.EnumSet.of(side)).isCanceled())
-            return;
-        getWorld().notifyBlockOfStateChange(blockpos1, StartupCommonCircuitBlock.circuitBlock);
-        getWorld().notifyNeighborsOfStateExcept(blockpos1, StartupCommonCircuitBlock.circuitBlock, side.getOpposite());
-	}
-	
 	/**
 	 * Clears any impending inputs from this circuit tile entity,
 	 * and the old input states as well.
@@ -398,8 +390,7 @@ public class CircuitTileEntity extends TileEntity {
 				
 				//If we get a redstone signal, tell the next block over to update, and skip this
 				if (data.getWidth() == 1 || this.isAnalog(side)) {
-					notifyNeighbor(side);
-					notifyNeighbor(side.getOpposite());
+					getWorld().notifyNeighborsOfStateChange(getPos(), StartupCommonCircuitBlock.circuitBlock);
 					continue;
 				}
 				
@@ -520,7 +511,7 @@ public class CircuitTileEntity extends TileEntity {
 
 	public int getWeakPower(IBlockState state, EnumFacing side) {
 		if (impl != null) {
-			if (this.worldTick != getWorld().getTotalWorldTime()) {
+			if (Math.abs(this.worldTick - getWorld().getTotalWorldTime()) > 1) {
 				return redstoneOutputs[side.getIndex()];
 			}
 			return oldRedstoneOutputs[side.getIndex()];

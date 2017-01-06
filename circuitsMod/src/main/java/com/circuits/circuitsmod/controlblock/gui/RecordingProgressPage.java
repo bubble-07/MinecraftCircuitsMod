@@ -22,6 +22,7 @@ public class RecordingProgressPage extends SequenceProgressPage<ControlCustomCir
 	
 	@Override
 	public ControlGuiPage getSuccessPage() {
+		prev.getInfo().setRecording(null);
 		return new CustomCircuitRecordingReceiptPage(prev);
 	}
 

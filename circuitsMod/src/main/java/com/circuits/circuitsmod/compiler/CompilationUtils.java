@@ -1,9 +1,14 @@
 package com.circuits.circuitsmod.compiler;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Optional;
 import java.util.UUID;
+
+import javax.tools.JavaCompiler;
+import javax.tools.ToolProvider;
 
 import com.circuits.circuitsmod.TickEvents;
 import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
@@ -21,46 +26,29 @@ public class CompilationUtils {
 			return Optional.empty();
 		}
 		
-		File javaBinDirectory = new File(new File(System.getProperty("java.home")), "bin");
-		File javaBin;
-		
-		if (System.getProperty("os.name").startsWith("Win")) {
-		    javaBin = new File(javaBinDirectory, "java.exe");
-		} else {
-			javaBin = new File(javaBinDirectory, "java");
-		}
-		
-		String[] cmd = new String[]{javaBin.getAbsolutePath(), "Implementation.java"};
-		
-		try {
-			Process compilationProc = Runtime.getRuntime().exec(cmd, null, circuitDir);
-			CompilationUtils.compilationCheckAndRefresh(compilationProc, circuitDir, origin, player);
-		}
-		catch (IOException e) {
-			Log.internalError("Failed to compile circuit in " + circuitDir);
-			return Optional.empty();
-		}
-		
-		return Optional.of(circuitDir);
-	}
-
-	public static Runnable compilationCheckAndRefresh(Process compilationProc, File circuitDir, ControlTileEntity origin, UUID player) {
-		return () -> {
-			if (compilationProc.isAlive()) {
-				TickEvents.instance().addDelayedAction(compilationCheckAndRefresh(compilationProc, circuitDir, origin, player));
+		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+		if (compiler != null) {
+			int code = compiler.run(null, null, null, javaFile.getPath());
+			if (code != 0) {
+				Log.internalError("Failed to compile circuit in " + circuitDir);
 			}
-			else {
-				File implClass = new File(circuitDir, "Implementation.class");
-				if (implClass.exists()) {
-					//Successful compilation! Refresh things!
-					TickEvents.instance().addImmediateAction(CircuitInfoProvider::refreshServerInfoAndSendToClient);
-				}
-				//In any case, return the result to the waiting Control GUI
-				origin.postGuiMessage(player, 
-						new ServerGuiMessage(ServerGuiMessage.GuiMessageKind.GUI_COMPILATION_RESULT, 
-								             new ServerGuiMessage.CompilationResult(implClass.exists())));
-			}
-		};
+		}
+		else {
+			Log.internalError("Are you sure the JDK is installed?");
+		}
+		
+		File implClass = new File(circuitDir, "Implementation.class");
+		if (implClass.exists()) {
+			//Successful compilation! Refresh things!
+			CircuitInfoProvider.refreshServerInfoAndSendToClient();
+		}
+		//In any case, return the result to the waiting Control GUI
+		origin.postGuiMessage(player, 
+				new ServerGuiMessage(ServerGuiMessage.GuiMessageKind.GUI_COMPILATION_RESULT, 
+						             new ServerGuiMessage.CompilationResult(implClass.exists())));
+		
+		
+		return implClass.exists() ? Optional.of(circuitDir) : Optional.empty();
 	}
 
 }

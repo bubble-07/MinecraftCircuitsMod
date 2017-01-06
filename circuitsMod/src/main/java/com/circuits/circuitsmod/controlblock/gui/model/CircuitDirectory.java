@@ -60,7 +60,10 @@ public class CircuitDirectory implements CircuitTreeNode {
 	}
 	
 	public CircuitTreeNode getChildAt(int ind) {
-		return children.get(ind);
+		if (ind < children.size() && ind >= 0) {
+			return children.get(ind);
+		}
+		return null;
 	}
 
 	@Override

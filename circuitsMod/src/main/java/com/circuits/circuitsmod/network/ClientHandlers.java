@@ -13,6 +13,6 @@ public class ClientHandlers extends Handlers {
 
 	@Override
 	public List<Class<?>> getRequestKinds() {
-		return Lists.newArrayList(CircuitInfoProvider.SpecializedInfoResponseFromServer.class);
+		return Lists.newArrayList(CircuitInfoProvider.SpecializedInfoResponseFromServer.class, CircuitInfoProvider.ModelResponseFromServer.class);
 	}
 }
