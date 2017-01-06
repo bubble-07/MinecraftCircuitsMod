@@ -16,4 +16,5 @@ public class PersistentCircuitUIDs {
 	public static int OUTPUT_CIRCUIT = 22;
 	public static int DAC_CIRCUIT = 10;
 	public static int ADC_CIRCUIT = 11;
+	public static int CLOCK_CIRCUIT = 12;
 }

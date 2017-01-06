@@ -1,3 +1,5 @@
+//FIXME: Broken test! Also should consider whether or not the reset input
+//should factor into this test at all!
 public class Tests {
 
     //For the test of the clock, we really, really don't care about
@@ -32,7 +34,7 @@ public class Tests {
             }
 
             tick++;
-            return ((((tick - 1) - risingEdgeHitTime) / clockLen) % 2) != (out % 2);
+            return (((tick - risingEdgeHitTime - 1) / clockLen) % 2) != (out % 2);
         }
         
         public String config(int clockLen) {

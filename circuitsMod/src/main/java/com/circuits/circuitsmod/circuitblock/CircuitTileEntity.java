@@ -81,7 +81,9 @@ public class CircuitTileEntity extends TileEntity {
 	 */
 	private int[] redstoneOutputs = new int[EnumFacing.values().length];
 	
-	private int[] oldRedstoneOutputs = new int[EnumFacing.values().length];
+	private int[] redstoneInputs = new int[EnumFacing.values().length];
+	private int[] pendingRedstoneInputs = new int[EnumFacing.values().length];
+
 		
 	/**
 	 * List of current impending inputs to this CircuitTileEntity,
@@ -111,7 +113,7 @@ public class CircuitTileEntity extends TileEntity {
 	private NBTTagCompound loadingFromFile = null;
 	
 	public void receiveInput(EnumFacing face, BusData data) {
-		if (wireMapper == null) {
+		if (wireMapper == null || this.impl == null) {
 			return;
 		}
 		Optional<Integer> inputIndex = wireMapper.getInputIndexOf(face);
@@ -120,6 +122,9 @@ public class CircuitTileEntity extends TileEntity {
 		}
 		pendingInputs--;
 		if (pendingInputs <= 0) {
+			if (!this.getWorld().isRemote) {
+				CircuitInfoProvider.createSpecializedInfoFor(circuitUID);
+			}
 			this.pendingInputs = CircuitInfoProvider.getNumInputs(circuitUID);
 			finalizeInputs();
 		}
@@ -168,11 +173,11 @@ public class CircuitTileEntity extends TileEntity {
 	}
 	
 	int getSidePower(EnumFacing side) {
-		return RedstoneUtils.getSidePower(getWorld(), getPos(), side);
+		return this.redstoneInputs[side.getIndex()];
 	}
 	
 	boolean isSidePowered(EnumFacing side) {
-		return RedstoneUtils.isSidePowered(getWorld(), getPos(), side);
+		return getSidePower(side) > 0;
 	}
 	
 	/**
@@ -293,6 +298,19 @@ public class CircuitTileEntity extends TileEntity {
 		update(getWorld().getBlockState(getPos()));
 	}
 	
+	public void updateRedstoneInputs() {
+		if (this.getWorld().getTotalWorldTime() != this.worldTick) {
+			for (EnumFacing facing : EnumFacing.values()) {
+				this.pendingRedstoneInputs[facing.getIndex()] = RedstoneUtils.getSidePower(getWorld(), getPos(), facing);
+			}
+		}
+		else {
+			for (EnumFacing facing : EnumFacing.values()) {
+				this.redstoneInputs[facing.getIndex()] = RedstoneUtils.getSidePower(getWorld(), getPos(), facing);
+			}
+		}
+	}
+	
 	public void update(IBlockState state) {
 		
 		this.worldTick = getWorld().getTotalWorldTime();
@@ -359,8 +377,11 @@ public class CircuitTileEntity extends TileEntity {
 				}
 			}
 			
-			this.oldRedstoneOutputs = IntStream.of(this.redstoneOutputs).toArray();
-			
+			for (int i = 0; i < this.redstoneInputs.length; i++) {
+				redstoneInputs[i] = pendingRedstoneInputs[i];
+			}
+			this.updateRedstoneInputs();
+						
 			clearOutputs();
 			
 			//Okay, now that in theory, we have a complete input list, generate the output list
@@ -423,7 +444,8 @@ public class CircuitTileEntity extends TileEntity {
 		result.setLong("CircuitWorldTick", this.worldTick);
 		
 		result.setIntArray("CircuitRedstoneOutputs", redstoneOutputs);
-		result.setIntArray("OldCircuitRedstoneOutputs", oldRedstoneOutputs);
+		result.setIntArray("CircuitRedstoneInputs", redstoneInputs);
+		result.setIntArray("CircuitPendingRedstoneInputs", pendingRedstoneInputs);
 		
 		return result;
 	}
@@ -433,10 +455,16 @@ public class CircuitTileEntity extends TileEntity {
 		this.worldTick = compound.getLong("CircuitWorldTick");
 		
 		int[] redstoneOutputs = compound.getIntArray("CircuitRedstoneOutputs");
-		int[] oldRedstoneOutputs = compound.getIntArray("OldCircuitRedstoneOutputs");
-		if (redstoneOutputs.length != 0 && oldRedstoneOutputs.length != 0) {
+		if (redstoneOutputs.length != 0) {
 			this.redstoneOutputs = redstoneOutputs;
-			this.oldRedstoneOutputs = oldRedstoneOutputs;
+		}
+		int[] redstoneInputs = compound.getIntArray("CircuitRedstoneInputs");
+		if (redstoneInputs.length != 0) {
+			this.redstoneInputs = redstoneInputs;
+		}
+		int[] pendingRedstoneInputs = compound.getIntArray("CircuitPendingRedstoneInputs");
+		if (pendingRedstoneInputs.length != 0) {
+			this.pendingRedstoneInputs = pendingRedstoneInputs;
 		}
 		
 		Optional<List<BusData>> pendingInputDatas = BusData.listFromBytes(compound.getByteArray("PendingCircuitInputState"));
@@ -511,10 +539,7 @@ public class CircuitTileEntity extends TileEntity {
 
 	public int getWeakPower(IBlockState state, EnumFacing side) {
 		if (impl != null) {
-			if (Math.abs(this.worldTick - getWorld().getTotalWorldTime()) > 1) {
-				return redstoneOutputs[side.getIndex()];
-			}
-			return oldRedstoneOutputs[side.getIndex()];
+			return redstoneOutputs[side.getIndex()];
 		}
 		
 		return 0;

@@ -40,7 +40,7 @@ public class CompilationUtils {
 		File implClass = new File(circuitDir, "Implementation.class");
 		if (implClass.exists()) {
 			//Successful compilation! Refresh things!
-			CircuitInfoProvider.refreshServerInfoAndSendToClient();
+			TickEvents.instance().addDelayedAction(CircuitInfoProvider::refreshServerInfoAndSendToClient);
 		}
 		//In any case, return the result to the waiting Control GUI
 		origin.postGuiMessage(player, 

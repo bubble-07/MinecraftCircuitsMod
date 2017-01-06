@@ -127,7 +127,7 @@ public abstract class CircuitSequenceReader<TEType extends TileEntity, StateType
 		return 1000;
 	}
 	
-	protected void fail(String failureReason) {
+	public void fail(String failureReason) {
 		this.finished = true;
 		this.success = false;
 		this.failureReason = failureReason;

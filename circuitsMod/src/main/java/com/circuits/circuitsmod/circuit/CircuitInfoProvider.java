@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalInt;
@@ -15,6 +16,7 @@ import com.circuits.circuitsmod.circuitblock.WireDirectionMapper.WireDirectionGe
 import com.circuits.circuitsmod.common.FileUtils;
 import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.Pair;
+import com.circuits.circuitsmod.common.StringUtils;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitCell;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitDirectory;
 import com.circuits.circuitsmod.controlblock.gui.model.CircuitTreeModel;
@@ -22,10 +24,14 @@ import com.circuits.circuitsmod.network.TypedMessage;
 import com.circuits.circuitsmod.reflective.ChipImpl;
 import com.circuits.circuitsmod.reflective.ChipInvoker;
 import com.circuits.circuitsmod.reflective.SpecializedChipImpl;
+import com.google.common.collect.Lists;
+import com.google.gson.Gson;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
@@ -117,16 +123,14 @@ public class CircuitInfoProvider {
     		this.modelContainer = modelContainer;
     	}
 		public static void handle(ModelResponseFromServer response, World worldIn) {
-			TickEvents.instance().addImmediateAction(() -> {
-				CircuitInfoProvider.clearState();
-				CircuitInfoProvider.infoMap = response.modelContainer.infoMap;
-				CircuitInfoProvider.circuitTree = response.modelContainer.circuitTree;
-			});
+			CircuitInfoProvider.clearState();
+			CircuitInfoProvider.infoMap = response.modelContainer.infoMap;
+			CircuitInfoProvider.circuitTree = response.modelContainer.circuitTree;
 		}
     }
     
     private static File getUIDMapFile() {
-    	return new File(FileUtils.getWorldSaveDir().getPath() + "/uidmap");
+    	return new File(FileUtils.getWorldSaveDir().getPath() + "/uidmap.nbt");
     }
     
     public static Optional<CircuitUID> getUIDFromFolderName(String name) {
@@ -168,14 +172,42 @@ public class CircuitInfoProvider {
     	return circuitTree;
     }
     
+    private static Optional<HashMap<String, CircuitUID>> uidMapFromFile(File file) {
+    	try {
+    		NBTTagCompound cpd = CompressedStreamTools.read(file);
+    		HashMap<String, CircuitUID> result = new HashMap<>();
+    		for (String key : cpd.getKeySet()) {
+    			Integer value = cpd.getInteger(key);
+    			result.put(key, CircuitUID.fromInteger(value));
+    		}
+    		return Optional.of(result);
+    	}
+    	catch (IOException e) {
+    		return Optional.empty();
+    	}
+    }
+    
+    private static void uidMapToFile(File file, HashMap<String, CircuitUID> uidMap) {
+    	try {
+    		NBTTagCompound cpd = new NBTTagCompound();
+    		for (String key : uidMap.keySet()) {
+    			cpd.setInteger(key, uidMap.get(key).toInteger());
+    		}
+    		CompressedStreamTools.write(cpd, file);
+    	}
+    	catch (IOException e) {
+    		Log.internalError("Failed to write uidMap!");
+    	}
+    }
+    
     public static void loadUIDMapFromFile() {
     	folderToUIDMap = new HashMap<String, CircuitUID>();
-    	Optional<Object> uidMap = Optional.empty();
+    	Optional<HashMap<String, CircuitUID>> uidMap = Optional.empty();
     	if (getUIDMapFile().exists()) {
-    		uidMap = FileUtils.objectFromFile(getUIDMapFile());
+    		uidMap = uidMapFromFile(getUIDMapFile());
     	}
     	if (uidMap.isPresent()) {
-    		folderToUIDMap = (HashMap<String, CircuitUID>) uidMap.get();
+    		folderToUIDMap = uidMap.get();
     	}
     	//No matter what, make sure that the defaults are always in the right place
     	loadUIDMapDefaults();
@@ -186,7 +218,7 @@ public class CircuitInfoProvider {
     }
     
     public static void saveUIDMapToFile() {
-    	FileUtils.objectToFile(getUIDMapFile(), folderToUIDMap);
+    	uidMapToFile(getUIDMapFile(), folderToUIDMap);
     }
     
     private static Runnable clientModelInitRunnable = () -> {
@@ -384,6 +416,21 @@ public class CircuitInfoProvider {
 	
 	public static Optional<CircuitCell> getCellFor(CircuitUID uid) {
 		return circuitTree.getRootDirectory().locateCellForUID(uid);
+	}
+	
+	public static List<CircuitCell> getCellsWithName(String circuitName) {
+		String sanitized = StringUtils.sanitizeAlphaNumeric(circuitName);
+		List<CircuitCell> dups = Lists.newArrayList();
+		circuitTree.getRootDirectory().applyToCellsRecursively((cell) -> {
+			if (cell.getName().equalsIgnoreCase(sanitized)) {
+				dups.add(cell);
+			}
+		});
+		return dups;
+	}
+	
+	public static boolean nameAlreadyTaken(String circuitName) {
+		return !getCellsWithName(circuitName).isEmpty();
 	}
 	
 	/**

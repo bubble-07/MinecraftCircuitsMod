@@ -13,6 +13,7 @@ import com.circuits.circuitsmod.circuitblock.CircuitItem;
 import com.circuits.circuitsmod.common.ItemUtils;
 import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.common.SerialUtils;
+import com.circuits.circuitsmod.common.StringUtils;
 import com.circuits.circuitsmod.controlblock.gui.net.ServerGuiMessage;
 import com.circuits.circuitsmod.recipes.RecipeDeterminer;
 import com.circuits.circuitsmod.recorder.CircuitRecorder;
@@ -233,6 +234,9 @@ public class ControlTileEntity extends TileEntity implements IInventory, ITickab
 	public void startCircuitRecording(String name, TestConfig config) {
 		this.tester = new CircuitRecorder(name, this, config);
 		this.state = tester.getState();
+		if (CircuitInfoProvider.nameAlreadyTaken(name)) {
+			tester.fail("Name Taken!");
+		}
 	}
 	
 	//Server-only

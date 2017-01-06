@@ -97,6 +97,15 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 		}
     }
 	
+    @Override
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn)
+    {
+		Optional<CircuitTileEntity> te = CircuitBlock.getCircuitTileEntityAt(worldIn, pos);
+		if (te.isPresent()) {
+			te.get().updateRedstoneInputs();
+		}
+    }
+	
 	@Override
     public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
 		if (side == null) {
@@ -113,6 +122,7 @@ public class CircuitBlock extends BlockDirectional implements ITileEntityProvide
 	private void updateTEIfNecessary(CircuitTileEntity TE, IBlockState state) {
 		if (TE.getWorld().getTotalWorldTime() % 2 != 0) {
 			TE.getWorld().scheduleUpdate(TE.getPos(), StartupCommonCircuitBlock.circuitBlock, 1);
+			TE.updateRedstoneInputs();
 			return;
 		}
 		TE.getWorld().scheduleUpdate(TE.getPos(), StartupCommonCircuitBlock.circuitBlock, 2);

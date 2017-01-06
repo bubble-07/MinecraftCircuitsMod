@@ -56,7 +56,8 @@ public class RecipeUtils {
 	}
 	
 	//Costs for circuits that are fixed (like the ADC/DAC) because they're just a pain to build,
-	//or for things like inputs/outputs/combiners/splitters which are impossible to build (primitives)
+	//or for things like inputs/outputs/combiners/splitters which are impossible to build (primitives),
+	//or for things that are entirely trivial (like delay circuits)
 	public static HashMap<CircuitUID, List<ItemStack>> persistentCosts = new HashMap<>();
 	static {
 		addCost(PersistentCircuitUIDs.INPUT_CIRCUIT, new ItemStack(Items.REDSTONE, 1), new ItemStack(Blocks.STONE, 1));
@@ -68,6 +69,9 @@ public class RecipeUtils {
 		addCost(PersistentCircuitUIDs.INPUT_SELECT_CIRCUIT, new ItemStack(Items.REDSTONE, 2));
 		addCost(PersistentCircuitUIDs.OUTPUT_SELECT_CIRCUIT, new ItemStack(Items.REDSTONE, 2));
 		addCost(PersistentCircuitUIDs.DELAY_CIRCUIT, new ItemStack(Items.REDSTONE, 3), new ItemStack(Blocks.STONE, 3));
+		//TODO: Are clocks non-trivial? Whatever the case, test is broken for them, so putting them here for now :P
+		addCost(PersistentCircuitUIDs.CLOCK_CIRCUIT, new ItemStack(Items.REDSTONE, 6), new ItemStack(Blocks.STONE, 6));
+
 	}
 	
 	private static void addCost(Integer id, ItemStack... cost) {

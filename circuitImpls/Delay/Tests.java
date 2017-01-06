@@ -22,7 +22,7 @@ public class Tests {
     
     public boolean test(long out) {
         tick++;
-        return (testCase(tick - delayLen - 1) % maxVal) == (out % maxVal);
+        return (testCase(tick - delayLen) % maxVal) == (out % maxVal);
     }
     
     public String config(int delayLen, int bitWidth) {
