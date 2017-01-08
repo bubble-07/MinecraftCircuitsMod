@@ -1,4 +1,7 @@
 .metadata/*
 .recommenders/*
+.settings/*
+.project/*
+.gradle/*
 circuitsMod/logs/*
 circuitsMod/run/*
