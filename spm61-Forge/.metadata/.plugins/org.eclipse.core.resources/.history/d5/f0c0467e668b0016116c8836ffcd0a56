@@ -1,9 +1,0 @@
-{
-    "variants": {
-           "burning_sides_count=0": { "model": "minecraftcircuits:controlblock_model_0"},
-           "burning_sides_count=1": { "model": "minecraftcircuits:controlblock_model_1"},
-           "burning_sides_count=2": { "model": "minecraftcircuits:controlblock_model_2"},
-           "burning_sides_count=3": { "model": "minecraftcircuits:controlblock_model_3"},
-           "burning_sides_count=4": { "model": "minecraftcircuits:controlblock_model_4"}
-    }
-}
