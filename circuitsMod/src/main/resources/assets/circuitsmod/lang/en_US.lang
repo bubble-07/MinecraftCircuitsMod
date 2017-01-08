@@ -1,2 +1,9 @@
-tile.frameblock.name=FrameBlock
+tile.frameblock.name=Frame
 tile.controlblock.name=ControlBlock
+tile.busblock.twobit.name=2-Bit Bus
+tile.busblock.fourbit.name=4-Bit Bus
+tile.busblock.eightbit.name=8-Bit Bus
+tile.busblock.sixteenbit.name=16-Bit Bus
+tile.busblock.thirtytwobit.name=32-Bit Bus
+tile.busblock.sixtyfourbit.name=64-Bit Bus
+tile.unbreakiumblock.name=Unbreakium

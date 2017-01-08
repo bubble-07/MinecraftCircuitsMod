@@ -1,15 +1,15 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
+  "modid": "circuitsmod",
+  "name": "Circuits Mod",
+  "description": "Downsize real redstone circuits to a single block! Push the limits of Minecraft redstone by defining circuit behaviors in Java!",
+  "version": "1.0",
+  "mcversion": "1.10.2",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
-  "logoFile": "",
+  "authorList": ["bubble-07, spm61, littlegban"],
+  "credits": "Alex Grabanski (bubble-07): Original POC, Circuit + Bus code, Control GUI\n Sean Moroney (spm61): Initial overworld testing code, puzzle dimension (WIP) \n Jordan Grabanski (littlegban): Overworld Textures",
+  "logoFile": "assets/circuitsmod/textures/blocks/controlblock.png",
   "screenshots": [],
   "dependencies": []
 }

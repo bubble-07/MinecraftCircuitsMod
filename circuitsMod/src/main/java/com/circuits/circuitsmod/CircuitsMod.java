@@ -29,7 +29,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
-@Mod(modid = CircuitsMod.MODID, version = CircuitsMod.VERSION)
+@Mod(modid = CircuitsMod.MODID, version = CircuitsMod.VERSION, name="Circuits Mod")
 public class CircuitsMod
 {
     public static final String MODID = "circuitsmod";

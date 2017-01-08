@@ -128,12 +128,12 @@ public class BusBlock extends Block implements IMetaBlockName {
 
 
 	public enum BitWidth implements IStringSerializable {
-		TWOBIT(0, 2, "twobit", "2-bit Bus"),
-		FOURBIT(1, 4, "fourbit", "4-bit Bus"),
-		EIGHTBIT(2, 8, "eightbit", "8-bit Bus"),
-		SIXTEENBIT(3, 16, "sixteenbit", "16-bit Bus"),
-		THIRTYTWOBIT(4, 32, "thirtytwobit", "32-bit Bus"),
-		SIXTYFOURBIT(5, 64, "sixtyfourbit", "64-bit Bus");
+		TWOBIT(0, 2, "twobit"),
+		FOURBIT(1, 4, "fourbit"),
+		EIGHTBIT(2, 8, "eightbit"),
+		SIXTEENBIT(3, 16, "sixteenbit"),
+		THIRTYTWOBIT(4, 32, "thirtytwobit"),
+		SIXTYFOURBIT(5, 64, "sixtyfourbit");
 
 		/**
 		 * The metadata tag stored in the high bits of the bus' metadata for this given bit width.
@@ -146,13 +146,10 @@ public class BusBlock extends Block implements IMetaBlockName {
 
 		private final String internalname;
 
-		private final String externalname;
-
-		BitWidth(int meta_tag, int bit_width, String internalname, String externalname) {
+		BitWidth(int meta_tag, int bit_width, String internalname) {
 			this.meta_tag = meta_tag;
 			this.bit_width = bit_width;
 			this.internalname = internalname;
-			this.externalname = externalname;
 		}
 
 		public int getTag() {
@@ -164,10 +161,6 @@ public class BusBlock extends Block implements IMetaBlockName {
 		public String getName() {
 			return internalname;
 		}
-		public String getDisplayName() {
-			return externalname;
-		}
-
 	}  
 
 	private static final String widthTag = "bitwidth";
@@ -408,7 +401,7 @@ public class BusBlock extends Block implements IMetaBlockName {
 
 	@Override
 	public String getSpecialName(ItemStack stack) {
-		return BusBlock.busWidths[stack.getItemDamage()].getDisplayName();
+		return BusBlock.busWidths[stack.getItemDamage()].getName();
 	}
 
 	@Override

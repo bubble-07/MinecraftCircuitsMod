@@ -13,6 +13,12 @@ gradle
 config
 build.gradle
 
+#saves
+saves/*
+
+#screenshots
+screenshots/*
+
 # eclipse
 bin
 *.launch
@@ -27,6 +33,12 @@ out
 *.iws
 *.iml
 .idea
+
+# logs
+*.log
+
+# crash reports
+crash-reports
 
 # gradle
 build
