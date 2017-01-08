@@ -2,6 +2,7 @@
 .recommenders/*
 .settings/*
 .project/*
+.project
 .gradle/*
 .classpath
 circuitsMod/logs/*
