@@ -3,5 +3,7 @@
 .settings/*
 .project/*
 .gradle/*
+.classpath
 circuitsMod/logs/*
 circuitsMod/run/*
+forge-1.10.2-12.18.1.2094-mdk.zip
