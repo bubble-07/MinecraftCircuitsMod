@@ -44,6 +44,10 @@ public class CircuitTileEntity extends TileEntity {
 	
 	public void setBusSegment(EnumFacing face, BusSegment seg) {
 		connectedBuses.put(face, seg);
+		Optional<Integer> inputIndex = wireMapper.getInputIndexOf(face);
+		if (inputIndex.isPresent()) {
+			pendingInputData.set(inputIndex.get(), seg.getCurrentVal());
+		}
 	}
 	
 	public SpecializedCircuitUID getCircuitUID() {
@@ -245,7 +249,6 @@ public class CircuitTileEntity extends TileEntity {
 			if (seg.isPresent()) {
 				//Must be a direct connection
 				this.getBusSegment(face).get().unifyWith(getWorld(), seg.get());
-				this.getBusSegment(face).get().forceUpdate(getWorld());
 			}
 			else {
 				//Might be a bus, in which case we'll treat all surrounding buses as if they were just placed.

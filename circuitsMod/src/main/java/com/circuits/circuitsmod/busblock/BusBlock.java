@@ -302,8 +302,6 @@ public class BusBlock extends Block implements IMetaBlockName {
 					overlord.unifyWith(worldIn, seg);
 				}
 			}
-			//Okay, now that we've unified all of the bus segments, force an update
-			overlord.forceUpdate(worldIn);
 		}
 
 	}
@@ -351,8 +349,6 @@ public class BusBlock extends Block implements IMetaBlockName {
 			for (BlockFace bf : equivClass) {
 				CircuitBlock.setBusSegmentAt(worldIn, bf, classSeg);
 			}
-			//Okay, cool. Now force an update on the newly-split bus segments
-			classSeg.forceUpdate(worldIn);
 		}
 			
 	}

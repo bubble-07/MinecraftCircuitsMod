@@ -55,17 +55,14 @@ public class BusSegment {
 				result.addOutput(face);
 			}
 		}
-		result.currentVal = this.currentVal.copy();
 		result.receivedInputData = new HashMap<>();
-		/*
-		 * TODO: (don't need to for now, just results in blinkenlights whenever buses are split) Restore this and do the right thing.
-		 * Was removed originally to force bus segment values to zero on delete, because there's a bug where no-input buses keep their values
-		 * after delete.
+		
 		for (BlockFace inputFace : result.inputs) {
 			if (this.receivedInputData.containsKey(inputFace)) {
 				result.receivedInputData.put(inputFace, this.receivedInputData.get(inputFace));
 			}
-		}*/
+		}
+		result.currentVal = result.computeOutput();
 		return result;
 	}
 	
@@ -87,6 +84,7 @@ public class BusSegment {
 		for (Entry<BlockFace, BusData> otherData : other.receivedInputData.entrySet()) {
 			this.receivedInputData.put(otherData.getKey(), otherData.getValue());
 		}
+		this.currentVal = this.computeOutput();
 		
 		for (BlockFace inFace : other.inputs) {
 			CircuitBlock.setBusSegmentAt(worldIn, inFace, this);
