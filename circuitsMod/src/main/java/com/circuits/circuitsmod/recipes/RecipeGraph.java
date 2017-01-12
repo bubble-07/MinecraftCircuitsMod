@@ -85,13 +85,16 @@ public class RecipeGraph {
 	}
 	
 	private void constructHelper(ItemStack output, Collection<ItemStack> inputs) {
+		if (output == null || output.getItem() == null) {
+			return;
+		}
 
 		Node source = getNode(new ItemData(output));
 		
 		List<ItemStack> summedCost = (new CostList().addItemStacks(inputs, 1.0f)).extractItemStack();
 
 		for (ItemStack input : summedCost) {
-			if (input != null && input.stackSize > 0) {
+			if (input != null && input.stackSize > 0 && input.getItem() != null) {
 				Node dest = getNode(new ItemData(input));
 				float edgeWeight = ((float) input.stackSize) / ((float) output.stackSize);
 				source.indegree++;
@@ -183,7 +186,7 @@ public class RecipeGraph {
 		}
 		public CostList addItemStacks(Collection<ItemStack> toAdd, float multiplier) {
 			for (ItemStack item : toAdd) {
-				if (item != null) {
+				if (item != null && item.getItem() != null) {
 					addItemStack(item, multiplier);
 				}
 			}
