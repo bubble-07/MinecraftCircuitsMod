@@ -3,11 +3,11 @@ package com.circuits.circuitsmod.controlblock.gui.widgets;
 import com.circuits.circuitsmod.controlblock.gui.ControlGui;
 
 public abstract class UIElement {
-	int x;
-	int y;
-	int width;
-	int height;
-	ControlGui parent;
+	protected int x;
+	protected int y;
+	protected int width;
+	protected int height;
+	protected ControlGui parent;
 
 	public UIElement(ControlGui parent, int x, int y, int width, int height) {
 		this.x = x;

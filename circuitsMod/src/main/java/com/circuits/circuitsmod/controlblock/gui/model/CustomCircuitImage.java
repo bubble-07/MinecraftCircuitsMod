@@ -60,11 +60,78 @@ public class CustomCircuitImage implements Serializable {
 		return Color.WHITE;
 	}
 	
-	public void fillRect(int x1, int y1, int x2, int y2, Color val) {
-		x1 = Math.min(x1, x2);
-		x2 = Math.max(x1, x2);
-		y1 = Math.min(y1, y2);
-		y2 = Math.max(y1, y2);
+	/**
+	 * Implementation of Bresenham's line algorithm for the vertical-ish case
+	 * @param x1
+	 * @param x2
+	 * @param y1
+	 * @param y2
+	 * @param val
+	 */
+	private void drawLineVert(int x1, int x2, int y1, int y2, Color val,
+			                  boolean incrX, boolean incrY) {
+		float dx = x2 - x1;
+		float dy = y2 - y1;
+		float derr = Math.abs(((float) dx) / ((float) dy));
+		float error = derr - 0.5f;
+		int x = incrX ? x1 : x2;
+		for (int y = incrY ? y1 : y2; y != (incrY ? y2 + 1 : y1 - 1); y += (incrY ? 1 : -1)) {
+			setPixel(x, y, val);
+			error += derr;
+			if (error >= 0.5f) {
+				x += incrX ? 1 : -1;
+				error -= 1.0f;
+			}
+		}
+	}
+	/**
+	 * Implementation of Bresenham's line algorithm for the horizontal-ish case
+	 * @param x1
+	 * @param x2
+	 * @param y1
+	 * @param y2
+	 * @param val
+	 */
+	private void drawLineHoriz(int x1, int x2, int y1, int y2, Color val,
+			                   boolean incrX, boolean incrY) {
+		float dx = x2 - x1;
+		float dy = y2 - y1;
+		float derr = Math.abs(((float) dy) / ((float) dx));
+		float error = derr - 0.5f;
+		int y = incrY ? y1 : y2;
+		for (int x = incrX ? x1 : x2; x != (incrX ? x2 + 1 : x1 - 1); x += (incrX ? 1 : -1)) {
+			setPixel(x, y, val);
+			error += derr;
+			if (error >= 0.5f) {
+				y += incrY ? 1 : -1;
+				error -= 1.0f;
+			}
+		}
+	}
+	
+	public void drawLine(int x10, int y10, int x20, int y20, Color val) {
+		int x1 = Math.min(x10, x20);
+		int x2 = Math.max(x10, x20);
+		int y1 = Math.min(y10, y20);
+		int y2 = Math.max(y10, y20);
+		boolean incrX = (x20 - x10) > 0;
+		boolean incrY = (y20 - y10) > 0;
+		if (x2 - x1 > y2 - y1) {
+			drawLineHoriz(x1, x2, y1, y2, val, incrX, incrY);
+		}
+		else if (y2 - y1 >= x2 - x1 && y2 - y1 > 0) {
+			drawLineVert(x1, x2, y1, y2, val, incrX, incrY);
+		}
+		else {
+			setPixel(x1, x2, val);
+		}
+	}
+	
+	public void fillRect(int x10, int y10, int x20, int y20, Color val) {
+		int x1 = Math.min(x10, x20);
+		int x2 = Math.max(x10, x20);
+		int y1 = Math.min(y10, y20);
+		int y2 = Math.max(y10, y20);
 		for (int x = x1; x <= x2; x++) {
 			for (int y = y1; y <= y2; y++) {
 				setPixel(x, y, val);
