@@ -13,6 +13,8 @@ import com.circuits.circuitsmod.recipes.RecipeGraph;
 import java.util.logging.Logger;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -27,7 +29,9 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 @Mod(modid = CircuitsMod.MODID, version = CircuitsMod.VERSION, name="Circuits Mod")
 public class CircuitsMod

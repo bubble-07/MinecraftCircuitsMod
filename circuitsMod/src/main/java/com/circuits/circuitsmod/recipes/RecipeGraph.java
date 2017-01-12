@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.circuits.circuitsmod.common.Log;
 import com.circuits.circuitsmod.controlblock.StartupCommonControl;
 import com.circuits.circuitsmod.frameblock.StartupCommonFrame;
 
@@ -139,7 +140,13 @@ public class RecipeGraph {
 				else if (input instanceof List) {
 					//Just add the first ore in the ore list as the representative for the ore group
 					List<ItemStack> in = (List<ItemStack>) input;
-					stacks.add(in.get(0));
+					if (in.size() == 0) {
+						Log.userError("Another mod declares an ore with no registered items, and uses them in crafting recipe! " + 
+								      "ignoring as if nothing really strange just happened");
+					}
+					else {
+						stacks.add(in.get(0));
+					}
 				}
 			}
 		}
