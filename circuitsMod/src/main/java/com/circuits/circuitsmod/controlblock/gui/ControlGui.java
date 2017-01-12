@@ -3,6 +3,7 @@ package com.circuits.circuitsmod.controlblock.gui;
 import java.awt.Color;
 import java.io.IOException;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.circuits.circuitsmod.circuit.CircuitInfoProvider;
@@ -76,6 +77,16 @@ public class ControlGui extends GuiContainer {
 		user.getUniqueID();
 		
 		this.setDisplayPage(new ServerWaitPage(this));
+	}
+	
+	private void handleMouseHover() {
+        int x = Mouse.getX() * this.width / this.mc.displayWidth;
+        int y = this.height - Mouse.getY() * this.height / this.mc.displayHeight - 1;
+        x -= this.guiLeft;
+        y -= this.guiTop;
+        if (isClickIn(x, y)) {
+        	currentPage.handleMouseHover(x, y);
+        }
 	}
 	
 	@Override
@@ -164,6 +175,7 @@ public class ControlGui extends GuiContainer {
 	protected void drawGuiContainerForegroundLayer(int param1, int param2) {
 		currentPage.draw();
 		currentPage.drawElements();
+		this.handleMouseHover();
 	}
 	
 	@Override

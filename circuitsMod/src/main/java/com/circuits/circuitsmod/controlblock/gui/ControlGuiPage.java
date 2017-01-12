@@ -33,6 +33,10 @@ public abstract class ControlGuiPage {
 		
 	}
 	
+	protected void handleMouseHover(int mouseX, int mouseY) {
+		
+	}
+	
 	protected void handleMouseMove(int mouseX, int mouseY) {
 	}
 	

@@ -77,15 +77,28 @@ public class CustomCircuitImage implements Serializable {
 
 	}
 	
-	public void drawInGUI(int startX, int startY, int width, int height) {
+	public void drawInGUI(int startX, int startY, int width, int height, int hoverX, int hoverY) {
 		int pixWidth = width / 16;
 		int pixHeight = height / 16;
 		
 		for (int i = 0; i < 16; i++) {
 			for (int j = 0; j < 16; j++) {
 				int colorToDraw = toGUIColor(getPixel(i, j));
-				Gui.drawRect(startX + pixWidth * i, startY + pixHeight * j, 
-						        startX + pixWidth * (i + 1), startY + pixHeight * (j + 1), colorToDraw);
+				
+				int left = startX + pixWidth * i;
+				int right = startX + pixWidth * (i + 1);
+				int top = startY + pixHeight * j;
+				int bottom = startY + pixHeight * (j + 1);
+				
+				if (i == hoverX && j == hoverY) {
+					Gui.drawRect(left, top, right, bottom, java.awt.Color.GREEN.getRGB());
+					Gui.drawRect(left + 1, top + 1, right - 1, bottom - 1, colorToDraw);
+					//Draw a green border around the pixel
+				}
+				else {
+					//Just draw the pixel
+					Gui.drawRect(left, top, right, bottom, colorToDraw);
+				}
 			}
 		}
 	}

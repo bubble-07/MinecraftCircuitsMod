@@ -19,6 +19,8 @@ public class CustomCircuitIconPage extends ControlGuiPage {
 	private final CustomCircuitDescriptionPage prev;
 	
 	private CustomCircuitImage.Color paintColor = CustomCircuitImage.Color.BLACK;
+	private int hoverX;
+	private int hoverY;
 	
 	public CustomCircuitInfo getInfo() {
 		return prev.getInfo();
@@ -65,11 +67,18 @@ public class CustomCircuitIconPage extends ControlGuiPage {
 			getInfo().getImage().setPixel(x, y, paintColor);
 		}
 	}
+	
+	@Override
+	protected void handleMouseHover(int mouseX, int mouseY) {
+		Pair<Integer, Integer> coords = getInfo().getImage().fromGUICoords(viewX, viewY, viewWidth, viewHeight, mouseX, mouseY);
+		this.hoverX = coords.first();
+		this.hoverY = coords.second();
+	}
 
 	@Override
 	protected void draw() {
 		parent.getFontRenderer().drawString("Icon", screenX, screenY, elementColor);
-		getInfo().getImage().drawInGUI(viewX, viewY, viewWidth, viewHeight);
+		getInfo().getImage().drawInGUI(viewX, viewY, viewWidth, viewHeight, hoverX, hoverY);
 		parent.drawBox(viewX, viewY, viewWidth - 4, viewHeight - 4);
 
 	}
