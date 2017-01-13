@@ -1,0 +1,10 @@
+Equals(n):
+
+Given two n-bit inputs, this circuit outputs a single digital redstone output which is high only if its two inputs are equal. 
+
+Example [Equals(2)]:
+010, 110 -> 0
+110, 110 -> 1
+
+Note:
+In the n=1 case, this is a biconditional (iff) operator.

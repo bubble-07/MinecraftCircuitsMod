@@ -70,6 +70,7 @@ public class CircuitGiveCommand extends CommandBase {
         }
         if (!uid.isPresent()) {
             sender.addChatMessage(new TextComponentString(TextFormatting.RED + "Invalid circuit UID!"));
+            return;
         }
         
         int[] circuitOptions = new int[args.length - 1];
@@ -81,6 +82,7 @@ public class CircuitGiveCommand extends CommandBase {
         }
         catch (NumberFormatException e) {
         	sender.addChatMessage(new TextComponentString(TextFormatting.RED + "Malformed circuit options!"));
+        	return;
         }
         CircuitConfigOptions configs = new CircuitConfigOptions(circuitOptions);
         
@@ -89,6 +91,7 @@ public class CircuitGiveCommand extends CommandBase {
         Optional<SpecializedCircuitInfo> info = CircuitInfoProvider.getSpecializedInfoFor(finalUid);
         if (!info.isPresent()) {
         	sender.addChatMessage(new TextComponentString(TextFormatting.RED + "A circuit with that name and set of config options doesn't exist!"));
+        	return;
         }
         else {
             if (sender instanceof EntityPlayer) {

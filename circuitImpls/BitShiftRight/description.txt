@@ -1,0 +1,12 @@
+BitShiftRight(k, n):
+
+Shifts all the bits of an n-bit bus over k positions to the right (toward decreasing place values). The k rightmost bits have no effect on the result. 
+
+Example [BitShiftRight(1, 4)]:
+Input -> Output
+0100 -> 0010
+1100 -> 0110
+0001 -> 0000
+0000 -> 0000
+
+See also: BitShiftLeft(k, n)

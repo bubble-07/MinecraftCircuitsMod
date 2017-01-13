@@ -1,0 +1,12 @@
+BitShiftLeft(k, n):
+
+Shifts all the bits of an n-bit bus over k positions to the left (toward increasing place values). The k leftmost bits have no effect on the result. 
+
+Example [BitShiftLeft(1, 4)]:
+Input -> Output
+0100 -> 1000
+1100 -> 1000
+0001 -> 0010
+0000 -> 0000
+
+See also: BitShiftRight(k, n)

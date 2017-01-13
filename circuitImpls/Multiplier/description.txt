@@ -1,0 +1,10 @@
+Multiplier(n):
+
+Given two n-bit inputs, return their (arithmetic) product as an 2n-bit output. 
+
+Example [Multiplier(2)]:
+
+11 * 01 = 0011
+10 * 10 = 0100
+11 * 11 = 1001
+11 * 10 = 0110
